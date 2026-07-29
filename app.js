@@ -7,30 +7,20 @@ const SUPABASE_URL = "https://grkjhzkgcmackbafqudu.supabase.co";
 // Rutas de aprendizaje — el admin puede modificar masterCert desde el panel
 // Se sobreescribe con config de Supabase al cargar (ver loadAppConfig)
 let LEARNING_PATHS = [
-    { id:'steam20',       label:'Docente STEAM 2.0',    color:'#07B0E4', gradient:'linear-gradient(135deg,#1A6B68,#07B0E4)',  courses:['steam','abp','design-thinking','evaluacion','tipos-estudiantes'] },
-    { id:'creativo',      label:'Docente Creativo',      color:'#E83C8D', gradient:'linear-gradient(135deg,#7C3AED,#E83C8D)',  courses:['creatividad','herramientas-tec','abp','storytelling'] },
-    { id:'metodologias',  label:'Metodologías Activas',  color:'#F59E0B', gradient:'linear-gradient(135deg,#b45309,#F59E0B)',  courses:['abp','m-learning','flipped-classroom','abv','micro-learning'] },
-    { id:'ia',            label:'Docente y la IA',        color:'#10B981', gradient:'linear-gradient(135deg,#065F46,#10B981)',  courses:['ia-fundamentos','ia-tiempo','ia-herramientas','ia-inclusion','ia-ciudadania'] },
-    { id:'convivencia',   label:'Clima y Convivencia Escolar', color:'#0891B2', gradient:'linear-gradient(135deg,#155E75,#0891B2)',  courses:['manejo-conductas','sel-docentes','comunicacion-asertiva','disciplina-positiva','bienestar-docente'] },
-    { id:'inclusion',     label:'Educación Inclusiva',    color:'#8B5CF6', gradient:'linear-gradient(135deg,#5B21B6,#8B5CF6)',  courses:['educacion-inclusiva','tea-profundidad','discapacidad-down-tdah','lengua-senas-docentes'] },
+    { id: 'steam20', label: 'Docente STEAM 2.0', color: '#07B0E4', gradient: 'linear-gradient(135deg,#1A6B68,#07B0E4)', courses: ['steam', 'abp', 'design-thinking', 'evaluacion', 'tipos-estudiantes'] },
+    { id: 'creativo', label: 'Docente Creativo', color: '#E83C8D', gradient: 'linear-gradient(135deg,#7C3AED,#E83C8D)', courses: ['creatividad', 'herramientas-tec', 'abp', 'storytelling'] },
+    { id: 'metodologias', label: 'Metodologías Activas', color: '#F59E0B', gradient: 'linear-gradient(135deg,#b45309,#F59E0B)', courses: ['abp', 'm-learning', 'flipped-classroom', 'abv', 'micro-learning'] },
+    { id: 'ia', label: 'Docente y la IA', color: '#10B981', gradient: 'linear-gradient(135deg,#065F46,#10B981)', courses: ['ia-fundamentos', 'ia-tiempo', 'ia-herramientas', 'ia-inclusion', 'ia-ciudadania'] },
+    { id: 'convivencia', label: 'Clima y Convivencia Escolar', color: '#0891B2', gradient: 'linear-gradient(135deg,#155E75,#0891B2)', courses: ['manejo-conductas', 'sel-docentes', 'comunicacion-asertiva', 'disciplina-positiva', 'bienestar-docente'] },
+    { id: 'inclusion', label: 'Educación Inclusiva', color: '#8B5CF6', gradient: 'linear-gradient(135deg,#5B21B6,#8B5CF6)', courses: ['educacion-inclusiva', 'tea-profundidad', 'discapacidad-down-tdah', 'lengua-senas-docentes'] },
 ];
 // IDs de cursos requeridos para el certificado maestro (ruta steam20)
 // Admin puede cambiarlos desde el panel → se guardan en Supabase tabla app_config
-let MASTER_CERT_COURSES = ['steam','abp','design-thinking','evaluacion','tipos-estudiantes'];
+let MASTER_CERT_COURSES = ['steam', 'abp', 'design-thinking', 'evaluacion', 'tipos-estudiantes'];
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdya2poemtnY21hY2tiYWZxdWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMjg5MzQsImV4cCI6MjA5NjcwNDkzNH0.2nVTRlhey6HkGs_KZxtCaEp8L2QrvD0NUwY8ZFwZVHY";
 // El SDK de Supabase ya registra `window.supabase`; se reasigna con el cliente configurado.
 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Fecha local YYYY-MM-DD (usa zona horaria del dispositivo, no UTC)
-function localDateStr() { return new Date().toLocaleDateString('en-CA'); }
-// Convierte un string 'YYYY-MM-DD' (formato de localDateStr) a un Date en
-// hora LOCAL — new Date('YYYY-MM-DD') a secas lo interpreta como UTC
-// medianoche, lo que puede mostrar un día antes según la zona horaria.
-function _parseLocalDateStr(dateStr) {
-    const [y, m, d] = String(dateStr).split('-').map(Number);
-    if (!y || !m || !d) return new Date();
-    return new Date(y, m - 1, d);
-}
 
 // Orden de la ruta de aprendizaje (de primero a último en desbloquearse)
 const COURSE_PATH_ORDER = ['design-thinking', 'tipos-estudiantes', 'abp', 'steam', 'evaluacion', 'storytelling'];
@@ -152,52 +142,52 @@ const prizes = [
 
 // ==================== LOGROS ====================
 const BADGE_SVG = {
-    firstCard:    `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#d1fae5"/><path d="M20 10c-1.1 0-2 .9-2 2v7.17l-2.59-2.58L14 18l6 6 6-6-1.41-1.41L22 19.17V12c0-1.1-.9-2-2-2z" fill="#059669"/><rect x="13" y="27" width="14" height="2" rx="1" fill="#059669"/></svg>`,
-    module1:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#dbeafe"/><rect x="12" y="11" width="16" height="20" rx="2" fill="#3b82f6"/><rect x="15" y="16" width="10" height="1.5" rx=".75" fill="white"/><rect x="15" y="19.5" width="10" height="1.5" rx=".75" fill="white"/><rect x="15" y="23" width="7" height="1.5" rx=".75" fill="white"/></svg>`,
-    module2:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef3c7"/><path d="M20 12a2 2 0 012 2v1.27a6 6 0 11-4 0V14a2 2 0 012-2z" fill="#d97706"/><circle cx="20" cy="24" r="3" fill="#fbbf24"/><rect x="16" y="29" width="8" height="2" rx="1" fill="#d97706"/></svg>`,
-    module3:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#ede9fe"/><ellipse cx="20" cy="20" rx="8" ry="5" stroke="#7c3aed" stroke-width="1.5" fill="none"/><ellipse cx="20" cy="20" rx="8" ry="5" stroke="#7c3aed" stroke-width="1.5" fill="none" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="8" ry="5" stroke="#7c3aed" stroke-width="1.5" fill="none" transform="rotate(120 20 20)"/><circle cx="20" cy="20" r="2.5" fill="#7c3aed"/></svg>`,
-    module4:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fce7f3"/><rect x="13" y="24" width="3" height="6" rx="1" fill="#db2777"/><rect x="18.5" y="19" width="3" height="11" rx="1" fill="#db2777"/><rect x="24" y="14" width="3" height="16" rx="1" fill="#db2777"/><polyline points="13,21 19,16 25,12" stroke="#f9a8d4" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
-    module5:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#dcfce7"/><path d="M20 12l2.5 5 5.5.8-4 3.9.9 5.5L20 24.5l-4.9 2.7.9-5.5-4-3.9 5.5-.8z" fill="#16a34a"/></svg>`,
-    quizMaster:   `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef9c3"/><circle cx="20" cy="20" r="8" stroke="#ca8a04" stroke-width="1.5" fill="none"/><circle cx="20" cy="20" r="2" fill="#ca8a04"/><line x1="20" y1="12" x2="20" y2="10" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="30" x2="20" y2="28" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="10" y2="20" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/><line x1="30" y1="20" x2="28" y2="20" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/></svg>`,
-    feedbackGiver:`<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#e0f2fe"/><path d="M12 14h16a2 2 0 012 2v8a2 2 0 01-2 2h-5l-4 3v-3h-7a2 2 0 01-2-2v-8a2 2 0 012-2z" fill="#0284c7"/><circle cx="17" cy="20" r="1.2" fill="white"/><circle cx="20" cy="20" r="1.2" fill="white"/><circle cx="23" cy="20" r="1.2" fill="white"/></svg>`,
-    examPass:     `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f3e8ff"/><circle cx="20" cy="17" r="6" fill="#7c3aed"/><path d="M15 28l5 4 5-4-1.5-5H16.5z" fill="#7c3aed"/><rect x="18.5" y="14" width="3" height="6" rx="1" fill="white"/><rect x="18.5" y="21" width="3" height="2" rx="1" fill="white"/></svg>`,
-    allModules:   `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef3c7"/><path d="M20 11l2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L20 25l-5.6 3 1.1-6.1-4.5-4.4 6.2-.9z" fill="#f59e0b" stroke="#d97706" stroke-width=".5"/><circle cx="20" cy="20" r="3" fill="#fff7ed"/></svg>`,
-    streak7:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff7ed"/><path d="M22 11c0 4-4 5-4 9a4 4 0 008 0c0-3-2-5-2-7" fill="#f97316"/><path d="M17 22c0 2 1.5 3.5 3 3.5S23 24 23 22" fill="#fbbf24"/><circle cx="20" cy="30" r="1" fill="#f97316"/></svg>`,
-    streak30:     `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fdf4ff"/><path d="M20 12l1.5 3h3.2l-2.6 1.9 1 3.1L20 18.2l-3.1 1.8 1-3.1L15.3 15h3.2z" fill="#a855f7"/><path d="M20 20l1 2h2.1l-1.7 1.2.6 2L20 24l-2 1.2.6-2L17 22h2.1z" fill="#d8b4fe"/><line x1="20" y1="26" x2="20" y2="29" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-    level5:       `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef9c3"/><text x="20" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#ca8a04" font-family="Arial">5</text><path d="M20 10l1 3h3l-2.5 1.8.9 3-2.4-1.7-2.4 1.7.9-3L16 13h3z" fill="#f59e0b"/></svg>`,
-    level10:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fdf4ff"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="900" fill="#7c3aed" font-family="Arial">10</text><path d="M20 9l1.2 3.6h3.8l-3.1 2.3 1.2 3.6L20 16.2l-3.1 2.3 1.2-3.6L15 12.6h3.8z" fill="#a855f7"/></svg>`,
-    quiz25:       `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef2f2"/><path d="M14 20l4 4 8-8" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M20 11a9 9 0 100 18 9 9 0 000-18z" stroke="#ef4444" stroke-width="1.5" fill="none"/></svg>`,
-    perfect10:    `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f0fdfa"/><polygon points="20,11 22.5,17 29,17 23.5,21 25.5,28 20,24 14.5,28 16.5,21 11,17 17.5,17" fill="none" stroke="#0d9488" stroke-width="1.5"/><polygon points="20,14 21.5,18.5 26,18.5 22.5,21.5 23.8,26 20,23.5 16.2,26 17.5,21.5 14,18.5 18.5,18.5" fill="#14b8a6"/></svg>`,
-    streak3:      `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff7ed"/><path d="M21 11c0 3-3 4-3 7a3 3 0 006 0c0-2.5-1.5-4-1.5-6" fill="#fb923c"/><path d="M17.5 22c0 1.5 1.1 2.5 2.5 2.5s2.5-1 2.5-2.5" fill="#fbbf24"/></svg>`,
-    earlyBird:    `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fefce8"/><path d="M20 14a6 6 0 100 12 6 6 0 000-12z" fill="#facc15"/><path d="M20 11v-2M20 31v-2M11 20H9M31 20h-2M13.9 13.9l-1.4-1.4M27.5 27.5l-1.4-1.4M13.9 26.1l-1.4 1.4M27.5 12.5l-1.4 1.4" stroke="#eab308" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-    noteWriter:   `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f0f9ff"/><rect x="13" y="12" width="14" height="18" rx="2" fill="#0ea5e9"/><rect x="16" y="17" width="8" height="1.5" rx=".75" fill="white"/><rect x="16" y="20.5" width="8" height="1.5" rx=".75" fill="white"/><rect x="16" y="24" width="5" height="1.5" rx=".75" fill="white"/><path d="M24 12l3 3-2 2-3-3z" fill="#fbbf24"/><path d="M22 16l3-2" stroke="#fbbf24" stroke-width="1" fill="none"/></svg>`,
-    applied5:     `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f0fdf4"/><path d="M14 20a6 6 0 1112 0 6 6 0 01-12 0z" fill="#22c55e"/><path d="M17 20l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M20 12v-2M20 30v-2M28 20h2M12 20h-2" stroke="#86efac" stroke-width="1.5" stroke-linecap="round"/></svg>`,
-    weeklyChamp:  `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fffbeb"/><path d="M14 14h12v8a6 6 0 01-12 0v-8z" fill="#f59e0b"/><path d="M14 17H11a3 3 0 003 3M26 17h3a3 3 0 01-3 3" stroke="#d97706" stroke-width="1.5" fill="none"/><rect x="16" y="28" width="8" height="2" rx="1" fill="#d97706"/><rect x="14" y="30" width="12" height="2" rx="1" fill="#d97706"/></svg>`,
-    masterDocente:`<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fdf4ff"/><path d="M20 12l2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L20 25l-5.6 3 1.1-6.1-4.5-4.4 6.2-.9z" fill="#a855f7" stroke="#9333ea" stroke-width=".5"/><circle cx="20" cy="20" r="2.5" fill="#fff"/></svg>`,
+    firstCard: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#d1fae5"/><path d="M20 10c-1.1 0-2 .9-2 2v7.17l-2.59-2.58L14 18l6 6 6-6-1.41-1.41L22 19.17V12c0-1.1-.9-2-2-2z" fill="#059669"/><rect x="13" y="27" width="14" height="2" rx="1" fill="#059669"/></svg>`,
+    module1: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#dbeafe"/><rect x="12" y="11" width="16" height="20" rx="2" fill="#3b82f6"/><rect x="15" y="16" width="10" height="1.5" rx=".75" fill="white"/><rect x="15" y="19.5" width="10" height="1.5" rx=".75" fill="white"/><rect x="15" y="23" width="7" height="1.5" rx=".75" fill="white"/></svg>`,
+    module2: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef3c7"/><path d="M20 12a2 2 0 012 2v1.27a6 6 0 11-4 0V14a2 2 0 012-2z" fill="#d97706"/><circle cx="20" cy="24" r="3" fill="#fbbf24"/><rect x="16" y="29" width="8" height="2" rx="1" fill="#d97706"/></svg>`,
+    module3: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#ede9fe"/><ellipse cx="20" cy="20" rx="8" ry="5" stroke="#7c3aed" stroke-width="1.5" fill="none"/><ellipse cx="20" cy="20" rx="8" ry="5" stroke="#7c3aed" stroke-width="1.5" fill="none" transform="rotate(60 20 20)"/><ellipse cx="20" cy="20" rx="8" ry="5" stroke="#7c3aed" stroke-width="1.5" fill="none" transform="rotate(120 20 20)"/><circle cx="20" cy="20" r="2.5" fill="#7c3aed"/></svg>`,
+    module4: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fce7f3"/><rect x="13" y="24" width="3" height="6" rx="1" fill="#db2777"/><rect x="18.5" y="19" width="3" height="11" rx="1" fill="#db2777"/><rect x="24" y="14" width="3" height="16" rx="1" fill="#db2777"/><polyline points="13,21 19,16 25,12" stroke="#f9a8d4" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>`,
+    module5: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#dcfce7"/><path d="M20 12l2.5 5 5.5.8-4 3.9.9 5.5L20 24.5l-4.9 2.7.9-5.5-4-3.9 5.5-.8z" fill="#16a34a"/></svg>`,
+    quizMaster: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef9c3"/><circle cx="20" cy="20" r="8" stroke="#ca8a04" stroke-width="1.5" fill="none"/><circle cx="20" cy="20" r="2" fill="#ca8a04"/><line x1="20" y1="12" x2="20" y2="10" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/><line x1="20" y1="30" x2="20" y2="28" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="20" x2="10" y2="20" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/><line x1="30" y1="20" x2="28" y2="20" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/></svg>`,
+    feedbackGiver: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#e0f2fe"/><path d="M12 14h16a2 2 0 012 2v8a2 2 0 01-2 2h-5l-4 3v-3h-7a2 2 0 01-2-2v-8a2 2 0 012-2z" fill="#0284c7"/><circle cx="17" cy="20" r="1.2" fill="white"/><circle cx="20" cy="20" r="1.2" fill="white"/><circle cx="23" cy="20" r="1.2" fill="white"/></svg>`,
+    examPass: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f3e8ff"/><circle cx="20" cy="17" r="6" fill="#7c3aed"/><path d="M15 28l5 4 5-4-1.5-5H16.5z" fill="#7c3aed"/><rect x="18.5" y="14" width="3" height="6" rx="1" fill="white"/><rect x="18.5" y="21" width="3" height="2" rx="1" fill="white"/></svg>`,
+    allModules: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef3c7"/><path d="M20 11l2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L20 25l-5.6 3 1.1-6.1-4.5-4.4 6.2-.9z" fill="#f59e0b" stroke="#d97706" stroke-width=".5"/><circle cx="20" cy="20" r="3" fill="#fff7ed"/></svg>`,
+    streak7: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff7ed"/><path d="M22 11c0 4-4 5-4 9a4 4 0 008 0c0-3-2-5-2-7" fill="#f97316"/><path d="M17 22c0 2 1.5 3.5 3 3.5S23 24 23 22" fill="#fbbf24"/><circle cx="20" cy="30" r="1" fill="#f97316"/></svg>`,
+    streak30: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fdf4ff"/><path d="M20 12l1.5 3h3.2l-2.6 1.9 1 3.1L20 18.2l-3.1 1.8 1-3.1L15.3 15h3.2z" fill="#a855f7"/><path d="M20 20l1 2h2.1l-1.7 1.2.6 2L20 24l-2 1.2.6-2L17 22h2.1z" fill="#d8b4fe"/><line x1="20" y1="26" x2="20" y2="29" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    level5: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef9c3"/><text x="20" y="25" text-anchor="middle" font-size="16" font-weight="900" fill="#ca8a04" font-family="Arial">5</text><path d="M20 10l1 3h3l-2.5 1.8.9 3-2.4-1.7-2.4 1.7.9-3L16 13h3z" fill="#f59e0b"/></svg>`,
+    level10: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fdf4ff"/><text x="20" y="25" text-anchor="middle" font-size="14" font-weight="900" fill="#7c3aed" font-family="Arial">10</text><path d="M20 9l1.2 3.6h3.8l-3.1 2.3 1.2 3.6L20 16.2l-3.1 2.3 1.2-3.6L15 12.6h3.8z" fill="#a855f7"/></svg>`,
+    quiz25: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fef2f2"/><path d="M14 20l4 4 8-8" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M20 11a9 9 0 100 18 9 9 0 000-18z" stroke="#ef4444" stroke-width="1.5" fill="none"/></svg>`,
+    perfect10: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f0fdfa"/><polygon points="20,11 22.5,17 29,17 23.5,21 25.5,28 20,24 14.5,28 16.5,21 11,17 17.5,17" fill="none" stroke="#0d9488" stroke-width="1.5"/><polygon points="20,14 21.5,18.5 26,18.5 22.5,21.5 23.8,26 20,23.5 16.2,26 17.5,21.5 14,18.5 18.5,18.5" fill="#14b8a6"/></svg>`,
+    streak3: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fff7ed"/><path d="M21 11c0 3-3 4-3 7a3 3 0 006 0c0-2.5-1.5-4-1.5-6" fill="#fb923c"/><path d="M17.5 22c0 1.5 1.1 2.5 2.5 2.5s2.5-1 2.5-2.5" fill="#fbbf24"/></svg>`,
+    earlyBird: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fefce8"/><path d="M20 14a6 6 0 100 12 6 6 0 000-12z" fill="#facc15"/><path d="M20 11v-2M20 31v-2M11 20H9M31 20h-2M13.9 13.9l-1.4-1.4M27.5 27.5l-1.4-1.4M13.9 26.1l-1.4 1.4M27.5 12.5l-1.4 1.4" stroke="#eab308" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    noteWriter: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f0f9ff"/><rect x="13" y="12" width="14" height="18" rx="2" fill="#0ea5e9"/><rect x="16" y="17" width="8" height="1.5" rx=".75" fill="white"/><rect x="16" y="20.5" width="8" height="1.5" rx=".75" fill="white"/><rect x="16" y="24" width="5" height="1.5" rx=".75" fill="white"/><path d="M24 12l3 3-2 2-3-3z" fill="#fbbf24"/><path d="M22 16l3-2" stroke="#fbbf24" stroke-width="1" fill="none"/></svg>`,
+    applied5: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#f0fdf4"/><path d="M14 20a6 6 0 1112 0 6 6 0 01-12 0z" fill="#22c55e"/><path d="M17 20l2 2 4-4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M20 12v-2M20 30v-2M28 20h2M12 20h-2" stroke="#86efac" stroke-width="1.5" stroke-linecap="round"/></svg>`,
+    weeklyChamp: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fffbeb"/><path d="M14 14h12v8a6 6 0 01-12 0v-8z" fill="#f59e0b"/><path d="M14 17H11a3 3 0 003 3M26 17h3a3 3 0 01-3 3" stroke="#d97706" stroke-width="1.5" fill="none"/><rect x="16" y="28" width="8" height="2" rx="1" fill="#d97706"/><rect x="14" y="30" width="12" height="2" rx="1" fill="#d97706"/></svg>`,
+    masterDocente: `<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="20" fill="#fdf4ff"/><path d="M20 12l2.8 5.6 6.2.9-4.5 4.4 1.1 6.1L20 25l-5.6 3 1.1-6.1-4.5-4.4 6.2-.9z" fill="#a855f7" stroke="#9333ea" stroke-width=".5"/><circle cx="20" cy="20" r="2.5" fill="#fff"/></svg>`,
 };
 
 const badges = {
-    firstCard:     { id: "firstCard",     name: "Primer paso",          desc: "Completaste tu primera tarjeta",              icon: "🌱", xpReward: 10  },
-    module1:       { id: "module1",       name: "Primer módulo",        desc: "Completaste el Módulo 1 de tu primer curso",  icon: "📘", xpReward: 50  },
-    module2:       { id: "module2",       name: "En profundidad",       desc: "Completaste el Módulo 2 de algún curso",      icon: "🔧", xpReward: 50  },
-    module3:       { id: "module3",       name: "Metodólogo",           desc: "Completaste el Módulo 3 de algún curso",      icon: "🧠", xpReward: 50  },
-    module4:       { id: "module4",       name: "Aplicador",            desc: "Completaste el Módulo 4 de algún curso",      icon: "📊", xpReward: 50  },
-    module5:       { id: "module5",       name: "Experto local",        desc: "Completaste el Módulo 5 de algún curso",      icon: "⭐", xpReward: 50  },
-    quizMaster:    { id: "quizMaster",    name: "Maestro de quizzes",   desc: "10 quizzes correctos",                        icon: "🎯", xpReward: 30  },
-    quiz25:        { id: "quiz25",        name: "Imparable",            desc: "25 quizzes correctos",                        icon: "🏹", xpReward: 75  },
-    perfect10:     { id: "perfect10",     name: "Perfeccionista",       desc: "10 quizzes correctos seguidos sin fallar",    icon: "💎", xpReward: 150 },
-    feedbackGiver: { id: "feedbackGiver", name: "Tu voz importa",       desc: "Diste feedback en 3 módulos",                 icon: "💬", xpReward: 40  },
-    examPass:      { id: "examPass",      name: "Certificado STEAM",    desc: "Aprobaste el examen final",                   icon: "🎓", xpReward: 100 },
-    allModules:    { id: "allModules",    name: "STEAM Master",         desc: "Completaste todos los módulos",               icon: "🏆", xpReward: 200 },
-    streak7:       { id: "streak7",       name: "Racha de 7 días",      desc: "7 días seguidos aprendiendo",                 icon: "🔥", xpReward: 100 },
-    streak30:      { id: "streak30",      name: "Leyenda",              desc: "30 días de racha",                            icon: "⚡", xpReward: 500 },
-    streak3:       { id: "streak3",       name: "Constante",            desc: "3 días seguidos aprendiendo",                 icon: "✨", xpReward: 30  },
-    earlyBird:     { id: "earlyBird",     name: "Madrugadora STEAM",    desc: "Completaste 5 tarjetas antes de las 8am",     icon: "🌅", xpReward: 80  },
-    noteWriter:    { id: "noteWriter",    name: "Apuntes de oro",       desc: "Escribiste notas en 10 tarjetas",             icon: "📝", xpReward: 60  },
-    applied5:      { id: "applied5",      name: "Docente en acción",    desc: "Marcaste 5 tarjetas como aplicadas en clase", icon: "🍎", xpReward: 100 },
-    weeklyChamp:   { id: "weeklyChamp",   name: "Campeón semanal",      desc: "Terminaste en el top 3 del ranking semanal",  icon: "🥇", xpReward: 200 },
-    level5:        { id: "level5",        name: "Nivel 5",              desc: "Alcanzaste el Nivel 5",                       icon: "🌟", xpReward: 100 },
-    level10:       { id: "level10",       name: "Nivel 10",             desc: "Alcanzaste el Nivel 10",                      icon: "💫", xpReward: 300 },
+    firstCard: { id: "firstCard", name: "Primer paso", desc: "Completaste tu primera tarjeta", icon: "🌱", xpReward: 10 },
+    module1: { id: "module1", name: "Primer módulo", desc: "Completaste el Módulo 1 de tu primer curso", icon: "📘", xpReward: 50 },
+    module2: { id: "module2", name: "En profundidad", desc: "Completaste el Módulo 2 de algún curso", icon: "🔧", xpReward: 50 },
+    module3: { id: "module3", name: "Metodólogo", desc: "Completaste el Módulo 3 de algún curso", icon: "🧠", xpReward: 50 },
+    module4: { id: "module4", name: "Aplicador", desc: "Completaste el Módulo 4 de algún curso", icon: "📊", xpReward: 50 },
+    module5: { id: "module5", name: "Experto local", desc: "Completaste el Módulo 5 de algún curso", icon: "⭐", xpReward: 50 },
+    quizMaster: { id: "quizMaster", name: "Maestro de quizzes", desc: "10 quizzes correctos", icon: "🎯", xpReward: 30 },
+    quiz25: { id: "quiz25", name: "Imparable", desc: "25 quizzes correctos", icon: "🏹", xpReward: 75 },
+    perfect10: { id: "perfect10", name: "Perfeccionista", desc: "10 quizzes correctos seguidos sin fallar", icon: "💎", xpReward: 150 },
+    feedbackGiver: { id: "feedbackGiver", name: "Tu voz importa", desc: "Diste feedback en 3 módulos", icon: "💬", xpReward: 40 },
+    examPass: { id: "examPass", name: "Certificado STEAM", desc: "Aprobaste el examen final", icon: "🎓", xpReward: 100 },
+    allModules: { id: "allModules", name: "STEAM Master", desc: "Completaste todos los módulos", icon: "🏆", xpReward: 200 },
+    streak7: { id: "streak7", name: "Racha de 7 días", desc: "7 días seguidos aprendiendo", icon: "🔥", xpReward: 100 },
+    streak30: { id: "streak30", name: "Leyenda", desc: "30 días de racha", icon: "⚡", xpReward: 500 },
+    streak3: { id: "streak3", name: "Constante", desc: "3 días seguidos aprendiendo", icon: "✨", xpReward: 30 },
+    earlyBird: { id: "earlyBird", name: "Madrugadora STEAM", desc: "Completaste 5 tarjetas antes de las 8am", icon: "🌅", xpReward: 80 },
+    noteWriter: { id: "noteWriter", name: "Apuntes de oro", desc: "Escribiste notas en 10 tarjetas", icon: "📝", xpReward: 60 },
+    applied5: { id: "applied5", name: "Docente en acción", desc: "Marcaste 5 tarjetas como aplicadas en clase", icon: "🍎", xpReward: 100 },
+    weeklyChamp: { id: "weeklyChamp", name: "Campeón semanal", desc: "Terminaste en el top 3 del ranking semanal", icon: "🥇", xpReward: 200 },
+    level5: { id: "level5", name: "Nivel 5", desc: "Alcanzaste el Nivel 5", icon: "🌟", xpReward: 100 },
+    level10: { id: "level10", name: "Nivel 10", desc: "Alcanzaste el Nivel 10", icon: "💫", xpReward: 300 },
 };
 
 // ==================== MISIONES DIARIAS Y SEMANALES ====================
@@ -342,11 +332,11 @@ function _friendlyAuthError(msg) {
     if (typeof msg !== 'string' || !msg) return 'Error desconocido. Intenta de nuevo.';
     const m = msg.toLowerCase();
     if (m.includes('invalid login') || m.includes('invalid credentials')) return 'Email o contraseña incorrectos.';
-    if (m.includes('email not confirmed'))  return 'Confirma tu email antes de ingresar.';
-    if (m.includes('rate limit'))           return 'Demasiados intentos. Espera unos minutos.';
+    if (m.includes('email not confirmed')) return 'Confirma tu email antes de ingresar.';
+    if (m.includes('rate limit')) return 'Demasiados intentos. Espera unos minutos.';
     if (m.includes('user already registered')) return 'Este email ya está registrado. Usa "Ingresar".';
-    if (m.includes('password'))             return 'La contraseña debe tener al menos 6 caracteres.';
-    if (m.includes('email'))               return 'Ingresa un email válido.';
+    if (m.includes('password')) return 'La contraseña debe tener al menos 6 caracteres.';
+    if (m.includes('email')) return 'Ingresa un email válido.';
     if (m.includes('network') || m.includes('fetch')) return 'Sin conexión. Verifica tu internet.';
     return msg;
 }
@@ -392,20 +382,20 @@ async function loginWithEmail(email, password) {
             if (!progress.dailyMissions) progress.dailyMissions = {};
             // Prioridad: localStorage > user_metadata (Supabase) > daily_missions (ya cargado)
             const _meta = currentUser.user_metadata || {};
-            if (_meta.fullName     && !progress.dailyMissions.fullName)     progress.dailyMissions.fullName     = _meta.fullName;
+            if (_meta.fullName && !progress.dailyMissions.fullName) progress.dailyMissions.fullName = _meta.fullName;
             if (_meta.profilePhoto && !progress.dailyMissions.profilePhoto) progress.dailyMissions.profilePhoto = _meta.profilePhoto;
-            if (_meta.school       && !progress.dailyMissions.school)       progress.dailyMissions.school       = _meta.school;
-            if (_meta.department   && !progress.dailyMissions.department)   progress.dailyMissions.department   = _meta.department;
+            if (_meta.school && !progress.dailyMissions.school) progress.dailyMissions.school = _meta.school;
+            if (_meta.department && !progress.dailyMissions.department) progress.dailyMissions.department = _meta.department;
             const _pk = `userProfile_${currentUser.id}`;
             const _saved = localStorage.getItem(_pk);
             if (_saved) {
                 const _p = JSON.parse(_saved);
-                if (_p.fullName)     progress.dailyMissions.fullName     = _p.fullName;
+                if (_p.fullName) progress.dailyMissions.fullName = _p.fullName;
                 if (_p.profilePhoto) progress.dailyMissions.profilePhoto = _p.profilePhoto;
-                if (_p.school)       progress.dailyMissions.school       = _p.school;
-                if (_p.department)   progress.dailyMissions.department   = _p.department;
+                if (_p.school) progress.dailyMissions.school = _p.school;
+                if (_p.department) progress.dailyMissions.department = _p.department;
             }
-        } catch(e) {}
+        } catch (e) { }
 
         // Restaurar diagDone desde Supabase → localStorage para que no vuelva a aparecer
         // aunque el usuario limpie caché o cambie de navegador
@@ -549,7 +539,7 @@ document.addEventListener('visibilitychange', () => {
 async function logout() {
     // Flush de sincronización pendiente antes de cerrar sesión
     if (_syncDebounceT) { clearTimeout(_syncDebounceT); _syncDebounceT = null; }
-    if (currentUser && progress) { try { await syncWithSupabase(); } catch (_) {} }
+    if (currentUser && progress) { try { await syncWithSupabase(); } catch (_) { } }
     await _updateSessionDuration();
     if (_sessionInterval) { clearInterval(_sessionInterval); _sessionInterval = null; }
     _sessionId = null;
@@ -586,20 +576,20 @@ async function checkExistingSession() {
         try {
             if (!progress.dailyMissions) progress.dailyMissions = {};
             const _meta = currentUser.user_metadata || {};
-            if (_meta.fullName     && !progress.dailyMissions.fullName)     progress.dailyMissions.fullName     = _meta.fullName;
+            if (_meta.fullName && !progress.dailyMissions.fullName) progress.dailyMissions.fullName = _meta.fullName;
             if (_meta.profilePhoto && !progress.dailyMissions.profilePhoto) progress.dailyMissions.profilePhoto = _meta.profilePhoto;
-            if (_meta.school       && !progress.dailyMissions.school)       progress.dailyMissions.school       = _meta.school;
-            if (_meta.department   && !progress.dailyMissions.department)   progress.dailyMissions.department   = _meta.department;
+            if (_meta.school && !progress.dailyMissions.school) progress.dailyMissions.school = _meta.school;
+            if (_meta.department && !progress.dailyMissions.department) progress.dailyMissions.department = _meta.department;
             const _pk = `userProfile_${currentUser.id}`;
             const _saved = localStorage.getItem(_pk);
             if (_saved) {
                 const _p = JSON.parse(_saved);
-                if (_p.fullName)     progress.dailyMissions.fullName     = _p.fullName;
+                if (_p.fullName) progress.dailyMissions.fullName = _p.fullName;
                 if (_p.profilePhoto) progress.dailyMissions.profilePhoto = _p.profilePhoto;
-                if (_p.school)       progress.dailyMissions.school       = _p.school;
-                if (_p.department)   progress.dailyMissions.department   = _p.department;
+                if (_p.school) progress.dailyMissions.school = _p.school;
+                if (_p.department) progress.dailyMissions.department = _p.department;
             }
-        } catch(e) {}
+        } catch (e) { }
 
         initExistingModuleDates();
         checkDailyStreak();
@@ -628,7 +618,7 @@ function showLoginError(msg) {
 // ==================== FUNCIONES DE GAMIFICACIÓN ====================
 // Vibración táctil breve — no-op silencioso en navegadores/dispositivos sin soporte (ej. desktop)
 function _haptic(pattern) {
-    try { navigator.vibrate?.(pattern); } catch (_) {}
+    try { navigator.vibrate?.(pattern); } catch (_) { }
 }
 
 function showToast(message, type) {
@@ -780,16 +770,16 @@ function renderBadgesGrid() {
         const svg = BADGE_SVG[b.id]
             ? BADGE_SVG[b.id]
             : `<span style="font-size:22px;line-height:1">${b.icon}</span>`;
-        return `<button class="badge-grid-item${done?' earned':''}" onclick="showBadgeDetail('${b.id}')">
+        return `<button class="badge-grid-item${done ? ' earned' : ''}" onclick="showBadgeDetail('${b.id}')">
             <div style="width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-                background:${done?'linear-gradient(135deg,#f3e8ff,#ede9fe)':'#f1f5f9'};
-                ${done?'':'filter:grayscale(1);opacity:.45'}">
+                background:${done ? 'linear-gradient(135deg,#f3e8ff,#ede9fe)' : '#f1f5f9'};
+                ${done ? '' : 'filter:grayscale(1);opacity:.45'}">
                 ${svg}
             </div>
-            <span style="font-size:9px;font-weight:800;color:${done?'#5b21b6':'#94a3b8'};text-align:center;line-height:1.2">${b.name}</span>
+            <span style="font-size:9px;font-weight:800;color:${done ? '#5b21b6' : '#94a3b8'};text-align:center;line-height:1.2">${b.name}</span>
             <span style="font-size:8px;font-weight:700;padding:1px 7px;border-radius:99px;
-                color:${done?'#7c3aed':'#cbd5e1'};background:${done?'#f3e8ff':'#f1f5f9'}">
-                ${done?`+${b.xpReward} XP`:'🔒'}</span>
+                color:${done ? '#7c3aed' : '#cbd5e1'};background:${done ? '#f3e8ff' : '#f1f5f9'}">
+                ${done ? `+${b.xpReward} XP` : '🔒'}</span>
         </button>`;
     };
     grid.innerHTML = list.map(itemHTML).join('');
@@ -818,10 +808,10 @@ function renderPersonalRecords() {
     // que faltan en gris/bloqueadas. La liga se deriva del nivel (que nunca
     // baja), así que la liga actual ya es, por definición, la más alta.
     const LEAGUES = [
-        { name: 'Bronce',   min: 1,  color: '#b45309' },
-        { name: 'Plata',    min: 3,  color: '#64748b' },
-        { name: 'Oro',      min: 5,  color: '#f59e0b' },
-        { name: 'Platino',  min: 8,  color: '#8b5cf6' },
+        { name: 'Bronce', min: 1, color: '#b45309' },
+        { name: 'Plata', min: 3, color: '#64748b' },
+        { name: 'Oro', min: 5, color: '#f59e0b' },
+        { name: 'Platino', min: 8, color: '#8b5cf6' },
         { name: 'Diamante', min: 11, color: '#06b6d4' },
     ];
     const level = progress?.level || 1;
@@ -834,16 +824,16 @@ function renderPersonalRecords() {
             <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 px-1">Liga actual: ${league.name}</p>
             <div style="display:flex;justify-content:space-between;gap:4px">
             ${LEAGUES.map((l, i) => {
-                const unlocked = i <= currentIdx;
-                const isCurrent = i === currentIdx;
-                return `<div style="flex:1;text-align:center;min-width:0">
+            const unlocked = i <= currentIdx;
+            const isCurrent = i === currentIdx;
+            return `<div style="flex:1;text-align:center;min-width:0">
                     <div style="width:42px;height:42px;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;color:${isCurrent ? l.color : (unlocked ? l.color : '#94a3b8')};
                         background:${unlocked ? l.color + '1f' : '#f1f5f9'};
                         border:2px solid ${isCurrent ? l.color : (unlocked ? l.color + '55' : '#e2e8f0')};
                         ${unlocked ? '' : 'filter:grayscale(1);opacity:.5'}">${_leagueIconSvg(l.name, 22)}</div>
                     <span style="font-size:9px;font-weight:800;color:${isCurrent ? l.color : '#94a3b8'}">${l.name}</span>
                 </div>`;
-            }).join('')}
+        }).join('')}
             </div>`;
     }
 
@@ -882,12 +872,12 @@ function showBadgeUnlockAnimation(badge) {
 
 function _showBadgeUnlockOverlay(badge, isNew) {
     const svg = BADGE_SVG[badge.id] || '';
-    const colors = ['#a78bfa','#f59e0b','#34d399','#f472b6','#60a5fa'];
-    const particles = Array.from({length: 12}, (_,i) => {
+    const colors = ['#a78bfa', '#f59e0b', '#34d399', '#f472b6', '#60a5fa'];
+    const particles = Array.from({ length: 12 }, (_, i) => {
         const angle = (i / 12) * 360;
         const dist = 80 + Math.random() * 60;
-        const tx = Math.round(Math.cos(angle * Math.PI/180) * dist);
-        const ty = Math.round(Math.sin(angle * Math.PI/180) * dist);
+        const tx = Math.round(Math.cos(angle * Math.PI / 180) * dist);
+        const ty = Math.round(Math.sin(angle * Math.PI / 180) * dist);
         const color = colors[i % colors.length];
         return `<div class="badge-particle" style="background:${color};left:calc(50% - 4px);top:calc(50% - 4px);--tx:${tx}px;--ty:${ty}px"></div>`;
     }).join('');
@@ -1026,8 +1016,8 @@ function checkBadges() {
     if (modulesCompleted === modulesData.length && !progress.badges.includes("allModules")) unlockBadge("allModules");
 
     const qc = progress.quizCorrectCount || 0;
-    if (qc >= 10  && !progress.badges.includes("quizMaster"))  unlockBadge("quizMaster");
-    if (qc >= 25  && !progress.badges.includes("quiz25"))       unlockBadge("quiz25");
+    if (qc >= 10 && !progress.badges.includes("quizMaster")) unlockBadge("quizMaster");
+    if (qc >= 25 && !progress.badges.includes("quiz25")) unlockBadge("quiz25");
 
     // Perfeccionista: 10 quizzes correctos seguidos
     if ((progress.dailyMissions?.quizStreak || 0) >= 10 && !progress.badges.includes("perfect10")) unlockBadge("perfect10");
@@ -1089,8 +1079,8 @@ function checkDailyStreak() {
         }
     }
     // Insignias de racha
-    if (progress.streak >= 3  && !progress.badges.includes("streak3"))  unlockBadge("streak3");
-    if (progress.streak >= 7  && !progress.badges.includes("streak7"))  unlockBadge("streak7");
+    if (progress.streak >= 3 && !progress.badges.includes("streak3")) unlockBadge("streak3");
+    if (progress.streak >= 7 && !progress.badges.includes("streak7")) unlockBadge("streak7");
     if (progress.streak >= 30 && !progress.badges.includes("streak30")) unlockBadge("streak30");
     // Récord personal de racha más larga — no había historial antes de este
     // campo, así que arranca igualada a la racha actual la primera vez.
@@ -1120,10 +1110,10 @@ function _checkWeeklyFreeze() {
 
 function _isoWeek(d) {
     const date = new Date(d);
-    date.setHours(0,0,0,0);
-    date.setDate(date.getDate() + 3 - (date.getDay()+6)%7);
-    const week1 = new Date(date.getFullYear(),0,4);
-    return 1 + Math.round(((date-week1)/86400000 - 3 + (week1.getDay()+6)%7)/7);
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    const week1 = new Date(date.getFullYear(), 0, 4);
+    return 1 + Math.round(((date - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
 }
 
 function updateStreakDisplay() {
@@ -1140,12 +1130,12 @@ function loadDailyMissions() {
         const newMissions = dailyMissionsList.map(m => ({ ...m, current: 0, completed: false, claimed: false }));
         // Preservar campos de perfil, exámenes y desbloqueos de módulos que también viven en dailyMissions
         const { fullName, profilePhoto, examScores, examScore, examDates, masterExamScore, masterExamScores,
-                masterExamDate, masterExamDates, coursePositions, diagResult, diagDone, onboardingDone, portfolioByPath,
-                portfolioAiTotal, portfolioScores, portfolioFeedback, portfolioSummary,
-                portfolioAttempts, portfolioLastAttempt,
-                // persistentes entre días:
-                cardNotes, appliedCards, streakFreezes, lastFreezeWeek,
-                weeklyMissions, weeklyMissionsDate, weeklyXP, quizStreak, earlyBirdCards, xpLog } = savedMissions;
+            masterExamDate, masterExamDates, coursePositions, diagResult, diagDone, onboardingDone, portfolioByPath,
+            portfolioAiTotal, portfolioScores, portfolioFeedback, portfolioSummary,
+            portfolioAttempts, portfolioLastAttempt,
+            // persistentes entre días:
+            cardNotes, appliedCards, streakFreezes, lastFreezeWeek,
+            weeklyMissions, weeklyMissionsDate, weeklyXP, quizStreak, earlyBirdCards, xpLog } = savedMissions;
         // Snapshot del XP del día que termina, para la gráfica de Progreso (histórico acumulativo)
         const prevXpLog = Array.isArray(xpLog) ? xpLog : [];
         const newXpLog = savedMissions.date
@@ -1162,32 +1152,32 @@ function loadDailyMissions() {
             date: today, missions: newMissions,
             dailyXP: 0, // reinicia XP diario
             ...moduleKeys,
-            ...(fullName        && { fullName }),
-            ...(profilePhoto    && { profilePhoto }),
-            ...(examScores      && { examScores }),
+            ...(fullName && { fullName }),
+            ...(profilePhoto && { profilePhoto }),
+            ...(examScores && { examScores }),
             ...(examScore !== undefined && { examScore }),
-            ...(examDates       && { examDates }),
+            ...(examDates && { examDates }),
             ...(masterExamScore !== undefined && { masterExamScore }),
             ...(masterExamScores && { masterExamScores }),
-            ...(masterExamDate  && { masterExamDate }),
+            ...(masterExamDate && { masterExamDate }),
             ...(masterExamDates && { masterExamDates }),
             ...(coursePositions && { coursePositions }),
-            ...(diagResult      && { diagResult }),
-            ...(diagDone        && { diagDone }),
-            ...(onboardingDone  && { onboardingDone }),
+            ...(diagResult && { diagResult }),
+            ...(diagDone && { diagDone }),
+            ...(onboardingDone && { onboardingDone }),
             ...(portfolioByPath && { portfolioByPath }),
             ...(portfolioAiTotal !== undefined && { portfolioAiTotal }),
-            ...(portfolioScores  && { portfolioScores }),
+            ...(portfolioScores && { portfolioScores }),
             ...(portfolioFeedback && { portfolioFeedback }),
             ...(portfolioSummary && { portfolioSummary }),
             ...(portfolioAttempts !== undefined && { portfolioAttempts }),
             ...(portfolioLastAttempt && { portfolioLastAttempt }),
             // persistentes:
-            ...(cardNotes       && { cardNotes }),
-            ...(appliedCards    && { appliedCards }),
+            ...(cardNotes && { cardNotes }),
+            ...(appliedCards && { appliedCards }),
             ...(streakFreezes !== undefined && { streakFreezes }),
-            ...(lastFreezeWeek  && { lastFreezeWeek }),
-            ...(weeklyMissions  && { weeklyMissions }),
+            ...(lastFreezeWeek && { lastFreezeWeek }),
+            ...(weeklyMissions && { weeklyMissions }),
             ...(weeklyMissionsDate && { weeklyMissionsDate }),
             ...(weeklyXP !== undefined && { weeklyXP }),
             ...(quizStreak !== undefined && { quizStreak }),
@@ -1297,7 +1287,7 @@ function renderDailyMissions() {
                     <span class="text-[11px] font-semibold ${m.completed ? 'text-green-600' : 'text-gray-700'} truncate">${m.name}</span>
                     <span class="text-[10px] text-yellow-600 font-bold ml-1 flex-shrink-0">+${m.reward} XP</span>
                 </div>
-                <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="h-1.5 rounded-full transition-all" style="width:${pct}%;background:${m.completed?'#22c55e':'#f59e0b'}"></div></div>
+                <div class="w-full bg-gray-100 rounded-full h-1.5"><div class="h-1.5 rounded-full transition-all" style="width:${pct}%;background:${m.completed ? '#22c55e' : '#f59e0b'}"></div></div>
                 <div class="text-[9px] text-gray-400 mt-0.5">${m.current}/${m.target}</div>
             </div>
             ${m.completed && !m.claimed ? `<button onclick="${claimFn}('${m.id}')" class="flex-shrink-0 bg-green-500 text-white text-[10px] px-2 py-1 rounded-lg font-bold hover:bg-green-600 transition">¡Reclamar!</button>` : ''}
@@ -1316,7 +1306,7 @@ function renderDailyMissions() {
             </div>
             ${dailyPct >= 100 ? `<div class="text-[10px] text-green-600 font-bold mt-1 text-center" style="display:flex;align-items:center;justify-content:center;gap:4px"><span style="display:inline-flex;width:12px;height:12px">${ICONS.checkCircle}</span>¡Meta del día alcanzada!</div>` : ''}
         </div>
-        ${freezes > 0 ? `<div class="mb-2 flex items-center gap-1.5 text-[11px] text-blue-600 font-semibold"><span style="display:inline-flex;width:13px;height:13px">${ICONS.snowflake}</span> ${freezes} Protector${freezes>1?'es':''} de Racha disponible${freezes>1?'s':''}</div>` : ''}
+        ${freezes > 0 ? `<div class="mb-2 flex items-center gap-1.5 text-[11px] text-blue-600 font-semibold"><span style="display:inline-flex;width:13px;height:13px">${ICONS.snowflake}</span> ${freezes} Protector${freezes > 1 ? 'es' : ''} de Racha disponible${freezes > 1 ? 's' : ''}</div>` : ''}
         <!-- Tabs -->
         <div class="flex gap-1 mb-2" id="missionTabBtns">
             <button onclick="_switchMissionTab('daily')" id="mTabDaily" class="flex-1 text-[11px] font-bold py-1.5 rounded-lg transition" style="background:#0f172a;color:white">Diarias</button>
@@ -1327,9 +1317,9 @@ function renderDailyMissions() {
 }
 
 function _switchMissionTab(tab) {
-    document.getElementById('missionTabDaily').style.display  = tab === 'daily'  ? '' : 'none';
+    document.getElementById('missionTabDaily').style.display = tab === 'daily' ? '' : 'none';
     document.getElementById('missionTabWeekly').style.display = tab === 'weekly' ? '' : 'none';
-    document.getElementById('mTabDaily').style.cssText  = tab === 'daily'  ? 'flex:1;font-size:11px;font-weight:700;padding:6px;border-radius:8px;border:none;cursor:pointer;background:#0f172a;color:white' : 'flex:1;font-size:11px;font-weight:700;padding:6px;border-radius:8px;border:none;cursor:pointer;background:#f1f5f9;color:#64748b';
+    document.getElementById('mTabDaily').style.cssText = tab === 'daily' ? 'flex:1;font-size:11px;font-weight:700;padding:6px;border-radius:8px;border:none;cursor:pointer;background:#0f172a;color:white' : 'flex:1;font-size:11px;font-weight:700;padding:6px;border-radius:8px;border:none;cursor:pointer;background:#f1f5f9;color:#64748b';
     document.getElementById('mTabWeekly').style.cssText = tab === 'weekly' ? 'flex:1;font-size:11px;font-weight:700;padding:6px;border-radius:8px;border:none;cursor:pointer;background:#0f172a;color:white' : 'flex:1;font-size:11px;font-weight:700;padding:6px;border-radius:8px;border:none;cursor:pointer;background:#f1f5f9;color:#64748b';
 }
 
@@ -1482,10 +1472,10 @@ function renderCard() {
             <div class="card-body">
                 <h2>${card.title}</h2>
                 ${(() => {
-                    const words = ((card.content||'') + ' ' + (card.extra||'')).split(/\s+/).length;
-                    const mins = Math.max(1, Math.round(words / 200));
-                    return `<div style="font-size:10px;color:#94a3b8;margin-bottom:6px">⏱ ~${mins} min de lectura</div>`;
-                })()}
+                const words = ((card.content || '') + ' ' + (card.extra || '')).split(/\s+/).length;
+                const mins = Math.max(1, Math.round(words / 200));
+                return `<div style="font-size:10px;color:#94a3b8;margin-bottom:6px">⏱ ~${mins} min de lectura</div>`;
+            })()}
                 <div class="card-md">${cardContent}</div>
                 ${cardExtra ? `
                 <div class="card-key-insight" style="background:${theme.soft};border-color:${theme.primary};color:#1e293b">
@@ -1504,10 +1494,10 @@ function renderCard() {
             <!-- Botones "Lo apliqué" + "Mis notas" -->
             <div id="cardActionsRow" class="px-4 pb-1 flex gap-2">
                 ${(() => {
-                    const cardKey = String(card.id ?? (currentModule+'-'+currentCardIndex));
-                    const applied = (progress.dailyMissions?.appliedCards || []).includes(cardKey);
-                    const hasNote = !!(progress.dailyMissions?.cardNotes?.[cardKey]);
-                    return `
+                const cardKey = String(card.id ?? (currentModule + '-' + currentCardIndex));
+                const applied = (progress.dailyMissions?.appliedCards || []).includes(cardKey);
+                const hasNote = !!(progress.dailyMissions?.cardNotes?.[cardKey]);
+                return `
                     <button onclick="toggleApplied('${cardKey}')" id="appliedBtn_${cardKey}"
                         class="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-2xl border text-xs font-semibold transition"
                         style="${applied ? 'background:#dcfce7;border-color:#86efac;color:#15803d' : 'background:white;border-color:#e2e8f0;color:#64748b'}">
@@ -1518,13 +1508,13 @@ function renderCard() {
                         style="${hasNote ? 'background:#eff6ff;border-color:#93c5fd;color:#1d4ed8' : 'background:white;border-color:#e2e8f0;color:#64748b'}">
                         📝 ${hasNote ? 'Ver mi nota' : 'Agregar nota'}
                     </button>`;
-                })()}
+            })()}
             </div>
             <!-- Área de nota (oculta por defecto) -->
             ${(() => {
-                const cardKey = String(card.id ?? (currentModule+'-'+currentCardIndex));
+                const cardKey = String(card.id ?? (currentModule + '-' + currentCardIndex));
                 const savedNote = progress.dailyMissions?.cardNotes?.[cardKey] || '';
-                return `<div id="noteArea_${cardKey}" style="display:${savedNote?'block':'none'}" class="px-4 pb-2">
+                return `<div id="noteArea_${cardKey}" style="display:${savedNote ? 'block' : 'none'}" class="px-4 pb-2">
                     <textarea id="noteInput_${cardKey}" placeholder="Escribe tus apuntes aquí…"
                         oninput="saveCardNote('${cardKey}', this.value)"
                         class="w-full text-xs rounded-xl border border-blue-200 p-2.5 resize-none focus:outline-none focus:ring-2 focus:ring-blue-300"
@@ -1532,14 +1522,14 @@ function renderCard() {
                 </div>`;
             })()}
             <div class="card-swipe-hint" style="display:flex;align-items:center;justify-content:center;gap:6px">
-                <span style="display:inline-flex;width:13px;height:13px;opacity:.5">${ICONS?.arrowLeft||'←'}</span>
+                <span style="display:inline-flex;width:13px;height:13px;opacity:.5">${ICONS?.arrowLeft || '←'}</span>
                 <span style="font-size:10px;opacity:.5">desliza para navegar</span>
-                <span style="display:inline-flex;width:13px;height:13px;opacity:.5">${ICONS?.arrowRight||'→'}</span>
+                <span style="display:inline-flex;width:13px;height:13px;opacity:.5">${ICONS?.arrowRight || '→'}</span>
             </div>
             <div class="px-4 pb-3">
                 <button id="commentCountBtn" onclick="showCardComments('${String(card.id)}')"
                     class="w-full flex items-center justify-center gap-2 py-2.5 rounded-2xl border border-slate-200 text-slate-500 text-xs font-semibold hover:bg-slate-50 transition">
-                    <span style="display:inline-flex;width:15px;height:15px;color:#94a3b8;flex-shrink:0">${ICONS?.comments||''}</span><span>Comentarios y dudas</span><span style="background:#f1f5f9;color:#94a3b8;font-size:10px;font-weight:600;padding:1px 8px;border-radius:20px;margin-left:5px">...</span>
+                    <span style="display:inline-flex;width:15px;height:15px;color:#94a3b8;flex-shrink:0">${ICONS?.comments || ''}</span><span>Comentarios y dudas</span><span style="background:#f1f5f9;color:#94a3b8;font-size:10px;font-weight:600;padding:1px 8px;border-radius:20px;margin-left:5px">...</span>
                 </button>
             </div>
         </div>`;
@@ -1584,7 +1574,7 @@ function renderCard() {
                 <div id="quizOptions">${optionsHtml}</div>
                 <div id="quizFeedback" class="hidden mt-3 p-3 rounded-2xl text-sm font-medium"></div>
                 <p id="quizHint" class="text-center text-xs text-gray-400 mt-3" style="display:flex;align-items:center;justify-content:center;gap:5px">
-                    <span style="display:inline-flex;width:14px;height:14px">${ICONS?.pointer||'👆'}</span> Selecciona una respuesta para continuar
+                    <span style="display:inline-flex;width:14px;height:14px">${ICONS?.pointer || '👆'}</span> Selecciona una respuesta para continuar
                 </p>
             </div>
         </div>`;
@@ -1614,7 +1604,7 @@ function renderCard() {
                     feedbackDiv.classList.remove('hidden');
                     if (isCorrect) {
                         feedbackDiv.className = 'mt-3 p-3 rounded-2xl text-sm font-medium bg-green-50 text-green-700 border border-green-200';
-                        feedbackDiv.innerHTML = `<span style="display:inline-flex;width:16px;height:16px;vertical-align:middle;margin-right:4px">${ICONS?.checkCircle||'✓'}</span> ¡Correcto! ${card.explanation}`;
+                        feedbackDiv.innerHTML = `<span style="display:inline-flex;width:16px;height:16px;vertical-align:middle;margin-right:4px">${ICONS?.checkCircle || '✓'}</span> ¡Correcto! ${card.explanation}`;
                         const cardId = card.id ? String(card.id) : `${currentModule}-${currentCardIndex}`;
                         if (!progress.completedCards.includes(cardId)) {
                             progress.completedCards.push(cardId);
@@ -1623,7 +1613,7 @@ function renderCard() {
                             // Racha de quizzes correctos seguidos
                             if (!progress.dailyMissions) progress.dailyMissions = {};
                             progress.dailyMissions.quizStreak = (progress.dailyMissions.quizStreak || 0) + 1;
-                            _removeFromWrong(card.id ?? (currentModule+'-'+currentCardIndex));
+                            _removeFromWrong(card.id ?? (currentModule + '-' + currentCardIndex));
                             updateMissionProgress("quizzes", 1);
                             // Misión semanal de quizzes
                             const _wm = progress.dailyMissions?.weeklyMissions || [];
@@ -1642,12 +1632,12 @@ function renderCard() {
                         // Guardar para modo repaso
                         if (!progress.dailyMissions) progress.dailyMissions = {};
                         if (!progress.dailyMissions.wrongQuizzes) progress.dailyMissions.wrongQuizzes = [];
-                        const _wqKey = String(card.id ?? (currentModule+'-'+currentCardIndex));
+                        const _wqKey = String(card.id ?? (currentModule + '-' + currentCardIndex));
                         if (!progress.dailyMissions.wrongQuizzes.includes(_wqKey)) progress.dailyMissions.wrongQuizzes.push(_wqKey);
                         saveProgress();
                         feedbackDiv.className = 'mt-3 p-3 rounded-2xl text-sm font-medium bg-red-50 text-red-700 border border-red-200';
-                        feedbackDiv.innerHTML = `<span style="display:inline-flex;width:16px;height:16px;vertical-align:middle;margin-right:4px">${ICONS?.xCircle||'✗'}</span> Incorrecto. ${card.explanation}
-                            <button onclick="goToRefCard()" class="mt-2 block w-full text-center text-xs font-bold text-indigo-600 hover:underline py-1" style="display:flex;align-items:center;justify-content:center;gap:4px"><span style="display:inline-flex;width:12px;height:12px">${ICONS?.arrowLeft||''}</span> Repasar tarjeta relacionada</button>`;
+                        feedbackDiv.innerHTML = `<span style="display:inline-flex;width:16px;height:16px;vertical-align:middle;margin-right:4px">${ICONS?.xCircle || '✗'}</span> Incorrecto. ${card.explanation}
+                            <button onclick="goToRefCard()" class="mt-2 block w-full text-center text-xs font-bold text-indigo-600 hover:underline py-1" style="display:flex;align-items:center;justify-content:center;gap:4px"><span style="display:inline-flex;width:12px;height:12px">${ICONS?.arrowLeft || ''}</span> Repasar tarjeta relacionada</button>`;
                         if (nextBtn) { nextBtn.disabled = false; nextBtn.style.opacity = "1"; }
                     }
                 }
@@ -1677,10 +1667,10 @@ function renderCard() {
             </div>
             <div class="sim-actions" id="simActions">
                 <button id="simLeftBtn" onclick="handleSimulation('left')" class="sim-btn sim-btn-left">
-                    <span style="display:inline-flex;width:28px;height:28px;margin:0 auto 4px">${ICONS?.xMark||'✗'}</span><br><span>En desacuerdo</span><br><small>desliza ←</small>
+                    <span style="display:inline-flex;width:28px;height:28px;margin:0 auto 4px">${ICONS?.xMark || '✗'}</span><br><span>En desacuerdo</span><br><small>desliza ←</small>
                 </button>
                 <button id="simRightBtn" onclick="handleSimulation('right')" class="sim-btn sim-btn-right">
-                    <span style="display:inline-flex;width:28px;height:28px;margin:0 auto 4px">${ICONS?.check||'✓'}</span><br><span>De acuerdo</span><br><small>→ desliza</small>
+                    <span style="display:inline-flex;width:28px;height:28px;margin:0 auto 4px">${ICONS?.check || '✓'}</span><br><span>De acuerdo</span><br><small>→ desliza</small>
                 </button>
             </div>
         </div>`;
@@ -1782,9 +1772,9 @@ function renderCard() {
                 ${card.steps?.length ? `<div style="margin-bottom:14px"><p style="font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.05em;color:${pt.primary};margin-bottom:8px">📋 Pasos</p><ol style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px">${card.steps.map(s => `<li style="font-size:.9rem;color:#374151;line-height:1.5">${s}</li>`).join('')}</ol></div>` : ''}
                 ${card.think?.length || card.make?.length || card.improve?.length ? `
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px">
-                    ${card.think?.length ? `<div style="background:#eff6ff;border-radius:12px;padding:10px"><p style="font-weight:700;font-size:.75rem;color:#1d4ed8;margin-bottom:6px">💭 Think</p><ul style="margin:0;padding-left:14px">${card.think.map(t=>`<li style="font-size:.75rem;color:#374151;line-height:1.45;margin-bottom:3px">${t}</li>`).join('')}</ul></div>` : ''}
-                    ${card.make?.length  ? `<div style="background:#f0fdf4;border-radius:12px;padding:10px"><p style="font-weight:700;font-size:.75rem;color:#15803d;margin-bottom:6px">🔨 Make</p><ul style="margin:0;padding-left:14px">${card.make.map(m=>`<li style="font-size:.75rem;color:#374151;line-height:1.45;margin-bottom:3px">${m}</li>`).join('')}</ul></div>` : ''}
-                    ${card.improve?.length ? `<div style="background:#fefce8;border-radius:12px;padding:10px"><p style="font-weight:700;font-size:.75rem;color:#a16207;margin-bottom:6px">🔄 Improve</p><ul style="margin:0;padding-left:14px">${card.improve.map(i=>`<li style="font-size:.75rem;color:#374151;line-height:1.45;margin-bottom:3px">${i}</li>`).join('')}</ul></div>` : ''}
+                    ${card.think?.length ? `<div style="background:#eff6ff;border-radius:12px;padding:10px"><p style="font-weight:700;font-size:.75rem;color:#1d4ed8;margin-bottom:6px">💭 Think</p><ul style="margin:0;padding-left:14px">${card.think.map(t => `<li style="font-size:.75rem;color:#374151;line-height:1.45;margin-bottom:3px">${t}</li>`).join('')}</ul></div>` : ''}
+                    ${card.make?.length ? `<div style="background:#f0fdf4;border-radius:12px;padding:10px"><p style="font-weight:700;font-size:.75rem;color:#15803d;margin-bottom:6px">🔨 Make</p><ul style="margin:0;padding-left:14px">${card.make.map(m => `<li style="font-size:.75rem;color:#374151;line-height:1.45;margin-bottom:3px">${m}</li>`).join('')}</ul></div>` : ''}
+                    ${card.improve?.length ? `<div style="background:#fefce8;border-radius:12px;padding:10px"><p style="font-weight:700;font-size:.75rem;color:#a16207;margin-bottom:6px">🔄 Improve</p><ul style="margin:0;padding-left:14px">${card.improve.map(i => `<li style="font-size:.75rem;color:#374151;line-height:1.45;margin-bottom:3px">${i}</li>`).join('')}</ul></div>` : ''}
                 </div>` : ''}
             </div>
         </div>`;
@@ -1809,11 +1799,11 @@ function handleSimulation(direction) {
 
     const swipeLabel = direction === 'right' ? '→ De acuerdo' : '← En desacuerdo';
     feedback.classList.remove('hidden');
-    const _continueBtn = `<button onclick="goToNextCard()" style="margin-top:14px;width:100%;padding:10px 0;border-radius:14px;background:${primary};color:#fff;font-weight:700;font-size:0.9rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">Continuar <span style="display:inline-flex;width:14px;height:14px">${ICONS?.arrowRight||'→'}</span></button>`;
+    const _continueBtn = `<button onclick="goToNextCard()" style="margin-top:14px;width:100%;padding:10px 0;border-radius:14px;background:${primary};color:#fff;font-weight:700;font-size:0.9rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px">Continuar <span style="display:inline-flex;width:14px;height:14px">${ICONS?.arrowRight || '→'}</span></button>`;
 
     if (isCorrect) {
         feedback.className = 'mt-2 p-4 rounded-2xl text-sm font-medium bg-green-50 text-green-800 border border-green-200';
-        feedback.innerHTML = `<div style="font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px"><span style="display:inline-flex;width:18px;height:18px;color:#16a34a">${ICONS?.checkCircle||'✓'}</span> ¡Decisión acertada! (${swipeLabel})</div>${_mdToHtml(outcome)}${_continueBtn}`;
+        feedback.innerHTML = `<div style="font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px"><span style="display:inline-flex;width:18px;height:18px;color:#16a34a">${ICONS?.checkCircle || '✓'}</span> ¡Decisión acertada! (${swipeLabel})</div>${_mdToHtml(outcome)}${_continueBtn}`;
         const _modC = modulesData[currentModule - 1];
         const _cardC = _modC?.cards[currentCardIndex];
         const _cidC = _cardC?.id || `${currentModule}-${currentCardIndex}`;
@@ -1825,7 +1815,7 @@ function handleSimulation(direction) {
         }
     } else {
         feedback.className = 'mt-2 p-4 rounded-2xl text-sm font-medium bg-amber-50 text-amber-800 border border-amber-200';
-        feedback.innerHTML = `<div style="font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px"><span style="display:inline-flex;width:18px;height:18px;color:#d97706">${ICONS?.lightbulb||'💡'}</span> Reflexiona... (${swipeLabel})</div>${_mdToHtml(outcome)}${_continueBtn}`;
+        feedback.innerHTML = `<div style="font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px"><span style="display:inline-flex;width:18px;height:18px;color:#d97706">${ICONS?.lightbulb || '💡'}</span> Reflexiona... (${swipeLabel})</div>${_mdToHtml(outcome)}${_continueBtn}`;
         const _modW = modulesData[currentModule - 1];
         const _cardW = _modW?.cards[currentCardIndex];
         const _cidW = _cardW?.id || `${currentModule}-${currentCardIndex}`;
@@ -1958,7 +1948,7 @@ function askModuleFeedback(moduleId) {
     const _feedbackKey = `${currentCourseId || 'steam'}-${moduleId}`;
     if (progress.moduleFeedback?.[_feedbackKey]) { continueToNextModule(); return; }
     const moduleName = modulesData[moduleId - 1]?.title || `Módulo ${moduleId}`;
-    const feedbackHtml = `<div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"><div class="bg-white rounded-2xl max-w-md w-full p-6"><h2 class="text-xl font-bold text-indigo-800 mb-2">📝 ¿Cómo te fue en ${moduleName}?</h2><div class="mb-4"><label class="block font-medium mb-2">Satisfacción (1-5)</label><div class="flex gap-2 justify-between" id="ratingStars">${[1, 2, 3, 4, 5].map(n => `<button data-rating="${n}" class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition">★</button>`).join('')}</div><input type="hidden" id="selectedRating" value="0"></div><div class="mb-4"><label class="block font-medium mb-2">NPS (0-10): ¿Recomendarías este curso a otro docente?</label><div class="grid grid-cols-6 gap-1">${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<button data-nps="${n}" class="nps-btn w-9 h-9 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white transition text-sm">${n}</button>`).join('')}</div><input type="hidden" id="selectedNPS" value="-1"></div><div id="lowScorePrompt" style="display:none;background:#fef3c7;border:1px solid #fde68a;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#92400e">💬 <strong>¿Qué podríamos mejorar?</strong> Tu opinión nos ayuda a hacer el curso mejor.</div><div class="mb-4"><textarea id="feedbackComment" rows="3" class="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Comentario o sugerencia (opcional)"></textarea></div><div class="flex gap-2"><button id="submitFeedbackBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full flex-1 transition">Enviar</button><button id="skipFeedbackBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full transition">Omitir</button></div></div></div>`;
+    const feedbackHtml = `<div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"><div class="bg-white rounded-2xl max-w-md w-full p-6"><h2 class="text-xl font-bold text-indigo-800 mb-2">📝 ¿Cómo te fue en ${moduleName}?</h2><div class="mb-4"><label class="block font-medium mb-2">Satisfacción (1-5)</label><div class="flex gap-2 justify-between" id="ratingStars">${[1, 2, 3, 4, 5].map(n => `<button data-rating="${n}" class="rating-star text-3xl text-gray-300 hover:text-yellow-400 transition">★</button>`).join('')}</div><input type="hidden" id="selectedRating" value="0"></div><div class="mb-4"><label class="block font-medium mb-2">NPS (0-10): ¿Recomendarías este curso a otro docente?</label><div class="grid grid-cols-6 gap-1">${[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => `<button data-nps="${n}" class="nps-btn w-9 h-9 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white transition text-sm">${n}</button>`).join('')}</div><input type="hidden" id="selectedNPS" value="-1"></div><div id="lowScorePrompt" style="display:none;background:#fef3c7;border:1px solid #fde68a;border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:13px;color:#92400e">💬 <strong>¿Qué podríamos mejorar?</strong> Tu opinión nos ayuda a hacer el curso mejor.</div><div class="mb-4"><textarea id="feedbackComment" rows="3" class="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Comentario o sugerencia (opcional)"></textarea></div><div class="flex gap-2"><button id="submitFeedbackBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full flex-1 transition">Enviar</button><button id="skipFeedbackBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full transition">Omitir</button></div></div></div>`;
     document.body.insertAdjacentHTML('beforeend', feedbackHtml);
 
     document.querySelectorAll('.nps-btn').forEach(btn => {
@@ -2079,7 +2069,7 @@ function formatCountdown(ms) {
     const h = Math.floor(totalSec / 3600);
     const m = Math.floor((totalSec % 3600) / 60);
     const s = totalSec % 60;
-    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 }
 
 function isModuleLocked(moduleNum) {
@@ -2157,7 +2147,7 @@ function renderModulesTab() {
             <div style="width:44px;height:44px;background:#f59e0b;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0">🔁</div>
             <div style="flex:1">
                 <p style="font-weight:800;font-size:14px;color:#92400e;margin:0">Modo Repaso</p>
-                <p style="font-size:11px;color:#b45309;margin:2px 0 0">${wrongQuizzes.length} quiz${wrongQuizzes.length!==1?'zes':''} que fallaste · ¡Practica hasta dominarlos!</p>
+                <p style="font-size:11px;color:#b45309;margin:2px 0 0">${wrongQuizzes.length} quiz${wrongQuizzes.length !== 1 ? 'zes' : ''} que fallaste · ¡Practica hasta dominarlos!</p>
             </div>
             <span style="font-size:20px">›</span>
         </div>`;
@@ -2270,7 +2260,7 @@ function goToModule(modNum) {
 }
 
 function _showExamPrompt() {
-    const cid   = currentCourseId || 'steam';
+    const cid = currentCourseId || 'steam';
     const score = (progress?.dailyMissions?.examScores || {})[cid] ?? (cid === 'steam' ? progress?.dailyMissions?.examScore : undefined);
     const alreadyPassed = score !== undefined && score >= 70;
     if (alreadyPassed) return; // ya tiene certificado, no molestar
@@ -2441,17 +2431,17 @@ function initSwipe() {
 
     // ── Touch (móvil) ───────────────────────────────────────
     card.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
-    card.addEventListener('touchmove',  e => onMove(e.touches[0].clientX, e.touches[0].clientY),  { passive: true });
-    card.addEventListener('touchend',   e => onEnd(e.changedTouches[0].clientX));
+    card.addEventListener('touchmove', e => onMove(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+    card.addEventListener('touchend', e => onEnd(e.changedTouches[0].clientX));
 
     // ── Mouse (desktop) ─────────────────────────────────────
     card.addEventListener('mousedown', e => { if (e.button === 0) onStart(e.clientX, e.clientY); });
     // mousemove y mouseup en document para capturar cuando el cursor sale de la tarjeta
     const onMouseMove = e => onMove(e.clientX, e.clientY);
-    const onMouseUp   = e => { onEnd(e.clientX); document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); };
+    const onMouseUp = e => { onEnd(e.clientX); document.removeEventListener('mousemove', onMouseMove); document.removeEventListener('mouseup', onMouseUp); };
     card.addEventListener('mousedown', () => {
         document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup',   onMouseUp);
+        document.addEventListener('mouseup', onMouseUp);
     });
 
     // Evitar que el drag arrastre texto/imágenes del navegador
@@ -2465,15 +2455,15 @@ function showBadgesModal() {
     Object.values(badges).forEach(badge => {
         const unlocked = progress.badges.includes(badge.id);
         const svg = BADGE_SVG[badge.id] || `<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#e2e8f0"/></svg>`;
-        badgesHtml += `<div style="background:${unlocked?'white':'#f8fafc'};border:${unlocked?'2px solid #fbbf24':'1.5px solid #e2e8f0'};border-radius:16px;padding:14px 10px;text-align:center;${unlocked?'':'opacity:.55'}">
+        badgesHtml += `<div style="background:${unlocked ? 'white' : '#f8fafc'};border:${unlocked ? '2px solid #fbbf24' : '1.5px solid #e2e8f0'};border-radius:16px;padding:14px 10px;text-align:center;${unlocked ? '' : 'opacity:.55'}">
             <div style="width:48px;height:48px;margin:0 auto 8px">${svg}</div>
             <div style="font-size:12px;font-weight:800;color:#0f172a;line-height:1.3;margin-bottom:3px">${badge.name}</div>
             <div style="font-size:10px;color:#64748b;line-height:1.4;margin-bottom:5px">${badge.desc}</div>
             ${unlocked
-                ? `<span style="font-size:10px;font-weight:700;color:#16a34a;background:#dcfce7;border-radius:20px;padding:2px 8px;display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:11px;height:11px">${ICONS?.check||'✓'}</span>Desbloqueado</span>
+                ? `<span style="font-size:10px;font-weight:700;color:#16a34a;background:#dcfce7;border-radius:20px;padding:2px 8px;display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:11px;height:11px">${ICONS?.check || '✓'}</span>Desbloqueado</span>
                   <button onclick="shareBadgeImage('${badge.id}')" title="Compartir como imagen"
                     style="margin-top:6px;width:100%;display:flex;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:700;color:#4f46e5;background:#eef2ff;border:none;border-radius:20px;padding:4px 8px;cursor:pointer">
-                    <span style="display:inline-flex;width:11px;height:11px">${ICONS?.share||'↗'}</span>Compartir
+                    <span style="display:inline-flex;width:11px;height:11px">${ICONS?.share || '↗'}</span>Compartir
                   </button>`
                 : `<span style="font-size:10px;font-weight:700;color:#94a3b8;background:#f1f5f9;border-radius:20px;padding:2px 8px">+${badge.xpReward} XP</span>`}
         </div>`;
@@ -2634,7 +2624,7 @@ function _runGlobalSearch(query) {
         html += cardMatches.map(c => {
             const idx = c.text.toLowerCase().indexOf(q);
             const snippet = idx >= 0 ? '…' + c.text.slice(Math.max(0, idx - 30), idx + 60) + '…' : c.text.slice(0, 80);
-            return `<button onclick="_openSearchResultCard('${c.courseId}',${c.moduleIndex},'${String(c.cardId).replace(/'/g,"\\'")}')"
+            return `<button onclick="_openSearchResultCard('${c.courseId}',${c.moduleIndex},'${String(c.cardId).replace(/'/g, "\\'")}')"
                 class="w-full text-left bg-white border border-slate-100 rounded-xl px-3 py-2.5 mb-2 hover:border-indigo-200 hover:bg-indigo-50/40 transition">
                 <p class="text-xs font-bold text-slate-800">${esc(c.title)}</p>
                 <p class="text-[11px] text-slate-500 mt-0.5">${esc(c.courseTitle)} · Módulo ${c.moduleIndex}</p>
@@ -2686,8 +2676,8 @@ function showRedeemModal() {
     prizes.forEach(prize => {
         const alreadyRedeemed = progress.redeemedPrizes?.includes(prize.id);
         prizesHtml += `<div class="bg-gray-50 rounded-xl p-3 flex justify-between items-center">
-            <div><div class="text-2xl">${prize.icon}</div><div class="font-bold">${prize.name}</div><div class="text-xs text-gray-500">${prize.desc}</div><div class="text-xs text-yellow-600" style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:12px;height:12px">${ICONS?.star||'⭐'}</span> ${prize.xpCost} XP</div>${prize.sponsor ? `<div class="text-xs text-green-600">Patrocinado por: ${prize.sponsor}</div>` : ''}</div>
-            ${!alreadyRedeemed && progress.xp >= prize.xpCost ? `<button data-prize="${prize.id}" data-cost="${prize.xpCost}" class="redeem-prize-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition">Canjear</button>` : (alreadyRedeemed ? `<span class="text-gray-400 text-sm" style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:12px;height:12px">${ICONS?.check||'✓'}</span> Canjeado</span>` : '<span class="text-gray-400 text-sm">Sin XP</span>')}
+            <div><div class="text-2xl">${prize.icon}</div><div class="font-bold">${prize.name}</div><div class="text-xs text-gray-500">${prize.desc}</div><div class="text-xs text-yellow-600" style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:12px;height:12px">${ICONS?.star || '⭐'}</span> ${prize.xpCost} XP</div>${prize.sponsor ? `<div class="text-xs text-green-600">Patrocinado por: ${prize.sponsor}</div>` : ''}</div>
+            ${!alreadyRedeemed && progress.xp >= prize.xpCost ? `<button data-prize="${prize.id}" data-cost="${prize.xpCost}" class="redeem-prize-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition">Canjear</button>` : (alreadyRedeemed ? `<span class="text-gray-400 text-sm" style="display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:12px;height:12px">${ICONS?.check || '✓'}</span> Canjeado</span>` : '<span class="text-gray-400 text-sm">Sin XP</span>')}
         </div>`;
     });
     document.getElementById('prizesList').innerHTML = prizesHtml;
@@ -2717,7 +2707,7 @@ const showRankingModal = () => showRanking();
 async function showRanking() {
     _rankingMode = 'total';
     const listEl = document.getElementById("rankingList");
-    listEl.innerHTML = `<div class="text-center py-6 text-gray-400" style="display:flex;justify-content:center"><span style="display:inline-flex;width:32px;height:32px;color:#94a3b8">${ICONS?.spinner||'...'}</span></div>`;
+    listEl.innerHTML = `<div class="text-center py-6 text-gray-400" style="display:flex;justify-content:center"><span style="display:inline-flex;width:32px;height:32px;color:#94a3b8">${ICONS?.spinner || '...'}</span></div>`;
     document.getElementById("rankingModal").classList.remove("hidden");
     // Resetear tabs
     switchRankingTab('total');
@@ -2726,7 +2716,7 @@ async function showRanking() {
         .from('ranking_view')
         .select('user_id, nombre_usuario, full_name, profile_photo, xp, level')
         .order('level', { ascending: false })
-        .order('xp',   { ascending: false })
+        .order('xp', { ascending: false })
         .limit(100);
 
     // Fallback: si la vista aún no tiene full_name/profile_photo, reintenta con columnas básicas
@@ -2736,7 +2726,7 @@ async function showRanking() {
             .from('ranking_view')
             .select('user_id, nombre_usuario, xp, level')
             .order('level', { ascending: false })
-            .order('xp',   { ascending: false })
+            .order('xp', { ascending: false })
             .limit(100);
         data = fallback.data;
         error = fallback.error;
@@ -2762,10 +2752,10 @@ let _rankingDataWeekly = null;
 
 function switchRankingTab(tab) {
     _rankingMode = tab;
-    const btnTotal  = document.getElementById('rankTabTotal');
+    const btnTotal = document.getElementById('rankTabTotal');
     const btnWeekly = document.getElementById('rankTabWeekly');
-    if (btnTotal)  { btnTotal.style.background  = tab==='total'  ? 'white' : 'rgba(255,255,255,.15)'; btnTotal.style.color  = tab==='total'  ? '#4c1d95' : 'white'; }
-    if (btnWeekly) { btnWeekly.style.background = tab==='weekly' ? 'white' : 'rgba(255,255,255,.15)'; btnWeekly.style.color = tab==='weekly' ? '#4c1d95' : 'white'; }
+    if (btnTotal) { btnTotal.style.background = tab === 'total' ? 'white' : 'rgba(255,255,255,.15)'; btnTotal.style.color = tab === 'total' ? '#4c1d95' : 'white'; }
+    if (btnWeekly) { btnWeekly.style.background = tab === 'weekly' ? 'white' : 'rgba(255,255,255,.15)'; btnWeekly.style.color = tab === 'weekly' ? '#4c1d95' : 'white'; }
     if (tab === 'weekly') _renderWeeklyRanking();
     else _renderTotalRanking(_rankingDataTotal || []);
 }
@@ -2775,31 +2765,31 @@ function _renderTotalRanking(data) {
     const podiumEl = document.getElementById('rankingPodium');
     if (!data?.length) { listEl.innerHTML = '<p style="text-align:center;color:#94a3b8;font-size:12px;padding:16px">Sin datos aún</p>'; return; }
     const LEAGUES = [
-        { name:'Liga Diamante',min:11,color:'#06b6d4',bg:'#ecfeff' },
-        { name:'Liga Platino', min:8, color:'#8b5cf6',bg:'#f5f3ff' },
-        { name:'Liga Oro',     min:5, color:'#f59e0b',bg:'#fffbeb' },
-        { name:'Liga Plata',   min:3, color:'#64748b',bg:'#f8fafc' },
-        { name:'Liga Bronce',  min:1, color:'#b45309',bg:'#fef3c7' },
+        { name: 'Liga Diamante', min: 11, color: '#06b6d4', bg: '#ecfeff' },
+        { name: 'Liga Platino', min: 8, color: '#8b5cf6', bg: '#f5f3ff' },
+        { name: 'Liga Oro', min: 5, color: '#f59e0b', bg: '#fffbeb' },
+        { name: 'Liga Plata', min: 3, color: '#64748b', bg: '#f8fafc' },
+        { name: 'Liga Bronce', min: 1, color: '#b45309', bg: '#fef3c7' },
     ];
-    const getLeague = lvl => LEAGUES.find(l => lvl >= l.min) || LEAGUES[LEAGUES.length-1];
-    const flat = [...data].sort((a,b)=>(b.level||1)-(a.level||1)||(b.xp||0)-(a.xp||0));
-    const _avatar = (u,size=44) => u.profile_photo
+    const getLeague = lvl => LEAGUES.find(l => lvl >= l.min) || LEAGUES[LEAGUES.length - 1];
+    const flat = [...data].sort((a, b) => (b.level || 1) - (a.level || 1) || (b.xp || 0) - (a.xp || 0));
+    const _avatar = (u, size = 44) => u.profile_photo
         ? `<img src="${u.profile_photo}" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover">`
-        : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:linear-gradient(135deg,#6d28d9,#a78bfa);display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0"><span style="display:inline-flex;width:${size*.5}px;height:${size*.5}px">${ICONS.profile}</span></div>`;
+        : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:linear-gradient(135deg,#6d28d9,#a78bfa);display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0"><span style="display:inline-flex;width:${size * .5}px;height:${size * .5}px">${ICONS.profile}</span></div>`;
 
-    const top3=flat.slice(0,3); const podiumOrder=[top3[1],top3[0],top3[2]].filter(Boolean);
-    const podiumPos=top3[1]?[2,1,3]:[1]; const podiumH=['64px','88px','52px']; const podiumColors=['#5b21b6','#4c1d95','#6d28d9'];
-    if (podiumEl) podiumEl.innerHTML=`<div style="display:flex;align-items:flex-end;justify-content:center;gap:6px;padding:0 8px">${podiumOrder.map((u,vi)=>{
-        const rank=podiumPos[vi];const isMe=u.user_id===currentUser?.id;const name=(u.full_name||u.nombre_usuario||'Docente').split(' ')[0];const isCrown=rank===1;
-        return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:120px">${isCrown?`<div style="width:20px;height:20px;margin-bottom:2px;color:#fbbf24">${ICONS.crown}</div>`:'<div style="height:28px"></div>'}<div style="position:relative"><div style="border:3px solid ${isCrown?'#fbbf24':'rgba(255,255,255,.4)'};border-radius:50%;padding:2px">${_avatar(u,isCrown?52:44)}</div>${isMe?'<div style="position:absolute;bottom:-4px;right:-4px;background:#fbbf24;color:#1e1b4b;font-size:9px;font-weight:900;padding:1px 5px;border-radius:99px">TÚ</div>':''}</div><p style="color:white;font-weight:800;font-size:11px;margin:6px 0 4px;text-align:center;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</p><div style="background:rgba(255,255,255,.18);border-radius:99px;padding:2px 10px;margin-bottom:6px;display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:11px;height:11px;color:white">${ICONS.bolt}</span><span style="color:white;font-size:10px;font-weight:700">${(u.xp||0).toLocaleString()}</span></div><div style="background:${podiumColors[vi]};border-radius:12px 12px 0 0;height:${podiumH[vi]};width:100%;display:flex;align-items:center;justify-content:center"><span style="color:white;font-size:${isCrown?'28px':'22px'};font-weight:900;opacity:.8">${rank}</span></div></div>`;
+    const top3 = flat.slice(0, 3); const podiumOrder = [top3[1], top3[0], top3[2]].filter(Boolean);
+    const podiumPos = top3[1] ? [2, 1, 3] : [1]; const podiumH = ['64px', '88px', '52px']; const podiumColors = ['#5b21b6', '#4c1d95', '#6d28d9'];
+    if (podiumEl) podiumEl.innerHTML = `<div style="display:flex;align-items:flex-end;justify-content:center;gap:6px;padding:0 8px">${podiumOrder.map((u, vi) => {
+        const rank = podiumPos[vi]; const isMe = u.user_id === currentUser?.id; const name = (u.full_name || u.nombre_usuario || 'Docente').split(' ')[0]; const isCrown = rank === 1;
+        return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:120px">${isCrown ? `<div style="width:20px;height:20px;margin-bottom:2px;color:#fbbf24">${ICONS.crown}</div>` : '<div style="height:28px"></div>'}<div style="position:relative"><div style="border:3px solid ${isCrown ? '#fbbf24' : 'rgba(255,255,255,.4)'};border-radius:50%;padding:2px">${_avatar(u, isCrown ? 52 : 44)}</div>${isMe ? '<div style="position:absolute;bottom:-4px;right:-4px;background:#fbbf24;color:#1e1b4b;font-size:9px;font-weight:900;padding:1px 5px;border-radius:99px">TÚ</div>' : ''}</div><p style="color:white;font-weight:800;font-size:11px;margin:6px 0 4px;text-align:center;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</p><div style="background:rgba(255,255,255,.18);border-radius:99px;padding:2px 10px;margin-bottom:6px;display:inline-flex;align-items:center;gap:3px"><span style="display:inline-flex;width:11px;height:11px;color:white">${ICONS.bolt}</span><span style="color:white;font-size:10px;font-weight:700">${(u.xp || 0).toLocaleString()}</span></div><div style="background:${podiumColors[vi]};border-radius:12px 12px 0 0;height:${podiumH[vi]};width:100%;display:flex;align-items:center;justify-content:center"><span style="color:white;font-size:${isCrown ? '28px' : '22px'};font-weight:900;opacity:.8">${rank}</span></div></div>`;
     }).join('')}</div>`;
 
-    let listHtml='';
-    if(flat.length<=3) listHtml=`<p style="text-align:center;color:#94a3b8;font-size:12px;padding:16px 0">¡Solo los docentes del podio!</p>`;
-    else flat.slice(3).forEach((user,i)=>{
-        const rank=i+4;const isMe=user.user_id===currentUser?.id;const name=user.full_name||user.nombre_usuario||`Docente ${rank}`;
-        const lvl=user.level||1;const league=getLeague(lvl);
-        listHtml+=`<div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;margin-bottom:8px;background:${isMe?'linear-gradient(135deg,#ede9fe,#ddd6fe)':'#f8fafc'};border:${isMe?'2px solid #a78bfa':'1.5px solid #e2e8f0'}"><span style="font-size:12px;font-weight:900;color:${isMe?'#6d28d9':'#94a3b8'};width:20px;text-align:center;flex-shrink:0">${rank}</span>${_avatar(user,38)}<div style="flex:1;min-width:0"><p style="font-weight:700;font-size:13px;color:${isMe?'#4c1d95':'#1e293b'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}${isMe?' <span style="color:#7c3aed">(Tú)</span>':''}</p><span style="font-size:10px;font-weight:600;color:${league.color};display:inline-flex;align-items:center;gap:3px">${_leagueIconSvg(league.name.replace('Liga ',''),11)}${league.name}</span></div><div style="text-align:right;flex-shrink:0"><p style="font-weight:800;font-size:13px;color:#6d28d9;display:flex;align-items:center;gap:3px;justify-content:flex-end"><span style="display:inline-flex;width:12px;height:12px">${ICONS.bolt}</span>${(user.xp||0).toLocaleString()}</p><p style="font-size:10px;color:#94a3b8">Nv. ${lvl}</p></div></div>`;
+    let listHtml = '';
+    if (flat.length <= 3) listHtml = `<p style="text-align:center;color:#94a3b8;font-size:12px;padding:16px 0">¡Solo los docentes del podio!</p>`;
+    else flat.slice(3).forEach((user, i) => {
+        const rank = i + 4; const isMe = user.user_id === currentUser?.id; const name = user.full_name || user.nombre_usuario || `Docente ${rank}`;
+        const lvl = user.level || 1; const league = getLeague(lvl);
+        listHtml += `<div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;margin-bottom:8px;background:${isMe ? 'linear-gradient(135deg,#ede9fe,#ddd6fe)' : '#f8fafc'};border:${isMe ? '2px solid #a78bfa' : '1.5px solid #e2e8f0'}"><span style="font-size:12px;font-weight:900;color:${isMe ? '#6d28d9' : '#94a3b8'};width:20px;text-align:center;flex-shrink:0">${rank}</span>${_avatar(user, 38)}<div style="flex:1;min-width:0"><p style="font-weight:700;font-size:13px;color:${isMe ? '#4c1d95' : '#1e293b'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}${isMe ? ' <span style="color:#7c3aed">(Tú)</span>' : ''}</p><span style="font-size:10px;font-weight:600;color:${league.color};display:inline-flex;align-items:center;gap:3px">${_leagueIconSvg(league.name.replace('Liga ', ''), 11)}${league.name}</span></div><div style="text-align:right;flex-shrink:0"><p style="font-weight:800;font-size:13px;color:#6d28d9;display:flex;align-items:center;gap:3px;justify-content:flex-end"><span style="display:inline-flex;width:12px;height:12px">${ICONS.bolt}</span>${(user.xp || 0).toLocaleString()}</p><p style="font-size:10px;color:#94a3b8">Nv. ${lvl}</p></div></div>`;
     });
     listEl.innerHTML = listHtml;
 }
@@ -2807,14 +2797,14 @@ function _renderTotalRanking(data) {
 async function _renderWeeklyRanking() {
     const listEl = document.getElementById('rankingList');
     const podiumEl = document.getElementById('rankingPodium');
-    listEl.innerHTML = `<div class="text-center py-6 text-gray-400" style="display:flex;justify-content:center"><span style="display:inline-flex;width:28px;height:28px;color:#94a3b8">${ICONS?.spinner||'...'}</span></div>`;
+    listEl.innerHTML = `<div class="text-center py-6 text-gray-400" style="display:flex;justify-content:center"><span style="display:inline-flex;width:28px;height:28px;color:#94a3b8">${ICONS?.spinner || '...'}</span></div>`;
     if (podiumEl) podiumEl.innerHTML = '';
 
     // Calcular inicio de semana (lunes)
     const now = new Date();
     const day = now.getDay();
     const diff = (day === 0 ? -6 : 1 - day);
-    const monday = new Date(now); monday.setDate(now.getDate() + diff); monday.setHours(0,0,0,0);
+    const monday = new Date(now); monday.setDate(now.getDate() + diff); monday.setHours(0, 0, 0, 0);
     const mondayStr = monday.toISOString();
 
     const { data, error } = await supabase
@@ -2835,26 +2825,26 @@ async function _renderWeeklyRanking() {
         profile_photo: p.daily_missions?.profilePhoto || null,
         weeklyXP: p.daily_missions?.weeklyXP || 0,
         xp: p.xp || 0, level: p.level || 1,
-    })).filter(p => p.weeklyXP > 0).sort((a,b) => b.weeklyXP - a.weeklyXP).slice(0,50);
+    })).filter(p => p.weeklyXP > 0).sort((a, b) => b.weeklyXP - a.weeklyXP).slice(0, 50);
 
     if (!weekly.length) { listEl.innerHTML = '<p style="text-align:center;color:#94a3b8;font-size:12px;padding:24px">¡Sé el primero en acumular XP esta semana!</p>'; return; }
 
-    const _avatar = (u,size=44) => u.profile_photo
+    const _avatar = (u, size = 44) => u.profile_photo
         ? `<img src="${u.profile_photo}" style="width:${size}px;height:${size}px;border-radius:50%;object-fit:cover">`
-        : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:linear-gradient(135deg,#d97706,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:${size*.4}px;flex-shrink:0">👨‍🏫</div>`;
+        : `<div style="width:${size}px;height:${size}px;border-radius:50%;background:linear-gradient(135deg,#d97706,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:${size * .4}px;flex-shrink:0">👨‍🏫</div>`;
 
-    const top3=weekly.slice(0,3); const podiumOrder=[top3[1],top3[0],top3[2]].filter(Boolean);
-    const podiumPos=top3[1]?[2,1,3]:[1]; const podiumH=['64px','88px','52px']; const podiumColors=['#b45309','#92400e','#d97706'];
-    if (podiumEl) podiumEl.innerHTML=`<div style="display:flex;align-items:flex-end;justify-content:center;gap:6px;padding:0 8px">${podiumOrder.map((u,vi)=>{
-        const rank=podiumPos[vi];const isMe=u.user_id===currentUser?.id;const name=(u.full_name||'Docente').split(' ')[0];const isCrown=rank===1;
-        return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:120px">${isCrown?'<div style="font-size:20px;margin-bottom:2px">👑</div>':'<div style="height:28px"></div>'}<div style="position:relative"><div style="border:3px solid ${isCrown?'#fbbf24':'rgba(255,255,255,.4)'};border-radius:50%;padding:2px">${_avatar(u,isCrown?52:44)}</div>${isMe?'<div style="position:absolute;bottom:-4px;right:-4px;background:#fbbf24;color:#1e1b4b;font-size:9px;font-weight:900;padding:1px 5px;border-radius:99px">TÚ</div>':''}</div><p style="color:white;font-weight:800;font-size:11px;margin:6px 0 4px;text-align:center;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</p><div style="background:rgba(255,255,255,.18);border-radius:99px;padding:2px 10px;margin-bottom:6px"><span style="color:white;font-size:10px;font-weight:700">🗓 ${u.weeklyXP.toLocaleString()} XP</span></div><div style="background:${podiumColors[vi]};border-radius:12px 12px 0 0;height:${podiumH[vi]};width:100%;display:flex;align-items:center;justify-content:center"><span style="color:white;font-size:${isCrown?'28px':'22px'};font-weight:900;opacity:.8">${rank}</span></div></div>`;
+    const top3 = weekly.slice(0, 3); const podiumOrder = [top3[1], top3[0], top3[2]].filter(Boolean);
+    const podiumPos = top3[1] ? [2, 1, 3] : [1]; const podiumH = ['64px', '88px', '52px']; const podiumColors = ['#b45309', '#92400e', '#d97706'];
+    if (podiumEl) podiumEl.innerHTML = `<div style="display:flex;align-items:flex-end;justify-content:center;gap:6px;padding:0 8px">${podiumOrder.map((u, vi) => {
+        const rank = podiumPos[vi]; const isMe = u.user_id === currentUser?.id; const name = (u.full_name || 'Docente').split(' ')[0]; const isCrown = rank === 1;
+        return `<div style="display:flex;flex-direction:column;align-items:center;flex:1;max-width:120px">${isCrown ? '<div style="font-size:20px;margin-bottom:2px">👑</div>' : '<div style="height:28px"></div>'}<div style="position:relative"><div style="border:3px solid ${isCrown ? '#fbbf24' : 'rgba(255,255,255,.4)'};border-radius:50%;padding:2px">${_avatar(u, isCrown ? 52 : 44)}</div>${isMe ? '<div style="position:absolute;bottom:-4px;right:-4px;background:#fbbf24;color:#1e1b4b;font-size:9px;font-weight:900;padding:1px 5px;border-radius:99px">TÚ</div>' : ''}</div><p style="color:white;font-weight:800;font-size:11px;margin:6px 0 4px;text-align:center;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}</p><div style="background:rgba(255,255,255,.18);border-radius:99px;padding:2px 10px;margin-bottom:6px"><span style="color:white;font-size:10px;font-weight:700">🗓 ${u.weeklyXP.toLocaleString()} XP</span></div><div style="background:${podiumColors[vi]};border-radius:12px 12px 0 0;height:${podiumH[vi]};width:100%;display:flex;align-items:center;justify-content:center"><span style="color:white;font-size:${isCrown ? '28px' : '22px'};font-weight:900;opacity:.8">${rank}</span></div></div>`;
     }).join('')}</div>`;
 
-    let listHtml='';
-    if(weekly.length<=3) listHtml=`<p style="text-align:center;color:#94a3b8;font-size:12px;padding:16px 0">¡Solo los del podio esta semana!</p>`;
-    else weekly.slice(3).forEach((user,i)=>{
-        const rank=i+4;const isMe=user.user_id===currentUser?.id;const name=user.full_name||`Docente ${rank}`;
-        listHtml+=`<div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;margin-bottom:8px;background:${isMe?'linear-gradient(135deg,#fef3c7,#fde68a)':'#f8fafc'};border:${isMe?'2px solid #fbbf24':'1.5px solid #e2e8f0'}"><span style="font-size:12px;font-weight:900;color:${isMe?'#d97706':'#94a3b8'};width:20px;text-align:center;flex-shrink:0">${rank}</span>${_avatar(user,38)}<div style="flex:1;min-width:0"><p style="font-weight:700;font-size:13px;color:${isMe?'#92400e':'#1e293b'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}${isMe?' <span style="color:#d97706">(Tú)</span>':''}</p></div><div style="text-align:right;flex-shrink:0"><p style="font-weight:800;font-size:13px;color:#d97706">🗓 ${user.weeklyXP.toLocaleString()}</p><p style="font-size:10px;color:#94a3b8">XP esta semana</p></div></div>`;
+    let listHtml = '';
+    if (weekly.length <= 3) listHtml = `<p style="text-align:center;color:#94a3b8;font-size:12px;padding:16px 0">¡Solo los del podio esta semana!</p>`;
+    else weekly.slice(3).forEach((user, i) => {
+        const rank = i + 4; const isMe = user.user_id === currentUser?.id; const name = user.full_name || `Docente ${rank}`;
+        listHtml += `<div style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;margin-bottom:8px;background:${isMe ? 'linear-gradient(135deg,#fef3c7,#fde68a)' : '#f8fafc'};border:${isMe ? '2px solid #fbbf24' : '1.5px solid #e2e8f0'}"><span style="font-size:12px;font-weight:900;color:${isMe ? '#d97706' : '#94a3b8'};width:20px;text-align:center;flex-shrink:0">${rank}</span>${_avatar(user, 38)}<div style="flex:1;min-width:0"><p style="font-weight:700;font-size:13px;color:${isMe ? '#92400e' : '#1e293b'};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${name}${isMe ? ' <span style="color:#d97706">(Tú)</span>' : ''}</p></div><div style="text-align:right;flex-shrink:0"><p style="font-weight:800;font-size:13px;color:#d97706">🗓 ${user.weeklyXP.toLocaleString()}</p><p style="font-size:10px;color:#94a3b8">XP esta semana</p></div></div>`;
     });
     listEl.innerHTML = listHtml;
 
@@ -2878,7 +2868,7 @@ document.getElementById('closeCourseRequestsBtn')?.addEventListener('click', () 
 async function loadCourseRequests() {
     const listEl = document.getElementById('courseRequestsList');
     if (!listEl) return;
-    listEl.innerHTML = `<div class="text-center py-6 text-gray-400" style="display:flex;justify-content:center"><span style="display:inline-flex;width:28px;height:28px;color:#94a3b8">${ICONS?.spinner||'...'}</span></div>`;
+    listEl.innerHTML = `<div class="text-center py-6 text-gray-400" style="display:flex;justify-content:center"><span style="display:inline-flex;width:28px;height:28px;color:#94a3b8">${ICONS?.spinner || '...'}</span></div>`;
 
     const { data, error } = await supabase
         .from('course_requests')
@@ -2915,13 +2905,11 @@ async function loadCourseRequests() {
     }).join('');
 }
 
-function esc(s) {
-    return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+
 
 document.getElementById('submitCourseRequestBtn')?.addEventListener('click', async () => {
     const titleInput = document.getElementById('newCourseTitleInput');
-    const descInput  = document.getElementById('newCourseDescInput');
+    const descInput = document.getElementById('newCourseDescInput');
     const title = titleInput.value.trim();
     if (!title) { showToast('Escribe el nombre del curso que sugieres', 'error'); return; }
 
@@ -3167,9 +3155,9 @@ function showEditProfile() {
 
     nameInput.value = progress?.dailyMissions?.fullName || '';
     const schoolEl = document.getElementById('schoolInput');
-    const deptEl   = document.getElementById('departmentInput');
+    const deptEl = document.getElementById('departmentInput');
     if (schoolEl) schoolEl.value = progress?.dailyMissions?.school || '';
-    if (deptEl)   deptEl.value   = progress?.dailyMissions?.department || '';
+    if (deptEl) deptEl.value = progress?.dailyMissions?.department || '';
 
     const photo = progress?.dailyMissions?.profilePhoto;
     if (photo) {
@@ -3216,7 +3204,7 @@ document.getElementById('saveProfileBtn')?.addEventListener('click', () => {
     if (!progress.dailyMissions) progress.dailyMissions = {};
     if (name) progress.dailyMissions.fullName = name;
     if (hasPhoto && photoSrc) progress.dailyMissions.profilePhoto = photoSrc;
-    progress.dailyMissions.school     = school || '';
+    progress.dailyMissions.school = school || '';
     progress.dailyMissions.department = department || '';
 
     // Guardar perfil en localStorage Y en Supabase user_metadata para sincronizar entre dispositivos
@@ -3229,11 +3217,13 @@ document.getElementById('saveProfileBtn')?.addEventListener('click', () => {
     };
     localStorage.setItem(_profileKey, JSON.stringify(_savedProfile));
     if (currentUser) {
-        supabase.auth.updateUser({ data: {
-            fullName:   progress.dailyMissions.fullName || currentUser.user_metadata?.fullName,
-            school:     progress.dailyMissions.school,
-            department: progress.dailyMissions.department
-        }}).catch(() => {});
+        supabase.auth.updateUser({
+            data: {
+                fullName: progress.dailyMissions.fullName || currentUser.user_metadata?.fullName,
+                school: progress.dailyMissions.school,
+                department: progress.dailyMissions.department
+            }
+        }).catch(() => { });
     }
 
     // Actualizar display en perfil
@@ -3404,7 +3394,7 @@ function startRepasoMode() {
     const wrongIds = progress.dailyMissions?.wrongQuizzes || [];
     if (!wrongIds.length) { showToast('¡Sin quizzes pendientes de repasar! 🎉', 'success'); return; }
 
-    const _label = `🔁 Repaso: ${wrongIds.length} quiz${wrongIds.length!==1?'zes':''} pendiente${wrongIds.length!==1?'s':''}`;
+    const _label = `🔁 Repaso: ${wrongIds.length} quiz${wrongIds.length !== 1 ? 'zes' : ''} pendiente${wrongIds.length !== 1 ? 's' : ''}`;
 
     // 1. Buscar primero en el curso actual
     for (let m = 0; m < modulesData.length; m++) {
@@ -3466,7 +3456,7 @@ function _removeFromWrong(cardId) {
 // ── Notas por tarjeta ──
 function toggleCardNote(cardKey) {
     const area = document.getElementById(`noteArea_${cardKey}`);
-    const btn  = document.getElementById(`noteBtn_${cardKey}`);
+    const btn = document.getElementById(`noteBtn_${cardKey}`);
     if (!area) return;
     const visible = area.style.display !== 'none';
     area.style.display = visible ? 'none' : 'block';
@@ -3893,9 +3883,9 @@ async function _loadCertSignatures() {
     if (_cachedSignatures) return _cachedSignatures;
     try {
         const { data } = await supabase.from('cert_signatures').select('*').eq('active', true).order('slot');
-        _cachedSignatures = data?.length ? data : [{ slot:1, signer_name:'Billy Abraham Gómez Sac', signer_role:'Coordinación del Programa', signature_url: null }];
-    } catch(_) {
-        _cachedSignatures = [{ slot:1, signer_name:'Billy Abraham Gómez Sac', signer_role:'Coordinación del Programa', signature_url: null }];
+        _cachedSignatures = data?.length ? data : [{ slot: 1, signer_name: 'Billy Abraham Gómez Sac', signer_role: 'Coordinación del Programa', signature_url: null }];
+    } catch (_) {
+        _cachedSignatures = [{ slot: 1, signer_name: 'Billy Abraham Gómez Sac', signer_role: 'Coordinación del Programa', signature_url: null }];
     }
     return _cachedSignatures;
 }
@@ -3926,7 +3916,7 @@ async function _loadCertSignaturesForUser() {
             } else {
                 _cachedUserSchoolSig = null;
             }
-        } catch(_) { _cachedUserSchoolSig = null; }
+        } catch (_) { _cachedUserSchoolSig = null; }
     }
 
     const result = [];
@@ -4001,8 +3991,8 @@ function _updateExamBtn() {
     const dm = progress?.dailyMissions || {};
     const scores = dm.examScores || {};
     const score = (scores[_cid] !== undefined) ? scores[_cid]
-                : (_cid === 'steam' && dm.examScore !== undefined) ? dm.examScore
-                : undefined;
+        : (_cid === 'steam' && dm.examScore !== undefined) ? dm.examScore
+            : undefined;
     const passed = score !== undefined && score >= 70;
 
     nameEl.textContent = course ? course.title : 'Examen Final';
@@ -4325,11 +4315,11 @@ async function generateCertificateFromExam(percentage, overrideCourseId) {
         const blobUrl = URL.createObjectURL(blob);
         const win = window.open(blobUrl, '_blank');
         if (!win) {
-            _offerCertificateDownload(blobUrl, `Certificado_${nombre.replace(/\s+/g,'_')}.html`, 'diploma');
+            _offerCertificateDownload(blobUrl, `Certificado_${nombre.replace(/\s+/g, '_')}.html`, 'diploma');
         } else {
             setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
         }
-    } catch(e) {
+    } catch (e) {
         showToast('Error al generar el certificado.', 'error');
     }
 }
@@ -4338,35 +4328,35 @@ async function generateCertificateFromExam(percentage, overrideCourseId) {
 // URLs: reemplaza con los enlaces reales (Google Drive, Dropbox, etc.)
 const COURSE_RESOURCES = {
     'steam': [
-        { name: 'Guía de Proyectos STEAM',        desc: 'Plantillas y ejemplos de proyectos interdisciplinarios', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/steam-guia-proyectos.html' },
-        { name: 'Rúbricas de Evaluación STEAM',    desc: 'Instrumentos de evaluación por competencias',           icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/steam-rubricas.html' },
-        { name: 'Banco de 30 Actividades STEAM',   desc: 'Actividades listas para aplicar en el aula',            icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/steam-banco-actividades.html' },
-        { name: 'Infografía Think-Make-Improve',   desc: 'Resumen visual del ciclo de diseño',                    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/steam-infografia-tmi.html' },
+        { name: 'Guía de Proyectos STEAM', desc: 'Plantillas y ejemplos de proyectos interdisciplinarios', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/steam-guia-proyectos.html' },
+        { name: 'Rúbricas de Evaluación STEAM', desc: 'Instrumentos de evaluación por competencias', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/steam-rubricas.html' },
+        { name: 'Banco de 30 Actividades STEAM', desc: 'Actividades listas para aplicar en el aula', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/steam-banco-actividades.html' },
+        { name: 'Infografía Think-Make-Improve', desc: 'Resumen visual del ciclo de diseño', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/steam-infografia-tmi.html' },
     ],
     'abp': [
-        { name: 'Guía ABP Paso a Paso',            desc: 'Metodología completa con ejemplos guatemaltecos',       icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/abp-guia.html' },
-        { name: 'Formatos de Planificación ABP',   desc: 'Templates editables para planificar proyectos',         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/abp-formatos.html' },
-        { name: 'Ejemplos de Proyectos ABP',       desc: '10 proyectos reales aplicados en Guatemala',            icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/abp-ejemplos.html' },
+        { name: 'Guía ABP Paso a Paso', desc: 'Metodología completa con ejemplos guatemaltecos', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/abp-guia.html' },
+        { name: 'Formatos de Planificación ABP', desc: 'Templates editables para planificar proyectos', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/abp-formatos.html' },
+        { name: 'Ejemplos de Proyectos ABP', desc: '10 proyectos reales aplicados en Guatemala', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/abp-ejemplos.html' },
     ],
     'design-thinking': [
-        { name: 'Kit de Design Thinking',          desc: 'Tarjetas de actividades y dinámicas de empatía',        icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/dt-kit.html' },
-        { name: 'Plantillas de Prototipado',       desc: 'Formatos para documentar prototipos con estudiantes',   icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/dt-plantillas-prototipado.html' },
-        { name: 'Guía de Entrevistas de Empatía',  desc: 'Cómo entrevistar usuarios en el contexto educativo',   icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/dt-entrevistas-empatia.html' },
+        { name: 'Kit de Design Thinking', desc: 'Tarjetas de actividades y dinámicas de empatía', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/dt-kit.html' },
+        { name: 'Plantillas de Prototipado', desc: 'Formatos para documentar prototipos con estudiantes', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/dt-plantillas-prototipado.html' },
+        { name: 'Guía de Entrevistas de Empatía', desc: 'Cómo entrevistar usuarios en el contexto educativo', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/dt-entrevistas-empatia.html' },
     ],
     'evaluacion': [
-        { name: 'Banco de Rúbricas',               desc: 'Rúbricas analíticas para diferentes competencias',      icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/ev-banco-rubricas.html' },
-        { name: 'Guía de Evaluación Formativa',    desc: 'Estrategias de retroalimentación efectiva',             icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/ev-guia-formativa.html' },
-        { name: 'Instrumentos de Autoevaluación',  desc: 'Formatos para coevaluación y autoevaluación',           icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/ev-instrumentos-autoevaluacion.html' },
+        { name: 'Banco de Rúbricas', desc: 'Rúbricas analíticas para diferentes competencias', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/ev-banco-rubricas.html' },
+        { name: 'Guía de Evaluación Formativa', desc: 'Estrategias de retroalimentación efectiva', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/ev-guia-formativa.html' },
+        { name: 'Instrumentos de Autoevaluación', desc: 'Formatos para coevaluación y autoevaluación', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/ev-instrumentos-autoevaluacion.html' },
     ],
     'tipos-estudiantes': [
-        { name: 'Guía de Estilos de Aprendizaje',  desc: 'Cómo identificar y atender distintos perfiles',         icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/te-guia-estilos.html' },
-        { name: 'Estrategias de Diferenciación',   desc: 'Actividades adaptadas a diferentes tipos de alumnos',   icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/te-estrategias-diferenciacion.html' },
-        { name: 'Fichas de Observación Docente',   desc: 'Instrumentos para conocer mejor a tus estudiantes',    icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/te-fichas-observacion.html' },
+        { name: 'Guía de Estilos de Aprendizaje', desc: 'Cómo identificar y atender distintos perfiles', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/te-guia-estilos.html' },
+        { name: 'Estrategias de Diferenciación', desc: 'Actividades adaptadas a diferentes tipos de alumnos', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/te-estrategias-diferenciacion.html' },
+        { name: 'Fichas de Observación Docente', desc: 'Instrumentos para conocer mejor a tus estudiantes', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/te-fichas-observacion.html' },
     ],
     'storytelling': [
-        { name: 'Guía de Storytelling Docente',    desc: 'Estructura narrativa y técnicas para enseñar con historias', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/st-guia-storytelling.html' },
-        { name: 'Plantillas de Historia',          desc: 'Story spine, viaje del héroe y otros formatos listos para usar', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/st-plantillas-historia.html' },
-        { name: 'Banco de Historias Guatemaltecas', desc: '20 historias y personajes locales para usar en clase',   icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/st-banco-historias.html' },
+        { name: 'Guía de Storytelling Docente', desc: 'Estructura narrativa y técnicas para enseñar con historias', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/st-guia-storytelling.html' },
+        { name: 'Plantillas de Historia', desc: 'Story spine, viaje del héroe y otros formatos listos para usar', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M9 13l2 2 4-4"/></svg>', url: 'recursos/st-plantillas-historia.html' },
+        { name: 'Banco de Historias Guatemaltecas', desc: '20 historias y personajes locales para usar en clase', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>', url: 'recursos/st-banco-historias.html' },
     ],
     'creatividad': [
         { name: 'Guía para Despertar la Creatividad en el Aula', desc: 'Fundamentos y estrategias paso a paso para una cultura creativa en el aula', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>', url: 'recursos/cr-guia.html' },
@@ -4463,7 +4453,7 @@ function renderCourseResources() {
     const el = document.getElementById('courseResourcesSection');
     if (!el) return;
 
-    const scores     = progress?.dailyMissions?.examScores || {};
+    const scores = progress?.dailyMissions?.examScores || {};
     const steamScore = scores['steam'] ?? progress?.dailyMissions?.examScore;
     const courseColors = {
         steam: '#07B0E4', abp: '#2563EB', 'design-thinking': '#E83C8D',
@@ -4480,10 +4470,10 @@ function renderCourseResources() {
     });
 
     el.innerHTML = available.map(c => {
-        const s      = c.id === 'steam' ? steamScore : scores[c.id];
+        const s = c.id === 'steam' ? steamScore : scores[c.id];
         const passed = s !== undefined && s >= 70;
-        const col    = courseColors[c.id] || '#4f46e5';
-        const res    = COURSE_RESOURCES[c.id] || [];
+        const col = courseColors[c.id] || '#4f46e5';
+        const res = COURSE_RESOURCES[c.id] || [];
 
         if (passed) {
             const items = res.map(r => {
@@ -4529,7 +4519,7 @@ function renderCourseResources() {
 }
 
 // ==================== CERTIFICADO MAESTRO (por ruta) ====================
-let _activeMasterPath   = null; // ruta activa para cert maestro
+let _activeMasterPath = null; // ruta activa para cert maestro
 let _selectedMasterPath = null; // elegida por el usuario con los chips
 
 // Helpers per-ruta ──────────────────────────────────────────────────────────
@@ -4571,9 +4561,9 @@ let _lastMasterPathAllPassed = {};
 
 function _checkMasterCert() {
     if (typeof allCourses === 'undefined') return;
-    const scores     = progress?.dailyMissions?.examScores || {};
+    const scores = progress?.dailyMissions?.examScores || {};
     const steamScore = scores['steam'] ?? progress?.dailyMissions?.examScore;
-    const available  = allCourses.filter(c => c.status === 'available');
+    const available = allCourses.filter(c => c.status === 'available');
 
     const pathResults = LEARNING_PATHS.map(path => {
         const requiredCourses = available.filter(c => (path.courses || []).includes(c.id));
@@ -4585,7 +4575,7 @@ function _checkMasterCert() {
     });
 
     const passedPaths = pathResults.filter(r => r.allPassed);
-    const anyPassed   = passedPaths.length > 0;
+    const anyPassed = passedPaths.length > 0;
     _lastMasterPathAllPassed = {};
     pathResults.forEach(r => { _lastMasterPathAllPassed[r.path.id] = r.allPassed; });
 
@@ -4607,33 +4597,33 @@ function _checkMasterCert() {
             <p style="font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.05em;margin:0 0 6px">Certificado maestro · elige la ruta</p>
             <div style="display:flex;flex-wrap:wrap;gap:6px">
             ${pathResults.map(r => {
-                const isSel = sel && r.path.id === sel.id;
-                if (r.allPassed) {
-                    return `<button onclick="_selectMasterPath('${r.path.id}')"
+            const isSel = sel && r.path.id === sel.id;
+            if (r.allPassed) {
+                return `<button onclick="_selectMasterPath('${r.path.id}')"
                         style="font-size:12px;font-weight:700;padding:6px 12px;border-radius:20px;cursor:pointer;
                                border:1.5px solid ${isSel ? r.path.color : '#e2e8f0'};
                                background:${isSel ? r.path.color : '#fff'};
                                color:${isSel ? '#fff' : '#475569'}">${esc(r.path.label)}</button>`;
-                }
-                return `<button onclick="showToast('Primero aprueba todos los cursos de ${esc(r.path.label)}.','info')"
+            }
+            return `<button onclick="showToast('Primero aprueba todos los cursos de ${esc(r.path.label)}.','info')"
                     style="font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;cursor:pointer;
                            border:1.5px dashed #e2e8f0;background:#f8fafc;color:#94a3b8;display:inline-flex;align-items:center;gap:4px">
                     <svg width="10" height="10" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="8" rx="2" stroke-width="1.8"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke-width="1.8"/></svg>
                     ${esc(r.path.label)}</button>`;
-            }).join('')}
+        }).join('')}
             </div>`;
         selEl.classList.remove('hidden');
     }
 
     // Puntajes de la ruta SELECCIONADA
     const masterExamScore = sel ? _getMasterExamScore(sel.id) : undefined;
-    const pf              = sel ? _getPortfolio(sel.id) : null;
-    const portfolioScore  = (pf && pf.aiTotal !== undefined && pf.aiTotal !== null) ? pf.aiTotal : null;
-    const examScore50     = masterExamScore !== undefined ? Math.round(masterExamScore * 0.5) : null;
-    const combinedScore   = (examScore50 !== null && portfolioScore !== null) ? examScore50 + portfolioScore : null;
-    const masterPassed    = combinedScore !== null && combinedScore >= 85;
-    const examTaken       = masterExamScore !== undefined;
-    const portfolioDone   = portfolioScore !== null;
+    const pf = sel ? _getPortfolio(sel.id) : null;
+    const portfolioScore = (pf && pf.aiTotal !== undefined && pf.aiTotal !== null) ? pf.aiTotal : null;
+    const examScore50 = masterExamScore !== undefined ? Math.round(masterExamScore * 0.5) : null;
+    const combinedScore = (examScore50 !== null && portfolioScore !== null) ? examScore50 + portfolioScore : null;
+    const masterPassed = combinedScore !== null && combinedScore >= 85;
+    const examTaken = masterExamScore !== undefined;
+    const portfolioDone = portfolioScore !== null;
     const allIndividualPassed = anyPassed;
 
     // Botones de acción (devMode desbloquea todo)
@@ -4649,8 +4639,8 @@ function _checkMasterCert() {
     const scoreEl = document.getElementById('masterScoreSummary');
     if (scoreEl) {
         if (anyPassed && examTaken) {
-            const portLabel     = portfolioDone ? `${portfolioScore}/50` : '<span style="color:#94a3b8">Pendiente</span>';
-            const combinedLabel = combinedScore !== null ? `<strong style="color:${combinedScore>=85?'#16a34a':'#dc2626'}">${combinedScore}/100</strong>` : '—';
+            const portLabel = portfolioDone ? `${portfolioScore}/50` : '<span style="color:#94a3b8">Pendiente</span>';
+            const combinedLabel = combinedScore !== null ? `<strong style="color:${combinedScore >= 85 ? '#16a34a' : '#dc2626'}">${combinedScore}/100</strong>` : '—';
             scoreEl.innerHTML = `
                 ${sel ? `<p style="font-size:11px;font-weight:700;color:${sel.color};margin:0 0 6px">Ruta: ${esc(sel.label)}</p>` : ''}
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
@@ -4662,7 +4652,7 @@ function _checkMasterCert() {
                         <p style="font-size:18px;font-weight:800;color:#15803d">${portLabel}</p>
                         <p style="font-size:10px;color:#64748b;margin-top:2px">Portafolio</p>
                     </div>
-                    <div style="background:${combinedScore===null?'#f8fafc':combinedScore>=85?'#f0fdf4':'#fef2f2'};border-radius:12px;padding:10px;text-align:center;border:1px solid ${combinedScore===null?'#e2e8f0':combinedScore>=85?'#86efac':'#fca5a5'}">
+                    <div style="background:${combinedScore === null ? '#f8fafc' : combinedScore >= 85 ? '#f0fdf4' : '#fef2f2'};border-radius:12px;padding:10px;text-align:center;border:1px solid ${combinedScore === null ? '#e2e8f0' : combinedScore >= 85 ? '#86efac' : '#fca5a5'}">
                         <p style="font-size:18px;font-weight:800">${combinedLabel}</p>
                         <p style="font-size:10px;color:#64748b;margin-top:2px">Total</p>
                     </div>
@@ -4685,7 +4675,7 @@ function _checkMasterCert() {
     // Estado por curso — mostrar rutas como secciones con sus cursos dentro
     const statusEl = document.getElementById('certCourseStatus');
     if (statusEl) {
-        const courseColors = { steam:'#07B0E4', abp:'#2563EB', 'design-thinking':'#E83C8D', evaluacion:'#E9A037', 'tipos-estudiantes':'#7C3AED', storytelling:'#F59E0B', creatividad:'#E83C8D', 'herramientas-tec':'#7C3AED', 'm-learning':'#F59E0B', 'flipped-classroom':'#10B981', abv:'#6366F1', 'micro-learning':'#F97316', 'ia-fundamentos':'#10B981', 'ia-tiempo':'#F97316', 'ia-herramientas':'#8B5CF6', 'ia-inclusion':'#06B6D4', 'ia-ciudadania':'#EC4899', 'manejo-conductas':'#0891B2', 'sel-docentes':'#DB2777', 'comunicacion-asertiva':'#7C3AED', 'disciplina-positiva':'#EA580C', 'bienestar-docente':'#16A34A' };
+        const courseColors = { steam: '#07B0E4', abp: '#2563EB', 'design-thinking': '#E83C8D', evaluacion: '#E9A037', 'tipos-estudiantes': '#7C3AED', storytelling: '#F59E0B', creatividad: '#E83C8D', 'herramientas-tec': '#7C3AED', 'm-learning': '#F59E0B', 'flipped-classroom': '#10B981', abv: '#6366F1', 'micro-learning': '#F97316', 'ia-fundamentos': '#10B981', 'ia-tiempo': '#F97316', 'ia-herramientas': '#8B5CF6', 'ia-inclusion': '#06B6D4', 'ia-ciudadania': '#EC4899', 'manejo-conductas': '#0891B2', 'sel-docentes': '#DB2777', 'comunicacion-asertiva': '#7C3AED', 'disciplina-positiva': '#EA580C', 'bienestar-docente': '#16A34A' };
 
         statusEl.innerHTML = LEARNING_PATHS.map(path => {
             const pathCourses = (path.courses || [])
@@ -4699,7 +4689,7 @@ function _checkMasterCert() {
             });
 
             const coursesHTML = pathCourses.map(c => {
-                const s      = c.id === 'steam' ? steamScore : scores[c.id];
+                const s = c.id === 'steam' ? steamScore : scores[c.id];
                 const passed = s !== undefined && s >= 70;
                 const started = (progress?.completedCards || []).some(id => _cardBelongsToCourse(c.id, id));
                 const col = courseColors[c.id] || '#4f46e5';
@@ -4773,20 +4763,20 @@ function _checkMasterCert() {
 }
 
 // ==================== EXAMEN MAESTRO ====================
-let _masterExamActive   = false;
+let _masterExamActive = false;
 let _masterExamQuestions = [];
-let _masterExamAnswers  = [];
+let _masterExamAnswers = [];
 let _masterExamCurrentQ = 0;
 
 function startMasterExam() {
     if (typeof MASTER_EXAM === 'undefined') {
         showToast('Error: banco de preguntas no disponible.', 'error'); return;
     }
-    _masterExamActive    = true;
-    _masterExamCurrentQ  = 0;
-    const shuffled       = _shuffleArray([...MASTER_EXAM.questions]);
+    _masterExamActive = true;
+    _masterExamCurrentQ = 0;
+    const shuffled = _shuffleArray([...MASTER_EXAM.questions]);
     _masterExamQuestions = shuffled.slice(0, 30);
-    _masterExamAnswers   = new Array(_masterExamQuestions.length).fill(null);
+    _masterExamAnswers = new Array(_masterExamQuestions.length).fill(null);
 
     switchTab('home');
     _hideNavBtns(true);
@@ -4795,16 +4785,16 @@ function startMasterExam() {
 }
 
 function _renderMasterExamCard() {
-    const q     = _masterExamQuestions[_masterExamCurrentQ];
+    const q = _masterExamQuestions[_masterExamCurrentQ];
     const total = _masterExamQuestions.length;
-    const qNum  = _masterExamCurrentQ + 1;
-    const pct   = Math.round((qNum / total) * 100);
+    const qNum = _masterExamCurrentQ + 1;
+    const pct = Math.round((qNum / total) * 100);
 
-    const courseLabels = { steam:'STEAM', abp:'ABP', 'design-thinking':'Design Thinking', evaluacion:'Evaluación', 'tipos-estudiantes':'Tipos de Estudiantes', maestro:'Síntesis' };
-    const courseColors = { steam:'#07B0E4', abp:'#2563EB', 'design-thinking':'#E83C8D', evaluacion:'#E9A037', 'tipos-estudiantes':'#7C3AED', maestro:'#1A6B68' };
-    const courseTag    = courseLabels[q.course] || 'General';
-    const courseColor  = courseColors[q.course] || '#1A6B68';
-    const selected     = _masterExamAnswers[_masterExamCurrentQ];
+    const courseLabels = { steam: 'STEAM', abp: 'ABP', 'design-thinking': 'Design Thinking', evaluacion: 'Evaluación', 'tipos-estudiantes': 'Tipos de Estudiantes', maestro: 'Síntesis' };
+    const courseColors = { steam: '#07B0E4', abp: '#2563EB', 'design-thinking': '#E83C8D', evaluacion: '#E9A037', 'tipos-estudiantes': '#7C3AED', maestro: '#1A6B68' };
+    const courseTag = courseLabels[q.course] || 'General';
+    const courseColor = courseColors[q.course] || '#1A6B68';
+    const selected = _masterExamAnswers[_masterExamCurrentQ];
 
     const optionsHtml = q.options.map((opt, i) => {
         const isSelected = selected === i;
@@ -4877,14 +4867,14 @@ function _masterExamNext() {
 function _showMasterExamResults() {
     let correct = 0;
     _masterExamQuestions.forEach((q, i) => { if (_masterExamAnswers[i] === q.correct) correct++; });
-    const total  = _masterExamQuestions.length;
-    const pct    = Math.round((correct / total) * 100);
+    const total = _masterExamQuestions.length;
+    const pct = Math.round((correct / total) * 100);
     const passed = pct >= MASTER_EXAM.passingScore;
 
     // Siempre guardar el puntaje del examen — por ruta (y legado global para compatibilidad)
     if (!progress.dailyMissions) progress.dailyMissions = {};
     progress.dailyMissions.masterExamScore = pct; // legado
-    progress.dailyMissions.masterExamDate  = localDateStr();
+    progress.dailyMissions.masterExamDate = localDateStr();
     if (!progress.dailyMissions.masterExamScores) progress.dailyMissions.masterExamScores = {};
     const _pid = _selectedMasterPath?.id || _activeMasterPath?.id;
     if (_pid) progress.dailyMissions.masterExamScores[_pid] = pct;
@@ -4962,9 +4952,9 @@ async function generateMasterCertificate() {
     const certWin = window.open('', '_blank');
     if (certWin) certWin.document.write('<html><body style="background:#1e1b4b;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0"><p style="color:white;font-family:sans-serif;font-size:18px">Generando certificado…</p></body></html>');
 
-    const nombre      = getDisplayName();
-    const scores      = progress?.dailyMissions?.examScores || {};
-    const steamScore  = scores['steam'] ?? progress?.dailyMissions?.examScore ?? 0;
+    const nombre = getDisplayName();
+    const scores = progress?.dailyMissions?.examScores || {};
+    const steamScore = scores['steam'] ?? progress?.dailyMissions?.examScore ?? 0;
     const masterScore = progress?.dailyMissions?.masterExamScore ?? window._lastMasterExamScore ?? 0;
 
     // Solo los cursos de la RUTA activa (no todo el catálogo)
@@ -4974,9 +4964,9 @@ async function generateMasterCertificate() {
     // Fecha de EMISIÓN = cuándo se aprobó el examen maestro de ESTA ruta,
     // no cuándo se genera/descarga el certificado.
     const _storedMasterDate = _path?.id ? progress?.dailyMissions?.masterExamDates?.[_path.id] : null;
-    const _issueDate  = _storedMasterDate ? _parseLocalDateStr(_storedMasterDate) : new Date();
-    const fecha       = _issueDate.toLocaleDateString('es-GT', { day:'numeric', month:'long', year:'numeric' });
-    const _issueYear  = _issueDate.getFullYear();
+    const _issueDate = _storedMasterDate ? _parseLocalDateStr(_storedMasterDate) : new Date();
+    const fecha = _issueDate.toLocaleDateString('es-GT', { day: 'numeric', month: 'long', year: 'numeric' });
+    const _issueYear = _issueDate.getFullYear();
     const _issueMonth = _issueDate.getMonth() + 1;
 
     const [firmaSrc, masterSigs] = await Promise.all([
@@ -4993,9 +4983,9 @@ async function generateMasterCertificate() {
         return a + s;
     }, 0) / availableCourses.length) : 0;
 
-    const colors = { 'steam':'#07B0E4','abp':'#2563EB','design-thinking':'#E83C8D','evaluacion':'#E9A037','tipos-estudiantes':'#7C3AED','creatividad':'#E83C8D','herramientas-tec':'#7C3AED','m-learning':'#F59E0B','flipped-classroom':'#10B981','abv':'#6366F1','micro-learning':'#F97316','ia-fundamentos':'#10B981','ia-tiempo':'#F97316','ia-herramientas':'#8B5CF6','ia-inclusion':'#06B6D4','ia-ciudadania':'#EC4899','manejo-conductas':'#0891B2','sel-docentes':'#DB2777','comunicacion-asertiva':'#7C3AED','disciplina-positiva':'#EA580C','bienestar-docente':'#16A34A' };
+    const colors = { 'steam': '#07B0E4', 'abp': '#2563EB', 'design-thinking': '#E83C8D', 'evaluacion': '#E9A037', 'tipos-estudiantes': '#7C3AED', 'creatividad': '#E83C8D', 'herramientas-tec': '#7C3AED', 'm-learning': '#F59E0B', 'flipped-classroom': '#10B981', 'abv': '#6366F1', 'micro-learning': '#F97316', 'ia-fundamentos': '#10B981', 'ia-tiempo': '#F97316', 'ia-herramientas': '#8B5CF6', 'ia-inclusion': '#06B6D4', 'ia-ciudadania': '#EC4899', 'manejo-conductas': '#0891B2', 'sel-docentes': '#DB2777', 'comunicacion-asertiva': '#7C3AED', 'disciplina-positiva': '#EA580C', 'bienestar-docente': '#16A34A' };
     const courseBadges = availableCourses.map(c => {
-        const s   = c.id === 'steam' ? steamScore : (scores[c.id] || 0);
+        const s = c.id === 'steam' ? steamScore : (scores[c.id] || 0);
         const col = colors[c.id] || '#1A6B68';
         return `<div style="background:${col}18;border:1.5px solid ${col}44;border-radius:12px;padding:8px 14px;display:flex;align-items:center;gap:8px">
             <div style="width:8px;height:8px;border-radius:50%;background:${col};flex-shrink:0"></div>
@@ -5107,9 +5097,9 @@ async function generateMasterCertificate() {
             // Ventana bloqueada (o cerrada por el usuario) — mostrar banner
             const blob = new Blob([masterHTML], { type: 'text/html;charset=utf-8' });
             const blobUrl = URL.createObjectURL(blob);
-            _offerCertificateDownload(blobUrl, `Certificado_Maestro_${nombre.replace(/\s+/g,'_')}.html`, 'Certificado Maestro');
+            _offerCertificateDownload(blobUrl, `Certificado_Maestro_${nombre.replace(/\s+/g, '_')}.html`, 'Certificado Maestro');
         }
-    } catch(e) {
+    } catch (e) {
         console.error('generateMasterCertificate:', e);
         showToast('Error al generar el certificado. Intenta de nuevo.', 'error');
     }
@@ -5161,10 +5151,10 @@ function _updateDevModeBtn() {
     const lbl = document.getElementById('devModeBtnLabel');
     const sub = document.getElementById('devModeBtnSub');
     if (!btn) return;
-    btn.style.borderColor   = on ? '#f97316' : '';
-    btn.style.background    = on ? '#fff7ed' : '';
+    btn.style.borderColor = on ? '#f97316' : '';
+    btn.style.background = on ? '#fff7ed' : '';
     if (lbl) lbl.style.color = on ? '#ea580c' : '';
-    if (sub) sub.textContent  = on ? 'Activado' : 'Desactivado';
+    if (sub) sub.textContent = on ? 'Activado' : 'Desactivado';
 }
 
 function isDevMode() {
@@ -5254,7 +5244,7 @@ document.getElementById("backToLoginBtn")?.addEventListener("click", () => {
 // ── Manejo de recuperación de contraseña ──────────────────────────
 supabase.auth.onAuthStateChange(async (event, session) => {
     if (event === 'PASSWORD_RECOVERY') {
-        const allForms = ['emailLoginForm','forgotForm','registerForm'];
+        const allForms = ['emailLoginForm', 'forgotForm', 'registerForm'];
         allForms.forEach(id => document.getElementById(id)?.classList.add('hidden'));
         document.getElementById('resetPasswordForm')?.classList.remove('hidden');
     }
@@ -5287,7 +5277,7 @@ document.getElementById("doResetPassword")?.addEventListener("click", async () =
 document.getElementById("doForgotPassword")?.addEventListener("click", async () => {
     const email = document.getElementById("forgotEmail").value.trim();
     const msgEl = document.getElementById("forgotMsg");
-    if (!email) { if (msgEl) { msgEl.textContent = "Ingresa tu correo."; msgEl.classList.remove("hidden","bg-emerald-50","text-emerald-700","border-emerald-100"); msgEl.classList.add("bg-red-50","text-red-600","border-red-100"); } return; }
+    if (!email) { if (msgEl) { msgEl.textContent = "Ingresa tu correo."; msgEl.classList.remove("hidden", "bg-emerald-50", "text-emerald-700", "border-emerald-100"); msgEl.classList.add("bg-red-50", "text-red-600", "border-red-100"); } return; }
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: window.location.origin + window.location.pathname
     });
@@ -5379,20 +5369,20 @@ if ('serviceWorker' in navigator) {
         // Revisa de inmediato al cargar — antes esto NO pasaba: una sesión
         // que nunca se pone en segundo plano ni pasan 30 min podía quedarse
         // corriendo código viejo toda la sesión sin ningún chequeo.
-        reg.update().catch(() => {});
+        reg.update().catch(() => { });
         // Revisa cada 5 min mientras la app está abierta (antes 30 min —
         // muy lento para deploys urgentes, ej. correcciones de pago).
-        setInterval(() => reg.update().catch(() => {}), 5 * 60 * 1000);
+        setInterval(() => reg.update().catch(() => { }), 5 * 60 * 1000);
         // También revisa al volver a la pestaña/app tras estar en segundo plano
         document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') reg.update().catch(() => {});
+            if (document.visibilityState === 'visible') reg.update().catch(() => { });
         });
     });
 
     // Aviso del admin: mismo ritmo que el chequeo de versión — cada 30 min y al volver a la pestaña
-    setInterval(() => { if (currentUser) loadAppConfig().catch(() => {}); }, 30 * 60 * 1000);
+    setInterval(() => { if (currentUser) loadAppConfig().catch(() => { }); }, 30 * 60 * 1000);
     document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible' && currentUser) loadAppConfig().catch(() => {});
+        if (document.visibilityState === 'visible' && currentUser) loadAppConfig().catch(() => { });
     });
 
     // Cuando el nuevo Service Worker toma control, NO recargamos de inmediato —
@@ -5789,7 +5779,7 @@ if (isIOS && !isInStandaloneMode && !localStorage.getItem('installDismissed')) {
 }
 
 // ==================== ONBOARDING OBLIGATORIO ====================
-const GT_DEPARTMENTS = ['Alta Verapaz','Baja Verapaz','Chimaltenango','Chiquimula','El Progreso','Escuintla','Guatemala','Huehuetenango','Izabal','Jalapa','Jutiapa','Petén','Quetzaltenango','Quiché','Retalhuleu','Sacatepéquez','San Marcos','Santa Rosa','Sololá','Suchitepéquez','Totonicapán','Zacapa'];
+const GT_DEPARTMENTS = ['Alta Verapaz', 'Baja Verapaz', 'Chimaltenango', 'Chiquimula', 'El Progreso', 'Escuintla', 'Guatemala', 'Huehuetenango', 'Izabal', 'Jalapa', 'Jutiapa', 'Petén', 'Quetzaltenango', 'Quiché', 'Retalhuleu', 'Sacatepéquez', 'San Marcos', 'Santa Rosa', 'Sololá', 'Suchitepéquez', 'Totonicapán', 'Zacapa'];
 
 function _checkOnboardingRequirements(onComplete) {
     // Admins no necesitan onboarding
@@ -5798,7 +5788,7 @@ function _checkOnboardingRequirements(onComplete) {
     const dm = progress?.dailyMissions || {};
     const _blank = v => !v || v.trim().toLowerCase() === 'individual';
     const profileMissing = _blank(dm.department) || _blank(dm.school);
-    const diagMissing    = !dm.diagDone && !localStorage.getItem('diagDone');
+    const diagMissing = !dm.diagDone && !localStorage.getItem('diagDone');
 
     if (!profileMissing && !diagMissing) { onComplete(); return; }
 
@@ -5828,14 +5818,14 @@ function _checkOnboardingRequirements(onComplete) {
                 <label style="display:block;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Departamento *</label>
                 <select id="_ob_dept" style="width:100%;border:1.5px solid #e2e8f0;border-radius:14px;padding:12px 14px;font-size:14px;background:#f8fafc;outline:none">
                     <option value="">— Selecciona tu departamento —</option>
-                    ${GT_DEPARTMENTS.map(d => `<option value="${d}"${dm.department===d?' selected':''}>${d}</option>`).join('')}
+                    ${GT_DEPARTMENTS.map(d => `<option value="${d}"${dm.department === d ? ' selected' : ''}>${d}</option>`).join('')}
                 </select>
             </div>
             <div style="margin-bottom:20px;position:relative">
                 <label style="display:block;font-size:11px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px">Nombre del establecimiento *</label>
                 <input id="_ob_school" type="text" autocomplete="off"
                     placeholder="Escribe para buscar tu centro educativo…"
-                    value="${esc(dm.school||'')}"
+                    value="${esc(dm.school || '')}"
                     style="width:100%;border:1.5px solid #e2e8f0;border-radius:14px;padding:12px 14px;font-size:14px;background:#f8fafc;outline:none;box-sizing:border-box">
                 <div id="_ob_schoolDrop" style="display:none;position:fixed;background:#fff;border:1.5px solid #e2e8f0;border-top:none;border-radius:0 0 14px 14px;max-height:200px;overflow-y:auto;z-index:99999;box-shadow:0 8px 24px rgba(0,0,0,.18)"></div>
             </div>
@@ -5849,7 +5839,7 @@ function _checkOnboardingRequirements(onComplete) {
         let _obSchoolTimer = null;
         function _obUpdateSuggestions() {
             const drop = document.getElementById('_ob_schoolDrop');
-            const inp  = document.getElementById('_ob_school');
+            const inp = document.getElementById('_ob_school');
             const dept = document.getElementById('_ob_dept')?.value;
             if (!drop || !inp) return;
             const query = inp.value.trim().toLowerCase();
@@ -5863,27 +5853,27 @@ function _checkOnboardingRequirements(onComplete) {
             if (!matches.length) { drop.style.display = 'none'; return; }
             drop.innerHTML = matches.map(s => {
                 const parts = s.split(' · ');
-                const name  = parts[0] || s;
-                const mun   = parts[1] || '';
+                const name = parts[0] || s;
+                const mun = parts[1] || '';
                 let hi = esc(name);
                 try {
-                    hi = name.replace(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<strong>$1</strong>');
-                } catch(e) {}
-                return `<div onclick="_obSelectSchool(this)" data-name="${name.replace(/"/g,'&quot;')}"
+                    hi = name.replace(new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<strong>$1</strong>');
+                } catch (e) { }
+                return `<div onclick="_obSelectSchool(this)" data-name="${name.replace(/"/g, '&quot;')}"
                     style="padding:10px 14px;cursor:pointer;font-size:13px;border-bottom:1px solid #f1f5f9;transition:background .15s"
                     onmouseover="this.style.background='#f0f9ff'" onmouseout="this.style.background=''">${hi}<span style="font-size:11px;color:#94a3b8;margin-left:6px">· ${esc(mun)}</span></div>`;
             }).join('');
             // Posicionar usando fixed + getBoundingClientRect para evitar el clip del overflow:auto
             const r = inp.getBoundingClientRect();
-            drop.style.left   = r.left + 'px';
-            drop.style.top    = (r.bottom - 1) + 'px';
-            drop.style.width  = r.width + 'px';
+            drop.style.left = r.left + 'px';
+            drop.style.top = (r.bottom - 1) + 'px';
+            drop.style.width = r.width + 'px';
             drop.style.display = 'block';
         }
 
-        window._obSelectSchool = function(el) {
+        window._obSelectSchool = function (el) {
             const name = el.dataset.name;
-            const inp  = document.getElementById('_ob_school');
+            const inp = document.getElementById('_ob_school');
             const drop = document.getElementById('_ob_schoolDrop');
             if (inp) inp.value = name;
             if (drop) drop.style.display = 'none';
@@ -5891,7 +5881,7 @@ function _checkOnboardingRequirements(onComplete) {
 
         // Cargar BD y conectar eventos
         _loadSchoolsDB(() => {
-            const inp  = document.getElementById('_ob_school');
+            const inp = document.getElementById('_ob_school');
             const dept = document.getElementById('_ob_dept');
             if (!inp) return;
             inp.addEventListener('input', () => {
@@ -5911,7 +5901,7 @@ function _checkOnboardingRequirements(onComplete) {
         });
 
         document.getElementById('_ob_profileSave').onclick = () => {
-            const dept   = document.getElementById('_ob_dept').value.trim();
+            const dept = document.getElementById('_ob_dept').value.trim();
             const school = document.getElementById('_ob_school').value.trim();
             if (!dept || !school) {
                 document.getElementById('_ob_profileErr').style.display = 'block';
@@ -5919,13 +5909,13 @@ function _checkOnboardingRequirements(onComplete) {
             }
             if (!progress.dailyMissions) progress.dailyMissions = {};
             progress.dailyMissions.department = dept;
-            progress.dailyMissions.school     = school;
+            progress.dailyMissions.school = school;
             const _pk = `userProfile_${currentUser?.id}`;
             try {
                 const _saved = JSON.parse(localStorage.getItem(_pk) || '{}');
                 _saved.department = dept; _saved.school = school;
                 localStorage.setItem(_pk, JSON.stringify(_saved));
-            } catch(_) {}
+            } catch (_) { }
             saveProgress();
             if (diagMissing) showDiagStep();
             else { document.body.removeChild(overlay); onComplete(); }
@@ -5965,7 +5955,7 @@ function _checkOnboardingRequirements(onComplete) {
 
 // ==================== SELECTOR DE CURSOS (Multi-curso) ====================
 let currentCourseId = 'steam';
-let _selectedPathId  = null; // ruta activa en el selector
+let _selectedPathId = null; // ruta activa en el selector
 
 // Antes mostraba un overlay de pantalla completa forzado en cada sesión —
 // ahora "el selector" es la tab Biblioteca dentro de #mainApp, así que esta
@@ -6031,13 +6021,13 @@ function _renderCourseSelector() {
             <p style="font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:#94a3b8;margin:0 0 14px">Elige tu ruta de formación</p>
             <div class="lp-grid">
             ${LEARNING_PATHS.map(path => {
-                const pathCourses = (path.courses || []).map(id => allCourses.find(c => c.id === id)).filter(Boolean);
-                const available   = pathCourses.filter(c => c.status === 'available');
-                const passed      = available.filter(c => (_getScore(c.id) ?? 0) >= 70).length;
-                const pct         = available.length ? Math.round(passed / available.length * 100) : 0;
-                const totalHours  = pathCourses.reduce((a, c) => a + (c.durationHours || 0), 0);
-                const allDone     = available.length > 0 && passed === available.length;
-                return `
+            const pathCourses = (path.courses || []).map(id => allCourses.find(c => c.id === id)).filter(Boolean);
+            const available = pathCourses.filter(c => c.status === 'available');
+            const passed = available.filter(c => (_getScore(c.id) ?? 0) >= 70).length;
+            const pct = available.length ? Math.round(passed / available.length * 100) : 0;
+            const totalHours = pathCourses.reduce((a, c) => a + (c.durationHours || 0), 0);
+            const allDone = available.length > 0 && passed === available.length;
+            return `
                 <div onclick="_selectPath('${path.id}')"
                      class="cursor-pointer active:scale-95 transition-all border rounded-2xl p-4 mb-3"
                      style="background:${path.color}14;border-color:${path.color}40">
@@ -6061,7 +6051,7 @@ function _renderCourseSelector() {
                         <span style="color:#cbd5e1;font-size:18px">›</span>
                     </div>
                 </div>`;
-            }).join('')}
+        }).join('')}
             </div>`;
     } else {
         // ── Vista 2: Cursos de la ruta seleccionada ─────────────────
@@ -6089,35 +6079,35 @@ function _renderCourseSelector() {
             </div>
             <div class="lp-grid">
             ${pathCourses.map((c, idx) => {
-                const isOpen    = c.status === 'available';
-                const prereqMet = isCoursePrereqMet(c);
-                const clickable = isOpen && prereqMet;
-                const passed    = (_getScore2(c.id) || 0) >= 70;
-                // % de tarjetas completadas del curso (no solo aprobado/no
-                // aprobado) — se muestra igual que "% clases vistas" en
-                // otras plataformas, solo para cursos ya empezados.
-                const _totalC = c.totalCards || 0;
-                const _completedC = _totalC ? (progress?.completedCards || []).filter(id => _cardBelongsToCourse(c.id, id)).length : 0;
-                const coursePct = _totalC ? Math.round((_completedC / _totalC) * 100) : 0;
-                const prereqNames = (c.prerequisite || []).map(id => allCourses.find(x => x.id === id)?.title || id).join(' o ');
-                let statusBadge;
-                const _lockSvg = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#64748b" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="8" rx="2" stroke-width="1.8"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke-width="1.8"/></svg>';
-                if (!isOpen)       statusBadge = '○ Próximamente';
-                else if (!prereqMet) statusBadge = `${_lockSvg.replace('width="20" height="20"','width="11" height="11" style="vertical-align:-1.5px;margin-right:2px"')} Requiere: ${prereqNames}`;
-                else               statusBadge = '● Disponible';
-                return `
+            const isOpen = c.status === 'available';
+            const prereqMet = isCoursePrereqMet(c);
+            const clickable = isOpen && prereqMet;
+            const passed = (_getScore2(c.id) || 0) >= 70;
+            // % de tarjetas completadas del curso (no solo aprobado/no
+            // aprobado) — se muestra igual que "% clases vistas" en
+            // otras plataformas, solo para cursos ya empezados.
+            const _totalC = c.totalCards || 0;
+            const _completedC = _totalC ? (progress?.completedCards || []).filter(id => _cardBelongsToCourse(c.id, id)).length : 0;
+            const coursePct = _totalC ? Math.round((_completedC / _totalC) * 100) : 0;
+            const prereqNames = (c.prerequisite || []).map(id => allCourses.find(x => x.id === id)?.title || id).join(' o ');
+            let statusBadge;
+            const _lockSvg = '<svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#64748b" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="8" rx="2" stroke-width="1.8"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9" stroke-width="1.8"/></svg>';
+            if (!isOpen) statusBadge = '○ Próximamente';
+            else if (!prereqMet) statusBadge = `${_lockSvg.replace('width="20" height="20"', 'width="11" height="11" style="vertical-align:-1.5px;margin-right:2px"')} Requiere: ${prereqNames}`;
+            else statusBadge = '● Disponible';
+            return `
                 <div onclick="${clickable ? `selectCourse('${c.id}')` : (isOpen && !prereqMet ? `showToast('Primero completa: ${prereqNames}','info')` : '')}"
                      class="border rounded-2xl p-4 mb-3 ${clickable ? 'cursor-pointer active:scale-95' : 'opacity-70'} transition-all"
-                     style="background:${clickable ? c.color+'14' : '#f8fafc'};border-color:${clickable ? c.color+'40' : '#e2e8f0'}">
+                     style="background:${clickable ? c.color + '14' : '#f8fafc'};border-color:${clickable ? c.color + '40' : '#e2e8f0'}">
                     <div class="flex items-center gap-3">
                         <div style="position:relative;flex-shrink:0">
                             <div style="width:44px;height:44px;background:${clickable ? c.color : '#eef2f6'};border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden">
                                 ${(!isOpen || !prereqMet)
-                                    ? _lockSvg
-                                    : (() => { try { const t = getCourseThemeAndIllus(c.id, 1); return `<div style="width:34px;height:34px">${t.illus}</div>`; } catch(_){ return `<span style="font-size:22px">${c.icon||'📚'}</span>`; } })()
-                                }
+                    ? _lockSvg
+                    : (() => { try { const t = getCourseThemeAndIllus(c.id, 1); return `<div style="width:34px;height:34px">${t.illus}</div>`; } catch (_) { return `<span style="font-size:22px">${c.icon || '📚'}</span>`; } })()
+                }
                             </div>
-                            <span style="position:absolute;top:-6px;left:-6px;width:18px;height:18px;background:#334155;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:white">${idx+1}</span>
+                            <span style="position:absolute;top:-6px;left:-6px;width:18px;height:18px;background:#334155;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:white">${idx + 1}</span>
                         </div>
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center gap-2">
@@ -6142,7 +6132,7 @@ function _renderCourseSelector() {
                         ${clickable ? `<span style="color:#cbd5e1;font-size:18px">›</span>` : ''}
                     </div>
                 </div>`;
-            }).join('')}
+        }).join('')}
             </div>`;
     }
 }
@@ -6262,7 +6252,7 @@ function showDailyChallenge() {
     } else {
         chIdx = available[Math.floor(Math.random() * available.length)];
         if (!progress.dailyMissions) progress.dailyMissions = {};
-        progress.dailyMissions.lastChallengeIdx  = chIdx;
+        progress.dailyMissions.lastChallengeIdx = chIdx;
         progress.dailyMissions.lastChallengeDate = today; // fijar fecha para que answerDailyChallenge use el índice correcto
         if (!progress.usedChallenges.includes(chIdx)) progress.usedChallenges.push(chIdx);
         saveProgress();
@@ -6355,7 +6345,7 @@ function _updateCommentCountBtn(cardId, count) {
     const badge = count > 0
         ? `<span style="background:#07B0E4;color:white;font-size:10px;font-weight:700;padding:1px 8px;border-radius:20px;margin-left:5px;min-width:18px;display:inline-block;text-align:center">${count}</span>`
         : `<span style="background:#f1f5f9;color:#94a3b8;font-size:10px;font-weight:600;padding:1px 8px;border-radius:20px;margin-left:5px">0</span>`;
-    btn.innerHTML = `<span style="display:inline-flex;width:15px;height:15px;color:#94a3b8;flex-shrink:0">${ICONS?.comments||''}</span><span>Comentarios y dudas</span>${badge}`;
+    btn.innerHTML = `<span style="display:inline-flex;width:15px;height:15px;color:#94a3b8;flex-shrink:0">${ICONS?.comments || ''}</span><span>Comentarios y dudas</span>${badge}`;
 }
 
 // showCardComments y submitComment definidos más abajo (bloque completo con likes)
@@ -6364,9 +6354,9 @@ function _updateCommentCountBtn(cardId, count) {
 
 const PORTFOLIO_COURSES = [
     { key: 'steam', label: 'STEAM', color: '#07B0E4', prompt: 'Diseña un proyecto STEAM que hayas implementado o planificado para tu clase. Describe el reto, las disciplinas integradas, cómo participaron los estudiantes y qué aprendieron.' },
-    { key: 'abp',   label: 'ABP',   color: '#2BA848', prompt: 'Describe una pregunta motriz que diseñaste y el proyecto que generó. ¿Cuál fue el producto final? ¿Cómo se conectó con la vida real de tus estudiantes?' },
-    { key: 'dt',    label: 'Design Thinking', color: '#E83C8D', prompt: 'Describe una sesión de empatía, definición de problema o prototipado que realizaste con tus estudiantes. ¿Qué descubriste? ¿Qué solución propusieron?' },
-    { key: 'eval',  label: 'Evaluación Formativa', color: '#E9A037', prompt: 'Comparte un instrumento de evaluación auténtica que creaste (rúbrica, portafolio, exit ticket, etc.). ¿Cómo lo usaste? ¿Qué información te dio sobre el aprendizaje de tus estudiantes?' },
+    { key: 'abp', label: 'ABP', color: '#2BA848', prompt: 'Describe una pregunta motriz que diseñaste y el proyecto que generó. ¿Cuál fue el producto final? ¿Cómo se conectó con la vida real de tus estudiantes?' },
+    { key: 'dt', label: 'Design Thinking', color: '#E83C8D', prompt: 'Describe una sesión de empatía, definición de problema o prototipado que realizaste con tus estudiantes. ¿Qué descubriste? ¿Qué solución propusieron?' },
+    { key: 'eval', label: 'Evaluación Formativa', color: '#E9A037', prompt: 'Comparte un instrumento de evaluación auténtica que creaste (rúbrica, portafolio, exit ticket, etc.). ¿Cómo lo usaste? ¿Qué información te dio sobre el aprendizaje de tus estudiantes?' },
     { key: 'tipos', label: 'Conoce a tus Estudiantes', color: '#7C3AED', prompt: 'Describe el perfil de aprendizaje de al menos 2 estudiantes de tu clase. ¿Qué descubriste sobre cómo aprenden? ¿Qué adaptaste en tu enseñanza?' },
 ];
 
@@ -6374,7 +6364,7 @@ let _portfolioData = null; // Datos del portafolio cargado desde Supabase
 
 async function loadAppConfig() {
     try {
-        const { data } = await supabase.from('app_config').select('key,value').in('key', ['learning_paths','master_cert_courses','announcement']);
+        const { data } = await supabase.from('app_config').select('key,value').in('key', ['learning_paths', 'master_cert_courses', 'announcement']);
         if (!data) return;
         data.forEach(row => {
             if (row.key === 'learning_paths' && Array.isArray(row.value) && row.value.length > 0) {
@@ -6382,7 +6372,7 @@ async function loadAppConfig() {
                 _checkMasterCert();
                 // Re-renderizar selector si ya está visible
                 if (!document.getElementById('courseSelector')?.classList.contains('hidden')) {
-                    try { _renderCourseSelector(); } catch(_) {}
+                    try { _renderCourseSelector(); } catch (_) { }
                 }
             } else if (row.key === 'master_cert_courses' && Array.isArray(row.value)) {
                 // compatibilidad hacia atrás: si no existe la nueva clave learning_paths
@@ -6392,15 +6382,15 @@ async function loadAppConfig() {
                 _renderAnnouncementBanner(row.value);
             }
         });
-    } catch(_) { /* tabla no existe aún, usa defaults */ }
+    } catch (_) { /* tabla no existe aún, usa defaults */ }
 }
 
 // ==================== AVISO DEL ADMIN (banner) ====================
 const ANN_TYPES_CLIENT = {
     maintenance: { color: '#DC2626', bg: '#FEE2E2', icon: '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l5 5-7 7-5 1 1-5z"/></svg>' },
-    info:        { color: '#2563EB', bg: '#DBEAFE', icon: '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6" r=".2" fill="currentColor"/></svg>' },
-    new_course:  { color: '#16A34A', bg: '#DCFCE7', icon: '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4l7 3.5-7 3.5-7-3.5z"/><path d="M6 9.5v3c0 1.5 2 2.5 4 2.5s4-1 4-2.5v-3"/></svg>' },
-    event:       { color: '#7C3AED', bg: '#EDE9FE', icon: '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="13" rx="2"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2.5" x2="7" y2="5.5"/><line x1="13" y1="2.5" x2="13" y2="5.5"/></svg>' },
+    info: { color: '#2563EB', bg: '#DBEAFE', icon: '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="7.5"/><line x1="10" y1="9" x2="10" y2="14"/><circle cx="10" cy="6" r=".2" fill="currentColor"/></svg>' },
+    new_course: { color: '#16A34A', bg: '#DCFCE7', icon: '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4l7 3.5-7 3.5-7-3.5z"/><path d="M6 9.5v3c0 1.5 2 2.5 4 2.5s4-1 4-2.5v-3"/></svg>' },
+    event: { color: '#7C3AED', bg: '#EDE9FE', icon: '<svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="13" rx="2"/><line x1="3" y1="8" x2="17" y2="8"/><line x1="7" y1="2.5" x2="7" y2="5.5"/><line x1="13" y1="2.5" x2="13" y2="5.5"/></svg>' },
 };
 
 function _renderAnnouncementBanner(ann) {
@@ -6554,7 +6544,7 @@ async function loadPortfolio() {
         if (_portfolioData?.ai_total !== undefined && _portfolioData?.ai_total !== null) {
             progress.dailyMissions.portfolioAiTotal = _portfolioData.ai_total;
         }
-    } catch(e) { /* silent */ }
+    } catch (e) { /* silent */ }
 }
 
 function showPortfolioModal() {
@@ -6592,22 +6582,24 @@ function _renderPortfolioForm(existing, path) {
     const body = document.getElementById('portfolioBody');
     if (!body) return;
 
-    const pathId      = path?.id || 'steam20';
-    const pathLabel   = path?.label || 'Programa de Formación';
-    const pathColor   = path?.color || '#1A6B68';
+    const pathId = path?.id || 'steam20';
+    const pathLabel = path?.label || 'Programa de Formación';
+    const pathColor = path?.color || '#1A6B68';
     const examScore50 = Math.round((_getMasterExamScore(pathId) || 0) * 0.5);
 
     // Entregables dinámicos: los cursos de la ruta activa
     const pathCourseIds = path?.courses || PORTFOLIO_COURSES.map(c => c.key);
     const dynamicCourses = pathCourseIds.map(id => {
         const found = (typeof allCourses !== 'undefined') ? allCourses.find(c => c.id === id) : null;
-        return found ? { key: id, label: found.title, color: found.color || pathColor,
-            prompt: `Describe una experiencia de práctica docente aplicando los conceptos del curso "${found.title}". Incluye contexto, lo que hiciste y el resultado observado.` }
+        return found ? {
+            key: id, label: found.title, color: found.color || pathColor,
+            prompt: `Describe una experiencia de práctica docente aplicando los conceptos del curso "${found.title}". Incluye contexto, lo que hiciste y el resultado observado.`
+        }
             : null;
     }).filter(Boolean);
     const coursesToRender = dynamicCourses.length > 0 ? dynamicCourses : PORTFOLIO_COURSES;
 
-    const pf      = _getPortfolio(pathId) || {};
+    const pf = _getPortfolio(pathId) || {};
     const savedEntregables = pf.entregables || {};
 
     body.innerHTML = `
@@ -6631,7 +6623,7 @@ function _renderPortfolioForm(existing, path) {
             <div style="margin-bottom:20px">
                 <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
                     <div style="width:24px;height:24px;border-radius:6px;background:${c.color};display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                        <span style="font-size:10px;font-weight:800;color:white">${i+1}</span>
+                        <span style="font-size:10px;font-weight:800;color:white">${i + 1}</span>
                     </div>
                     <p style="font-size:13px;font-weight:700;color:#1e293b">${c.label}</p>
                 </div>
@@ -6641,7 +6633,7 @@ function _renderPortfolioForm(existing, path) {
                     oninput="_portWordCount(this,'wc_${c.key}')"
                     onfocus="this.style.borderColor='${c.color}'"
                     onblur="this.style.borderColor='#e2e8f0'"
-                >${savedEntregables[c.key] || (existing ? (existing['entregable_'+c.key]||'') : '')}</textarea>
+                >${savedEntregables[c.key] || (existing ? (existing['entregable_' + c.key] || '') : '')}</textarea>
                 <div style="display:flex;align-items:center;justify-content:space-between;margin-top:5px">
                     <label for="file_${c.key}" style="display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#64748b;cursor:pointer;padding:4px 8px;border:1.5px dashed #cbd5e1;border-radius:8px;transition:border-color .15s"
                         onmouseover="this.style.borderColor='${c.color}'" onmouseout="this.style.borderColor='#cbd5e1'">
@@ -6660,20 +6652,20 @@ function _renderPortfolioForm(existing, path) {
                 Enviar portafolio para evaluación IA
             </button>
             <p style="font-size:10px;color:#94a3b8;text-align:center;margin-top:8px">
-                ${(()=>{
-                    const att = progress?.dailyMissions?.portfolioAttempts || 0;
-                    const rem = Math.max(0, 3 - att);
-                    return rem > 0
-                        ? `Intentos restantes: <strong style="color:#15803d">${rem}/3</strong> · La IA evaluará tu portafolio al instante`
-                        : `Sin intentos disponibles — espera 48 horas desde el último envío`;
-                })()}
+                ${(() => {
+            const att = progress?.dailyMissions?.portfolioAttempts || 0;
+            const rem = Math.max(0, 3 - att);
+            return rem > 0
+                ? `Intentos restantes: <strong style="color:#15803d">${rem}/3</strong> · La IA evaluará tu portafolio al instante`
+                : `Sin intentos disponibles — espera 48 horas desde el último envío`;
+        })()}
             </p>
         </div>`;
 
     // Inicializar contadores
     PORTFOLIO_COURSES.forEach(c => {
-        const ta = document.getElementById('port_'+c.key);
-        const wc = document.getElementById('wc_'+c.key);
+        const ta = document.getElementById('port_' + c.key);
+        const wc = document.getElementById('wc_' + c.key);
         if (ta && wc) {
             const words = ta.value.trim().split(/\s+/).filter(Boolean).length;
             wc.textContent = words + ' palabras';
@@ -6728,15 +6720,15 @@ function _portWordCount(ta, wcId) {
 async function submitPortfolio() {
     // Control de intentos: máximo 3, luego espera 48 horas
     const MAX_ATTEMPTS = 3;
-    const COOLDOWN_MS  = 48 * 60 * 60 * 1000;
-    const attempts     = progress?.dailyMissions?.portfolioAttempts || 0;
-    const lastAttempt  = progress?.dailyMissions?.portfolioLastAttempt || null;
+    const COOLDOWN_MS = 48 * 60 * 60 * 1000;
+    const attempts = progress?.dailyMissions?.portfolioAttempts || 0;
+    const lastAttempt = progress?.dailyMissions?.portfolioLastAttempt || null;
 
     if (attempts >= MAX_ATTEMPTS) {
         const elapsed = lastAttempt ? Date.now() - new Date(lastAttempt).getTime() : COOLDOWN_MS;
         if (elapsed < COOLDOWN_MS) {
             const hoursLeft = Math.ceil((COOLDOWN_MS - elapsed) / 3600000);
-            showToast(`Has usado los 3 intentos. Podrás intentarlo de nuevo en ${hoursLeft} hora${hoursLeft===1?'':'s'}.`, 'warning');
+            showToast(`Has usado los 3 intentos. Podrás intentarlo de nuevo en ${hoursLeft} hora${hoursLeft === 1 ? '' : 's'}.`, 'warning');
             return;
         } else {
             // Reinicia el contador después de 48h
@@ -6744,8 +6736,8 @@ async function submitPortfolio() {
         }
     }
 
-    const path        = _selectedMasterPath || _activeMasterPath;
-    const pathId      = path?.id || 'steam20';
+    const path = _selectedMasterPath || _activeMasterPath;
+    const pathId = path?.id || 'steam20';
     const pathCourseIds = path?.courses || PORTFOLIO_COURSES.map(c => c.key);
     const activeCourses = pathCourseIds.map(id => {
         const found = (typeof allCourses !== 'undefined') ? allCourses.find(c => c.id === id) : null;
@@ -6756,7 +6748,7 @@ async function submitPortfolio() {
     const entregables = {};
     let allOk = true;
     coursesToSubmit.forEach(c => {
-        const val = document.getElementById('port_'+c.key)?.value?.trim() || '';
+        const val = document.getElementById('port_' + c.key)?.value?.trim() || '';
         entregables[c.key] = val;
         const words = val.split(/\s+/).filter(Boolean).length;
         if (words < 50) allOk = false;
@@ -6781,7 +6773,7 @@ async function submitPortfolio() {
     // Subir archivos adjuntos (si los hay)
     let fileUrls = {};
     if (Object.keys(_portFiles).length > 0) {
-        try { fileUrls = await _uploadPortfolioFiles(); } catch(_) {}
+        try { fileUrls = await _uploadPortfolioFiles(); } catch (_) { }
     }
 
     try {
@@ -6798,24 +6790,24 @@ async function submitPortfolio() {
 
         // Guardar en Supabase
         const record = {
-            user_id:       currentUser.id,
-            path_id:       pathId,
-            entregables:   entregables, // columna jsonb
+            user_id: currentUser.id,
+            path_id: pathId,
+            entregables: entregables, // columna jsonb
             // columnas legacy (compatibilidad)
             entregable_steam: entregables.steam,
-            entregable_abp:   entregables.abp,
-            entregable_dt:    entregables.dt,
-            entregable_eval:  entregables.eval,
+            entregable_abp: entregables.abp,
+            entregable_dt: entregables.dt,
+            entregable_eval: entregables.eval,
             entregable_tipos: entregables.tipos,
-            ai_scores:        result.scores,
-            ai_feedback:      result.feedback,
-            ai_total:         result.total,
-            ai_summary:       result.summary,
-            exam_score_50:    examScore50,
-            combined_score:   result.combined,
-            status:           result.passed ? 'passed' : 'evaluated',
-            evaluated_at:     new Date().toISOString(),
-            file_urls:        Object.keys(fileUrls).length > 0 ? fileUrls : undefined,
+            ai_scores: result.scores,
+            ai_feedback: result.feedback,
+            ai_total: result.total,
+            ai_summary: result.summary,
+            exam_score_50: examScore50,
+            combined_score: result.combined,
+            status: result.passed ? 'passed' : 'evaluated',
+            evaluated_at: new Date().toISOString(),
+            file_urls: Object.keys(fileUrls).length > 0 ? fileUrls : undefined,
         };
 
         const existingRow = _portfolioByPathRow[pathId] || _portfolioData;
@@ -6829,12 +6821,12 @@ async function submitPortfolio() {
 
         // Guardar en progreso local
         if (!progress.dailyMissions) progress.dailyMissions = {};
-        progress.dailyMissions.portfolioAttempts    = (progress.dailyMissions.portfolioAttempts || 0) + 1;
+        progress.dailyMissions.portfolioAttempts = (progress.dailyMissions.portfolioAttempts || 0) + 1;
         progress.dailyMissions.portfolioLastAttempt = new Date().toISOString();
-        progress.dailyMissions.portfolioAiTotal  = result.total; // legado
-        progress.dailyMissions.portfolioScores   = result.scores;
+        progress.dailyMissions.portfolioAiTotal = result.total; // legado
+        progress.dailyMissions.portfolioScores = result.scores;
         progress.dailyMissions.portfolioFeedback = result.feedback;
-        progress.dailyMissions.portfolioSummary  = result.summary;
+        progress.dailyMissions.portfolioSummary = result.summary;
         _setPortfolio(pathId, {
             aiTotal: result.total, scores: result.scores, feedback: result.feedback,
             summary: result.summary, combined: result.combined, entregables,
@@ -6848,7 +6840,7 @@ async function submitPortfolio() {
 
         _renderPortfolioResults();
 
-    } catch(e) {
+    } catch (e) {
         if (btn) { btn.disabled = false; btn.textContent = 'Reintentar envío'; }
         showToast('Error al evaluar. Intenta de nuevo.', 'error');
     }
@@ -6858,24 +6850,24 @@ function _renderPortfolioResults(pathId) {
     const body = document.getElementById('portfolioBody');
     if (!body) return;
 
-    const pid     = pathId || _selectedMasterPath?.id || _activeMasterPath?.id || 'steam20';
-    const pf      = _getPortfolio(pid) || {};
-    const scores   = pf.scores   || progress?.dailyMissions?.portfolioScores   || [];
+    const pid = pathId || _selectedMasterPath?.id || _activeMasterPath?.id || 'steam20';
+    const pf = _getPortfolio(pid) || {};
+    const scores = pf.scores || progress?.dailyMissions?.portfolioScores || [];
     const feedback = pf.feedback || progress?.dailyMissions?.portfolioFeedback || [];
-    const summary  = pf.summary  || progress?.dailyMissions?.portfolioSummary  || '';
-    const aiTotal  = pf.aiTotal  ?? progress?.dailyMissions?.portfolioAiTotal  ?? 0;
+    const summary = pf.summary || progress?.dailyMissions?.portfolioSummary || '';
+    const aiTotal = pf.aiTotal ?? progress?.dailyMissions?.portfolioAiTotal ?? 0;
     const examScore50 = Math.round((_getMasterExamScore(pid) || 0) * 0.5);
     const combined = examScore50 + aiTotal;
-    const passed   = combined >= 85;
+    const passed = combined >= 85;
 
     body.innerHTML = `
         <div style="padding:16px 20px">
 
             <!-- Puntaje total -->
-            <div style="text-align:center;background:${passed?'#15803d':'#dc2626'};border-radius:16px;padding:20px;margin-bottom:16px;color:white">
+            <div style="text-align:center;background:${passed ? '#15803d' : '#dc2626'};border-radius:16px;padding:20px;margin-bottom:16px;color:white">
                 <p style="font-size:11px;font-weight:700;opacity:.8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Puntaje final</p>
                 <p style="font-size:3.5rem;font-weight:900;line-height:1">${combined}<span style="font-size:1.5rem;font-weight:600;opacity:.7">/100</span></p>
-                <p style="font-size:13px;font-weight:600;opacity:.9;margin-top:6px">${passed ? '¡Aprobado! Certificado Maestro desbloqueado' : `Necesitas 85/100 · Te faltan ${85-combined} puntos`}</p>
+                <p style="font-size:13px;font-weight:600;opacity:.9;margin-top:6px">${passed ? '¡Aprobado! Certificado Maestro desbloqueado' : `Necesitas 85/100 · Te faltan ${85 - combined} puntos`}</p>
             </div>
 
             <!-- Desglose -->
@@ -6900,21 +6892,21 @@ function _renderPortfolioResults(pathId) {
             <!-- Desglose por entregable -->
             <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Por entregable</p>
             ${PORTFOLIO_COURSES.map((c, i) => {
-                const s = scores[i] ?? 0;
-                const f = feedback[i] || '';
-                const barW = Math.round((s / 10) * 100);
-                return `
+        const s = scores[i] ?? 0;
+        const f = feedback[i] || '';
+        const barW = Math.round((s / 10) * 100);
+        return `
                 <div style="margin-bottom:12px;background:white;border:1px solid #e2e8f0;border-radius:12px;padding:12px;border-left:3px solid ${c.color}">
                     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
                         <p style="font-size:12px;font-weight:700;color:#1e293b">${c.label}</p>
-                        <span style="font-size:13px;font-weight:800;color:${s>=7?'#15803d':s>=5?'#d97706':'#dc2626'}">${s}/10</span>
+                        <span style="font-size:13px;font-weight:800;color:${s >= 7 ? '#15803d' : s >= 5 ? '#d97706' : '#dc2626'}">${s}/10</span>
                     </div>
                     <div style="height:5px;background:#f1f5f9;border-radius:99px;margin-bottom:8px;overflow:hidden">
                         <div style="height:100%;width:${barW}%;background:${c.color};border-radius:99px;transition:width .4s ease"></div>
                     </div>
                     ${f ? `<p style="font-size:12px;color:#475569;line-height:1.6">${f}</p>` : ''}
                 </div>`;
-            }).join('')}
+    }).join('')}
 
             ${passed ? `
             <button onclick="closePortfolioModal();generateMasterCertificate()" style="width:100%;padding:14px;border-radius:14px;border:none;background:#5C35C5;color:white;font-weight:800;font-size:14px;cursor:pointer;margin-top:4px">
@@ -6933,7 +6925,7 @@ function closePortfolioModal() {
 
 // ==================== CHATBOT (Groq · Llama 3.3) ====================
 // La clave de Groq está en Supabase (privado) — nunca en este archivo público
-const GROQ_PROXY_URL        = 'https://grkjhzkgcmackbafqudu.supabase.co/functions/v1/groq-proxy';
+const GROQ_PROXY_URL = 'https://grkjhzkgcmackbafqudu.supabase.co/functions/v1/groq-proxy';
 const EVALUATE_PORTFOLIO_URL = 'https://grkjhzkgcmackbafqudu.supabase.co/functions/v1/evaluate-portfolio';
 
 const CHAT_SYSTEM = `Eres un asistente educativo altamente especializado en el enfoque STEAM y las metodologías activas de aprendizaje para docentes.
@@ -7071,7 +7063,7 @@ async function showCardComments(cardId) {
     if (!currentUser) { showToast('Inicia sesión para ver los comentarios 💬', 'warning'); return; }
     _currentCommentsCardId = cardId;
     const modal = document.getElementById('commentsModal');
-    const list  = document.getElementById('commentsList');
+    const list = document.getElementById('commentsList');
     if (!modal || !list) return;
 
     modal.classList.remove('hidden');
@@ -7161,7 +7153,7 @@ function _renderComment(comment, iLiked, likesCount) {
     const timeAgo = _timeAgo(comment.created_at);
 
     const likeColor = iLiked ? '#07B0E4' : '#94a3b8';
-    const likeBg    = iLiked ? '#E0F7FA' : 'transparent';
+    const likeBg = iLiked ? '#E0F7FA' : 'transparent';
     const likeBorder = iLiked ? '#07B0E4' : '#e2e8f0';
     const likeWeight = iLiked ? '700' : '500';
 
@@ -7204,7 +7196,7 @@ function _renderComment(comment, iLiked, likesCount) {
 async function submitComment() {
     if (!currentUser) { showToast('Inicia sesión para comentar 💬', 'warning'); return; }
     const input = document.getElementById('commentInput');
-    const body  = (input?.value || '').trim();
+    const body = (input?.value || '').trim();
     if (!body) return;
     if (body.length > 1000) { showToast('El comentario es demasiado largo (máx 1000 caracteres)', 'warning'); return; }
     if (!_currentCommentsCardId) return;
@@ -7219,10 +7211,10 @@ async function submitComment() {
         const { error } = await supabase
             .from('card_comments')
             .insert({
-                user_id:   currentUser.id,
-                card_id:   _currentCommentsCardId,
+                user_id: currentUser.id,
+                card_id: _currentCommentsCardId,
                 module_id: currentModule || 1,
-                comment:   body,
+                comment: body,
                 user_name: userName
             });
 
@@ -7253,7 +7245,7 @@ async function submitComment() {
 async function toggleCommentLike(commentId, currentlyLiked) {
     if (!currentUser) { showToast('Inicia sesión para dar like 👍', 'warning'); return; }
 
-    const btn       = document.getElementById(`like-btn-${commentId}`);
+    const btn = document.getElementById(`like-btn-${commentId}`);
     const countSpan = document.getElementById(`like-count-${commentId}`);
     if (!btn) return;
 
@@ -7261,8 +7253,8 @@ async function toggleCommentLike(commentId, currentlyLiked) {
     const newLiked = !currentlyLiked;
     btn.onclick = () => toggleCommentLike(commentId, newLiked); // actualizar el callback
 
-    const likeColor  = newLiked ? '#07B0E4' : '#94a3b8';
-    const likeBg     = newLiked ? '#E0F7FA' : 'transparent';
+    const likeColor = newLiked ? '#07B0E4' : '#94a3b8';
+    const likeBg = newLiked ? '#E0F7FA' : 'transparent';
     const likeBorder = newLiked ? '#07B0E4' : '#e2e8f0';
     btn.style.color = likeColor;
     btn.style.background = likeBg;
@@ -7333,14 +7325,14 @@ async function _deleteComment(commentId) {
 
 /** Tiempo relativo en español */
 function _timeAgo(isoDate) {
-    const now  = Date.now();
+    const now = Date.now();
     const then = new Date(isoDate).getTime();
     const diff = Math.floor((now - then) / 1000);
-    if (diff < 60)    return 'ahora';
-    if (diff < 3600)  return `hace ${Math.floor(diff / 60)} min`;
+    if (diff < 60) return 'ahora';
+    if (diff < 3600) return `hace ${Math.floor(diff / 60)} min`;
     if (diff < 86400) return `hace ${Math.floor(diff / 3600)}h`;
     if (diff < 604800) return `hace ${Math.floor(diff / 86400)}d`;
-    return new Date(isoDate).toLocaleDateString('es-GT', { day:'numeric', month:'short' });
+    return new Date(isoDate).toLocaleDateString('es-GT', { day: 'numeric', month: 'short' });
 }
 
 /** Escapa HTML para evitar XSS en comentarios */

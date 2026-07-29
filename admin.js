@@ -2,48 +2,48 @@
 // admin.js — Panel Administrativo · Formación Docente
 // ============================================================
 
-const SUPABASE_URL  = "https://grkjhzkgcmackbafqudu.supabase.co";
-const SUPABASE_KEY  = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdya2poemtnY21hY2tiYWZxdWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMjg5MzQsImV4cCI6MjA5NjcwNDkzNH0.2nVTRlhey6HkGs_KZxtCaEp8L2QrvD0NUwY8ZFwZVHY";
-const ADMIN_EMAILS  = ['billy@1bot.org'];
+const SUPABASE_URL = "https://grkjhzkgcmackbafqudu.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdya2poemtnY21hY2tiYWZxdWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMjg5MzQsImV4cCI6MjA5NjcwNDkzNH0.2nVTRlhey6HkGs_KZxtCaEp8L2QrvD0NUwY8ZFwZVHY";
+const ADMIN_EMAILS = ['billy@1bot.org'];
 
 // Cursos estáticos del programa (datos reales de data.js)
 // Rutas de aprendizaje disponibles
 const LEARNING_PATHS = [
-    { id:'steam20',       label:'Docente STEAM 2.0',    color:'#07B0E4', gradient:'#07B0E4',  courses:['steam','abp','design-thinking','evaluacion','tipos-estudiantes'] },
-    { id:'creativo',      label:'Docente Creativo',      color:'#E83C8D', gradient:'linear-gradient(135deg,#7C3AED,#E83C8D)',  courses:['creatividad','herramientas-tec','abp'] },
-    { id:'metodologias',  label:'Metodologías Activas',  color:'#F59E0B', gradient:'linear-gradient(135deg,#b45309,#F59E0B)',  courses:['abp','m-learning','flipped-classroom','abv','micro-learning'] },
-    { id:'ia',            label:'Docente y la IA',        color:'#10B981', gradient:'linear-gradient(135deg,#065F46,#10B981)',  courses:['ia-fundamentos','ia-tiempo','ia-herramientas','ia-inclusion','ia-ciudadania'] },
-    { id:'convivencia',   label:'Clima y Convivencia Escolar', color:'#0891B2', gradient:'linear-gradient(135deg,#155E75,#0891B2)',  courses:['manejo-conductas','sel-docentes','comunicacion-asertiva','disciplina-positiva','bienestar-docente'] },
-    { id:'inclusion',     label:'Educación Inclusiva',    color:'#8B5CF6', gradient:'linear-gradient(135deg,#5B21B6,#8B5CF6)',  courses:['educacion-inclusiva','tea-profundidad','discapacidad-down-tdah','lengua-senas-docentes'] },
+    { id: 'steam20', label: 'Docente STEAM 2.0', color: '#07B0E4', gradient: '#07B0E4', courses: ['steam', 'abp', 'design-thinking', 'evaluacion', 'tipos-estudiantes'] },
+    { id: 'creativo', label: 'Docente Creativo', color: '#E83C8D', gradient: 'linear-gradient(135deg,#7C3AED,#E83C8D)', courses: ['creatividad', 'herramientas-tec', 'abp'] },
+    { id: 'metodologias', label: 'Metodologías Activas', color: '#F59E0B', gradient: 'linear-gradient(135deg,#b45309,#F59E0B)', courses: ['abp', 'm-learning', 'flipped-classroom', 'abv', 'micro-learning'] },
+    { id: 'ia', label: 'Docente y la IA', color: '#10B981', gradient: 'linear-gradient(135deg,#065F46,#10B981)', courses: ['ia-fundamentos', 'ia-tiempo', 'ia-herramientas', 'ia-inclusion', 'ia-ciudadania'] },
+    { id: 'convivencia', label: 'Clima y Convivencia Escolar', color: '#0891B2', gradient: 'linear-gradient(135deg,#155E75,#0891B2)', courses: ['manejo-conductas', 'sel-docentes', 'comunicacion-asertiva', 'disciplina-positiva', 'bienestar-docente'] },
+    { id: 'inclusion', label: 'Educación Inclusiva', color: '#8B5CF6', gradient: 'linear-gradient(135deg,#5B21B6,#8B5CF6)', courses: ['educacion-inclusiva', 'tea-profundidad', 'discapacidad-down-tdah', 'lengua-senas-docentes'] },
 ];
 
 const STATIC_COURSES = [
-    { id:'steam',            title:'Metodología STEAM 2.0',               durationHours:5,  totalCards:73, modules:5, ruta:'steam20',  masterCert:true  },
-    { id:'abp',              title:'Aprendizaje Basado en Proyectos',      durationHours:4,  totalCards:61, modules:5, ruta:'steam20',  masterCert:true  },
-    { id:'design-thinking',  title:'Design Thinking para Docentes',        durationHours:3,  totalCards:45, modules:4, ruta:'steam20',  masterCert:true  },
-    { id:'evaluacion',       title:'Evaluación Formativa',                 durationHours:3,  totalCards:38, modules:4, ruta:'steam20',  masterCert:true  },
-    { id:'tipos-estudiantes',title:'Conoce a Quien Enseñas',               durationHours:5,  totalCards:60, modules:5, ruta:'steam20',  masterCert:true  },
-    { id:'storytelling',     title:'Storytelling para Docentes',           durationHours:4,  totalCards:50, modules:5, ruta:'steam20',      masterCert:false },
-    { id:'creatividad',       title:'Despertando la Creatividad',              durationHours:4,  totalCards:50, modules:5, ruta:'creativo',     masterCert:true  },
-    { id:'herramientas-tec',  title:'Herramientas Tecnológicas para Docentes', durationHours:3,  totalCards:45, modules:4, ruta:'creativo',     masterCert:true  },
-    { id:'m-learning',        title:'Mobile Learning · Aprender con el Celular',durationHours:3, totalCards:40, modules:4, ruta:'metodologias', masterCert:true  },
-    { id:'flipped-classroom', title:'Flipped Classroom · El Aula Invertida',   durationHours:3,  totalCards:40, modules:4, ruta:'metodologias', masterCert:true  },
-    { id:'abv',               title:'Aprendizaje Basado en Videos',            durationHours:3,  totalCards:35, modules:4, ruta:'metodologias', masterCert:true  },
-    { id:'micro-learning',    title:'Micro-learning · Aprender en Pequeñas Dosis', durationHours:3, totalCards:35, modules:4, ruta:'metodologias', masterCert:true  },
-    { id:'ia-fundamentos',    title:'Docente y la Inteligencia Artificial',        durationHours:4, totalCards:35, modules:4, ruta:'ia', masterCert:true  },
-    { id:'ia-tiempo',         title:'IA para Ahorrar Tiempo',                      durationHours:3, totalCards:22, modules:4, ruta:'ia', masterCert:true  },
-    { id:'ia-herramientas',   title:'Herramientas de IA Gratuitas para el Aula',   durationHours:3, totalCards:19, modules:4, ruta:'ia', masterCert:true  },
-    { id:'ia-inclusion',      title:'IA e Inclusión Educativa',                    durationHours:3, totalCards:18, modules:4, ruta:'ia', masterCert:true  },
-    { id:'ia-ciudadania',     title:'Ciudadanía Digital con IA',                   durationHours:3, totalCards:17, modules:4, ruta:'ia', masterCert:true  },
-    { id:'manejo-conductas',  title:'Manejo de Conductas Desafiantes en el Aula',  durationHours:4, totalCards:31, modules:4, ruta:'convivencia', masterCert:true  },
-    { id:'sel-docentes',      title:'Aprendizaje Socioemocional (SEL) para Docentes', durationHours:4, totalCards:26, modules:4, ruta:'convivencia', masterCert:true  },
-    { id:'comunicacion-asertiva', title:'Comunicación Asertiva y Resolución de Conflictos', durationHours:4, totalCards:25, modules:4, ruta:'convivencia', masterCert:true  },
-    { id:'disciplina-positiva',   title:'Disciplina Positiva y Motivación Intrínseca', durationHours:4, totalCards:24, modules:4, ruta:'convivencia', masterCert:true  },
-    { id:'bienestar-docente',     title:'Bienestar Docente: Prevención del Desgaste',  durationHours:3, totalCards:24, modules:4, ruta:'convivencia', masterCert:true  },
-    { id:'educacion-inclusiva',   title:'Educación Inclusiva y Necesidades Educativas Especiales', durationHours:5, totalCards:27, modules:5, ruta:'inclusion', masterCert:false },
-    { id:'tea-profundidad',       title:'TEA en el Aula: Estrategias Avanzadas',        durationHours:4, totalCards:20, modules:4, ruta:'inclusion', masterCert:false },
-    { id:'discapacidad-down-tdah', title:'Síndrome de Down y TDAH: Estrategias para el Aula', durationHours:4, totalCards:20, modules:4, ruta:'inclusion', masterCert:false },
-    { id:'lengua-senas-docentes', title:'Lengua de Señas para Docentes: Fundamentos Prácticos', durationHours:3, totalCards:20, modules:4, ruta:'inclusion', masterCert:false },
+    { id: 'steam', title: 'Metodología STEAM 2.0', durationHours: 5, totalCards: 73, modules: 5, ruta: 'steam20', masterCert: true },
+    { id: 'abp', title: 'Aprendizaje Basado en Proyectos', durationHours: 4, totalCards: 61, modules: 5, ruta: 'steam20', masterCert: true },
+    { id: 'design-thinking', title: 'Design Thinking para Docentes', durationHours: 3, totalCards: 45, modules: 4, ruta: 'steam20', masterCert: true },
+    { id: 'evaluacion', title: 'Evaluación Formativa', durationHours: 3, totalCards: 38, modules: 4, ruta: 'steam20', masterCert: true },
+    { id: 'tipos-estudiantes', title: 'Conoce a Quien Enseñas', durationHours: 5, totalCards: 60, modules: 5, ruta: 'steam20', masterCert: true },
+    { id: 'storytelling', title: 'Storytelling para Docentes', durationHours: 4, totalCards: 50, modules: 5, ruta: 'steam20', masterCert: false },
+    { id: 'creatividad', title: 'Despertando la Creatividad', durationHours: 4, totalCards: 50, modules: 5, ruta: 'creativo', masterCert: true },
+    { id: 'herramientas-tec', title: 'Herramientas Tecnológicas para Docentes', durationHours: 3, totalCards: 45, modules: 4, ruta: 'creativo', masterCert: true },
+    { id: 'm-learning', title: 'Mobile Learning · Aprender con el Celular', durationHours: 3, totalCards: 40, modules: 4, ruta: 'metodologias', masterCert: true },
+    { id: 'flipped-classroom', title: 'Flipped Classroom · El Aula Invertida', durationHours: 3, totalCards: 40, modules: 4, ruta: 'metodologias', masterCert: true },
+    { id: 'abv', title: 'Aprendizaje Basado en Videos', durationHours: 3, totalCards: 35, modules: 4, ruta: 'metodologias', masterCert: true },
+    { id: 'micro-learning', title: 'Micro-learning · Aprender en Pequeñas Dosis', durationHours: 3, totalCards: 35, modules: 4, ruta: 'metodologias', masterCert: true },
+    { id: 'ia-fundamentos', title: 'Docente y la Inteligencia Artificial', durationHours: 4, totalCards: 35, modules: 4, ruta: 'ia', masterCert: true },
+    { id: 'ia-tiempo', title: 'IA para Ahorrar Tiempo', durationHours: 3, totalCards: 22, modules: 4, ruta: 'ia', masterCert: true },
+    { id: 'ia-herramientas', title: 'Herramientas de IA Gratuitas para el Aula', durationHours: 3, totalCards: 19, modules: 4, ruta: 'ia', masterCert: true },
+    { id: 'ia-inclusion', title: 'IA e Inclusión Educativa', durationHours: 3, totalCards: 18, modules: 4, ruta: 'ia', masterCert: true },
+    { id: 'ia-ciudadania', title: 'Ciudadanía Digital con IA', durationHours: 3, totalCards: 17, modules: 4, ruta: 'ia', masterCert: true },
+    { id: 'manejo-conductas', title: 'Manejo de Conductas Desafiantes en el Aula', durationHours: 4, totalCards: 31, modules: 4, ruta: 'convivencia', masterCert: true },
+    { id: 'sel-docentes', title: 'Aprendizaje Socioemocional (SEL) para Docentes', durationHours: 4, totalCards: 26, modules: 4, ruta: 'convivencia', masterCert: true },
+    { id: 'comunicacion-asertiva', title: 'Comunicación Asertiva y Resolución de Conflictos', durationHours: 4, totalCards: 25, modules: 4, ruta: 'convivencia', masterCert: true },
+    { id: 'disciplina-positiva', title: 'Disciplina Positiva y Motivación Intrínseca', durationHours: 4, totalCards: 24, modules: 4, ruta: 'convivencia', masterCert: true },
+    { id: 'bienestar-docente', title: 'Bienestar Docente: Prevención del Desgaste', durationHours: 3, totalCards: 24, modules: 4, ruta: 'convivencia', masterCert: true },
+    { id: 'educacion-inclusiva', title: 'Educación Inclusiva y Necesidades Educativas Especiales', durationHours: 5, totalCards: 27, modules: 5, ruta: 'inclusion', masterCert: false },
+    { id: 'tea-profundidad', title: 'TEA en el Aula: Estrategias Avanzadas', durationHours: 4, totalCards: 20, modules: 4, ruta: 'inclusion', masterCert: false },
+    { id: 'discapacidad-down-tdah', title: 'Síndrome de Down y TDAH: Estrategias para el Aula', durationHours: 4, totalCards: 20, modules: 4, ruta: 'inclusion', masterCert: false },
+    { id: 'lengua-senas-docentes', title: 'Lengua de Señas para Docentes: Fundamentos Prácticos', durationHours: 3, totalCards: 20, modules: 4, ruta: 'inclusion', masterCert: false },
 ];
 
 // ────────────────────────────────────────────────────────────
@@ -53,7 +53,7 @@ const STATIC_COURSES = [
 // Replica la normalización de app.js: IDs numéricos de cursos
 // nuevos se prefijan con el id del curso (ej. 'creatividad-1').
 // ────────────────────────────────────────────────────────────
-const COURSE_CARD_IDS   = {};  // courseId -> Set de IDs de tarjeta
+const COURSE_CARD_IDS = {};  // courseId -> Set de IDs de tarjeta
 const COURSE_MODULE_IDS = {};  // courseId -> [[ids módulo 1], [ids módulo 2], ...]
 const ALL_VALID_CARD_IDS = new Set();
 
@@ -78,7 +78,7 @@ if (typeof allCourses !== 'undefined') {
 }
 
 // ¿La tarjeta `id` pertenece al curso `courseId`? (con fallback por prefijo si data.js no cargó)
-const _LEGACY_PREFIX = { abp:'abp-', 'design-thinking':'dt-', evaluacion:'ev-', 'tipos-estudiantes':'te-', storytelling:'st-' };
+const _LEGACY_PREFIX = { abp: 'abp-', 'design-thinking': 'dt-', evaluacion: 'ev-', 'tipos-estudiantes': 'te-', storytelling: 'st-' };
 function _cardBelongsTo(courseId, id) {
     const set = COURSE_CARD_IDS[courseId];
     const s = String(id);
@@ -101,7 +101,7 @@ const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentUser = null;
 let _allProgress = [];   // cache global de progreso
 let _charts = {};        // cache de instancias Chart.js
-let _cmsState = { step:1, courseId:null, isStatic:false, data:{ modules:[] } };
+let _cmsState = { step: 1, courseId: null, isStatic: false, data: { modules: [] } };
 let _currentModuleIdx = -1;
 let _usersCache = [];
 let _dbCourses = [];     // cursos adicionales desde BD
@@ -111,7 +111,7 @@ let _rvCardsCache = [];  // último resultado de get_card_time_aggregates(), par
 // ────────────────────────────────────────────────────────────
 // HELPERS
 // ────────────────────────────────────────────────────────────
-function toast(msg, ok=true) {
+function toast(msg, ok = true) {
     const el = document.getElementById('adminToast');
     if (!el) return;
     el.textContent = msg;
@@ -120,38 +120,6 @@ function toast(msg, ok=true) {
     setTimeout(() => el.classList.add('hidden'), 3000);
 }
 
-function fmt(n) { return new Intl.NumberFormat('es').format(n); }
-
-function fmtTime(s) {
-    if (!s || s <= 0) return '—';
-    if (s < 60) return `${s}s`;
-    if (s < 3600) return `${Math.round(s/60)} min`;
-    return `${(s/3600).toFixed(1)}h`;
-}
-
-function fmtDate(iso) {
-    if (!iso) return '—';
-    return new Date(iso).toLocaleDateString('es-GT', { day:'2-digit', month:'short', year:'numeric' });
-}
-
-function fmtDateShort(iso) {
-    if (!iso) return '—';
-    return new Date(iso).toLocaleDateString('es-GT', { day:'2-digit', month:'short' });
-}
-
-function fmtDateTime(iso) {
-    if (!iso) return '—';
-    return new Date(iso).toLocaleString('es-GT', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
-}
-
-function esc(str) {
-    return String(str ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
 
 function getName(p) {
     return p?.daily_missions?.fullName || (p?.email ? p.email.split('@')[0] : 'Docente');
@@ -167,12 +135,12 @@ function getSchool(p) {
     const selfReported = p?.daily_missions?.school;
     return (selfReported && selfReported !== 'Individual') ? selfReported : '';
 }
-function getDept(p)   { return p?.daily_missions?.department || 'Individual'; }
+function getDept(p) { return p?.daily_missions?.department || 'Individual'; }
 
 function getEmail(p) { return p?.email || '—'; }
 
 function destroyChart(key) {
-    if (_charts[key]) { try { _charts[key].destroy(); } catch(e){} _charts[key] = null; }
+    if (_charts[key]) { try { _charts[key].destroy(); } catch (e) { } _charts[key] = null; }
 }
 
 function buildChart(key, ctx, config) {
@@ -204,7 +172,7 @@ function hasCompletedAnyCourse(p) {
     return STATIC_COURSES.some(c => _courseCardsCompleted(p, c) >= c.totalCards);
 }
 
-function getProgressPct(p, courseId='steam') {
+function getProgressPct(p, courseId = 'steam') {
     const done = new Set();
     (p.completed_cards || []).forEach(id => { if (_cardBelongsTo(courseId, id)) done.add(String(id)); });
     const total = COURSE_CARD_IDS[courseId]?.size
@@ -217,7 +185,7 @@ function loader(id) {
     if (el) el.innerHTML = '<div class="loader"><i class="fas fa-circle-notch fa-spin"></i> Cargando…</div>';
 }
 
-function empty(id, msg='Sin datos aún.') {
+function empty(id, msg = 'Sin datos aún.') {
     const el = document.getElementById(id);
     if (el) el.innerHTML = `<p class="text-slate-400 text-sm text-center py-8">${msg}</p>`;
 }
@@ -226,7 +194,7 @@ function empty(id, msg='Sin datos aún.') {
 // AUTH
 // ────────────────────────────────────────────────────────────
 async function checkAdminAuth() {
-    const { data:{ session } } = await sb.auth.getSession();
+    const { data: { session } } = await sb.auth.getSession();
     if (!session) { window.location.href = 'admin-login.html'; return false; }
     currentUser = session.user;
 
@@ -273,7 +241,7 @@ async function fetchAllProgress() {
     }
     showConnectionError(false);
     _allProgress = (data || []).filter(p => !ADMIN_EMAILS.includes(p.email));
-    _usersCache  = [..._allProgress];
+    _usersCache = [..._allProgress];
     return _allProgress;
 }
 
@@ -287,15 +255,15 @@ function getModuleCompletion(progress, courseId) {
 
     // denominador: solo usuarios con al menos 1 tarjeta del curso (inscritos de facto)
     const enrolled = progress.filter(p =>
-        (p.completed_cards||[]).some(id => _cardBelongsTo(courseId, id))
+        (p.completed_cards || []).some(id => _cardBelongsTo(courseId, id))
     );
     const enrolledCount = enrolled.length || 1;
 
     return {
-        labels: moduleIds.map((_, i) => `Módulo ${i+1}`),
+        labels: moduleIds.map((_, i) => `Módulo ${i + 1}`),
         data: moduleIds.map(ids => {
             const c = enrolled.filter(p => {
-                const done = new Set((p.completed_cards||[]).map(id => String(id)));
+                const done = new Set((p.completed_cards || []).map(id => String(id)));
                 return ids.length > 0 && ids.every(id => done.has(id));
             }).length;
             return Math.round((c / enrolledCount) * 100);
@@ -307,18 +275,23 @@ function getModuleCompletion(progress, courseId) {
 function buildModuleChart(chartKey, canvasId, progress, courseId) {
     const { labels, data, enrolled } = getModuleCompletion(progress, courseId);
     buildChart(chartKey, document.getElementById(canvasId)?.getContext('2d'), {
-        type:'bar',
-        data:{
+        type: 'bar',
+        data: {
             labels,
-            datasets:[{ label:`% de inscritos que completaron (n=${enrolled})`,
+            datasets: [{
+                label: `% de inscritos que completaron (n=${enrolled})`,
                 data,
-                backgroundColor:['#e0f2fe','#bfdbfe','#a5b4fc','#818cf8','#4f46e5'],
-                borderRadius:8, borderSkipped:false }]
+                backgroundColor: ['#e0f2fe', '#bfdbfe', '#a5b4fc', '#818cf8', '#4f46e5'],
+                borderRadius: 8, borderSkipped: false
+            }]
         },
-        options:{
-            plugins:{legend:{display:true, labels:{font:{size:10},boxWidth:0}}},
-            scales:{ y:{beginAtZero:true,max:100,grid:{color:'#f8fafc'},ticks:{callback:v=>v+'%',font:{size:10}}},
-                     x:{grid:{display:false},ticks:{font:{size:10}}} } }
+        options: {
+            plugins: { legend: { display: true, labels: { font: { size: 10 }, boxWidth: 0 } } },
+            scales: {
+                y: { beginAtZero: true, max: 100, grid: { color: '#f8fafc' }, ticks: { callback: v => v + '%', font: { size: 10 } } },
+                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+            }
+        }
     });
 }
 
@@ -329,27 +302,27 @@ async function loadDashboard() {
     const progress = await fetchAllProgress();
     const total = progress.length;
     const active30 = progress.filter(isActive7d).length;
-    const totalCards = progress.reduce((a,p) => a + (p.completed_cards?.length||0), 0);
+    const totalCards = progress.reduce((a, p) => a + (p.completed_cards?.length || 0), 0);
     // Total de certificados = misma lógica que la tabla de cursos (garantiza coincidencia)
     const totalCertificados = STATIC_COURSES.reduce((sum, c) => {
         return sum + progress.filter(p => {
             const sc = p?.daily_missions?.examScores || {};
             return (sc[c.id] || 0) >= 70 ||
-                   (c.id === 'steam' && (p?.daily_missions?.examScore || 0) >= 70);
+                (c.id === 'steam' && (p?.daily_missions?.examScore || 0) >= 70);
         }).length;
     }, 0);
 
     // Tasa finalización unificada: docentes con ≥1 curso certificado (misma que KPI)
     const certifiedAnyBanner = progress.filter(p => {
         const sc = p?.daily_missions?.examScores || {};
-        return STATIC_COURSES.some(c => (sc[c.id]||0)>=70 || (c.id==='steam'&&(p?.daily_missions?.examScore||0)>=70));
+        return STATIC_COURSES.some(c => (sc[c.id] || 0) >= 70 || (c.id === 'steam' && (p?.daily_missions?.examScore || 0) >= 70));
     }).length;
     const tasaFinalizacion = total ? Math.round((certifiedAnyBanner / total) * 100) : 0;
 
     // Tiempo real acumulado — agregado en Postgres (evita descargar filas individuales)
     const { data: rvStats } = await sb.rpc('get_resource_views_stats');
     const totalSeconds = rvStats?.[0]?.total_seconds || 0;
-    const avgS         = rvStats?.[0]?.avg_seconds   || 0;
+    const avgS = rvStats?.[0]?.avg_seconds || 0;
 
     // Horas de formación — estimado basado en tarjetas (3 min/tarjeta)
     const horasFormacion = Math.round(totalCards * 3 / 60);
@@ -362,9 +335,9 @@ async function loadDashboard() {
     // Banner de impacto
     const now = new Date();
     document.getElementById('dashPeriod').textContent =
-        `Actualizado ${now.toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'})}`;
+        `Actualizado ${now.toLocaleDateString('es-GT', { day: '2-digit', month: 'long', year: 'numeric' })}`;
     document.getElementById('impactDocentes').textContent = fmt(active30);
-    document.getElementById('impactHoras').textContent = fmt(horasFormacion)+'h';
+    document.getElementById('impactHoras').textContent = fmt(horasFormacion) + 'h';
     const horasRealEl = document.getElementById('impactHorasReal');
     if (horasRealEl) horasRealEl.textContent = metodoLabel;
     document.getElementById('impactCertificados').textContent = fmt(totalCertificados);
@@ -383,7 +356,7 @@ async function loadDashboard() {
         .not('duration_seconds', 'is', null)
         .gt('duration_seconds', 0);
     if (sessions?.length) {
-        const totalTime = sessions.reduce((a,s) => a + (s.duration_seconds||0), 0);
+        const totalTime = sessions.reduce((a, s) => a + (s.duration_seconds || 0), 0);
         const sesEl = document.getElementById('kpiAvgSession');
         if (sesEl) sesEl.textContent = fmtTime(totalTime);
         const totalSesEl = document.getElementById('kpiTotalSessions');
@@ -395,7 +368,7 @@ async function loadDashboard() {
         const kpiMob = document.getElementById('kpiMobile');
         if (kpiMob) kpiMob.textContent = mobilePct + '%';
         const kpiMobSub = document.getElementById('kpiMobileSub');
-        if (kpiMobSub) kpiMobSub.textContent = `móvil · ${100-mobilePct}% PC`;
+        if (kpiMobSub) kpiMobSub.textContent = `móvil · ${100 - mobilePct}% PC`;
 
         await renderSessionsChart(sessions);
         renderDeviceChart(mobileCount, sessions.length - mobileCount);
@@ -407,9 +380,9 @@ async function loadDashboard() {
     const fb = (fbRaw || []).filter(f => _nonAdminIds.has(f.user_id));
     let npsText = 'N/A';
     if (fb.length) {
-        const promoters = fb.filter(f=>f.nps>=9).length;
-        const detractors = fb.filter(f=>f.nps<=6).length;
-        const nps = Math.round(((promoters-detractors)/fb.length)*100);
+        const promoters = fb.filter(f => f.nps >= 9).length;
+        const detractors = fb.filter(f => f.nps <= 6).length;
+        const nps = Math.round(((promoters - detractors) / fb.length) * 100);
         npsText = nps;
     }
     document.getElementById('kpiNps').textContent = npsText;
@@ -427,39 +400,45 @@ async function loadDashboard() {
     renderCardHeatmap();
 
     // Gráfico XP top 10
-    const top10 = progress.slice(0,10);
+    const top10 = progress.slice(0, 10);
     buildChart('xp', document.getElementById('xpChart')?.getContext('2d'), {
-        type:'bar',
-        data:{
-            labels: top10.map(p => getName(p).substring(0,15)),
-            datasets:[{ label:'XP', data: top10.map(p=>p.xp||0),
-                backgroundColor: top10.map((_,i)=>`hsl(${230+i*8},70%,${60-i*2}%)`),
-                borderRadius:8, borderSkipped:false }]
+        type: 'bar',
+        data: {
+            labels: top10.map(p => getName(p).substring(0, 15)),
+            datasets: [{
+                label: 'XP', data: top10.map(p => p.xp || 0),
+                backgroundColor: top10.map((_, i) => `hsl(${230 + i * 8},70%,${60 - i * 2}%)`),
+                borderRadius: 8, borderSkipped: false
+            }]
         },
-        options:{ plugins:{legend:{display:false}}, scales:{
-            y:{beginAtZero:true,grid:{color:'#f8fafc'},ticks:{font:{size:10}}},
-            x:{grid:{display:false},ticks:{font:{size:10}}}
-        }}
+        options: {
+            plugins: { legend: { display: false } }, scales: {
+                y: { beginAtZero: true, grid: { color: '#f8fafc' }, ticks: { font: { size: 10 } } },
+                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+            }
+        }
     });
 
     // Gráfico distribución de niveles
-    const lvlBuckets = { 'Inicio (0-20%)':0, 'Básico (21-50%)':0, 'Intermedio (51-80%)':0, 'Avanzado (81-100%)':0 };
+    const lvlBuckets = { 'Inicio (0-20%)': 0, 'Básico (21-50%)': 0, 'Intermedio (51-80%)': 0, 'Avanzado (81-100%)': 0 };
     progress.forEach(p => {
-        const pct = getProgressPct(p,'steam');
+        const pct = getProgressPct(p, 'steam');
         if (pct <= 20) lvlBuckets['Inicio (0-20%)']++;
         else if (pct <= 50) lvlBuckets['Básico (21-50%)']++;
         else if (pct <= 80) lvlBuckets['Intermedio (51-80%)']++;
         else lvlBuckets['Avanzado (81-100%)']++;
     });
     buildChart('levels', document.getElementById('levelsChart')?.getContext('2d'), {
-        type:'doughnut',
-        data:{
+        type: 'doughnut',
+        data: {
             labels: Object.keys(lvlBuckets),
-            datasets:[{ data: Object.values(lvlBuckets),
-                backgroundColor:['#f1f5f9','#bfdbfe','#818cf8','#4f46e5'],
-                borderWidth:2, borderColor:'#fff' }]
+            datasets: [{
+                data: Object.values(lvlBuckets),
+                backgroundColor: ['#f1f5f9', '#bfdbfe', '#818cf8', '#4f46e5'],
+                borderWidth: 2, borderColor: '#fff'
+            }]
         },
-        options:{ plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, boxWidth:12 } } }, cutout:'65%' }
+        options: { plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } } }, cutout: '65%' }
     });
 
     // Progreso por módulo — curso seleccionado
@@ -468,11 +447,11 @@ async function loadDashboard() {
     dashModSel?.addEventListener('change', () => buildModuleChart('module', 'moduleChart', _allProgress, dashModSel.value));
 
     // Actividad reciente
-    const recent = [...progress].sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at)).slice(0,6);
+    const recent = [...progress].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)).slice(0, 6);
     const act = document.getElementById('recentActivity');
     if (act) {
-        if (!recent.length) { act.innerHTML='<p class="text-slate-400 text-sm text-center py-6">Sin actividad registrada.</p>'; }
-        else act.innerHTML = recent.map(p=>`
+        if (!recent.length) { act.innerHTML = '<p class="text-slate-400 text-sm text-center py-6">Sin actividad registrada.</p>'; }
+        else act.innerHTML = recent.map(p => `
             <div class="flex items-center gap-3 py-2 border-b border-slate-50 last:border-0">
                 <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xs shrink-0">
                     ${esc(getName(p).charAt(0).toUpperCase())}
@@ -482,7 +461,7 @@ async function loadDashboard() {
                     <p class="text-xs text-slate-400">${esc(getEmail(p))}</p>
                 </div>
                 <div class="text-right shrink-0">
-                    <p class="text-xs font-bold text-amber-600"><i class="fas fa-star"></i> ${p.xp||0} XP</p>
+                    <p class="text-xs font-bold text-amber-600"><i class="fas fa-star"></i> ${p.xp || 0} XP</p>
                     <p class="text-[10px] text-slate-400">${fmtDateTime(p.updated_at)}</p>
                 </div>
             </div>`).join('');
@@ -501,10 +480,10 @@ function renderCourseSummary(progress) {
         );
         const certified = enrolled.filter(p => {
             const sc = p?.daily_missions?.examScores || {};
-            return (sc[c.id]||0) >= 70 || (c.id==='steam' && (p?.daily_missions?.examScore||0)>=70);
+            return (sc[c.id] || 0) >= 70 || (c.id === 'steam' && (p?.daily_missions?.examScore || 0) >= 70);
         }).length;
         const avgPct = enrolled.length
-            ? Math.round(enrolled.reduce((a,p)=>a+getProgressPct(p,c.id),0)/enrolled.length) : 0;
+            ? Math.round(enrolled.reduce((a, p) => a + getProgressPct(p, c.id), 0) / enrolled.length) : 0;
         return `<tr>
             <td><p class="font-semibold text-slate-700 text-sm">${c.title}</p></td>
             <td><span class="badge tag-blue">${enrolled.length} docentes</span></td>
@@ -558,9 +537,13 @@ async function renderSessionsChart(sessions) {
                 { label: 'Min promedio', data: avgMins, type: 'line', borderColor: '#6366f1', backgroundColor: 'transparent', tension: 0.4, yAxisID: 'y1' }
             ]
         },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } },
-            scales: { y: { beginAtZero: true, title: { display: true, text: 'Sesiones' } },
-                      y1: { beginAtZero: true, position: 'right', title: { display: true, text: 'Min promedio' }, grid: { drawOnChartArea: false } } } }
+        options: {
+            responsive: true, plugins: { legend: { position: 'bottom' } },
+            scales: {
+                y: { beginAtZero: true, title: { display: true, text: 'Sesiones' } },
+                y1: { beginAtZero: true, position: 'right', title: { display: true, text: 'Min promedio' }, grid: { drawOnChartArea: false } }
+            }
+        }
     });
 }
 
@@ -569,13 +552,13 @@ function renderFunnelChart(progress, total) {
     const el = document.getElementById('funnelChart');
     if (!el) return;
 
-    const startedAny = progress.filter(p => (p.completed_cards?.length||0) > 0).length;
+    const startedAny = progress.filter(p => (p.completed_cards?.length || 0) > 0).length;
     const completed80 = progress.filter(p => {
         return STATIC_COURSES.some(c => getProgressPct(p, c.id) >= 80);
     }).length;
     const certifiedAny = progress.filter(p => {
         const sc = p?.daily_missions?.examScores || {};
-        return STATIC_COURSES.some(c => (sc[c.id]||0)>=70 || (c.id==='steam'&&(p?.daily_missions?.examScore||0)>=70));
+        return STATIC_COURSES.some(c => (sc[c.id] || 0) >= 70 || (c.id === 'steam' && (p?.daily_missions?.examScore || 0) >= 70));
     }).length;
     const withPortfolio = progress.filter(p => {
         const pb = p?.daily_missions?.portfolioByPath;
@@ -594,8 +577,8 @@ function renderFunnelChart(progress, total) {
     el.innerHTML = steps.map((s, i) => {
         const pct = Math.round((s.val / maxVal) * 100);
         const width = Math.max(pct, 8);
-        const convRate = i > 0 && steps[i-1].val > 0
-            ? ` <span style="color:#94a3b8;font-size:10px">(${Math.round(s.val/steps[i-1].val*100)}% del paso anterior)</span>` : '';
+        const convRate = i > 0 && steps[i - 1].val > 0
+            ? ` <span style="color:#94a3b8;font-size:10px">(${Math.round(s.val / steps[i - 1].val * 100)}% del paso anterior)</span>` : '';
         return `<div style="margin-bottom:10px">
             <div style="display:flex;justify-content:space-between;margin-bottom:3px">
                 <span style="font-size:12px;font-weight:600;color:#374151">${s.label}</span>
@@ -617,17 +600,25 @@ function renderDeviceChart(mobile, desktop) {
         type: 'doughnut',
         data: {
             labels: ['Móvil', 'Computadora'],
-            datasets: [{ data: [mobile, desktop],
-                backgroundColor: ['#8b5cf6','#07B0E4'],
-                borderWidth: 3, borderColor: '#fff' }]
+            datasets: [{
+                data: [mobile, desktop],
+                backgroundColor: ['#8b5cf6', '#07B0E4'],
+                borderWidth: 3, borderColor: '#fff'
+            }]
         },
-        options: { cutout: '68%', plugins: {
-            legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12 } },
-            tooltip: { callbacks: { label: ctx => {
-                const total = ctx.dataset.data.reduce((a,b)=>a+b,0);
-                return ` ${ctx.label}: ${ctx.raw} (${Math.round(ctx.raw/total*100)}%)`;
-            }}}
-        }}
+        options: {
+            cutout: '68%', plugins: {
+                legend: { position: 'bottom', labels: { font: { size: 11 }, boxWidth: 12 } },
+                tooltip: {
+                    callbacks: {
+                        label: ctx => {
+                            const total = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                            return ` ${ctx.label}: ${ctx.raw} (${Math.round(ctx.raw / total * 100)}%)`;
+                        }
+                    }
+                }
+            }
+        }
     });
 }
 
@@ -637,12 +628,12 @@ function renderDeptChart(progress) {
     progress.forEach(p => {
         const dept = p?.daily_missions?.department;
         const key = (dept && dept !== 'Individual' && dept.trim()) ? dept.trim() : 'Sin departamento';
-        counts[key] = (counts[key]||0) + 1;
+        counts[key] = (counts[key] || 0) + 1;
     });
     // "Sin departamento" siempre al final
     const sorted = Object.entries(counts)
         .filter(([k]) => k !== 'Sin departamento')
-        .sort((a,b) => b[1]-a[1])
+        .sort((a, b) => b[1] - a[1])
         .concat(counts['Sin departamento'] ? [['Sin departamento', counts['Sin departamento']]] : []);
     const tableEl = document.getElementById('deptTable');
     if (!tableEl) return;
@@ -651,20 +642,20 @@ function renderDeptChart(progress) {
         return;
     }
     // maxN debe considerar TODOS los valores incluido "Sin departamento"
-    const maxN = Math.max(...sorted.map(([,n]) => n), 1);
+    const maxN = Math.max(...sorted.map(([, n]) => n), 1);
     const total = progress.length;
-    const colors = ['#06b6d4','#3b82f6','#6366f1','#8b5cf6','#a78bfa'];
+    const colors = ['#06b6d4', '#3b82f6', '#6366f1', '#8b5cf6', '#a78bfa'];
     tableEl.innerHTML = sorted.map(([dept, n], i) => {
         const pct = Math.round(n / total * 100);
         const barW = Math.round(n / maxN * 100);
         const isSinDept = dept === 'Sin departamento';
-        const bg = isSinDept ? '#94a3b8' : colors[Math.min(i, colors.length-1)];
+        const bg = isSinDept ? '#94a3b8' : colors[Math.min(i, colors.length - 1)];
         const isTop3 = i < 3 && !isSinDept;
         return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9">
-            <span style="width:20px;text-align:center;font-size:11px;font-weight:700;color:${isTop3?bg:'#94a3b8'}">${i+1}</span>
+            <span style="width:20px;text-align:center;font-size:11px;font-weight:700;color:${isTop3 ? bg : '#94a3b8'}">${i + 1}</span>
             <div style="flex:1;min-width:0">
                 <div style="display:flex;justify-content:space-between;margin-bottom:3px">
-                    <span style="font-size:13px;font-weight:${isTop3?'700':'500'};color:#1e293b">${esc(dept)}</span>
+                    <span style="font-size:13px;font-weight:${isTop3 ? '700' : '500'};color:#1e293b">${esc(dept)}</span>
                     <span style="font-size:12px;font-weight:700;color:${bg}">${n} <span style="color:#94a3b8;font-weight:400">(${pct}%)</span></span>
                 </div>
                 <div style="background:#f1f5f9;border-radius:4px;height:6px">
@@ -689,9 +680,9 @@ function renderCardTimeTable(rows) {
         : (typeof _coursesList !== 'undefined' ? _coursesList : []);
     courseSrc.filter(c => Array.isArray(c.modules)).forEach(c => {
         c.modules.forEach(m => {
-            (m.cards||[]).forEach(card => {
-                const clean = (card.title||'').replace(/^[\p{Emoji}\s]+/u,'').trim();
-                const fromQuestion = (card.question||'').substring(0, 50) || '';
+            (m.cards || []).forEach(card => {
+                const clean = (card.title || '').replace(/^[\p{Emoji}\s]+/u, '').trim();
+                const fromQuestion = (card.question || '').substring(0, 50) || '';
                 cardNames[String(card.id)] = clean || fromQuestion || (card.title && card.title.trim()) || String(card.id);
             });
         });
@@ -710,20 +701,20 @@ function renderCardTimeTable(rows) {
             });
             return Object.entries(map).map(([id, d]) => ({ id, avg: Math.round(d.total / d.count), count: d.count }));
         })()
-    ).sort((a,b) => b.count - a.count || b.avg - a.avg).slice(0, 15);
+    ).sort((a, b) => b.count - a.count || b.avg - a.avg).slice(0, 15);
 
     const maxAvg = Math.max(...sorted.map(s => s.avg)) || 1;
     el.innerHTML = `<div style="font-size:10px;color:#94a3b8;display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;padding:0 0 6px;border-bottom:1px solid #f1f5f9;font-weight:700;text-transform:uppercase">
         <span>Tarjeta</span><span style="text-align:right">Vistas</span><span style="text-align:right">Promedio</span>
     </div>` +
-    sorted.map(({ id, avg, count }) => {
-        const name = cardNames[id];
-        const label = name ? (name.length > 28 ? name.substring(0,27)+'…' : name) : 'ID: '+id;
-        const barW = Math.round(avg / maxAvg * 100);
-        const color = avg > 120 ? '#f59e0b' : avg > 60 ? '#06b6d4' : '#10b981';
-        return `<div style="padding:7px 0;border-bottom:1px solid #f8fafc">
+        sorted.map(({ id, avg, count }) => {
+            const name = cardNames[id];
+            const label = name ? (name.length > 28 ? name.substring(0, 27) + '…' : name) : 'ID: ' + id;
+            const barW = Math.round(avg / maxAvg * 100);
+            const color = avg > 120 ? '#f59e0b' : avg > 60 ? '#06b6d4' : '#10b981';
+            return `<div style="padding:7px 0;border-bottom:1px solid #f8fafc">
             <div style="display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;align-items:center;margin-bottom:3px">
-                <span style="font-size:12px;font-weight:600;color:#1e293b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(name||id)}">
+                <span style="font-size:12px;font-weight:600;color:#1e293b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(name || id)}">
                     ${esc(label)}
                 </span>
                 <span style="font-size:11px;color:#94a3b8;text-align:right">${count}</span>
@@ -733,7 +724,7 @@ function renderCardTimeTable(rows) {
                 <div style="width:${barW}%;background:${color};height:100%;border-radius:4px"></div>
             </div>
         </div>`;
-    }).join('');
+        }).join('');
 }
 
 // ── Mapa de calor: tiempo promedio por tarjeta, agrupado por módulo ──
@@ -775,14 +766,14 @@ function renderCardHeatmap() {
             <p style="font-size:11px;font-weight:700;color:#64748b;margin-bottom:6px">Módulo ${mi + 1}</p>
             <div style="display:flex;flex-wrap:wrap;gap:4px">
                 ${cardIds.map((cid, ci) => {
-                    const data = avgById[cid];
-                    const avg = data?.avg || 0;
-                    const title = data
-                        ? `${esc(cardNames[cid] || cid)} — ${fmtTime(Math.round(avg))} promedio, ${data.count} vistas`
-                        : `${esc(cardNames[cid] || cid)} — sin datos aún`;
-                    const textColor = avg && avg / maxAvg > 0.55 ? '#fff' : '#475569';
-                    return `<div title="${title}" style="width:30px;height:30px;border-radius:6px;background:${colorFor(avg)};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:${textColor};cursor:default">${ci + 1}</div>`;
-                }).join('')}
+        const data = avgById[cid];
+        const avg = data?.avg || 0;
+        const title = data
+            ? `${esc(cardNames[cid] || cid)} — ${fmtTime(Math.round(avg))} promedio, ${data.count} vistas`
+            : `${esc(cardNames[cid] || cid)} — sin datos aún`;
+        const textColor = avg && avg / maxAvg > 0.55 ? '#fff' : '#475569';
+        return `<div title="${title}" style="width:30px;height:30px;border-radius:6px;background:${colorFor(avg)};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:${textColor};cursor:default">${ci + 1}</div>`;
+    }).join('')}
             </div>
         </div>`).join('') +
         `<div style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:10px;color:#94a3b8">
@@ -839,49 +830,65 @@ async function loadAnalytics() {
     anModSel?.addEventListener('change', () => buildModuleChart('analyticsModule', 'analyticsModuleChart', _allProgress, anModSel.value));
 
     // Donut distribución
-    const totalCardsAll = progress.reduce((a,p)=>a+(p.completed_cards?.length||0),0);
-    const totalQuizzes  = progress.reduce((a,p)=>a+(p.quiz_correct_count||0),0);
-    const totalBadges   = progress.reduce((a,p)=>a+(p.badges?.length||0),0);
-    const certified     = progress.filter(hasCertificate).length;
+    const totalCardsAll = progress.reduce((a, p) => a + (p.completed_cards?.length || 0), 0);
+    const totalQuizzes = progress.reduce((a, p) => a + (p.quiz_correct_count || 0), 0);
+    const totalBadges = progress.reduce((a, p) => a + (p.badges?.length || 0), 0);
+    const certified = progress.filter(hasCertificate).length;
     buildChart('analyticsDonut', document.getElementById('analyticsDonut')?.getContext('2d'), {
-        type:'doughnut',
-        data:{ labels:['Tarjetas completadas','Quizzes correctos','Logros desbloqueados','Certificados emitidos'],
-            datasets:[{data:[totalCardsAll,totalQuizzes,totalBadges,certified],
-                backgroundColor:['#818cf8','#34d399','#fbbf24','#4f46e5'],borderWidth:2,borderColor:'#fff'}]},
-        options:{ plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},cutout:'60%' }
+        type: 'doughnut',
+        data: {
+            labels: ['Tarjetas completadas', 'Quizzes correctos', 'Logros desbloqueados', 'Certificados emitidos'],
+            datasets: [{
+                data: [totalCardsAll, totalQuizzes, totalBadges, certified],
+                backgroundColor: ['#818cf8', '#34d399', '#fbbf24', '#4f46e5'], borderWidth: 2, borderColor: '#fff'
+            }]
+        },
+        options: { plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } } }, cutout: '60%' }
     });
 
     // Barras por curso — todos los cursos, con conteo real de tarjetas por curso
     const courseAvg = STATIC_COURSES.map(c => {
-        const enrolled = progress.filter(p=>(p.completed_cards||[]).some(id=>_cardBelongsTo(c.id, id)));
-        return enrolled.length ? Math.round(enrolled.reduce((a,p)=>a+getProgressPct(p,c.id),0)/enrolled.length) : 0;
+        const enrolled = progress.filter(p => (p.completed_cards || []).some(id => _cardBelongsTo(c.id, id)));
+        return enrolled.length ? Math.round(enrolled.reduce((a, p) => a + getProgressPct(p, c.id), 0) / enrolled.length) : 0;
     });
-    const _coursePalette = ['#07B0E4','#2563EB','#E83C8D','#E9A037','#7C3AED','#F59E0B','#EC4899','#8B5CF6','#10B981','#06B6D4','#6366F1','#F97316'];
+    const _coursePalette = ['#07B0E4', '#2563EB', '#E83C8D', '#E9A037', '#7C3AED', '#F59E0B', '#EC4899', '#8B5CF6', '#10B981', '#06B6D4', '#6366F1', '#F97316'];
     buildChart('analyticsCourseBar', document.getElementById('analyticsCourseBar')?.getContext('2d'), {
-        type:'bar',
-        data:{ labels: STATIC_COURSES.map(c=>c.title.substring(0,20)),
-            datasets:[{label:'Progreso promedio %',data:courseAvg,
-                backgroundColor: STATIC_COURSES.map((_,i)=>_coursePalette[i % _coursePalette.length]),
-                borderRadius:8,borderSkipped:false}]},
-        options:{ indexAxis:'y', plugins:{legend:{display:false}},
-            scales:{ x:{beginAtZero:true,max:100,ticks:{callback:v=>v+'%',font:{size:10}}},
-                     y:{grid:{display:false},ticks:{font:{size:10}}} } }
+        type: 'bar',
+        data: {
+            labels: STATIC_COURSES.map(c => c.title.substring(0, 20)),
+            datasets: [{
+                label: 'Progreso promedio %', data: courseAvg,
+                backgroundColor: STATIC_COURSES.map((_, i) => _coursePalette[i % _coursePalette.length]),
+                borderRadius: 8, borderSkipped: false
+            }]
+        },
+        options: {
+            indexAxis: 'y', plugins: { legend: { display: false } },
+            scales: {
+                x: { beginAtZero: true, max: 100, ticks: { callback: v => v + '%', font: { size: 10 } } },
+                y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+            }
+        }
     });
 
     // Diagnóstico — leer desde daily_missions.diagLevel si existe
-    const diagCounts = { inicial:0, proceso:0, satisfactorio:0, destacado:0, 'sin datos':0 };
+    const diagCounts = { inicial: 0, proceso: 0, satisfactorio: 0, destacado: 0, 'sin datos': 0 };
     progress.forEach(p => {
         const dr = p?.daily_missions?.diagResult;
         if (dr?.level && diagCounts[dr.level] !== undefined) diagCounts[dr.level]++;
         else diagCounts['sin datos']++;
     });
     buildChart('analyticsDiag', document.getElementById('analyticsDiagChart')?.getContext('2d'), {
-        type:'doughnut',
-        data:{ labels:['Inicial','En Proceso','Satisfactorio','Destacado','Sin dato'],
-            datasets:[{data:Object.values(diagCounts),
-                backgroundColor:['#fca5a5','#fde68a','#86efac','#c4b5fd','#e2e8f0'],
-                borderWidth:2,borderColor:'#fff'}]},
-        options:{ plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},cutout:'55%' }
+        type: 'doughnut',
+        data: {
+            labels: ['Inicial', 'En Proceso', 'Satisfactorio', 'Destacado', 'Sin dato'],
+            datasets: [{
+                data: Object.values(diagCounts),
+                backgroundColor: ['#fca5a5', '#fde68a', '#86efac', '#c4b5fd', '#e2e8f0'],
+                borderWidth: 2, borderColor: '#fff'
+            }]
+        },
+        options: { plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } } }, cutout: '55%' }
     });
 
     // Engagement por docente — calculado desde progress (compatible con RLS)
@@ -900,16 +907,16 @@ async function loadAnalytics() {
         tbl.innerHTML = `<table>
             <thead><tr><th>Docente</th><th>Tarjetas completadas · Tiempo estimado</th><th>XP</th><th>Último acceso</th></tr></thead>
             <tbody>${sorted.map(p => {
-                const cards = p.completed_cards?.length || 0;
-                const mins  = cards * MINS_PER_CARD;
-                const hStr  = mins >= 60 ? `${Math.floor(mins/60)}h ${mins%60}m` : `${mins}m`;
-                const lastSeen = p.updated_at ? new Date(p.updated_at).toLocaleDateString('es-GT',{day:'2-digit',month:'short',year:'numeric'}) : '—';
-                return `<tr>
+            const cards = p.completed_cards?.length || 0;
+            const mins = cards * MINS_PER_CARD;
+            const hStr = mins >= 60 ? `${Math.floor(mins / 60)}h ${mins % 60}m` : `${mins}m`;
+            const lastSeen = p.updated_at ? new Date(p.updated_at).toLocaleDateString('es-GT', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+            return `<tr>
                 <td class="font-medium text-slate-700">${esc(getName(p))}</td>
                 <td>
                     <div class="flex items-center gap-2">
                         <div class="flex-1 bg-slate-100 rounded-full h-2 min-w-[80px]">
-                            <div class="bg-indigo-500 h-2 rounded-full" style="width:${Math.round(cards/maxCards*100)}%"></div>
+                            <div class="bg-indigo-500 h-2 rounded-full" style="width:${Math.round(cards / maxCards * 100)}%"></div>
                         </div>
                         <span class="text-xs text-slate-600 whitespace-nowrap">${cards} tarjetas · <strong class="text-indigo-600">${hStr}</strong></span>
                     </div>
@@ -917,7 +924,7 @@ async function loadAnalytics() {
                 <td><span class="badge tag-blue">${p.xp || 0} XP</span></td>
                 <td class="text-xs text-slate-500">${lastSeen}</td>
             </tr>`;
-            }).join('')}</tbody>
+        }).join('')}</tbody>
         </table>`;
     }
 }
@@ -969,8 +976,8 @@ async function loadResourceDownloadsPanel() {
 // USUARIOS
 // ────────────────────────────────────────────────────────────
 // user_id → school_id (asignaciones cargadas con loadUsers)
-let _userSchoolMap  = {};
-let _coordUserIds   = new Set(); // user_ids que son coordinadores
+let _userSchoolMap = {};
+let _coordUserIds = new Set(); // user_ids que son coordinadores
 
 async function loadUsers() {
     const progress = _allProgress.length ? _allProgress : await fetchAllProgress();
@@ -1041,7 +1048,7 @@ function renderUsersTable(users, roleMap = {}, groupBySchool = false) {
 
     const cont = document.getElementById('usersTableContainer');
     if (!cont) return;
-    if (!users.length) { cont.innerHTML='<div class="loader">Sin docentes registrados aún.</div>'; return; }
+    if (!users.length) { cont.innerHTML = '<div class="loader">Sin docentes registrados aún.</div>'; return; }
 
     const courses = _coursesList.length ? _coursesList : STATIC_COURSES;
     // Total tarjetas únicas reales en la plataforma (desde data.js; fallback a suma hardcodeada)
@@ -1053,8 +1060,8 @@ function renderUsersTable(users, roleMap = {}, groupBySchool = false) {
     </tr></thead>`;
 
     const rowHtml = p => {
-            const activo = isActive7d(p);
-            const certCount = courses.filter(c => hasCourseExamPassed(p, c.id)).length;
+        const activo = isActive7d(p);
+        const certCount = courses.filter(c => hasCourseExamPassed(p, c.id)).length;
         // Avance global: tarjetas únicas VÁLIDAS completadas / total real de la plataforma.
         // Filtra duplicados e IDs legacy que ya no existen (evita ver 605/572 = >100%)
         const _validDone = _validCompletedSet(p);
@@ -1079,12 +1086,12 @@ function renderUsersTable(users, roleMap = {}, groupBySchool = false) {
                 </div>
             </td>
             <td class="text-xs text-slate-500">${esc(school || '—')}</td>
-            <td><span class="font-bold text-amber-600 text-sm"><i class="fas fa-star text-yellow-400 text-xs"></i> ${fmt(p.xp||0)}</span></td>
+            <td><span class="font-bold text-amber-600 text-sm"><i class="fas fa-star text-yellow-400 text-xs"></i> ${fmt(p.xp || 0)}</span></td>
             <td>${certCount > 0 ? `<span class="badge tag-green">${certCount} cert.</span>` : `<span class="text-slate-300 text-xs">—</span>`}</td>
             <td>
                 <div class="flex items-center gap-2">
                     <div style="flex:1;background:#f1f5f9;border-radius:4px;height:6px">
-                        <div style="width:${globalPct}%;background:${globalPct>=80?'#10b981':globalPct>=40?'#07B0E4':'#f59e0b'};height:100%;border-radius:4px;transition:width .4s"></div>
+                        <div style="width:${globalPct}%;background:${globalPct >= 80 ? '#10b981' : globalPct >= 40 ? '#07B0E4' : '#f59e0b'};height:100%;border-radius:4px;transition:width .4s"></div>
                     </div>
                     <span class="text-xs font-bold text-slate-500">${globalPct}%</span>
                 </div>
@@ -1116,8 +1123,8 @@ function renderUsersTable(users, roleMap = {}, groupBySchool = false) {
             return a[0].localeCompare(b[0], 'es');
         });
         cont.innerHTML = sorted.map(([school, members], idx) => {
-            const totalXP = members.reduce((a,p) => a+(p.xp||0), 0);
-            const certs = members.reduce((a,p) => a + courses.filter(c=>hasCourseExamPassed(p,c.id)).length, 0);
+            const totalXP = members.reduce((a, p) => a + (p.xp || 0), 0);
+            const certs = members.reduce((a, p) => a + courses.filter(c => hasCourseExamPassed(p, c.id)).length, 0);
             const gid = `sg_${idx}`;
             return `<div class="school-group-header" style="cursor:pointer;user-select:none"
                     onclick="(function(el){const t=document.getElementById('${gid}');const open=t.style.display!=='none';t.style.display=open?'none':'';el.querySelector('.sg-chevron').style.transform=open?'rotate(-90deg)':'rotate(0deg)'})(this)">
@@ -1134,8 +1141,8 @@ function renderUsersTable(users, roleMap = {}, groupBySchool = false) {
 }
 
 function avatarColor(name) {
-    const colors = ['#4f46e5','#07B0E4','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899','#06b6d4'];
-    let h = 0; for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h<<5)-h);
+    const colors = ['#4f46e5', '#07B0E4', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4'];
+    let h = 0; for (let i = 0; i < name.length; i++) h = name.charCodeAt(i) + ((h << 5) - h);
     return colors[Math.abs(h) % colors.length];
 }
 
@@ -1171,9 +1178,9 @@ function _applyUsersView() {
     if (_usersFilterQ.trim()) {
         const ql = _usersFilterQ.toLowerCase();
         users = users.filter(p =>
-            getName(p).toLowerCase().includes(ql)  ||
+            getName(p).toLowerCase().includes(ql) ||
             getEmail(p).toLowerCase().includes(ql) ||
-            getSchool(p).toLowerCase().includes(ql)||
+            getSchool(p).toLowerCase().includes(ql) ||
             getDept(p).toLowerCase().includes(ql)
         );
     }
@@ -1181,11 +1188,11 @@ function _applyUsersView() {
     // Ordenar
     const _lastAccess = p => p.updated_at ? new Date(p.updated_at).getTime() : 0;
     users = [...users].sort((a, b) => {
-        if (_usersSort === 'xp')   return (b.xp||0) - (a.xp||0);
+        if (_usersSort === 'xp') return (b.xp || 0) - (a.xp || 0);
         if (_usersSort === 'cert') {
             const ca = courses.filter(c => hasCourseExamPassed(a, c.id)).length;
             const cb = courses.filter(c => hasCourseExamPassed(b, c.id)).length;
-            return cb - ca || (b.xp||0) - (a.xp||0);
+            return cb - ca || (b.xp || 0) - (a.xp || 0);
         }
         if (_usersSort === 'access') return _lastAccess(b) - _lastAccess(a);
         if (_usersSort === 'active') {
@@ -1214,9 +1221,9 @@ function openUserPanel(userId) {
     if (av) { av.textContent = name.charAt(0).toUpperCase(); av.style.background = color; }
     setText('panelName', name);
     setText('panelEmail', getEmail(p));
-    setText('panelXP', fmt(p.xp||0));
-    setText('panelStreak', (p.streak||0)+'d');
-    setText('panelCards', fmt(p.completed_cards?.length||0));
+    setText('panelXP', fmt(p.xp || 0));
+    setText('panelStreak', (p.streak || 0) + 'd');
+    setText('panelCards', fmt(p.completed_cards?.length || 0));
     setText('panelDept', getDept(p) || 'No especificado');
     setText('panelLastAccess', fmtDateTime(p.updated_at));
 
@@ -1225,9 +1232,9 @@ function openUserPanel(userId) {
     if (badgesEl) {
         const isActive = isActive7d(p);
         const role = _roleMapCache[userId] || 'student';
-        const roleBadge = role==='admin' ? '<span class="badge tag-violet">Admin</span>'
-            : role==='coordinator' ? '<span class="badge tag-blue">Coordinador</span>'
-            : '<span class="badge tag-slate">Docente</span>';
+        const roleBadge = role === 'admin' ? '<span class="badge tag-violet">Admin</span>'
+            : role === 'coordinator' ? '<span class="badge tag-blue">Coordinador</span>'
+                : '<span class="badge tag-slate">Docente</span>';
         badgesEl.innerHTML = (isActive ? '<span class="badge tag-green">Activo</span>' : '<span class="badge tag-slate">Inactivo</span>') + roleBadge;
     }
 
@@ -1239,7 +1246,7 @@ function openUserPanel(userId) {
     const schoolEl = document.getElementById('panelSchoolSelect');
     if (schoolEl) {
         schoolEl.innerHTML = '<option value="">— Sin centro —</option>' +
-            _schools.map(s => `<option value="${s.id}" ${_userSchoolMap[userId]===s.id?'selected':''}>${esc(s.name)}</option>`).join('');
+            _schools.map(s => `<option value="${s.id}" ${_userSchoolMap[userId] === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('');
     }
 
     // Logros desbloqueados
@@ -1250,23 +1257,23 @@ function openUserPanel(userId) {
             logrosEl.innerHTML = '<span class="text-slate-400 text-xs">Sin logros aún</span>';
         } else {
             const BADGE_DEFS = {
-                firstCard:'🌱',module1:'📘',module2:'🔧',module3:'🧠',module4:'📊',module5:'⭐',
-                quizMaster:'🎯',quiz25:'🏹',perfect10:'💎',feedbackGiver:'💬',examPass:'🎓',
-                allModules:'🏆',streak7:'🔥',streak30:'⚡',streak3:'✨',earlyBird:'🌅',
-                noteWriter:'📝',applied5:'🍎',weeklyChamp:'🥇',level5:'🌟',level10:'💫'
+                firstCard: '🌱', module1: '📘', module2: '🔧', module3: '🧠', module4: '📊', module5: '⭐',
+                quizMaster: '🎯', quiz25: '🏹', perfect10: '💎', feedbackGiver: '💬', examPass: '🎓',
+                allModules: '🏆', streak7: '🔥', streak30: '⚡', streak3: '✨', earlyBird: '🌅',
+                noteWriter: '📝', applied5: '🍎', weeklyChamp: '🥇', level5: '🌟', level10: '💫'
             };
             const BADGE_NAMES = {
-                firstCard:'Primer paso',module1:'Primer módulo',module2:'En profundidad',
-                module3:'Metodólogo',module4:'Aplicador',module5:'Experto local',
-                quizMaster:'Maestro de quizzes',quiz25:'Imparable',perfect10:'Perfeccionista',
-                feedbackGiver:'Tu voz importa',examPass:'Certificado STEAM',allModules:'STEAM Master',
-                streak7:'Racha 7d',streak30:'Leyenda',streak3:'Constante',earlyBird:'Madrugadora',
-                noteWriter:'Apuntes de oro',applied5:'Docente en acción',weeklyChamp:'Campeón semanal',
-                level5:'Nivel 5',level10:'Nivel 10'
+                firstCard: 'Primer paso', module1: 'Primer módulo', module2: 'En profundidad',
+                module3: 'Metodólogo', module4: 'Aplicador', module5: 'Experto local',
+                quizMaster: 'Maestro de quizzes', quiz25: 'Imparable', perfect10: 'Perfeccionista',
+                feedbackGiver: 'Tu voz importa', examPass: 'Certificado STEAM', allModules: 'STEAM Master',
+                streak7: 'Racha 7d', streak30: 'Leyenda', streak3: 'Constante', earlyBird: 'Madrugadora',
+                noteWriter: 'Apuntes de oro', applied5: 'Docente en acción', weeklyChamp: 'Campeón semanal',
+                level5: 'Nivel 5', level10: 'Nivel 10'
             };
             logrosEl.innerHTML = userBadges.map(b =>
-                `<span title="${BADGE_NAMES[b]||b}" style="display:inline-flex;align-items:center;gap:4px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#334155">
-                    ${BADGE_DEFS[b]||'🏅'} ${BADGE_NAMES[b]||b}
+                `<span title="${BADGE_NAMES[b] || b}" style="display:inline-flex;align-items:center;gap:4px;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:3px 8px;font-size:11px;font-weight:600;color:#334155">
+                    ${BADGE_DEFS[b] || '🏅'} ${BADGE_NAMES[b] || b}
                 </span>`
             ).join('');
         }
@@ -1277,10 +1284,10 @@ function openUserPanel(userId) {
     if (diagEl) {
         const diag = p?.daily_missions?.diagResult;
         const diagStyles = {
-            inicial:       { bg:'#fee2e2', color:'#991b1b', label:'Inicial' },
-            proceso:       { bg:'#fef3c7', color:'#92400e', label:'En proceso' },
-            satisfactorio: { bg:'#dcfce7', color:'#166534', label:'Satisfactorio' },
-            destacado:     { bg:'#f3e8ff', color:'#6b21a8', label:'Destacado' },
+            inicial: { bg: '#fee2e2', color: '#991b1b', label: 'Inicial' },
+            proceso: { bg: '#fef3c7', color: '#92400e', label: 'En proceso' },
+            satisfactorio: { bg: '#dcfce7', color: '#166534', label: 'Satisfactorio' },
+            destacado: { bg: '#f3e8ff', color: '#6b21a8', label: 'Destacado' },
         };
         const ds = diag?.level ? diagStyles[diag.level] : null;
         diagEl.innerHTML = ds
@@ -1296,16 +1303,16 @@ function openUserPanel(userId) {
             const started = hasCourseStarted(p, c.id);
             const pct = getProgressPct(p, c.id);
             const barColor = passed ? '#10b981' : pct >= 40 ? '#07B0E4' : '#f59e0b';
-            const shortT = c.title.length > 32 ? c.title.substring(0,31)+'…' : c.title;
+            const shortT = c.title.length > 32 ? c.title.substring(0, 31) + '…' : c.title;
             return `<div>
                 <div class="flex justify-between items-center mb-1">
                     <span class="text-xs font-semibold text-slate-700">${esc(shortT)}</span>
                     ${passed ? '<span class="badge tag-green" style="font-size:9px">✓ Cert.</span>'
-                        : started ? `<span class="text-xs font-bold" style="color:${barColor}">${pct}%</span>`
+                    : started ? `<span class="text-xs font-bold" style="color:${barColor}">${pct}%</span>`
                         : '<span class="text-slate-300 text-xs">Sin iniciar</span>'}
                 </div>
                 ${started || passed ? `<div style="background:#f1f5f9;border-radius:4px;height:5px">
-                    <div style="width:${passed?100:pct}%;background:${barColor};height:100%;border-radius:4px;transition:width .4s"></div>
+                    <div style="width:${passed ? 100 : pct}%;background:${barColor};height:100%;border-radius:4px;transition:width .4s"></div>
                 </div>` : ''}
             </div>`;
         }).join('');
@@ -1396,7 +1403,7 @@ function showInviteModal() {
 
 async function _doInvite() {
     const email = document.getElementById('inviteEmail')?.value.trim();
-    const role  = document.getElementById('inviteRole')?.value || 'student';
+    const role = document.getElementById('inviteRole')?.value || 'student';
     if (!email || !email.includes('@')) { toast('Ingresa un correo válido', 'error'); return; }
     document.getElementById('inviteModal').remove();
     await inviteUser(email, role);
@@ -1436,7 +1443,7 @@ async function loadAdminComments() {
     document.getElementById('cTotal').textContent = data.length;
     document.getElementById('cUsers').textContent = uniqueUsers;
     document.getElementById('cCards').textContent = uniqueCards;
-    document.getElementById('cWeek').textContent  = thisWeek;
+    document.getElementById('cWeek').textContent = thisWeek;
 
     // Badge en sidebar
     const badge = document.getElementById('commentsBadge');
@@ -1497,8 +1504,8 @@ function _renderAdminComments(filtered) {
 
     listEl.innerHTML = page.map(c => {
         const date = new Date(c.created_at);
-        const dateStr = date.toLocaleDateString('es', { day:'numeric', month:'short', year:'numeric' });
-        const timeStr = date.toLocaleTimeString('es', { hour:'2-digit', minute:'2-digit' });
+        const dateStr = date.toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' });
+        const timeStr = date.toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
         const cardLabel = _getCardLabel(c.card_id);
         const initial = esc((c._userName || 'D')[0].toUpperCase());
 
@@ -1532,7 +1539,7 @@ function _renderAdminComments(filtered) {
 }
 
 function filterAdminComments() {
-    const q     = (document.getElementById('commentsSearch')?.value || '').toLowerCase();
+    const q = (document.getElementById('commentsSearch')?.value || '').toLowerCase();
     const course = document.getElementById('commentsFilterCourse')?.value || '';
     _adminCommentsPage = 0;
 
@@ -1566,8 +1573,8 @@ async function deleteAdminComment(commentId) {
 }
 
 async function loadFeedback() {
-    const { data:fbRaw, error } = await sb.from('feedback').select('*').order('created_at',{ascending:false});
-    if (error || !fbRaw) { empty('feedbackList','Error al cargar feedback.'); return; }
+    const { data: fbRaw, error } = await sb.from('feedback').select('*').order('created_at', { ascending: false });
+    if (error || !fbRaw) { empty('feedbackList', 'Error al cargar feedback.'); return; }
 
     // Build name map from progress cache
     const nameMap = {};
@@ -1580,20 +1587,22 @@ async function loadFeedback() {
     document.getElementById('fbTotal').textContent = fb.length || 0;
 
     if (fb.length) {
-        const promoters  = fb.filter(f=>f.nps>=9).length;
-        const detractors = fb.filter(f=>f.nps<=6).length;
-        const nps = Math.round(((promoters-detractors)/fb.length)*100);
+        const promoters = fb.filter(f => f.nps >= 9).length;
+        const detractors = fb.filter(f => f.nps <= 6).length;
+        const nps = Math.round(((promoters - detractors) / fb.length) * 100);
         document.getElementById('fbNps').textContent = nps;
-        const avgRating = (fb.reduce((a,f)=>a+(f.rating||0),0)/fb.length).toFixed(1);
-        document.getElementById('fbRating').textContent = avgRating+' / 5';
+        const avgRating = (fb.reduce((a, f) => a + (f.rating || 0), 0) / fb.length).toFixed(1);
+        document.getElementById('fbRating').textContent = avgRating + ' / 5';
 
         // NPS distribution chart
-        const npsBuckets = { 'Promotores (9-10)': promoters, 'Neutros (7-8)': fb.filter(f=>f.nps>=7&&f.nps<=8).length, 'Detractores (0-6)': detractors };
+        const npsBuckets = { 'Promotores (9-10)': promoters, 'Neutros (7-8)': fb.filter(f => f.nps >= 7 && f.nps <= 8).length, 'Detractores (0-6)': detractors };
         buildChart('nps', document.getElementById('npsChart')?.getContext('2d'), {
-            type:'doughnut',
-            data:{ labels: Object.keys(npsBuckets),
-                datasets:[{data:Object.values(npsBuckets),backgroundColor:['#34d399','#fbbf24','#f87171'],borderWidth:2,borderColor:'#fff'}]},
-            options:{ plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:12}}},cutout:'60%' }
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(npsBuckets),
+                datasets: [{ data: Object.values(npsBuckets), backgroundColor: ['#34d399', '#fbbf24', '#f87171'], borderWidth: 2, borderColor: '#fff' }]
+            },
+            options: { plugins: { legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } } }, cutout: '60%' }
         });
 
         // Rating por módulo — agrupa por module_name (título real, distingue el curso)
@@ -1603,31 +1612,38 @@ async function loadFeedback() {
             const name = (f.module_name || '').trim();
             const k = name || (f.module_id ? `Módulo ${f.module_id}` : 'General');
             if (!modRating[k]) modRating[k] = [];
-            modRating[k].push(f.rating||0);
+            modRating[k].push(f.rating || 0);
         });
         // Ordenar por cantidad de respuestas (los módulos con más feedback arriba)
-        const modKeys = Object.keys(modRating).sort((a,b) => modRating[b].length - modRating[a].length);
-        const modAvg  = modKeys.map(k => (modRating[k].reduce((a,b)=>a+b,0)/modRating[k].length).toFixed(1));
-        const modN    = modKeys.map(k => modRating[k].length);
+        const modKeys = Object.keys(modRating).sort((a, b) => modRating[b].length - modRating[a].length);
+        const modAvg = modKeys.map(k => (modRating[k].reduce((a, b) => a + b, 0) / modRating[k].length).toFixed(1));
+        const modN = modKeys.map(k => modRating[k].length);
         buildChart('rating', document.getElementById('ratingChart')?.getContext('2d'), {
-            type:'bar',
-            data:{ labels:modKeys.map(k => k.length > 34 ? k.substring(0,32)+'…' : k),
-                datasets:[{label:'Rating promedio',data:modAvg,backgroundColor:'#fbbf24',borderRadius:8,borderSkipped:false}]},
-            options:{ indexAxis:'y', plugins:{
-                    legend:{display:false},
-                    tooltip:{ callbacks:{
-                        title: items => modKeys[items[0].dataIndex],
-                        label: item => `Rating promedio: ${item.raw} · ${modN[item.dataIndex]} respuesta${modN[item.dataIndex]===1?'':'s'}`
-                    } } },
-                scales:{ x:{beginAtZero:true,max:5,ticks:{font:{size:10}}},y:{grid:{display:false},ticks:{font:{size:9}}} } }
+            type: 'bar',
+            data: {
+                labels: modKeys.map(k => k.length > 34 ? k.substring(0, 32) + '…' : k),
+                datasets: [{ label: 'Rating promedio', data: modAvg, backgroundColor: '#fbbf24', borderRadius: 8, borderSkipped: false }]
+            },
+            options: {
+                indexAxis: 'y', plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: items => modKeys[items[0].dataIndex],
+                            label: item => `Rating promedio: ${item.raw} · ${modN[item.dataIndex]} respuesta${modN[item.dataIndex] === 1 ? '' : 's'}`
+                        }
+                    }
+                },
+                scales: { x: { beginAtZero: true, max: 5, ticks: { font: { size: 10 } } }, y: { grid: { display: false }, ticks: { font: { size: 9 } } } }
+            }
         });
     } else {
-        ['fbNps','fbRating'].forEach(id => { const e=document.getElementById(id); if(e) e.textContent='N/A'; });
+        ['fbNps', 'fbRating'].forEach(id => { const e = document.getElementById(id); if (e) e.textContent = 'N/A'; });
     }
 
     const list = document.getElementById('feedbackList');
     if (!list) return;
-    if (!fb.length) { list.innerHTML='<div class="card text-center text-slate-400 py-8 text-sm">No hay feedback registrado aún.</div>'; return; }
+    if (!fb.length) { list.innerHTML = '<div class="card text-center text-slate-400 py-8 text-sm">No hay feedback registrado aún.</div>'; return; }
 
     // Group by user_id (fb ya excluye admins)
     const byUser = {};
@@ -1637,15 +1653,15 @@ async function loadFeedback() {
         byUser[key].items.push(f);
     });
 
-    const userGroups = Object.values(byUser).sort((a,b) => b.items.length - a.items.length);
+    const userGroups = Object.values(byUser).sort((a, b) => b.items.length - a.items.length);
 
     list.innerHTML = userGroups.map((ug, idx) => {
-        const info   = nameMap[ug.user_id] || { name: 'Docente anónimo', email: '' };
-        const count  = ug.items.length;
-        const avgRat = ug.items.reduce((a,f)=>a+(f.rating||0),0) / count;
-        const avgNps = ug.items.filter(f=>f.nps!==null).reduce((a,f)=>a+(f.nps||0),0) / (ug.items.filter(f=>f.nps!==null).length||1);
-        const npsColor = avgNps>=9?'tag-green':avgNps>=7?'tag-amber':'tag-red';
-        const npsLabel = avgNps>=9?'Promotor':avgNps>=7?'Neutro':'Detractor';
+        const info = nameMap[ug.user_id] || { name: 'Docente anónimo', email: '' };
+        const count = ug.items.length;
+        const avgRat = ug.items.reduce((a, f) => a + (f.rating || 0), 0) / count;
+        const avgNps = ug.items.filter(f => f.nps !== null).reduce((a, f) => a + (f.nps || 0), 0) / (ug.items.filter(f => f.nps !== null).length || 1);
+        const npsColor = avgNps >= 9 ? 'tag-green' : avgNps >= 7 ? 'tag-amber' : 'tag-red';
+        const npsLabel = avgNps >= 9 ? 'Promotor' : avgNps >= 7 ? 'Neutro' : 'Detractor';
         return `
         <div class="card" style="margin-bottom:8px">
             <div class="flex items-center justify-between gap-3 cursor-pointer select-none" onclick="toggleFeedbackUser('fbu-${idx}','fchev-${idx}')">
@@ -1655,7 +1671,7 @@ async function loadFeedback() {
                     </div>
                     <div>
                         <p class="font-semibold text-slate-800 text-sm">${esc(info.name)}</p>
-                        <p class="text-xs text-slate-400">${esc(info.email)} · <strong>${count}</strong> respuesta${count!==1?'s':''}</p>
+                        <p class="text-xs text-slate-400">${esc(info.email)} · <strong>${count}</strong> respuesta${count !== 1 ? 's' : ''}</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -1665,14 +1681,14 @@ async function loadFeedback() {
                 </div>
             </div>
             <div id="fbu-${idx}" class="hidden mt-4 space-y-3 border-t border-slate-50 pt-4">
-                ${ug.items.map(f=>`
+                ${ug.items.map(f => `
                 <div class="bg-slate-50 rounded-xl p-3">
                     <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
                         <span class="font-semibold text-slate-700 text-sm">${f.module_name || (f.module_id ? `Módulo ${f.module_id}` : 'General')}</span>
                         <div class="flex gap-2 flex-wrap">
                             ${f.rating ? `<span class="badge tag-amber"><i class="fas fa-star"></i> ${f.rating}/5</span>` : ''}
                             ${f.nps !== null ? `<span class="badge tag-blue">NPS: ${f.nps}</span>` : ''}
-                            <span class="badge ${f.nps>=9?'tag-green':f.nps>=7?'tag-amber':'tag-red'}" style="font-size:9px">${f.nps>=9?'Promotor':f.nps>=7?'Neutro':'Detractor'}</span>
+                            <span class="badge ${f.nps >= 9 ? 'tag-green' : f.nps >= 7 ? 'tag-amber' : 'tag-red'}" style="font-size:9px">${f.nps >= 9 ? 'Promotor' : f.nps >= 7 ? 'Neutro' : 'Detractor'}</span>
                         </div>
                     </div>
                     ${f.comment ? `<p class="text-xs text-slate-600 italic mt-1">"${esc(f.comment)}"</p>` : ''}
@@ -1685,7 +1701,7 @@ async function loadFeedback() {
 
 function toggleFeedbackUser(panelId, chevId) {
     const panel = document.getElementById(panelId);
-    const chev  = document.getElementById(chevId);
+    const chev = document.getElementById(chevId);
     if (!panel) return;
     const isHidden = panel.classList.toggle('hidden');
     if (chev) chev.style.transform = isHidden ? '' : 'rotate(180deg)';
@@ -1699,17 +1715,17 @@ async function loadCMS() {
     if (!cont) return;
     cont.innerHTML = '<div class="loader"><i class="fas fa-circle-notch fa-spin"></i> Cargando cursos…</div>';
 
-    const { data: dbCourses } = await sb.from('courses').select('*').order('created_at',{ascending:false});
+    const { data: dbCourses } = await sb.from('courses').select('*').order('created_at', { ascending: false });
 
     // Estáticos primero, luego los de BD
-    const staticCards = STATIC_COURSES.map(c => ({...c, isStatic:true}));
-    const allCourses  = [...staticCards, ...(dbCourses||[])];
+    const staticCards = STATIC_COURSES.map(c => ({ ...c, isStatic: true }));
+    const allCourses = [...staticCards, ...(dbCourses || [])];
 
     const enrolled = {};
     _allProgress.forEach(p => {
         STATIC_COURSES.forEach(c => {
-            if ((p.completed_cards||[]).some(id => _cardBelongsTo(c.id, id))) {
-                enrolled[c.id] = (enrolled[c.id]||0)+1;
+            if ((p.completed_cards || []).some(id => _cardBelongsTo(c.id, id))) {
+                enrolled[c.id] = (enrolled[c.id] || 0) + 1;
             }
         });
     });
@@ -1717,16 +1733,16 @@ async function loadCMS() {
     cont.innerHTML = allCourses.map(c => {
         const isStatic = !!c.isStatic;
         const docentes = enrolled[c.id] || 0;
-        const statusBadge = (c.status==='available'||isStatic)
+        const statusBadge = (c.status === 'available' || isStatic)
             ? '<span class="badge tag-green">Disponible</span>'
             : '<span class="badge tag-slate">Próximamente</span>';
         return `<div class="card">
             <div class="flex items-start gap-4">
                 <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-lg shrink-0"
-                     style="background:${c.color||'#4f46e5'}">
+                     style="background:${c.color || '#4f46e5'}">
                     ${isStatic
-    ? '<i class="fas fa-book-open text-white text-xl"></i>'
-    : '<i class="fas fa-graduation-cap text-white text-xl"></i>'}
+                ? '<i class="fas fa-book-open text-white text-xl"></i>'
+                : '<i class="fas fa-graduation-cap text-white text-xl"></i>'}
                 </div>
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-2 flex-wrap mb-1">
@@ -1739,7 +1755,7 @@ async function loadCMS() {
                     <div class="flex gap-4 text-xs text-slate-400 mt-1">
                         <span><i class="fas fa-users mr-1"></i>${docentes} docentes</span>
                         ${c.durationHours ? `<span><i class="fas fa-clock mr-1"></i>${c.durationHours}h</span>` : ''}
-                        ${c.totalCards || c.modules ? `<span><i class="fas fa-cards-blank mr-1"></i>${c.totalCards||'—'} tarjetas</span>` : ''}
+                        ${c.totalCards || c.modules ? `<span><i class="fas fa-cards-blank mr-1"></i>${c.totalCards || '—'} tarjetas</span>` : ''}
                         ${isStatic ? '<span class="text-amber-600"><i class="fas fa-lock mr-1"></i>Contenido en data.js</span>' : ''}
                     </div>
                 </div>
@@ -1756,7 +1772,7 @@ async function loadCMS() {
     }).join('');
 
     document.querySelectorAll('.edit-cms-btn').forEach(btn =>
-        btn.addEventListener('click', () => openCMSModal(btn.dataset.cid, btn.dataset.static==='true'))
+        btn.addEventListener('click', () => openCMSModal(btn.dataset.cid, btn.dataset.static === 'true'))
     );
     document.querySelectorAll('.delete-cms-btn').forEach(btn =>
         btn.addEventListener('click', () => deleteCourse(btn.dataset.cid))
@@ -1766,49 +1782,49 @@ async function loadCMS() {
 async function deleteCourse(id) {
     if (!confirm('¿Eliminar este curso? Esta acción no se puede deshacer.')) return;
     const { error } = await sb.from('courses').delete().eq('id', id);
-    if (error) { toast('Error al eliminar: '+error.message, false); return; }
+    if (error) { toast('Error al eliminar: ' + error.message, false); return; }
     toast('Curso eliminado.');
     loadCMS();
 }
 
 // ── CMS Modal ────────────────────────────────────────────────
-async function openCMSModal(courseId=null, isStatic=false) {
-    _cmsState = { step:1, courseId, isStatic, data:{ modules:[] } };
+async function openCMSModal(courseId = null, isStatic = false) {
+    _cmsState = { step: 1, courseId, isStatic, data: { modules: [] } };
     cmsGoStep(1);
 
     const modal = document.getElementById('cmsModal');
     const titleEl = document.getElementById('cmsModalTitle');
-    const subEl   = document.getElementById('cmsModalSubtitle');
-    const warn    = document.getElementById('csStaticWarning');
+    const subEl = document.getElementById('cmsModalSubtitle');
+    const warn = document.getElementById('csStaticWarning');
 
     if (courseId) {
         titleEl.textContent = 'Editar Curso';
-        subEl.textContent   = isStatic ? 'Editando metadatos del curso base' : 'Editando curso personalizado';
+        subEl.textContent = isStatic ? 'Editando metadatos del curso base' : 'Editando curso personalizado';
         warn?.classList.toggle('hidden', !isStatic);
 
         if (isStatic) {
             // Cargar metadatos del curso estático
-            const sc = STATIC_COURSES.find(c=>c.id===courseId)||{};
-            document.getElementById('csTitle').value    = sc.title||'';
-            document.getElementById('csId').value       = sc.id||'';
-            document.getElementById('csId').disabled    = true;
-            document.getElementById('csSubtitle').value = sc.subtitle||'';
-            document.getElementById('csColor').value    = sc.color||'#4f46e5';
-            document.getElementById('csColorPicker').value = sc.color||'#4f46e5';
-            document.getElementById('csDuration').value = sc.durationHours||'';
-            document.getElementById('csStatus').value   = 'available';
+            const sc = STATIC_COURSES.find(c => c.id === courseId) || {};
+            document.getElementById('csTitle').value = sc.title || '';
+            document.getElementById('csId').value = sc.id || '';
+            document.getElementById('csId').disabled = true;
+            document.getElementById('csSubtitle').value = sc.subtitle || '';
+            document.getElementById('csColor').value = sc.color || '#4f46e5';
+            document.getElementById('csColorPicker').value = sc.color || '#4f46e5';
+            document.getElementById('csDuration').value = sc.durationHours || '';
+            document.getElementById('csStatus').value = 'available';
         } else {
             // Cargar desde BD
             const { data } = await sb.from('courses').select('*').eq('id', courseId).maybeSingle();
             if (data) {
-                document.getElementById('csTitle').value    = data.title||'';
-                document.getElementById('csId').value       = data.id||'';
-                document.getElementById('csId').disabled    = true;
-                document.getElementById('csSubtitle').value = data.subtitle||'';
-                document.getElementById('csColor').value    = data.color||'#4f46e5';
-                document.getElementById('csColorPicker').value = data.color||'#4f46e5';
-                document.getElementById('csDuration').value = data.duration_hours||'';
-                document.getElementById('csStatus').value   = data.status||'available';
+                document.getElementById('csTitle').value = data.title || '';
+                document.getElementById('csId').value = data.id || '';
+                document.getElementById('csId').disabled = true;
+                document.getElementById('csSubtitle').value = data.subtitle || '';
+                document.getElementById('csColor').value = data.color || '#4f46e5';
+                document.getElementById('csColorPicker').value = data.color || '#4f46e5';
+                document.getElementById('csDuration').value = data.duration_hours || '';
+                document.getElementById('csStatus').value = data.status || 'available';
                 if (data.content) {
                     _cmsState.data = typeof data.content === 'string' ? JSON.parse(data.content) : data.content;
                 }
@@ -1816,11 +1832,11 @@ async function openCMSModal(courseId=null, isStatic=false) {
         }
     } else {
         titleEl.textContent = 'Nuevo Curso';
-        subEl.textContent   = 'Se guardará en Supabase y estará disponible en la app';
+        subEl.textContent = 'Se guardará en Supabase y estará disponible en la app';
         warn?.classList.add('hidden');
         document.getElementById('csId').disabled = false;
         document.getElementById('cmsModal').querySelector('form') && document.getElementById('cmsModal').querySelector('form').reset();
-        ['csTitle','csId','csSubtitle','csDuration'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+        ['csTitle', 'csId', 'csSubtitle', 'csDuration'].forEach(id => { const e = document.getElementById(id); if (e) e.value = ''; });
         document.getElementById('csColor').value = '#4f46e5';
         document.getElementById('csColorPicker').value = '#4f46e5';
         document.getElementById('csStatus').value = 'available';
@@ -1838,27 +1854,27 @@ function cmsGoStep(n) {
 
     document.querySelectorAll('.cms-tab-btn').forEach(btn => {
         const active = parseInt(btn.dataset.step) === n;
-        btn.classList.toggle('border-indigo-500',active);
-        btn.classList.toggle('text-indigo-600',active);
-        btn.classList.toggle('border-transparent',!active);
-        btn.classList.toggle('text-slate-400',!active);
+        btn.classList.toggle('border-indigo-500', active);
+        btn.classList.toggle('text-indigo-600', active);
+        btn.classList.toggle('border-transparent', !active);
+        btn.classList.toggle('text-slate-400', !active);
     });
 
     const prev = document.getElementById('cmsPrevBtn');
     const next = document.getElementById('cmsNextBtn');
     const save = document.getElementById('cmsSaveBtn');
-    if (prev) prev.classList.toggle('hidden', n===1);
-    if (next) next.classList.toggle('hidden', n===3);
-    if (save) save.classList.toggle('hidden', n!==3);
+    if (prev) prev.classList.toggle('hidden', n === 1);
+    if (next) next.classList.toggle('hidden', n === 3);
+    if (save) save.classList.toggle('hidden', n !== 3);
 
-    if (n===2) renderModulesEditor();
-    if (n===3) renderModuleSelector();
+    if (n === 2) renderModulesEditor();
+    if (n === 3) renderModuleSelector();
 }
 
 function cmsStepNav(dir) {
     const newStep = _cmsState.step + dir;
-    if (newStep<1||newStep>3) return;
-    if (dir>0 && _cmsState.step===1) {
+    if (newStep < 1 || newStep > 3) return;
+    if (dir > 0 && _cmsState.step === 1) {
         if (!document.getElementById('csTitle').value.trim() || !document.getElementById('csId').value.trim()) {
             showCmsError('El título y el ID son obligatorios.'); return;
         }
@@ -1867,37 +1883,37 @@ function cmsStepNav(dir) {
     cmsGoStep(newStep);
 }
 
-function showCmsError(msg) { const e=document.getElementById('cmsError'); if(e){e.textContent=msg;e.classList.remove('hidden');} }
-function hideCmsError()    { const e=document.getElementById('cmsError'); if(e) e.classList.add('hidden'); }
+function showCmsError(msg) { const e = document.getElementById('cmsError'); if (e) { e.textContent = msg; e.classList.remove('hidden'); } }
+function hideCmsError() { const e = document.getElementById('cmsError'); if (e) e.classList.add('hidden'); }
 
 // ── Módulos ──────────────────────────────────────────────────
 function renderModulesEditor() {
     const cont = document.getElementById('modulesEditor');
-    const msg  = document.getElementById('noModulesMsg');
+    const msg = document.getElementById('noModulesMsg');
     if (!cont) return;
     const modules = _cmsState.data.modules || [];
     if (msg) msg.style.display = modules.length ? 'none' : 'block';
-    cont.innerHTML = modules.map((m,i) => `
+    cont.innerHTML = modules.map((m, i) => `
         <div class="module-item">
             <div class="flex items-center gap-3">
-                <span class="text-xs font-bold text-slate-400 w-6">M${i+1}</span>
-                <input class="input-field text-sm flex-1" value="${m.title||''}"
+                <span class="text-xs font-bold text-slate-400 w-6">M${i + 1}</span>
+                <input class="input-field text-sm flex-1" value="${m.title || ''}"
                     oninput="_cmsState.data.modules[${i}].title=this.value" placeholder="Título del módulo">
                 <button onclick="removeModule(${i})" class="text-red-400 hover:text-red-600 p-1"><i class="fas fa-times"></i></button>
             </div>
-            <p class="text-xs text-slate-400 mt-2 ml-9">${m.cards?.length||0} tarjetas</p>
+            <p class="text-xs text-slate-400 mt-2 ml-9">${m.cards?.length || 0} tarjetas</p>
         </div>`).join('');
 }
 
 function addModule() {
     if (!_cmsState.data.modules) _cmsState.data.modules = [];
-    _cmsState.data.modules.push({ id: `m${_cmsState.data.modules.length+1}`, title:'Nuevo módulo', cards:[] });
+    _cmsState.data.modules.push({ id: `m${_cmsState.data.modules.length + 1}`, title: 'Nuevo módulo', cards: [] });
     renderModulesEditor();
 }
 
 function removeModule(idx) {
     if (!confirm('¿Eliminar este módulo y todas sus tarjetas?')) return;
-    _cmsState.data.modules.splice(idx,1);
+    _cmsState.data.modules.splice(idx, 1);
     renderModulesEditor();
 }
 
@@ -1907,7 +1923,7 @@ function renderModuleSelector() {
     if (!sel) return;
     const modules = _cmsState.data.modules || [];
     sel.innerHTML = '<option value="">Selecciona un módulo</option>' +
-        modules.map((m,i)=>`<option value="${i}">${m.title||`Módulo ${i+1}`}</option>`).join('');
+        modules.map((m, i) => `<option value="${i}">${m.title || `Módulo ${i + 1}`}</option>`).join('');
     document.getElementById('noCardsMsg').textContent = 'Selecciona un módulo para ver sus tarjetas.';
     document.getElementById('cardsEditor').innerHTML = '';
 }
@@ -1915,31 +1931,31 @@ function renderModuleSelector() {
 function loadModuleCards(modIdx) {
     _currentModuleIdx = parseInt(modIdx);
     const cont = document.getElementById('cardsEditor');
-    const msg  = document.getElementById('noCardsMsg');
-    if (isNaN(_currentModuleIdx)||_currentModuleIdx<0) { cont.innerHTML=''; return; }
+    const msg = document.getElementById('noCardsMsg');
+    if (isNaN(_currentModuleIdx) || _currentModuleIdx < 0) { cont.innerHTML = ''; return; }
     const cards = _cmsState.data.modules[_currentModuleIdx]?.cards || [];
     if (msg) msg.style.display = cards.length ? 'none' : 'block';
-    cont.innerHTML = cards.map((c,i)=>`
+    cont.innerHTML = cards.map((c, i) => `
         <div class="card-item">
-            <span class="card-type-badge type-${c.type||'content'}">${{content:'Contenido',quiz:'Quiz',project:'Proyecto',simulation:'Simulación'}[c.type]||c.type}</span>
-            <span class="text-sm text-slate-700 flex-1 truncate">${c.title||'Sin título'}</span>
+            <span class="card-type-badge type-${c.type || 'content'}">${{ content: 'Contenido', quiz: 'Quiz', project: 'Proyecto', simulation: 'Simulación' }[c.type] || c.type}</span>
+            <span class="text-sm text-slate-700 flex-1 truncate">${c.title || 'Sin título'}</span>
             <button onclick="editCard(${_currentModuleIdx},${i})" class="text-indigo-400 hover:text-indigo-600 p-1 text-xs"><i class="fas fa-edit"></i></button>
             <button onclick="removeCard(${_currentModuleIdx},${i})" class="text-red-400 hover:text-red-600 p-1 text-xs"><i class="fas fa-times"></i></button>
         </div>`).join('');
-    if (msg && cards.length) msg.style.display='none';
+    if (msg && cards.length) msg.style.display = 'none';
 }
 
 function addCard() {
-    if (_currentModuleIdx<0||isNaN(_currentModuleIdx)) { toast('Selecciona un módulo primero.',false); return; }
+    if (_currentModuleIdx < 0 || isNaN(_currentModuleIdx)) { toast('Selecciona un módulo primero.', false); return; }
     const cards = _cmsState.data.modules[_currentModuleIdx].cards;
-    const newCard = { id:`card-${Date.now()}`, type:'content', title:'Nueva tarjeta', content:'', extra:'' };
+    const newCard = { id: `card-${Date.now()}`, type: 'content', title: 'Nueva tarjeta', content: '', extra: '' };
     cards.push(newCard);
     loadModuleCards(_currentModuleIdx);
-    editCard(_currentModuleIdx, cards.length-1);
+    editCard(_currentModuleIdx, cards.length - 1);
 }
 
 function removeCard(modIdx, cardIdx) {
-    _cmsState.data.modules[modIdx].cards.splice(cardIdx,1);
+    _cmsState.data.modules[modIdx].cards.splice(cardIdx, 1);
     loadModuleCards(modIdx);
 }
 
@@ -1947,48 +1963,48 @@ function editCard(modIdx, cardIdx) {
     const card = _cmsState.data.modules[modIdx]?.cards?.[cardIdx];
     if (!card) return;
     document.getElementById('ceModuleIdx').value = modIdx;
-    document.getElementById('ceCardIdx').value   = cardIdx;
-    document.getElementById('ceType').value      = card.type||'content';
-    document.getElementById('ceTitle').value     = card.title||'';
-    document.getElementById('cardEditorTitle').textContent = `Editar tarjeta — Módulo ${modIdx+1}`;
+    document.getElementById('ceCardIdx').value = cardIdx;
+    document.getElementById('ceType').value = card.type || 'content';
+    document.getElementById('ceTitle').value = card.title || '';
+    document.getElementById('cardEditorTitle').textContent = `Editar tarjeta — Módulo ${modIdx + 1}`;
     updateCardEditorFields(card);
     document.getElementById('cardEditorModal').classList.remove('hidden');
 }
 
-function updateCardEditorFields(card=null) {
-    const type  = document.getElementById('ceType')?.value || 'content';
-    const cont  = document.getElementById('ceContentFields');
+function updateCardEditorFields(card = null) {
+    const type = document.getElementById('ceType')?.value || 'content';
+    const cont = document.getElementById('ceContentFields');
     if (!cont) return;
 
     const val = f => card?.[f] || '';
-    const optVal = (card?.options||['','','','']).map(o=>o||'');
+    const optVal = (card?.options || ['', '', '', '']).map(o => o || '');
 
-    if (type==='content') {
+    if (type === 'content') {
         cont.innerHTML = `
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Contenido principal *</label>
             <textarea id="ceContent" rows="4" class="input-field" placeholder="Explicación de la tarjeta…">${val('content')}</textarea></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Extra / Dato curioso</label>
             <textarea id="ceExtra" rows="2" class="input-field" placeholder="Información complementaria…">${val('extra')}</textarea></div>`;
-    } else if (type==='quiz') {
+    } else if (type === 'quiz') {
         cont.innerHTML = `
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Pregunta *</label>
             <textarea id="ceQuestion" rows="2" class="input-field" placeholder="¿Pregunta de opción múltiple?">${val('question')}</textarea></div>
-            ${[0,1,2,3].map(i=>`
-            <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Opción ${i+1}</label>
-            <input id="ceOpt${i}" class="input-field" placeholder="Opción ${i+1}" value="${optVal[i]}"></div>`).join('')}
+            ${[0, 1, 2, 3].map(i => `
+            <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Opción ${i + 1}</label>
+            <input id="ceOpt${i}" class="input-field" placeholder="Opción ${i + 1}" value="${optVal[i]}"></div>`).join('')}
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Opción correcta (0-3)</label>
             <select id="ceCorrect" class="input-field">
-                ${[0,1,2,3].map(i=>`<option value="${i}" ${val('correct')==i?'selected':''}>${i+1}ª opción</option>`).join('')}
+                ${[0, 1, 2, 3].map(i => `<option value="${i}" ${val('correct') == i ? 'selected' : ''}>${i + 1}ª opción</option>`).join('')}
             </select></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Explicación</label>
             <textarea id="ceExplanation" rows="2" class="input-field" placeholder="Por qué es correcta…">${val('explanation')}</textarea></div>`;
-    } else if (type==='project') {
+    } else if (type === 'project') {
         cont.innerHTML = `
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Descripción del proyecto *</label>
             <textarea id="ceContent" rows="4" class="input-field" placeholder="Descripción del proyecto…">${val('content')}</textarea></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Objetivo / Instrucciones</label>
             <textarea id="ceExtra" rows="2" class="input-field" placeholder="Instrucciones para el docente…">${val('extra')}</textarea></div>`;
-    } else if (type==='simulation') {
+    } else if (type === 'simulation') {
         cont.innerHTML = `
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Escenario *</label>
             <textarea id="ceScenario" rows="3" class="input-field" placeholder="Describe el escenario de simulación…">${val('scenario')}</textarea></div>
@@ -1996,8 +2012,8 @@ function updateCardEditorFields(card=null) {
             <textarea id="ceStatement" rows="2" class="input-field" placeholder="Afirmación a evaluar…">${val('statement')}</textarea></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Respuesta correcta</label>
             <select id="ceCorrectSwipe" class="input-field">
-                <option value="right" ${val('correctSwipe')==='right'?'selected':''}>Correcto / Verdadero (deslizar derecha)</option>
-                <option value="left"  ${val('correctSwipe')==='left' ?'selected':''}>Incorrecto / Falso (deslizar izquierda)</option>
+                <option value="right" ${val('correctSwipe') === 'right' ? 'selected' : ''}>Correcto / Verdadero (deslizar derecha)</option>
+                <option value="left"  ${val('correctSwipe') === 'left' ? 'selected' : ''}>Incorrecto / Falso (deslizar izquierda)</option>
             </select></div>
             <div><label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Retroalimentación</label>
             <textarea id="ceLeftOutcome" rows="2" class="input-field" placeholder="Explicación si desliza izquierda…">${val('leftOutcome')}</textarea></div>`;
@@ -2005,27 +2021,27 @@ function updateCardEditorFields(card=null) {
 }
 
 function saveCardEdit() {
-    const modIdx  = parseInt(document.getElementById('ceModuleIdx').value);
+    const modIdx = parseInt(document.getElementById('ceModuleIdx').value);
     const cardIdx = parseInt(document.getElementById('ceCardIdx').value);
-    const type    = document.getElementById('ceType').value;
-    const title   = document.getElementById('ceTitle').value.trim();
-    if (!title) { toast('El título de la tarjeta es obligatorio.',false); return; }
+    const type = document.getElementById('ceType').value;
+    const title = document.getElementById('ceTitle').value.trim();
+    if (!title) { toast('El título de la tarjeta es obligatorio.', false); return; }
 
     let card = { id: _cmsState.data.modules[modIdx]?.cards?.[cardIdx]?.id || `card-${Date.now()}`, type, title };
 
-    if (type==='content'||type==='project') {
-        card.content = document.getElementById('ceContent')?.value||'';
-        card.extra   = document.getElementById('ceExtra')?.value||'';
-    } else if (type==='quiz') {
-        card.question    = document.getElementById('ceQuestion')?.value||'';
-        card.options     = [0,1,2,3].map(i=>document.getElementById(`ceOpt${i}`)?.value||'');
-        card.correct     = parseInt(document.getElementById('ceCorrect')?.value||'0');
-        card.explanation = document.getElementById('ceExplanation')?.value||'';
-    } else if (type==='simulation') {
-        card.scenario     = document.getElementById('ceScenario')?.value||'';
-        card.statement    = document.getElementById('ceStatement')?.value||'';
-        card.correctSwipe = document.getElementById('ceCorrectSwipe')?.value||'right';
-        card.leftOutcome  = document.getElementById('ceLeftOutcome')?.value||'';
+    if (type === 'content' || type === 'project') {
+        card.content = document.getElementById('ceContent')?.value || '';
+        card.extra = document.getElementById('ceExtra')?.value || '';
+    } else if (type === 'quiz') {
+        card.question = document.getElementById('ceQuestion')?.value || '';
+        card.options = [0, 1, 2, 3].map(i => document.getElementById(`ceOpt${i}`)?.value || '');
+        card.correct = parseInt(document.getElementById('ceCorrect')?.value || '0');
+        card.explanation = document.getElementById('ceExplanation')?.value || '';
+    } else if (type === 'simulation') {
+        card.scenario = document.getElementById('ceScenario')?.value || '';
+        card.statement = document.getElementById('ceStatement')?.value || '';
+        card.correctSwipe = document.getElementById('ceCorrectSwipe')?.value || 'right';
+        card.leftOutcome = document.getElementById('ceLeftOutcome')?.value || '';
     }
 
     _cmsState.data.modules[modIdx].cards[cardIdx] = card;
@@ -2041,35 +2057,37 @@ function closeCardEditor() {
 // ── Guardar curso en Supabase ────────────────────────────────
 async function saveCourse() {
     hideCmsError();
-    const title    = document.getElementById('csTitle').value.trim();
-    const id       = document.getElementById('csId').value.trim().toLowerCase().replace(/\s+/g,'-');
+    const title = document.getElementById('csTitle').value.trim();
+    const id = document.getElementById('csId').value.trim().toLowerCase().replace(/\s+/g, '-');
     const subtitle = document.getElementById('csSubtitle').value.trim();
-    const color    = document.getElementById('csColor').value.trim();
-    const duration = parseInt(document.getElementById('csDuration').value)||0;
-    const status   = document.getElementById('csStatus').value;
+    const color = document.getElementById('csColor').value.trim();
+    const duration = parseInt(document.getElementById('csDuration').value) || 0;
+    const status = document.getElementById('csStatus').value;
 
-    if (!title||!id) { showCmsError('Título e ID son obligatorios.'); return; }
+    if (!title || !id) { showCmsError('Título e ID son obligatorios.'); return; }
 
-    const totalCards = (_cmsState.data.modules||[]).reduce((a,m)=>a+(m.cards?.length||0),0);
-    const payload = { id, title, subtitle, color, status,
+    const totalCards = (_cmsState.data.modules || []).reduce((a, m) => a + (m.cards?.length || 0), 0);
+    const payload = {
+        id, title, subtitle, color, status,
         duration_hours: duration, total_cards: totalCards,
         content: _cmsState.data,
         updated_at: new Date().toISOString(),
-        created_by: currentUser?.id };
+        created_by: currentUser?.id
+    };
 
     const saveBtn = document.getElementById('cmsSaveBtn');
-    if (saveBtn) { saveBtn.disabled=true; saveBtn.textContent='Guardando…'; }
+    if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = 'Guardando…'; }
 
     let error;
     if (_cmsState.courseId && !_cmsState.isStatic) {
-        ({ error } = await sb.from('courses').update({...payload}).eq('id', _cmsState.courseId));
+        ({ error } = await sb.from('courses').update({ ...payload }).eq('id', _cmsState.courseId));
     } else if (!_cmsState.courseId) {
-        ({ error } = await sb.from('courses').upsert(payload, { onConflict:'id' }));
+        ({ error } = await sb.from('courses').upsert(payload, { onConflict: 'id' }));
     }
 
-    if (saveBtn) { saveBtn.disabled=false; saveBtn.textContent='Guardar curso'; }
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = 'Guardar curso'; }
 
-    if (error) { showCmsError('Error: '+error.message); return; }
+    if (error) { showCmsError('Error: ' + error.message); return; }
     toast('Curso guardado correctamente. ✓');
     document.getElementById('cmsModal').classList.add('hidden');
     loadCMS();
@@ -2079,15 +2097,15 @@ async function saveCourse() {
 // REPORTES
 // ────────────────────────────────────────────────────────────
 function escapeCSV(v) {
-    if (v===null||v===undefined) return '';
+    if (v === null || v === undefined) return '';
     const s = String(v);
-    if (s.includes(',')||s.includes('"')||s.includes('\n')) return `"${s.replace(/"/g,'""')}"`;
+    if (s.includes(',') || s.includes('"') || s.includes('\n')) return `"${s.replace(/"/g, '""')}"`;
     return s;
 }
 
 function downloadCSV(filename, rows) {
-    const csv = rows.map(r=>r.map(escapeCSV).join(',')).join('\n');
-    const blob = new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'});
+    const csv = rows.map(r => r.map(escapeCSV).join(',')).join('\n');
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = filename;
@@ -2098,57 +2116,57 @@ function downloadCSV(filename, rows) {
 
 async function exportUsersCSV() {
     const progress = _allProgress.length ? _allProgress : await fetchAllProgress();
-    const headers  = ['Nombre','Correo','XP','Nivel','Tarjetas completadas','Racha (días)','Diagnóstico','Certificado','Último acceso'];
+    const headers = ['Nombre', 'Correo', 'XP', 'Nivel', 'Tarjetas completadas', 'Racha (días)', 'Diagnóstico', 'Certificado', 'Último acceso'];
     const rows = [headers, ...progress.map(p => {
         const diag = p?.daily_missions?.diagResult;
-        const diagLabel = diag ? ({inicial:'Inicial',proceso:'En Proceso',satisfactorio:'Satisfactorio',destacado:'Destacado'}[diag.level]||'—') : '—';
-        return [getName(p), getEmail(p), p.xp||0, p.level||1,
-            p.completed_cards?.length||0, p.streak||0,
-            diagLabel, hasCertificate(p)?'Sí':'No', fmtDate(p.updated_at)];
+        const diagLabel = diag ? ({ inicial: 'Inicial', proceso: 'En Proceso', satisfactorio: 'Satisfactorio', destacado: 'Destacado' }[diag.level] || '—') : '—';
+        return [getName(p), getEmail(p), p.xp || 0, p.level || 1,
+        p.completed_cards?.length || 0, p.streak || 0,
+            diagLabel, hasCertificate(p) ? 'Sí' : 'No', fmtDate(p.updated_at)];
     })];
-    downloadCSV(`docentes_${new Date().toISOString().slice(0,10)}.csv`, rows);
+    downloadCSV(`docentes_${new Date().toISOString().slice(0, 10)}.csv`, rows);
 }
 
 async function exportProgressCSV() {
     const progress = _allProgress.length ? _allProgress : await fetchAllProgress();
-    const headers  = ['Nombre','Correo','Curso','Tarjetas completadas','Progreso %','Examen %','Certificado'];
+    const headers = ['Nombre', 'Correo', 'Curso', 'Tarjetas completadas', 'Progreso %', 'Examen %', 'Certificado'];
     const rows = [headers];
     progress.forEach(p => {
         STATIC_COURSES.forEach(c => {
             const pct = getProgressPct(p, c.id);
             const scores = p?.daily_missions?.examScores || {};
-            const examScore = c.id==='steam' ? (scores['steam']??p?.daily_missions?.examScore??null) : (scores[c.id]??null);
+            const examScore = c.id === 'steam' ? (scores['steam'] ?? p?.daily_missions?.examScore ?? null) : (scores[c.id] ?? null);
             const cert = examScore !== null && examScore >= 70;
-            rows.push([getName(p), getEmail(p), c.title, p.completed_cards?.length||0, pct+'%',
-                examScore!==null ? examScore+'%' : '—', cert?'Sí':'No']);
+            rows.push([getName(p), getEmail(p), c.title, p.completed_cards?.length || 0, pct + '%',
+            examScore !== null ? examScore + '%' : '—', cert ? 'Sí' : 'No']);
         });
     });
-    downloadCSV(`progreso_cursos_${new Date().toISOString().slice(0,10)}.csv`, rows);
+    downloadCSV(`progreso_cursos_${new Date().toISOString().slice(0, 10)}.csv`, rows);
 }
 
 async function exportFeedbackCSV() {
-    const { data:fb } = await sb.from('feedback').select('*').order('created_at',{ascending:false});
-    if (!fb?.length) { toast('No hay feedback para exportar.',false); return; }
-    const headers = ['Módulo','Rating (1-5)','NPS (0-10)','Categoría NPS','Comentario','Fecha'];
-    const rows = [headers, ...fb.map(f=>[
-        f.module_name||`Módulo ${f.module_id}`||'General',
-        f.rating||'—', f.nps||'—',
-        f.nps>=9?'Promotor':f.nps>=7?'Neutro':'Detractor',
-        f.comment||'', fmtDate(f.created_at)
+    const { data: fb } = await sb.from('feedback').select('*').order('created_at', { ascending: false });
+    if (!fb?.length) { toast('No hay feedback para exportar.', false); return; }
+    const headers = ['Módulo', 'Rating (1-5)', 'NPS (0-10)', 'Categoría NPS', 'Comentario', 'Fecha'];
+    const rows = [headers, ...fb.map(f => [
+        f.module_name || `Módulo ${f.module_id}` || 'General',
+        f.rating || '—', f.nps || '—',
+        f.nps >= 9 ? 'Promotor' : f.nps >= 7 ? 'Neutro' : 'Detractor',
+        f.comment || '', fmtDate(f.created_at)
     ])];
-    downloadCSV(`feedback_${new Date().toISOString().slice(0,10)}.csv`, rows);
+    downloadCSV(`feedback_${new Date().toISOString().slice(0, 10)}.csv`, rows);
 }
 
 async function exportFullBackup() {
-    const tables = ['progress','feedback','courses','resource_views'];
+    const tables = ['progress', 'feedback', 'courses', 'resource_views'];
     const allData = { exportDate: new Date().toISOString() };
     for (const t of tables) {
         const { data } = await sb.from(t).select('*');
         allData[t] = data || [];
     }
-    const blob = new Blob([JSON.stringify(allData,null,2)],{type:'application/json'});
+    const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
     const a = document.createElement('a');
-    a.download = `backup_${new Date().toISOString().slice(0,10)}.json`;
+    a.download = `backup_${new Date().toISOString().slice(0, 10)}.json`;
     a.href = URL.createObjectURL(blob);
     a.click();
     toast('Backup descargado.');
@@ -2157,26 +2175,26 @@ async function exportFullBackup() {
 // ── Informe ejecutivo (print) ────────────────────────────────
 async function generateExecutiveReport() {
     const progress = _allProgress.length ? _allProgress : await fetchAllProgress();
-    const total     = progress.length;
-    const active30  = progress.filter(isActive7d).length;
+    const total = progress.length;
+    const active30 = progress.filter(isActive7d).length;
     const certified = progress.filter(hasCertificate).length;
-    const totalCards= progress.reduce((a,p)=>a+(p.completed_cards?.length||0),0);
-    const horasForm = Math.round(totalCards*3/60);
+    const totalCards = progress.reduce((a, p) => a + (p.completed_cards?.length || 0), 0);
+    const horasForm = Math.round(totalCards * 3 / 60);
     // Horas reales — tiempo promedio por tarjeta medido de verdad (resource_views), no el estimado de 3min/tarjeta
     const { data: rvStatsExec } = await sb.rpc('get_resource_views_stats');
-    const avgSExec   = rvStatsExec?.[0]?.avg_seconds || 0;
+    const avgSExec = rvStatsExec?.[0]?.avg_seconds || 0;
     const horasReales = avgSExec > 0 ? Math.round(totalCards * avgSExec / 3600) : horasForm;
     const completedFull = progress.filter(hasCompletedAnyCourse).length;
-    const tasaFin   = total ? Math.round((completedFull/total)*100) : 0;
-    const { data:fbRaw } = await sb.from('feedback').select('nps,user_id');
+    const tasaFin = total ? Math.round((completedFull / total) * 100) : 0;
+    const { data: fbRaw } = await sb.from('feedback').select('nps,user_id');
     const _nonAdminIds = new Set(progress.map(p => p.user_id));
     const fb = (fbRaw || []).filter(f => _nonAdminIds.has(f.user_id));
     let npsScore = 'N/A';
     if (fb.length) {
-        const p2=fb.filter(f=>f.nps>=9).length, d=fb.filter(f=>f.nps<=6).length;
-        npsScore = Math.round(((p2-d)/fb.length)*100);
+        const p2 = fb.filter(f => f.nps >= 9).length, d = fb.filter(f => f.nps <= 6).length;
+        npsScore = Math.round(((p2 - d) / fb.length) * 100);
     }
-    const now = new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
+    const now = new Date().toLocaleDateString('es-GT', { day: '2-digit', month: 'long', year: 'numeric' });
 
     const html = `<div style="font-family:Georgia,serif;max-width:800px;margin:0 auto;color:#1e293b">
         <div style="background:#07B0E4;color:white;padding:40px;border-radius:16px;margin-bottom:32px">
@@ -2186,11 +2204,11 @@ async function generateExecutiveReport() {
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px">
             ${[
-                ['Docentes alcanzados', fmt(total),       'fas fa-chalkboard-teacher', '#4f46e5'],
-                ['Activos (7 días)',   fmt(active30),    'fas fa-user-check',         '#0891b2'],
-                ['Horas de formación', horasReales+'h',  'fas fa-clock',              '#d97706'],
-                ['Certificados emitidos', fmt(certified), 'fas fa-award',             '#16a34a'],
-            ].map(([l,v,icon,color])=>`
+            ['Docentes alcanzados', fmt(total), 'fas fa-chalkboard-teacher', '#4f46e5'],
+            ['Activos (7 días)', fmt(active30), 'fas fa-user-check', '#0891b2'],
+            ['Horas de formación', horasReales + 'h', 'fas fa-clock', '#d97706'],
+            ['Certificados emitidos', fmt(certified), 'fas fa-award', '#16a34a'],
+        ].map(([l, v, icon, color]) => `
             <div style="background:#f8fafc;padding:20px;border-radius:12px;text-align:center">
                 <div style="width:44px;height:44px;border-radius:50%;background:${color}1a;display:flex;align-items:center;justify-content:center;margin:0 auto 8px">
                     <i class="${icon}" style="color:${color};font-size:18px"></i>
@@ -2206,12 +2224,12 @@ async function generateExecutiveReport() {
                 <th style="text-align:right;padding:12px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#64748b;border-bottom:2px solid #e2e8f0">Meta</th>
             </tr></thead>
             <tbody>
-                ${[['Docentes inscritos',fmt(total),'—'],
-                   ['Tasa de finalización',tasaFin+'%','70%'],
-                   ['Tasa de certificación',total?Math.round(certified/total*100)+'%':'—','50%'],
-                   ['NPS de satisfacción',npsScore,'≥ 30'],
-                   ['Horas de formación (tiempo real medido)',horasReales+'h','—'],
-                   ['Tarjetas de contenido completadas',fmt(totalCards),'—']].map(([l,v,m])=>`
+                ${[['Docentes inscritos', fmt(total), '—'],
+        ['Tasa de finalización', tasaFin + '%', '70%'],
+        ['Tasa de certificación', total ? Math.round(certified / total * 100) + '%' : '—', '50%'],
+        ['NPS de satisfacción', npsScore, '≥ 30'],
+        ['Horas de formación (tiempo real medido)', horasReales + 'h', '—'],
+        ['Tarjetas de contenido completadas', fmt(totalCards), '—']].map(([l, v, m]) => `
                 <tr style="border-bottom:1px solid #f1f5f9">
                     <td style="padding:12px;font-size:14px">${l}</td>
                     <td style="padding:12px;font-size:16px;font-weight:700;text-align:right;color:#1A6B68">${v}</td>
@@ -2221,7 +2239,7 @@ async function generateExecutiveReport() {
         </table>
         <div style="background:#f8fafc;padding:24px;border-radius:12px;margin-bottom:32px">
             <h3 style="font-size:15px;font-weight:700;margin:0 0 12px;color:#1e293b">Cursos del programa</h3>
-            ${STATIC_COURSES.map(c=>`
+            ${STATIC_COURSES.map(c => `
             <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #e2e8f0;font-size:13px">
                 <span style="color:#1e293b">${c.title}</span>
                 <span style="color:#64748b">${c.durationHours}h · ${c.totalCards} tarjetas</span>
@@ -2236,32 +2254,32 @@ async function generateExecutiveReport() {
 
 // ── Informe MINEDUC ──────────────────────────────────────────
 async function generateMineduc() {
-    const progress  = _allProgress.length ? _allProgress : await fetchAllProgress();
-    const total     = progress.length;
+    const progress = _allProgress.length ? _allProgress : await fetchAllProgress();
+    const total = progress.length;
     const certified = progress.filter(hasCertificate).length;
-    const active    = progress.filter(isActive7d).length;
-    const totalCards= progress.reduce((a,p)=>a+(p.completed_cards?.length||0),0);
-    const horasForm = Math.round(totalCards*3/60);
+    const active = progress.filter(isActive7d).length;
+    const totalCards = progress.reduce((a, p) => a + (p.completed_cards?.length || 0), 0);
+    const horasForm = Math.round(totalCards * 3 / 60);
     // Horas reales — tiempo promedio por tarjeta medido de verdad (resource_views), no el estimado de 3min/tarjeta
     const { data: rvStatsMin } = await sb.rpc('get_resource_views_stats');
-    const avgSMin   = rvStatsMin?.[0]?.avg_seconds || 0;
+    const avgSMin = rvStatsMin?.[0]?.avg_seconds || 0;
     const horasReales = avgSMin > 0 ? Math.round(totalCards * avgSMin / 3600) : horasForm;
     const completedFull = progress.filter(hasCompletedAnyCourse).length;
-    const { data:fbRaw } = await sb.from('feedback').select('nps,rating,user_id');
+    const { data: fbRaw } = await sb.from('feedback').select('nps,rating,user_id');
     const _nonAdminIds = new Set(progress.map(p => p.user_id));
     const fb = (fbRaw || []).filter(f => _nonAdminIds.has(f.user_id));
-    let npsScore='N/A', avgRating='N/A';
+    let npsScore = 'N/A', avgRating = 'N/A';
     if (fb.length) {
-        const p2=fb.filter(f=>f.nps>=9).length, d=fb.filter(f=>f.nps<=6).length;
-        npsScore = Math.round(((p2-d)/fb.length)*100);
-        avgRating = (fb.reduce((a,f)=>a+(f.rating||0),0)/fb.length).toFixed(1);
+        const p2 = fb.filter(f => f.nps >= 9).length, d = fb.filter(f => f.nps <= 6).length;
+        npsScore = Math.round(((p2 - d) / fb.length) * 100);
+        avgRating = (fb.reduce((a, f) => a + (f.rating || 0), 0) / fb.length).toFixed(1);
     }
-    const now = new Date().toLocaleDateString('es-GT',{day:'2-digit',month:'long',year:'numeric'});
+    const now = new Date().toLocaleDateString('es-GT', { day: '2-digit', month: 'long', year: 'numeric' });
     const year = new Date().getFullYear();
 
     // Tasa de certificación por curso (% con examen ≥70%)
     const courseCertRates = STATIC_COURSES.map(c => {
-        const enrolled = progress.filter(p => (p.completed_cards||[]).some(id => _cardBelongsTo(c.id, id)));
+        const enrolled = progress.filter(p => (p.completed_cards || []).some(id => _cardBelongsTo(c.id, id)));
         const passed = enrolled.filter(p => {
             const sc = p.daily_missions?.examScores || {};
             const v = c.id === 'steam' ? (sc['steam'] ?? p.daily_missions?.examScore ?? -1) : (sc[c.id] ?? -1);
@@ -2274,8 +2292,8 @@ async function generateMineduc() {
     // Impacto agregado por ruta de aprendizaje (suma de inscritos/aprobados de sus cursos)
     const routeCertRates = LEARNING_PATHS.map(route => {
         const cursos = courseCertRates.filter(c => route.courses.includes(c.id));
-        const enrolledCount = cursos.reduce((a,c)=>a+c.enrolledCount,0);
-        const passedCount   = cursos.reduce((a,c)=>a+c.passedCount,0);
+        const enrolledCount = cursos.reduce((a, c) => a + c.enrolledCount, 0);
+        const passedCount = cursos.reduce((a, c) => a + c.passedCount, 0);
         const rate = enrolledCount ? Math.round(passedCount / enrolledCount * 100) : 0;
         return { ...route, courseCount: cursos.length, enrolledCount, passedCount, rate };
     });
@@ -2293,15 +2311,15 @@ async function generateMineduc() {
         <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:13px">
             <thead><tr style="background:#f0f4f8"><th style="text-align:left;padding:8px;border:1px solid #ddd">Indicador</th><th style="text-align:center;padding:8px;border:1px solid #ddd">Resultado</th></tr></thead>
             <tbody>
-                ${[['Docentes inscritos en la plataforma',fmt(total)],
-                   ['Docentes activos (últimos 7 días)',fmt(active)],
-                   ['Tasa de retención activa',total?Math.round(active/total*100)+'%':'—'],
-                   ['Docentes que completaron al menos un curso',completedFull+' ('+( total?Math.round(completedFull/total*100):0 )+'%)'],
-                   ['Certificados emitidos',fmt(certified)],
-                   ['Horas de formación (tiempo real medido)',horasReales+' horas'],
-                   ['Interacciones de aprendizaje (tarjetas)',fmt(totalCards)],
-                   ['Satisfacción docente (NPS)',npsScore+' / 100'],
-                   ['Rating promedio de módulos',avgRating+' / 5.0']].map(([l,v])=>`
+                ${[['Docentes inscritos en la plataforma', fmt(total)],
+        ['Docentes activos (últimos 7 días)', fmt(active)],
+        ['Tasa de retención activa', total ? Math.round(active / total * 100) + '%' : '—'],
+        ['Docentes que completaron al menos un curso', completedFull + ' (' + (total ? Math.round(completedFull / total * 100) : 0) + '%)'],
+        ['Certificados emitidos', fmt(certified)],
+        ['Horas de formación (tiempo real medido)', horasReales + ' horas'],
+        ['Interacciones de aprendizaje (tarjetas)', fmt(totalCards)],
+        ['Satisfacción docente (NPS)', npsScore + ' / 100'],
+        ['Rating promedio de módulos', avgRating + ' / 5.0']].map(([l, v]) => `
                 <tr><td style="padding:8px;border:1px solid #ddd">${l}</td><td style="padding:8px;border:1px solid #ddd;text-align:center;font-weight:bold;color:#1A6B68">${v}</td></tr>`).join('')}
             </tbody>
         </table>
@@ -2315,19 +2333,19 @@ async function generateMineduc() {
                 <th style="text-align:center;padding:8px;border:1px solid #ddd">Tasa de certificación</th>
             </tr></thead>
             <tbody>
-                ${routeCertRates.map((r,i)=>`<tr ${i%2===0?'style="background:#fafafa"':''}>
+                ${routeCertRates.map((r, i) => `<tr ${i % 2 === 0 ? 'style="background:#fafafa"' : ''}>
                     <td style="padding:8px;border:1px solid #ddd">${r.label}</td>
                     <td style="padding:8px;border:1px solid #ddd;text-align:center">${r.courseCount}</td>
-                    <td style="padding:8px;border:1px solid #ddd;text-align:center;font-weight:bold;color:${r.rate>=60?'#1A6B68':r.rate>=30?'#d97706':'#dc2626'}">${r.rate}%</td>
+                    <td style="padding:8px;border:1px solid #ddd;text-align:center;font-weight:bold;color:${r.rate >= 60 ? '#1A6B68' : r.rate >= 30 ? '#d97706' : '#dc2626'}">${r.rate}%</td>
                 </tr>`).join('')}
                 <tr style="font-weight:bold;background:#e8f5e9">
                     <td style="padding:8px;border:1px solid #ddd">TOTAL DEL PROGRAMA</td>
                     <td style="padding:8px;border:1px solid #ddd;text-align:center">${STATIC_COURSES.length}</td>
                     <td style="padding:8px;border:1px solid #ddd;text-align:center">${(() => {
-                        const e = routeCertRates.reduce((a,r)=>a+r.enrolledCount,0);
-                        const p = routeCertRates.reduce((a,r)=>a+r.passedCount,0);
-                        return e ? Math.round(p/e*100)+'%' : '—';
-                    })()}</td>
+            const e = routeCertRates.reduce((a, r) => a + r.enrolledCount, 0);
+            const p = routeCertRates.reduce((a, r) => a + r.passedCount, 0);
+            return e ? Math.round(p / e * 100) + '%' : '—';
+        })()}</td>
                 </tr>
             </tbody>
         </table>
@@ -2344,25 +2362,25 @@ async function generateMineduc() {
             </tr></thead>
             <tbody>
                 ${(() => {
-                    const byDept = {};
-                    progress.forEach(p => {
-                        const dept = getDept(p);
-                        if (!byDept[dept]) byDept[dept] = { count:0, active:0, certs:0, cards:0 };
-                        byDept[dept].count++;
-                        if (isActive7d(p)) byDept[dept].active++;
-                        if (hasCertificate(p)) byDept[dept].certs++;
-                        byDept[dept].cards += (p.completed_cards?.length || 0);
-                    });
-                    return Object.entries(byDept)
-                        .sort((a,b) => b[1].count - a[1].count)
-                        .map(([dept, d], i) => `<tr ${i%2===0?'style="background:#fafafa"':''}>
-                            <td style="padding:8px;border:1px solid #ddd;font-weight:${dept!=='Individual'?'bold':'normal'}">${dept}</td>
+            const byDept = {};
+            progress.forEach(p => {
+                const dept = getDept(p);
+                if (!byDept[dept]) byDept[dept] = { count: 0, active: 0, certs: 0, cards: 0 };
+                byDept[dept].count++;
+                if (isActive7d(p)) byDept[dept].active++;
+                if (hasCertificate(p)) byDept[dept].certs++;
+                byDept[dept].cards += (p.completed_cards?.length || 0);
+            });
+            return Object.entries(byDept)
+                .sort((a, b) => b[1].count - a[1].count)
+                .map(([dept, d], i) => `<tr ${i % 2 === 0 ? 'style="background:#fafafa"' : ''}>
+                            <td style="padding:8px;border:1px solid #ddd;font-weight:${dept !== 'Individual' ? 'bold' : 'normal'}">${dept}</td>
                             <td style="padding:8px;border:1px solid #ddd;text-align:center">${d.count}</td>
-                            <td style="padding:8px;border:1px solid #ddd;text-align:center">${d.active} (${Math.round(d.active/d.count*100)}%)</td>
+                            <td style="padding:8px;border:1px solid #ddd;text-align:center">${d.active} (${Math.round(d.active / d.count * 100)}%)</td>
                             <td style="padding:8px;border:1px solid #ddd;text-align:center;color:#1A6B68;font-weight:bold">${d.certs}</td>
                             <td style="padding:8px;border:1px solid #ddd;text-align:center">${fmt(d.cards)}</td>
                         </tr>`).join('');
-                })()}
+        })()}
             </tbody>
         </table>
 
@@ -2391,7 +2409,7 @@ function showReportPreview(html) {
     const print = document.getElementById('printArea');
     if (cont) cont.innerHTML = html;
     if (print) print.innerHTML = html;
-    if (card) { card.style.display='block'; card.scrollIntoView({behavior:'smooth'}); }
+    if (card) { card.style.display = 'block'; card.scrollIntoView({ behavior: 'smooth' }); }
 }
 
 // ────────────────────────────────────────────────────────────
@@ -2405,9 +2423,9 @@ let _annState = { id: 0, active: false, type: 'info', title: '', message: '', ex
 
 const ANN_TYPES = {
     maintenance: { label: 'Mantenimiento', color: '#DC2626', bg: '#FEE2E2', icon: 'fa-tools' },
-    info:        { label: 'Información',   color: '#2563EB', bg: '#DBEAFE', icon: 'fa-circle-info' },
-    new_course:  { label: 'Curso nuevo',   color: '#16A34A', bg: '#DCFCE7', icon: 'fa-graduation-cap' },
-    event:       { label: 'Evento',        color: '#7C3AED', bg: '#EDE9FE', icon: 'fa-calendar-star' },
+    info: { label: 'Información', color: '#2563EB', bg: '#DBEAFE', icon: 'fa-circle-info' },
+    new_course: { label: 'Curso nuevo', color: '#16A34A', bg: '#DCFCE7', icon: 'fa-graduation-cap' },
+    event: { label: 'Evento', color: '#7C3AED', bg: '#EDE9FE', icon: 'fa-calendar-star' },
 };
 
 async function loadAnnouncement() {
@@ -2440,7 +2458,7 @@ function _renderAnnouncementPanel() {
                 </div>
                 <div>
                     <label class="text-xs font-semibold text-slate-500 mb-1 block">Expira (opcional)</label>
-                    <input type="date" id="annExpires" class="input-field text-xs" value="${a.expiresAt ? a.expiresAt.slice(0,10) : ''}" onchange="_annState.expiresAt=this.value?new Date(this.value+'T23:59:59').toISOString():null">
+                    <input type="date" id="annExpires" class="input-field text-xs" value="${a.expiresAt ? a.expiresAt.slice(0, 10) : ''}" onchange="_annState.expiresAt=this.value?new Date(this.value+'T23:59:59').toISOString():null">
                 </div>
             </div>
             <div>
@@ -2531,7 +2549,7 @@ async function loadPushPanel() {
 
 async function sendPushBroadcast(titleOverride, bodyOverride, _skipLog) {
     const title = titleOverride || document.getElementById('pushTitle')?.value?.trim();
-    const body  = bodyOverride  || document.getElementById('pushBody')?.value?.trim();
+    const body = bodyOverride || document.getElementById('pushBody')?.value?.trim();
     if (!title && !body) { toast('Escribe un título o mensaje', false); return null; }
     const resultEl = document.getElementById('pushResult');
     if (resultEl) resultEl.textContent = 'Enviando…';
@@ -2606,18 +2624,18 @@ async function loadBroadcastHistory() {
 let _lpState = []; // estado vivo de rutas, se modifica sin guardar hasta "Guardar todo"
 
 const LP_COLORS = [
-    { color:'#07B0E4', gradient:'#07B0E4' },
-    { color:'#E83C8D', gradient:'linear-gradient(135deg,#7C3AED,#E83C8D)' },
-    { color:'#F59E0B', gradient:'linear-gradient(135deg,#D97706,#F59E0B)' },
-    { color:'#10B981', gradient:'linear-gradient(135deg,#065F46,#10B981)' },
-    { color:'#6366F1', gradient:'linear-gradient(135deg,#3730A3,#6366F1)' },
-    { color:'#EF4444', gradient:'linear-gradient(135deg,#991B1B,#EF4444)' },
+    { color: '#07B0E4', gradient: '#07B0E4' },
+    { color: '#E83C8D', gradient: 'linear-gradient(135deg,#7C3AED,#E83C8D)' },
+    { color: '#F59E0B', gradient: 'linear-gradient(135deg,#D97706,#F59E0B)' },
+    { color: '#10B981', gradient: 'linear-gradient(135deg,#065F46,#10B981)' },
+    { color: '#6366F1', gradient: 'linear-gradient(135deg,#3730A3,#6366F1)' },
+    { color: '#EF4444', gradient: 'linear-gradient(135deg,#991B1B,#EF4444)' },
 ];
 
 async function loadLearningPaths() {
     const container = document.getElementById('learningPathsPanel');
     if (!container) return;
-    const { data } = await sb.from('app_config').select('key,value').eq('key','learning_paths');
+    const { data } = await sb.from('app_config').select('key,value').eq('key', 'learning_paths');
     _lpState = data?.[0]?.value
         ? JSON.parse(JSON.stringify(data[0].value))
         : JSON.parse(JSON.stringify(LEARNING_PATHS));
@@ -2659,7 +2677,7 @@ function _renderPathCard(path, pi) {
                     oninput="_lpState[${pi}].label=this.value">
             </div>
             <select onchange="_lp_setColor(${pi},this.value)" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;padding:6px 8px;border-radius:8px;font-size:12px;outline:none;cursor:pointer">
-                ${LP_COLORS.map((c,ci) => `<option value="${ci}" ${(path.color===c.color)?'selected':''} style="background:#1e293b">${['Azul','Rosa','Ámbar','Verde','Índigo','Rojo'][ci]}</option>`).join('')}
+                ${LP_COLORS.map((c, ci) => `<option value="${ci}" ${(path.color === c.color) ? 'selected' : ''} style="background:#1e293b">${['Azul', 'Rosa', 'Ámbar', 'Verde', 'Índigo', 'Rojo'][ci]}</option>`).join('')}
             </select>
             <button onclick="_lp_deletePath(${pi})" title="Eliminar ruta" style="background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:white;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:13px">
                 <i class="fas fa-trash"></i>
@@ -2669,19 +2687,19 @@ function _renderPathCard(path, pi) {
             <p style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin:0 0 10px">Cursos en orden (${courseObjs.length})</p>
             <div style="display:flex;flex-direction:column;gap:6px" id="lp_courses_${pi}">
                 ${courseObjs.length === 0
-                    ? `<p style="font-size:13px;color:#94a3b8;text-align:center;padding:16px 0">Sin cursos aún. Agrega uno abajo.</p>`
-                    : courseObjs.map((c, ci) => `
+            ? `<p style="font-size:13px;color:#94a3b8;text-align:center;padding:16px 0">Sin cursos aún. Agrega uno abajo.</p>`
+            : courseObjs.map((c, ci) => `
                     <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px">
                         <div style="display:flex;flex-direction:column;gap:2px">
-                            <button onclick="_lp_move(${pi},${ci},-1)" ${ci===0?'disabled':''} style="background:none;border:none;cursor:pointer;color:${ci===0?'#cbd5e1':'#64748b'};padding:0;line-height:1;font-size:11px"><i class="fas fa-chevron-up"></i></button>
-                            <button onclick="_lp_move(${pi},${ci},1)" ${ci===courseObjs.length-1?'disabled':''} style="background:none;border:none;cursor:pointer;color:${ci===courseObjs.length-1?'#cbd5e1':'#64748b'};padding:0;line-height:1;font-size:11px"><i class="fas fa-chevron-down"></i></button>
+                            <button onclick="_lp_move(${pi},${ci},-1)" ${ci === 0 ? 'disabled' : ''} style="background:none;border:none;cursor:pointer;color:${ci === 0 ? '#cbd5e1' : '#64748b'};padding:0;line-height:1;font-size:11px"><i class="fas fa-chevron-up"></i></button>
+                            <button onclick="_lp_move(${pi},${ci},1)" ${ci === courseObjs.length - 1 ? 'disabled' : ''} style="background:none;border:none;cursor:pointer;color:${ci === courseObjs.length - 1 ? '#cbd5e1' : '#64748b'};padding:0;line-height:1;font-size:11px"><i class="fas fa-chevron-down"></i></button>
                         </div>
-                        <div style="width:32px;height:32px;border-radius:8px;background:${c.color||'#07B0E4'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${c.icon || '<svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L20 8 L36 15 L20 22 Z" stroke-width="1.8" fill="rgba(255,255,255,0.15)"/><path d="M11 18 V27 Q11 31 20 31 Q29 31 29 27 V18" stroke-width="1.8"/></svg>'}</div>
+                        <div style="width:32px;height:32px;border-radius:8px;background:${c.color || '#07B0E4'};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${c.icon || '<svg width="20" height="20" viewBox="0 0 40 40" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15 L20 8 L36 15 L20 22 Z" stroke-width="1.8" fill="rgba(255,255,255,0.15)"/><path d="M11 18 V27 Q11 31 20 31 Q29 31 29 27 V18" stroke-width="1.8"/></svg>'}</div>
                         <div style="flex:1;min-width:0">
                             <p style="font-size:13px;font-weight:600;color:#1e293b;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.title}</p>
-                            <p style="font-size:11px;color:#64748b;margin:0">${c.durationHours||0}h · ${c.totalCards||0} tarjetas</p>
+                            <p style="font-size:11px;color:#64748b;margin:0">${c.durationHours || 0}h · ${c.totalCards || 0} tarjetas</p>
                         </div>
-                        <span style="font-size:10px;font-weight:700;color:#64748b;background:#f1f5f9;padding:2px 6px;border-radius:6px">#${ci+1}</span>
+                        <span style="font-size:10px;font-weight:700;color:#64748b;background:#f1f5f9;padding:2px 6px;border-radius:6px">#${ci + 1}</span>
                         <button onclick="_lp_removeCourse(${pi},'${c.id}')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:14px;padding:0 4px"><i class="fas fa-times"></i></button>
                     </div>`).join('')}
             </div>
@@ -2689,7 +2707,7 @@ function _renderPathCard(path, pi) {
             <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
                 <select id="lp_add_${pi}" style="flex:1;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:13px;color:#1e293b;background:#fff;outline:none">
                     <option value="">— Agregar curso —</option>
-                    ${available.map(c => `<option value="${c.id}">${c.title} (${c.durationHours||0}h)</option>`).join('')}
+                    ${available.map(c => `<option value="${c.id}">${c.title} (${c.durationHours || 0}h)</option>`).join('')}
                 </select>
                 <button onclick="_lp_addCourse(${pi})" style="padding:8px 14px;background:#0f172a;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer">
                     <i class="fas fa-plus"></i>
@@ -2745,7 +2763,7 @@ function _lp_addPath() {
     });
     _renderLearningPaths();
     // scroll al final
-    setTimeout(() => document.getElementById('learningPathsPanel')?.lastElementChild?.previousElementSibling?.scrollIntoView({behavior:'smooth'}), 50);
+    setTimeout(() => document.getElementById('learningPathsPanel')?.lastElementChild?.previousElementSibling?.scrollIntoView({ behavior: 'smooth' }), 50);
 }
 
 async function saveAllLearningPaths() {
@@ -2759,7 +2777,7 @@ async function saveAllLearningPaths() {
 }
 
 let _signatures = [];
-let _schools    = [];
+let _schools = [];
 
 // ── Firmas ──────────────────────────────────────────────────
 async function loadSignatures() {
@@ -2791,8 +2809,8 @@ function renderSignatures() {
         </div>
         <div class="flex items-center gap-3">
             ${sig.signature_url
-                ? `<img src="${sig.signature_url}" class="h-12 object-contain border border-slate-200 rounded-lg px-2">`
-                : `<div class="h-12 w-28 border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center text-xs text-slate-400">Sin firma</div>`}
+            ? `<img src="${sig.signature_url}" class="h-12 object-contain border border-slate-200 rounded-lg px-2">`
+            : `<div class="h-12 w-28 border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center text-xs text-slate-400">Sin firma</div>`}
             <label class="btn-secondary text-xs cursor-pointer">
                 <i class="fas fa-upload mr-1"></i>Subir imagen
                 <input type="file" accept="image/*" class="hidden" onchange="uploadSignature(${sig.slot}, this)">
@@ -2811,7 +2829,7 @@ async function uploadSignature(slot, input) {
     const file = input.files[0];
     if (!file) return;
     toast('Subiendo firma…', 'info');
-    const ext  = file.name.split('.').pop();
+    const ext = file.name.split('.').pop();
     const path = `slot${slot}_${Date.now()}.${ext}`;
     const { error: upErr } = await sb.storage.from('signatures').upload(path, file, { upsert: true });
     if (upErr) { toast('Error al subir: ' + upErr.message, 'error'); return; }
@@ -3122,7 +3140,7 @@ async function loadCoordinators() {
 
 function openAddCoordModal() {
     document.getElementById('coordEmailInput').value = '';
-    document.getElementById('coordNameInput').value  = '';
+    document.getElementById('coordNameInput').value = '';
     document.getElementById('coordUserId').value = '';
     document.getElementById('coordSearchResult').classList.add('hidden');
     // Desmarcar todos los checkboxes
@@ -3141,9 +3159,9 @@ function clearCoordSearch() {
 }
 
 async function searchCoordByEmail() {
-    const email   = document.getElementById('coordEmailInput').value.trim().toLowerCase();
+    const email = document.getElementById('coordEmailInput').value.trim().toLowerCase();
     const resultEl = document.getElementById('coordSearchResult');
-    const btn      = document.getElementById('coordSaveBtn');
+    const btn = document.getElementById('coordSaveBtn');
     if (!email) { toast('Ingresa un correo primero.', 'error'); return; }
 
     resultEl.className = 'rounded-xl px-4 py-3 text-sm bg-slate-50 border border-slate-200';
@@ -3159,7 +3177,7 @@ async function searchCoordByEmail() {
     if (found?.length) {
         const p = found[0];
         const nombre = p.daily_missions?.displayName || p.daily_missions?.fullName || email.split('@')[0];
-        document.getElementById('coordUserId').value  = p.user_id;
+        document.getElementById('coordUserId').value = p.user_id;
         document.getElementById('coordNameInput').value = nombre;
         resultEl.className = 'rounded-xl px-4 py-3 text-sm bg-green-50 border border-green-200 text-green-700';
         resultEl.innerHTML = `<i class="fas fa-check-circle mr-2"></i><strong>${nombre}</strong> encontrado — listo para asignar.`;
@@ -3173,14 +3191,14 @@ async function searchCoordByEmail() {
 }
 
 async function saveCoordinator() {
-    const name   = document.getElementById('coordNameInput').value.trim();
-    const email  = document.getElementById('coordEmailInput').value.trim().toLowerCase();
+    const name = document.getElementById('coordNameInput').value.trim();
+    const email = document.getElementById('coordEmailInput').value.trim().toLowerCase();
     const userId = document.getElementById('coordUserId').value;
     const selectedSchools = [...document.querySelectorAll('.coord-school-cb:checked')].map(cb => cb.value);
 
-    if (!userId)              { toast('Busca el usuario por email primero.', 'error'); return; }
+    if (!userId) { toast('Busca el usuario por email primero.', 'error'); return; }
     if (!selectedSchools.length) { toast('Selecciona al menos un centro educativo.', 'error'); return; }
-    if (!name)                { toast('Ingresa el nombre del coordinador.', 'error'); return; }
+    if (!name) { toast('Ingresa el nombre del coordinador.', 'error'); return; }
 
     // Insertar una fila por cada escuela seleccionada
     const rows = selectedSchools.map(sid => ({ user_id: userId, school_id: sid, name, email }));
@@ -3207,24 +3225,24 @@ async function deleteCoordinator(userId, schoolId) {
 // NAVEGACIÓN
 // ────────────────────────────────────────────────────────────
 function switchView(view) {
-    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     const vEl = document.getElementById(`${view}View`);
     if (vEl) vEl.classList.add('active');
 
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     const bEl = document.querySelector(`.nav-btn[data-view="${view}"]`);
     if (bEl) bEl.classList.add('active');
 
-    if (view==='dashboard')       loadDashboard();
-    if (view==='analytics')       { loadAnalytics(); loadResourceDownloadsPanel(); }
-    if (view==='users')           loadUsers();
-    if (view==='feedback')        loadFeedback();
-    if (view==='comments')        loadAdminComments();
-    if (view==='cms')             loadCMS();
-    if (view==='rutas')           loadLearningPaths();
-    if (view==='centros')         { loadSchools(); loadCoordinators(); }
-    if (view==='notificaciones')  { loadAnnouncement(); loadPushPanel(); loadBroadcastHistory(); }
-    if (view==='firmas')          loadSignatures();
+    if (view === 'dashboard') loadDashboard();
+    if (view === 'analytics') { loadAnalytics(); loadResourceDownloadsPanel(); }
+    if (view === 'users') loadUsers();
+    if (view === 'feedback') loadFeedback();
+    if (view === 'comments') loadAdminComments();
+    if (view === 'cms') loadCMS();
+    if (view === 'rutas') loadLearningPaths();
+    if (view === 'centros') { loadSchools(); loadCoordinators(); }
+    if (view === 'notificaciones') { loadAnnouncement(); loadPushPanel(); loadBroadcastHistory(); }
+    if (view === 'firmas') loadSignatures();
 }
 
 function closeSidebar() {
