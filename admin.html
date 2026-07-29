@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo — Formación Docente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="./data.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', system-ui, sans-serif; }
+        .view { display: none; }
+        .view.active { display: block; }
+        #sidebar { transform: translateX(-100%); transition: transform .25s ease; }
+        @media(min-width:768px){ #sidebar { transform:translateX(0); } }
+        #sidebar.open { transform:translateX(0); }
+        .nav-item { display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:10px;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:background .15s,color .15s; }
+        .nav-item:hover { background:#f8fafc;color:#1e293b; }
+        .nav-item.active { background:#eef2ff;color:#4f46e5;font-weight:700; }
+        .nav-item i { width:16px;text-align:center;font-size:12px; }
+        .card { background:white;border-radius:20px;padding:20px;border:1px solid #f1f5f9;box-shadow:0 1px 4px rgba(0,0,0,.05); }
+        .kpi-val { font-size:2rem;font-weight:900;color:#1e293b;line-height:1; }
+        .kpi-label { font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px; }
+        .kpi-sub { font-size:11px;color:#94a3b8;margin-top:4px; }
+        .impact-bar { background:linear-gradient(135deg,#1A6B68,#07B0E4); }
+        .btn-primary { background:#4f46e5;color:white;padding:8px 16px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:background .15s;display:inline-flex;align-items:center;gap:6px; }
+        .btn-primary:hover { background:#4338ca; }
+        .btn-secondary { background:#f8fafc;color:#475569;padding:8px 16px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #e2e8f0;transition:background .15s;display:inline-flex;align-items:center;gap:6px; }
+        .btn-secondary:hover { background:#f1f5f9; }
+        .btn-danger { background:#fef2f2;color:#dc2626;padding:8px 16px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #fee2e2;transition:background .15s; }
+        .btn-danger:hover { background:#fee2e2; }
+        .input-field { width:100%;border:1px solid #e2e8f0;border-radius:12px;padding:10px 14px;font-size:13px;outline:none;transition:border .15s,box-shadow .15s; }
+        .input-field:focus { border-color:#818cf8;box-shadow:0 0 0 3px rgba(129,140,248,.15); }
+        .badge { display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700; }
+        .tag-green { background:#dcfce7;color:#166534; }
+        .tag-blue { background:#dbeafe;color:#1e40af; }
+        .tag-amber { background:#fef3c7;color:#92400e; }
+        .tag-violet { background:#f3e8ff;color:#6b21a8; }
+        .tag-slate { background:#f1f5f9;color:#475569; }
+        .tag-red { background:#fee2e2;color:#991b1b; }
+        table { border-collapse:collapse;width:100%; }
+        th { text-align:left;padding:10px 16px;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;background:#f8fafc;border-bottom:1px solid #f1f5f9; }
+        td { padding:10px 16px;font-size:13px;color:#475569;border-bottom:1px solid #f8fafc; }
+        tr:last-child td { border-bottom:none; }
+        tr:hover td { background:#fafafa; }
+        .loader { display:flex;align-items:center;justify-content:center;padding:40px;color:#94a3b8;font-size:13px;gap:8px; }
+        .toast { position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:12px 18px;border-radius:14px;font-size:13px;font-weight:600;z-index:9999;animation:slideUp .25s ease;box-shadow:0 8px 24px rgba(0,0,0,.2); }
+        @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .cms-step { display:none; }
+        .cms-step.active { display:block; }
+        .module-item { background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:14px;margin-bottom:8px; }
+        .card-item { background:white;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:border .15s; }
+        .card-item:hover { border-color:#818cf8; }
+        .card-type-badge { padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700;flex-shrink:0; }
+        .type-content { background:#dbeafe;color:#1e40af; }
+        .type-quiz { background:#dcfce7;color:#166534; }
+        .type-project { background:#fef3c7;color:#92400e; }
+        .type-simulation { background:#f3e8ff;color:#6b21a8; }
+        .progress-ring-bg { stroke:#f1f5f9; }
+        .progress-ring-fill { stroke:#4f46e5;stroke-linecap:round;transition:stroke-dashoffset .6s ease; }
+        @media print {
+            body > *:not(#printArea) { display:none!important; }
+            #printArea { display:block!important; }
+            .no-print { display:none!important; }
+        }
+        #printArea { display:none; }
+
+        /* ══════════════════════════════════════
+           MOBILE RESPONSIVE — admin panel
+           ══════════════════════════════════════ */
+        @media (max-width: 767px) {
+
+            /* Padding general reducido */
+            main { padding: 14px !important; }
+
+            /* KPI values más pequeños en móvil */
+            .kpi-val { font-size: 1.6rem; }
+            .card { padding: 14px; border-radius: 14px; }
+
+            /* ── Impact banner ── */
+            .impact-stats-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .impact-divider { display: none !important; }
+
+            /* ── Tabla de docentes: scroll horizontal + columnas visibles ── */
+            .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .admin-table-wrap table { min-width: 580px; }
+            th, td { padding: 8px 10px; font-size: 11px; }
+
+            /* ── Header de secciones: stack vertical ── */
+            .section-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+            }
+            .section-header h1 { font-size: 1.2rem !important; }
+
+            /* ── Users: buscador ocupa todo el ancho ── */
+            .users-actions {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 8px !important;
+                width: 100%;
+            }
+            .users-actions input { width: 100% !important; }
+
+            /* ── Grid de 3 KPIs en usuarios ── */
+            .users-kpi-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 8px !important; }
+            .users-kpi-grid .kpi-val { font-size: 1.3rem; }
+            .users-kpi-grid .kpi-label { font-size: 9px; }
+
+            /* ── Modal CMS ── */
+            #cmsModal > div { border-radius: 20px; margin: 8px; }
+            #cmsModal .cms-modal-body { padding: 14px !important; }
+            #cmsModal .cms-modal-header { padding: 14px 16px !important; }
+            #cmsModal .cms-modal-footer { padding: 12px 14px !important; }
+            #cmsModal .cms-step-grid-2 { grid-template-columns: 1fr !important; }
+            #cmsModal .cms-step-grid-3 { grid-template-columns: 1fr 1fr !important; }
+            #cmsModal .max-h-\[60vh\] { max-height: 55vh; }
+
+            /* ── Modal editor tarjeta ── */
+            #cardEditorModal > div { margin: 8px; max-height: 92vh; }
+
+            /* ── Botones en tabla acción ── */
+            .btn-primary, .btn-secondary, .btn-danger {
+                padding: 7px 12px;
+                font-size: 12px;
+            }
+
+            /* ── Charts: altura reducida en móvil ── */
+            canvas { max-height: 200px; }
+
+            /* ── Toast: full width en móvil ── */
+            .toast {
+                left: 12px !important;
+                right: 12px !important;
+                bottom: 16px !important;
+                text-align: center;
+            }
+
+            /* ── Reporte preview: scroll ── */
+            #reportPreviewContent { padding: 12px; font-size: 12px; }
+
+            /* ── Reportes: botones de acción apilados ── */
+            .report-card-actions { flex-wrap: wrap; gap: 6px; }
+        }
+
+        /* Tabla responsive: ocultar columnas menos importantes en pantallas pequeñas */
+        @media (max-width: 480px) {
+            .col-hide-sm { display: none !important; }
+            .admin-table-wrap table { min-width: 420px; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+<!-- Toast -->
+<div id="adminToast" class="toast hidden"></div>
+
+<!-- Overlay mobile -->
+<div id="overlay" class="hidden fixed inset-0 bg-black/40 z-30 md:hidden" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar" class="w-60 bg-white border-r border-slate-100 flex flex-col fixed top-0 left-0 h-screen z-40">
+    <div class="px-4 py-5 border-b border-slate-100 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style="background:#07B0E4">
+            <i class="fas fa-graduation-cap text-white text-sm"></i>
+        </div>
+        <div class="min-w-0">
+            <p class="text-sm font-bold text-slate-800 leading-tight">Formación Docente</p>
+            <p class="text-[10px] text-slate-400 mt-0.5">Panel administrativo</p>
+        </div>
+    </div>
+
+    <nav class="flex-1 p-2 space-y-0.5 overflow-y-auto">
+        <!-- Indicador usuarios en línea -->
+        <div id="onlineIndicator" style="display:flex;align-items:center;gap:8px;padding:8px 14px;margin-bottom:4px;background:#f0fdf4;border-radius:10px;border:1px solid #bbf7d0">
+            <span style="position:relative;display:flex;width:10px;height:10px;flex-shrink:0">
+                <span style="position:absolute;inset:0;border-radius:50%;background:#22c55e;opacity:.75;animation:ping 1.5s cubic-bezier(0,0,.2,1) infinite"></span>
+                <span style="position:relative;width:10px;height:10px;border-radius:50%;background:#16a34a;display:inline-flex"></span>
+            </span>
+            <span style="font-size:12px;font-weight:700;color:#15803d"><span id="onlineCount">—</span> en línea</span>
+        </div>
+        <style>
+            @keyframes ping { 75%,100% { transform:scale(2); opacity:0 } }
+        </style>
+
+        <button data-view="dashboard" class="nav-btn nav-item active">
+            <i class="fas fa-chart-line"></i><span>Dashboard</span>
+        </button>
+        <button data-view="reports" class="nav-btn nav-item">
+            <i class="fas fa-file-alt"></i><span>Reportes</span>
+        </button>
+        <button data-view="cms" class="nav-btn nav-item">
+            <i class="fas fa-book-open"></i><span>CMS — Cursos</span>
+        </button>
+        <button data-view="analytics" class="nav-btn nav-item">
+            <i class="fas fa-chart-bar"></i><span>Analytics</span>
+        </button>
+        <button data-view="users" class="nav-btn nav-item">
+            <i class="fas fa-users"></i><span>Docentes</span>
+        </button>
+        <button data-view="feedback" class="nav-btn nav-item">
+            <i class="fas fa-comment-alt"></i><span>Feedback</span>
+        </button>
+        <button data-view="comments" class="nav-btn nav-item">
+            <i class="fas fa-comments"></i><span>Comentarios</span>
+            <span id="commentsBadge" style="margin-left:auto;background:#ef4444;color:white;font-size:9px;font-weight:800;padding:1px 6px;border-radius:99px;display:none">0</span>
+        </button>
+        <div class="my-2 border-t border-slate-100"></div>
+        <button data-view="rutas" class="nav-btn nav-item">
+            <i class="fas fa-route"></i><span>Rutas</span>
+        </button>
+        <button data-view="centros" class="nav-btn nav-item">
+            <i class="fas fa-school"></i><span>Centros</span>
+        </button>
+        <button data-view="notificaciones" class="nav-btn nav-item">
+            <i class="fas fa-bullhorn"></i><span>Notificaciones</span>
+        </button>
+        <button data-view="firmas" class="nav-btn nav-item">
+            <i class="fas fa-signature"></i><span>Firmas</span>
+        </button>
+        <a href="reclutamiento.html" class="nav-item" style="text-decoration:none">
+            <i class="fas fa-user-tie"></i><span>Reclutamiento</span>
+        </a>
+        <a href="colegios.html" class="nav-item" style="text-decoration:none">
+            <i class="fas fa-school"></i><span>Colegios</span>
+        </a>
+        <div class="my-2 border-t border-slate-100"></div>
+        <button data-view="settings" class="nav-btn nav-item">
+            <i class="fas fa-cog"></i><span>Configuración</span>
+        </button>
+    </nav>
+
+    <div class="p-3 border-t border-slate-100">
+        <div class="flex items-center gap-2.5 px-2 py-1.5">
+            <div class="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xs shrink-0">A</div>
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-slate-700 truncate" id="adminEmail">—</p>
+                <p class="text-[10px] text-slate-400">Administrador</p>
+            </div>
+            <button id="logoutAdminBtn" title="Cerrar sesión" class="text-slate-300 hover:text-red-400 transition p-1">
+                <i class="fas fa-sign-out-alt text-xs"></i>
+            </button>
+        </div>
+    </div>
+</aside>
+
+<!-- Main -->
+<div class="md:ml-60 flex flex-col min-h-screen">
+    <div class="md:hidden bg-white border-b border-slate-100 px-4 py-3 flex items-center gap-3 sticky top-0 z-20">
+        <button id="menuBtn" class="text-slate-500 w-8 h-8 flex items-center justify-center"><i class="fas fa-bars"></i></button>
+        <span class="font-bold text-slate-800 text-sm">Admin — Formación Docente</span>
+    </div>
+
+    <main class="flex-1 p-5 md:p-8">
+
+        <!-- ═══ DASHBOARD ═══ -->
+        <div id="dashboardView" class="view active">
+            <!-- Impact banner -->
+            <div class="impact-bar rounded-3xl p-6 mb-6 text-white relative overflow-hidden">
+                <div class="absolute -top-8 -right-8 w-40 h-40 rounded-full bg-white/5"></div>
+                <div class="absolute -bottom-6 -left-6 w-32 h-32 rounded-full bg-white/5"></div>
+                <p class="text-xs font-bold uppercase tracking-widest opacity-70 mb-1">Programa activo</p>
+                <h1 class="text-2xl font-black mb-1">Formación Docente en Pedagogía Innovadora</h1>
+                <p class="text-white/70 text-sm">Guatemala — <span id="dashPeriod">—</span></p>
+                <div class="impact-stats-grid flex flex-wrap gap-6 mt-5">
+                    <div><p class="text-3xl font-black" id="impactDocentes">—</p><p class="text-xs opacity-70 mt-0.5">Docentes activos (7d)</p></div>
+                    <div class="impact-divider w-px bg-white/20 self-stretch"></div>
+                    <div><p class="text-3xl font-black" id="impactHoras">—</p><p class="text-xs opacity-70 mt-0.5">Horas de formación</p><p class="text-xs opacity-50 mt-0.5" id="impactHorasReal"></p></div>
+                    <div class="impact-divider w-px bg-white/20 self-stretch"></div>
+                    <div><p class="text-3xl font-black" id="impactCertificados">—</p><p class="text-xs opacity-70 mt-0.5">Certificados emitidos</p></div>
+                </div>
+            </div>
+
+            <!-- KPI row -->
+            <div class="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                <div class="card">
+                    <p class="kpi-label">NPS global</p>
+                    <p class="kpi-val" id="kpiNps">—</p>
+                    <p class="kpi-sub">satisfacción docentes</p>
+                </div>
+                <div class="card">
+                    <p class="kpi-label">Tiempo total</p>
+                    <p class="kpi-val text-indigo-600" id="kpiAvgSession">—</p>
+                    <p class="kpi-sub">navegación en la plataforma</p>
+                </div>
+                <div class="card">
+                    <p class="kpi-label">Móvil vs PC</p>
+                    <p class="kpi-val text-violet-600" id="kpiMobile">—</p>
+                    <p class="kpi-sub" id="kpiMobileSub">desde celular</p>
+                </div>
+                <div class="card">
+                    <p class="kpi-label">Total sesiones</p>
+                    <p class="kpi-val text-indigo-600" id="kpiTotalSessions">—</p>
+                    <p class="kpi-sub">desde el lanzamiento</p>
+                </div>
+                <div class="card">
+                    <p class="kpi-label">Portafolios</p>
+                    <p class="kpi-val text-amber-600" id="kpiPortfolios">—</p>
+                    <p class="kpi-sub">enviados / con cert.</p>
+                </div>
+            </div>
+            <!-- IDs ocultos para compatibilidad con admin.js -->
+            <span id="kpiActive" class="hidden"></span>
+            <span id="kpiCompletion" class="hidden"></span>
+            <span id="kpiCards" class="hidden"></span>
+            <span id="kpiAvgTime" class="hidden"></span>
+
+            <!-- Embudo + Dispositivos + Sesiones -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
+                <div class="card lg:col-span-1">
+                    <p class="font-bold text-slate-800 mb-0.5">Embudo de conversión</p>
+                    <p class="text-xs text-slate-400 mb-4">De registrado a certificado</p>
+                    <div id="funnelChart"></div>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Dispositivos</p>
+                    <p class="text-xs text-slate-400 mb-4">Móvil vs computadora</p>
+                    <canvas id="deviceChart" height="180"></canvas>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Sesiones últimos 14 días</p>
+                    <p class="text-xs text-slate-400 mb-2">Actividad diaria</p>
+                    <canvas id="sessionsChart" height="160"></canvas>
+                </div>
+            </div>
+
+            <!-- Departamentos + Tiempo por tarjeta -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Docentes por departamento</p>
+                    <p class="text-xs text-slate-400 mb-4">Distribución geográfica — Guatemala</p>
+                    <div id="deptTable"></div>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Tiempo por tarjeta</p>
+                    <p class="text-xs text-slate-400 mb-4">Promedio de todos los docentes · Vistas = total plataforma</p>
+                    <div id="cardTimeTable"></div>
+                </div>
+            </div>
+
+            <!-- Charts row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
+                <div class="card lg:col-span-2">
+                    <p class="font-bold text-slate-800 mb-0.5">Ranking de docentes activos</p>
+                    <p class="text-xs text-slate-400 mb-4">XP acumulado — Top 10</p>
+                    <canvas id="xpChart" height="180"></canvas>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Distribución de niveles</p>
+                    <p class="text-xs text-slate-400 mb-4">Por cantidad de tarjetas completadas</p>
+                    <canvas id="levelsChart" height="180"></canvas>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                <div class="card">
+                    <div class="flex items-center justify-between mb-0.5">
+                        <p class="font-bold text-slate-800">Progreso por módulo</p>
+                        <select id="dashModuleCourseSel" class="text-xs border border-slate-200 rounded-lg px-2 py-1 text-slate-600 outline-none">
+                            <option value="steam">STEAM 2.0</option>
+                            <option value="abp">ABP</option>
+                            <option value="design-thinking">Design Thinking</option>
+                            <option value="evaluacion">Evaluación Formativa</option>
+                            <option value="tipos-estudiantes">Conoce a Quien Enseñas</option>
+                            <option value="storytelling">Storytelling</option>
+                            <option value="creatividad">Despertando la Creatividad</option>
+                            <option value="herramientas-tec">Herramientas Tecnológicas</option>
+                            <option value="m-learning">Mobile Learning</option>
+                            <option value="flipped-classroom">Flipped Classroom</option>
+                            <option value="abv">Aprendizaje Basado en Videos</option>
+                            <option value="micro-learning">Micro-learning</option>
+                            <option value="ia-fundamentos">Docente y la IA</option>
+                            <option value="ia-tiempo">IA para Ahorrar Tiempo</option>
+                            <option value="ia-herramientas">Herramientas de IA</option>
+                            <option value="ia-inclusion">IA e Inclusión</option>
+                            <option value="ia-ciudadania">Ciudadanía Digital con IA</option>
+                            <option value="manejo-conductas">Manejo de Conductas Desafiantes</option>
+                            <option value="sel-docentes">SEL para Docentes</option>
+                            <option value="comunicacion-asertiva">Comunicación Asertiva</option>
+                            <option value="disciplina-positiva">Disciplina Positiva</option>
+                            <option value="bienestar-docente">Bienestar Docente</option>
+                        </select>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4">Porcentaje de docentes que completaron cada módulo</p>
+                    <canvas id="moduleChart" height="180"></canvas>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Actividad reciente</p>
+                    <p class="text-xs text-slate-400 mb-4">Últimas actualizaciones de docentes</p>
+                    <div id="recentActivity"></div>
+                </div>
+            </div>
+
+            <div class="card mb-5">
+                <div class="flex items-center justify-between mb-0.5">
+                    <p class="font-bold text-slate-800">Mapa de calor · tiempo por tarjeta</p>
+                    <select id="heatmapCourseSel" onchange="renderCardHeatmap()" class="text-xs border border-slate-200 rounded-lg px-2 py-1 text-slate-600 outline-none">
+                        <option value="steam">STEAM 2.0</option>
+                        <option value="abp">ABP</option>
+                        <option value="design-thinking">Design Thinking</option>
+                        <option value="evaluacion">Evaluación Formativa</option>
+                        <option value="tipos-estudiantes">Conoce a Quien Enseñas</option>
+                        <option value="storytelling">Storytelling</option>
+                        <option value="creatividad">Despertando la Creatividad</option>
+                        <option value="herramientas-tec">Herramientas Tecnológicas</option>
+                        <option value="m-learning">Mobile Learning</option>
+                        <option value="flipped-classroom">Flipped Classroom</option>
+                        <option value="abv">Aprendizaje Basado en Videos</option>
+                        <option value="micro-learning">Micro-learning</option>
+                        <option value="ia-fundamentos">Docente y la IA</option>
+                        <option value="ia-tiempo">IA para Ahorrar Tiempo</option>
+                        <option value="ia-herramientas">Herramientas de IA</option>
+                        <option value="ia-inclusion">IA e Inclusión</option>
+                        <option value="ia-ciudadania">Ciudadanía Digital con IA</option>
+                        <option value="manejo-conductas">Manejo de Conductas Desafiantes</option>
+                        <option value="sel-docentes">SEL para Docentes</option>
+                        <option value="comunicacion-asertiva">Comunicación Asertiva</option>
+                        <option value="disciplina-positiva">Disciplina Positiva</option>
+                        <option value="bienestar-docente">Bienestar Docente</option>
+                    </select>
+                </div>
+                <p class="text-xs text-slate-400 mb-4">Cada cuadro es una tarjeta · más oscuro = más tiempo promedio real. Pasa el mouse para ver el detalle.</p>
+                <div id="cardHeatmap"></div>
+            </div>
+
+            <div class="card">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <p class="font-bold text-slate-800">Cursos — resumen de progreso</p>
+                        <p class="text-xs text-slate-400 mt-0.5">Métricas por cada curso del programa</p>
+                    </div>
+                    <button onclick="switchView('reports')" class="btn-secondary text-xs"><i class="fas fa-file-export"></i> Ver reportes</button>
+                </div>
+                <div id="courseSummaryTable"></div>
+            </div>
+        </div>
+
+        <!-- ═══ REPORTES ═══ -->
+        <div id="reportsView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Reportes</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Documentos listos para MINEDUC, levantamiento de grants y presentaciones</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+                <!-- Informe ejecutivo -->
+                <div class="card border-l-4 border-indigo-500">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-file-chart-line text-indigo-500 text-lg"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800">Informe Ejecutivo de Impacto</h3>
+                            <p class="text-xs text-slate-500 mt-1 mb-3">Resumen del programa: docentes alcanzados, horas de formación, tasa de éxito y NPS. Ideal para presentaciones ante autoridades o donantes.</p>
+                            <button onclick="generateExecutiveReport()" class="btn-primary text-xs"><i class="fas fa-print"></i> Generar e imprimir</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Listado de docentes -->
+                <div class="card border-l-4 border-emerald-500">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-users text-emerald-500 text-lg"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800">Listado de Docentes</h3>
+                            <p class="text-xs text-slate-500 mt-1 mb-3">CSV con nombre, email, XP, nivel, tarjetas completadas, racha y última actividad. Para registros internos o reportes oficiales.</p>
+                            <button onclick="exportUsersCSV()" class="btn-primary text-xs" style="background:#10b981"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progreso por curso -->
+                <div class="card border-l-4 border-amber-500">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-graduation-cap text-amber-500 text-lg"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800">Progreso por Curso y Módulo</h3>
+                            <p class="text-xs text-slate-500 mt-1 mb-3">CSV con progreso individual por docente y curso: módulos completados, puntaje de examen y certificación.</p>
+                            <button onclick="exportProgressCSV()" class="btn-primary text-xs" style="background:#f59e0b"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reporte MINEDUC -->
+                <div class="card border-l-4 border-violet-500">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-violet-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-landmark text-violet-500 text-lg"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800">Informe general administrativo</h3>
+                            <p class="text-xs text-slate-500 mt-1 mb-3">Documento formal imprimible con métricas de impacto, indicadores de aprendizaje, distribución geográfica estimada y evidencia de avance.</p>
+                            <button onclick="generateMineduc()" class="btn-primary text-xs" style="background:#7c3aed"><i class="fas fa-print"></i> Generar informe</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feedback summary -->
+                <div class="card border-l-4 border-rose-500">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-star text-rose-500 text-lg"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800">Reporte de Satisfacción</h3>
+                            <p class="text-xs text-slate-500 mt-1 mb-3">NPS detallado, calificaciones por módulo y comentarios textuales de los docentes. Útil para mejora continua y rendición de cuentas.</p>
+                            <button onclick="exportFeedbackCSV()" class="btn-primary text-xs" style="background:#e11d48"><i class="fas fa-file-csv"></i> Exportar CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backup completo -->
+                <div class="card border-l-4 border-slate-400">
+                    <div class="flex items-start gap-4">
+                        <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-database text-slate-500 text-lg"></i></div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-slate-800">Backup Completo</h3>
+                            <p class="text-xs text-slate-500 mt-1 mb-3">JSON con todos los datos de la plataforma: progreso, feedback, cursos y eventos. Para respaldo o migración.</p>
+                            <button onclick="exportFullBackup()" class="btn-secondary text-xs"><i class="fas fa-download"></i> Descargar JSON</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview área reportes -->
+            <div class="card" id="reportPreviewCard" style="display:none">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="font-bold text-slate-800">Vista previa del reporte</p>
+                    <div class="flex gap-2">
+                        <button onclick="window.print()" class="btn-primary text-xs"><i class="fas fa-print"></i> Imprimir / PDF</button>
+                        <button onclick="document.getElementById('reportPreviewCard').style.display='none'" class="btn-secondary text-xs">Cerrar</button>
+                    </div>
+                </div>
+                <div id="reportPreviewContent" class="bg-slate-50 rounded-xl p-5 overflow-x-auto"></div>
+            </div>
+        </div>
+
+        <!-- ═══ CMS — CURSOS ═══ -->
+        <div id="cmsView" class="view">
+            <div class="section-header flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-800">CMS — Gestión de Cursos</h1>
+                    <p class="text-sm text-slate-400 mt-0.5">Cursos activos en la plataforma · Los cursos nuevos se almacenan en Supabase</p>
+                </div>
+                <button id="newCourseBtn" class="btn-primary"><i class="fas fa-plus"></i> Nuevo Curso</button>
+            </div>
+            <div id="cmsCoursesList" class="space-y-4"></div>
+        </div>
+
+        <!-- ═══ ANALYTICS ═══ -->
+        <div id="analyticsView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Analytics Detallados</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Comportamiento de aprendizaje y métricas de engagement</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                <div class="card">
+                    <div class="flex items-center justify-between mb-0.5">
+                        <p class="font-bold text-slate-800">Completitud por módulo</p>
+                        <select id="analyticsModuleCourseSel" class="text-xs border border-slate-200 rounded-lg px-2 py-1 text-slate-600 outline-none">
+                            <option value="steam">STEAM 2.0</option>
+                            <option value="abp">ABP</option>
+                            <option value="design-thinking">Design Thinking</option>
+                            <option value="evaluacion">Evaluación Formativa</option>
+                            <option value="tipos-estudiantes">Conoce a Quien Enseñas</option>
+                            <option value="storytelling">Storytelling</option>
+                            <option value="creatividad">Despertando la Creatividad</option>
+                            <option value="herramientas-tec">Herramientas Tecnológicas</option>
+                            <option value="m-learning">Mobile Learning</option>
+                            <option value="flipped-classroom">Flipped Classroom</option>
+                            <option value="abv">Aprendizaje Basado en Videos</option>
+                            <option value="micro-learning">Micro-learning</option>
+                            <option value="ia-fundamentos">Docente y la IA</option>
+                            <option value="ia-tiempo">IA para Ahorrar Tiempo</option>
+                            <option value="ia-herramientas">Herramientas de IA</option>
+                            <option value="ia-inclusion">IA e Inclusión</option>
+                            <option value="ia-ciudadania">Ciudadanía Digital con IA</option>
+                            <option value="manejo-conductas">Manejo de Conductas Desafiantes</option>
+                            <option value="sel-docentes">SEL para Docentes</option>
+                            <option value="comunicacion-asertiva">Comunicación Asertiva</option>
+                            <option value="disciplina-positiva">Disciplina Positiva</option>
+                            <option value="bienestar-docente">Bienestar Docente</option>
+                        </select>
+                    </div>
+                    <p class="text-xs text-slate-400 mb-4">% de docentes que completaron cada módulo</p>
+                    <canvas id="analyticsModuleChart" height="200"></canvas>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Distribución de actividad</p>
+                    <p class="text-xs text-slate-400 mb-4">Tarjetas completadas · Quizzes · Logros · Certificados</p>
+                    <canvas id="analyticsDonut" height="200"></canvas>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Cursos más avanzados</p>
+                    <p class="text-xs text-slate-400 mb-4">Promedio de tarjetas completadas por curso</p>
+                    <canvas id="analyticsCourseBar" height="200"></canvas>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-0.5">Estadísticas de diagnóstico</p>
+                    <p class="text-xs text-slate-400 mb-4">Nivel pedagógico declarado al ingresar</p>
+                    <canvas id="analyticsDiagChart" height="200"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <p class="font-bold text-slate-800 mb-0.5">Engagement por docente</p>
+                <p class="text-xs text-slate-400 mb-4">Tiempo total de estudio acumulado · Top 15 más activos</p>
+                <div id="analyticsSessionsTable" class="overflow-x-auto"></div>
+            </div>
+            <div class="card mt-5">
+                <p class="font-bold text-slate-800 mb-0.5">Recursos más descargados</p>
+                <p class="text-xs text-slate-400 mb-4">Materiales de apoyo con más clics en "Descargar"</p>
+                <div id="analyticsResourcesPanel">
+                    <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando…</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ USUARIOS ═══ -->
+        <div id="usersView" class="view">
+            <div class="section-header flex items-center justify-between mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-800">Docentes registrados</h1>
+                    <p class="text-sm text-slate-400 mt-0.5">Clic en un docente para ver su perfil completo</p>
+                </div>
+                <div class="users-actions flex gap-2 flex-wrap">
+                    <input id="userSearch" type="text" placeholder="Buscar docente…" class="input-field w-48 text-xs" oninput="filterUsers(this.value)">
+                    <button onclick="exportUsersCSV()" class="btn-secondary text-xs"><i class="fas fa-file-csv"></i> CSV</button>
+                    <button onclick="showInviteModal()" class="btn-primary text-xs"><i class="fas fa-user-plus"></i> Invitar</button>
+                </div>
+            </div>
+            <div class="users-kpi-grid grid grid-cols-3 gap-4 mb-5">
+                <div class="card text-center"><p class="kpi-label">Total</p><p class="kpi-val" id="uTotal">—</p></div>
+                <div class="card text-center"><p class="kpi-label">Activos 7d</p><p class="kpi-val" id="uActive">—</p></div>
+                <div class="card text-center"><p class="kpi-label">Con certificado</p><p class="kpi-val" id="uCert">—</p></div>
+            </div>
+            <!-- Controles de orden y agrupación -->
+            <div class="flex items-center gap-3 mb-3 flex-wrap">
+                <div class="flex items-center gap-1.5 bg-white border border-slate-200 rounded-xl p-1">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase px-2">Ordenar</span>
+                    <button id="sortXpBtn" onclick="setUsersSort('xp')" class="sort-btn active text-xs font-semibold px-3 py-1.5 rounded-lg transition"><i class="fas fa-star text-yellow-400 mr-1"></i>XP</button>
+                    <button id="sortCertBtn" onclick="setUsersSort('cert')" class="sort-btn text-xs font-semibold px-3 py-1.5 rounded-lg transition"><i class="fas fa-certificate text-emerald-500 mr-1"></i>Cert.</button>
+                    <button id="sortNameBtn" onclick="setUsersSort('name')" class="sort-btn text-xs font-semibold px-3 py-1.5 rounded-lg transition"><i class="fas fa-sort-alpha-down text-slate-400 mr-1"></i>Nombre</button>
+                    <button id="sortAccessBtn" onclick="setUsersSort('access')" class="sort-btn text-xs font-semibold px-3 py-1.5 rounded-lg transition"><i class="fas fa-clock text-sky-500 mr-1"></i>Último acceso</button>
+                    <button id="sortActiveBtn" onclick="setUsersSort('active')" class="sort-btn text-xs font-semibold px-3 py-1.5 rounded-lg transition"><i class="fas fa-circle text-green-500 mr-1" style="font-size:8px"></i>Activos</button>
+                </div>
+                <button id="groupSchoolBtn" onclick="toggleGroupSchool()" class="group-btn flex items-center gap-1.5 text-xs font-semibold px-3 py-2 bg-white border border-slate-200 rounded-xl transition">
+                    <i class="fas fa-layer-group text-indigo-400"></i> Agrupar por escuela
+                </button>
+            </div>
+            <style>
+                .sort-btn { color:#64748b; }
+                .sort-btn.active { background:#eef2ff; color:#4f46e5; }
+                .group-btn { color:#64748b; }
+                .group-btn.active { background:#eef2ff; color:#4f46e5; border-color:#818cf8; }
+                .school-group-header { background:#f8fafc; padding:10px 16px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#4f46e5; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; gap:8px; }
+            </style>
+            <div class="admin-table-wrap bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                <div id="usersTableContainer"></div>
+            </div>
+        </div>
+
+        <!-- ═══ PANEL LATERAL DOCENTE ═══ -->
+        <div id="userPanelOverlay" class="hidden fixed inset-0 bg-black/30 z-50" onclick="closeUserPanel()"></div>
+        <aside id="userPanel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-50 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto">
+            <!-- Header del panel -->
+            <div id="panelHeader" class="p-5 border-b border-slate-100">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                        <div id="panelAvatar" class="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-lg shrink-0" style="background:#4f46e5">A</div>
+                        <div>
+                            <p id="panelName" class="font-bold text-slate-800 text-base leading-tight">—</p>
+                            <p id="panelEmail" class="text-xs text-slate-400 mt-0.5">—</p>
+                            <div id="panelBadges" class="flex gap-1 mt-1.5 flex-wrap"></div>
+                        </div>
+                    </div>
+                    <button onclick="closeUserPanel()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 shrink-0 text-lg leading-none">&times;</button>
+                </div>
+                <div id="panelMeta" class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-amber-50 rounded-xl p-2"><p class="text-lg font-black text-amber-600" id="panelXP">—</p><p class="text-[10px] text-slate-400 uppercase font-semibold">XP</p></div>
+                    <div class="bg-orange-50 rounded-xl p-2"><p class="text-lg font-black text-orange-500" id="panelStreak">—</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Racha</p></div>
+                    <div class="bg-indigo-50 rounded-xl p-2"><p class="text-lg font-black text-indigo-600" id="panelCards">—</p><p class="text-[10px] text-slate-400 uppercase font-semibold">Tarjetas</p></div>
+                </div>
+            </div>
+            <!-- Rol y escuela -->
+            <div class="p-5 border-b border-slate-100 space-y-3">
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-1.5">Rol</p>
+                    <select id="panelRoleSelect" onchange="changePanelRole(this.value)" class="input-field text-sm">
+                        <option value="student">Docente</option>
+                        <option value="coordinator">Coordinador</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-1.5">Centro educativo</p>
+                    <select id="panelSchoolSelect" onchange="changePanelSchool(this.value)" class="input-field text-sm">
+                        <option value="">— Sin centro —</option>
+                    </select>
+                </div>
+                <div id="panelDeptWrap">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-0.5">Departamento</p>
+                    <p id="panelDept" class="text-sm text-slate-600">—</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-0.5">Último acceso</p>
+                    <p id="panelLastAccess" class="text-sm text-slate-600">—</p>
+                </div>
+            </div>
+            <!-- Diagnóstico -->
+            <div class="px-5 pt-4 pb-2" id="panelDiagWrap">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Diagnóstico inicial</p>
+                <div id="panelDiag"></div>
+            </div>
+            <!-- Logros desbloqueados -->
+            <div class="px-5 pt-2 pb-2" id="panelLogrosWrap">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Logros desbloqueados</p>
+                <div id="panelLogros" class="flex flex-wrap gap-1.5"></div>
+            </div>
+            <!-- Progreso por curso -->
+            <div class="px-5 pt-2 pb-4">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Progreso por curso</p>
+                <div id="panelCourses" class="space-y-3"></div>
+            </div>
+            <!-- Botón peligroso -->
+            <div class="mt-auto p-5 border-t border-slate-100">
+                <button id="panelDeleteBtn" onclick="deletePanelUser()" class="w-full btn-danger text-sm flex items-center justify-center gap-2"><i class="fas fa-trash-alt"></i> Eliminar docente</button>
+            </div>
+        </aside>
+
+        <!-- ═══ FEEDBACK ═══ -->
+        <div id="feedbackView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Feedback de Docentes</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Valoraciones y comentarios enviados desde la plataforma</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
+                <div class="card text-center">
+                    <p class="kpi-label">NPS General</p>
+                    <p class="kpi-val text-indigo-600" id="fbNps">—</p>
+                    <p class="kpi-sub">Net Promoter Score</p>
+                </div>
+                <div class="card text-center">
+                    <p class="kpi-label">Rating promedio</p>
+                    <p class="kpi-val text-amber-600" id="fbRating">—</p>
+                    <p class="kpi-sub">sobre 5 estrellas</p>
+                </div>
+                <div class="card text-center">
+                    <p class="kpi-label">Total respuestas</p>
+                    <p class="kpi-val" id="fbTotal">—</p>
+                    <p class="kpi-sub">valoraciones recibidas</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5">
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-4">Distribución NPS</p>
+                    <canvas id="npsChart" height="180"></canvas>
+                </div>
+                <div class="card">
+                    <p class="font-bold text-slate-800 mb-4">Rating por módulo</p>
+                    <canvas id="ratingChart" height="180"></canvas>
+                </div>
+            </div>
+            <div id="feedbackList" class="space-y-3"></div>
+        </div>
+
+        <!-- ═══ COMENTARIOS EN TARJETAS ═══ -->
+        <div id="commentsView" class="view">
+            <div class="mb-5 flex items-center justify-between flex-wrap gap-3">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-800">Comentarios en tarjetas</h1>
+                    <p class="text-sm text-slate-400 mt-0.5">Preguntas y aportaciones de los docentes en cada tarjeta</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <select id="commentsFilterCourse" onchange="loadAdminComments()" class="border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                        <option value="">Todos los cursos</option>
+                    </select>
+                    <input id="commentsSearch" oninput="filterAdminComments()" placeholder="Buscar en comentarios…" class="border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 w-52">
+                </div>
+            </div>
+
+            <!-- KPIs -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+                <div class="card text-center">
+                    <p class="kpi-label">Total comentarios</p>
+                    <p class="kpi-val text-indigo-600" id="cTotal">—</p>
+                </div>
+                <div class="card text-center">
+                    <p class="kpi-label">Docentes activos</p>
+                    <p class="kpi-val text-emerald-600" id="cUsers">—</p>
+                </div>
+                <div class="card text-center">
+                    <p class="kpi-label">Tarjetas con comentarios</p>
+                    <p class="kpi-val text-amber-600" id="cCards">—</p>
+                </div>
+                <div class="card text-center">
+                    <p class="kpi-label">Esta semana</p>
+                    <p class="kpi-val text-pink-600" id="cWeek">—</p>
+                </div>
+            </div>
+
+            <!-- Lista de comentarios -->
+            <div id="adminCommentsList" class="space-y-3">
+                <div class="card text-center text-slate-400 py-8">Cargando comentarios…</div>
+            </div>
+            <div id="adminCommentsLoadMore" class="hidden mt-4 text-center">
+                <button onclick="loadMoreAdminComments()" class="px-5 py-2 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition">Cargar más</button>
+            </div>
+        </div>
+
+        <!-- ═══ RUTAS ═══ -->
+        <div id="rutasView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Rutas de aprendizaje</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Qué cursos son requeridos para el Certificado Maestro de cada ruta</p>
+            </div>
+            <div class="max-w-2xl space-y-4">
+                <div class="card">
+                    <div id="learningPathsPanel">
+                        <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando rutas…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ CENTROS ═══ -->
+        <div id="centrosView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Centros</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Colegios, coordinadores e importación masiva de docentes</p>
+            </div>
+            <div class="max-w-2xl space-y-4">
+
+                <!-- CENTROS EDUCATIVOS -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 bg-emerald-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-school text-emerald-500"></i></div>
+                            <div>
+                                <p class="font-bold text-slate-800">Centros educativos</p>
+                                <p class="text-xs text-slate-500">Gestiona escuelas, plan (gratis/pagado) y firma del director por centro.</p>
+                            </div>
+                        </div>
+                        <button onclick="openAddSchoolModal()" class="btn-primary text-xs"><i class="fas fa-plus mr-1"></i>Agregar</button>
+                    </div>
+                    <div id="schoolsList" class="space-y-2">
+                        <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando…</div>
+                    </div>
+                </div>
+
+                <!-- COORDINADORES -->
+                <div class="card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 bg-violet-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-user-tie text-violet-500"></i></div>
+                            <div>
+                                <p class="font-bold text-slate-800">Coordinadores</p>
+                                <p class="text-xs text-slate-500">Usuarios con acceso al panel de su centro educativo.</p>
+                            </div>
+                        </div>
+                        <button onclick="openAddCoordModal()" class="btn-primary text-xs"><i class="fas fa-plus mr-1"></i>Agregar</button>
+                    </div>
+                    <div id="coordsList" class="space-y-2">
+                        <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando…</div>
+                    </div>
+                </div>
+
+                <!-- IMPORTAR DOCENTES (CSV) -->
+                <div class="card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 bg-sky-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-file-import text-sky-500"></i></div>
+                        <div>
+                            <p class="font-bold text-slate-800">Importar docentes (CSV)</p>
+                            <p class="text-xs text-slate-500">Sube la lista de docentes de un centro y quedan invitados y asignados de una vez — sin hacerlo uno por uno.</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <select id="bulkImportSchool" class="input-field text-sm">
+                            <option value="">Selecciona el centro educativo…</option>
+                        </select>
+                        <div>
+                            <input type="file" id="bulkImportFile" accept=".csv,text/csv" onchange="onBulkImportFile(this)" class="text-xs w-full">
+                            <p class="text-xs text-slate-400 mt-1">Formato: una línea por docente — <code>correo,nombre</code> (nombre es opcional). Ej: <code>maria@escuela.edu.gt,María López</code></p>
+                        </div>
+                        <div id="bulkImportPreview" class="bg-slate-50 rounded-xl p-3">
+                            <p class="text-xs text-slate-400">Sube un CSV para ver la vista previa.</p>
+                        </div>
+                        <button id="bulkImportBtn" onclick="runBulkImport()" disabled class="btn-primary text-xs w-full disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fas fa-file-import mr-1"></i>Importar
+                        </button>
+                        <div id="bulkImportResults" class="space-y-1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ NOTIFICACIONES ═══ -->
+        <div id="notificacionesView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Notificaciones</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Avisos, notificaciones push e historial de envíos</p>
+            </div>
+            <div class="max-w-2xl space-y-4">
+
+                <!-- AVISOS Y ANUNCIOS -->
+                <div class="card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-bullhorn text-amber-500"></i></div>
+                        <div>
+                            <p class="font-bold text-slate-800">Avisos y anuncios</p>
+                            <p class="text-xs text-slate-500">Banner visible para todos los docentes: mantenimiento, cursos nuevos, eventos.</p>
+                        </div>
+                    </div>
+                    <div id="announcementPanel">
+                        <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando aviso…</div>
+                    </div>
+                </div>
+
+                <!-- NOTIFICACIONES PUSH -->
+                <div class="card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 bg-sky-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-bell text-sky-500"></i></div>
+                        <div>
+                            <p class="font-bold text-slate-800">Notificaciones push</p>
+                            <p class="text-xs text-slate-500">Envía una notificación instantánea a los docentes que la activaron en su dispositivo.</p>
+                        </div>
+                    </div>
+                    <div id="pushPanel">
+                        <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando…</div>
+                    </div>
+                </div>
+
+                <!-- HISTORIAL DE AVISOS Y PUSH -->
+                <div class="card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-clock-rotate-left text-slate-500"></i></div>
+                        <div>
+                            <p class="font-bold text-slate-800">Historial de avisos y push</p>
+                            <p class="text-xs text-slate-500">Últimos 20 envíos guardados, con fecha y quién los envió.</p>
+                        </div>
+                    </div>
+                    <div id="broadcastHistoryPanel" style="max-height:360px;overflow-y:auto">
+                        <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando historial…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ FIRMAS ═══ -->
+        <div id="firmasView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Firmas</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Firmantes que aparecen en los diplomas y certificados</p>
+            </div>
+            <div class="max-w-2xl space-y-4">
+
+                <!-- FIRMAS CERTIFICADOS -->
+                <div class="card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-9 h-9 bg-indigo-50 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-signature text-indigo-500"></i></div>
+                        <div>
+                            <p class="font-bold text-slate-800">Firmas en certificados</p>
+                            <p class="text-xs text-slate-500">Hasta 3 firmantes. Slot 1 activo por defecto (coordinador del programa).</p>
+                        </div>
+                    </div>
+                    <div id="signaturesContainer" class="space-y-4">
+                        <!-- Se renderiza con JS -->
+                        <div class="text-xs text-slate-400 text-center py-4"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando firmas…</div>
+                    </div>
+                    <button onclick="saveSignatures()" class="btn-primary mt-4 text-xs w-full"><i class="fas fa-save mr-1"></i>Guardar firmas</button>
+                </div>
+
+                <!-- ATAJO A FIRMA DE DIRECTOR (por centro, plan pagado) -->
+                <div class="card bg-slate-50 border-dashed">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 bg-white rounded-xl flex items-center justify-center shrink-0 border border-slate-200"><i class="fas fa-user-tie text-slate-500"></i></div>
+                        <div class="flex-1">
+                            <p class="font-semibold text-slate-700 text-sm">Firma del director por centro</p>
+                            <p class="text-xs text-slate-500">Es distinta a las de arriba — se sube por colegio (solo plan pagado) desde <strong>Centros</strong>, en la tarjeta de cada centro educativo.</p>
+                        </div>
+                        <button onclick="switchView('centros')" class="btn-secondary text-xs whitespace-nowrap">Ir a Centros</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ═══ CONFIGURACIÓN ═══ -->
+        <div id="settingsView" class="view">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-slate-800">Configuración</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Opciones avanzadas del sistema</p>
+            </div>
+            <div class="max-w-2xl space-y-4">
+                <div class="card">
+                    <p class="font-semibold text-slate-800 mb-1">Exportar backup completo</p>
+                    <p class="text-xs text-slate-500 mb-3">Descarga todos los datos en JSON. Incluye progreso, feedback, cursos y sesiones.</p>
+                    <button onclick="exportFullBackup()" class="btn-secondary"><i class="fas fa-download mr-1"></i>Exportar JSON</button>
+                </div>
+                <div class="card border border-red-100">
+                    <p class="font-semibold text-red-600 mb-1">Zona de riesgo</p>
+                    <p class="text-xs text-slate-500 mb-3">Elimina todos los registros de analytics (resource_views y user_events). No se puede deshacer.</p>
+                    <button id="resetAnalyticsBtn" class="btn-danger"><i class="fas fa-exclamation-triangle mr-1"></i>Resetear analytics</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal agregar escuela -->
+        <div id="schoolModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6">
+                <h3 class="font-bold text-slate-800 mb-4">Centro educativo</h3>
+                <div class="space-y-3">
+                    <input id="schoolNameInput" class="input-field" placeholder="Nombre del centro *">
+                    <input id="schoolCodeInput" class="input-field" placeholder="Código (opcional)">
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="document.getElementById('schoolModal').classList.add('hidden')" class="btn-secondary flex-1 text-xs">Cancelar</button>
+                    <button onclick="saveSchool()" class="btn-primary flex-1 text-xs">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal firma de director por escuela -->
+        <div id="directorSigModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-slate-800">Firma del director</h3>
+                    <button onclick="document.getElementById('directorSigModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+                </div>
+                <p class="text-xs text-slate-500 mb-4">Esta firma aparecerá <strong>solo</strong> en los certificados de los docentes de este centro.</p>
+                <input type="hidden" id="dirSigSchoolId">
+                <div class="space-y-3">
+                    <input id="dirSigName" class="input-field" placeholder="Nombre del director/a *">
+                    <input id="dirSigRole" class="input-field" placeholder='Cargo (ej. "Directora de Centro Educativo")'>
+                    <div>
+                        <p class="text-xs font-semibold text-slate-500 mb-1.5">Imagen de firma</p>
+                        <div id="dirSigImgPreview" class="mb-2"></div>
+                        <label class="cursor-pointer inline-flex items-center gap-1.5 text-xs text-indigo-600 font-semibold border border-indigo-200 bg-indigo-50 rounded-lg px-3 py-1.5 hover:bg-indigo-100">
+                            <i class="fas fa-upload"></i> Subir imagen
+                            <input type="file" accept="image/*" class="hidden" onchange="uploadDirectorSig(this)">
+                        </label>
+                        <button id="dirSigClearBtn" onclick="clearDirectorSig()" class="hidden ml-2 text-xs text-red-400 hover:text-red-600"><i class="fas fa-trash"></i> Quitar</button>
+                    </div>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button onclick="document.getElementById('directorSigModal').classList.add('hidden')" class="btn-secondary flex-1 text-xs">Cancelar</button>
+                    <button onclick="saveDirectorSig()" class="btn-primary flex-1 text-xs">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal agregar coordinador -->
+        <div id="coordModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-slate-800">Agregar coordinador</h3>
+                    <button onclick="document.getElementById('coordModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 text-xl leading-none">&times;</button>
+                </div>
+                <div class="space-y-3">
+                    <!-- Búsqueda por email -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Correo electrónico *</label>
+                        <div class="flex gap-2">
+                            <input id="coordEmailInput" class="input-field flex-1" placeholder="correo@ejemplo.com" type="email" oninput="clearCoordSearch()">
+                            <button onclick="searchCoordByEmail()" class="btn-primary text-xs px-3 whitespace-nowrap"><i class="fas fa-search"></i> Buscar</button>
+                        </div>
+                    </div>
+                    <!-- Resultado de búsqueda -->
+                    <div id="coordSearchResult" class="hidden rounded-xl px-4 py-3 text-sm"></div>
+                    <!-- Nombre (se llena automático si se encontró) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Nombre completo *</label>
+                        <input id="coordNameInput" class="input-field" placeholder="Nombre del coordinador">
+                    </div>
+                    <!-- Centros educativos (puede ser más de uno) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1">Centros educativos * <span class="text-slate-400 font-normal">(selecciona uno o varios)</span></label>
+                        <div id="coordSchoolCheckboxes" class="border border-slate-200 rounded-xl p-3 space-y-2 max-h-40 overflow-y-auto">
+                            <p class="text-xs text-slate-400">Carga los centros primero…</p>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="coordUserId">
+                <div class="flex gap-2 mt-5">
+                    <button onclick="document.getElementById('coordModal').classList.add('hidden')" class="btn-secondary flex-1 text-xs">Cancelar</button>
+                    <button onclick="saveCoordinator()" id="coordSaveBtn" class="btn-primary flex-1 text-xs" disabled style="opacity:.5;cursor:not-allowed">Guardar</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- ═══ MODAL CMS CURSO ═══ -->
+<div id="cmsModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl my-4">
+        <!-- Header -->
+        <div class="cms-modal-header flex items-center justify-between px-7 py-5 border-b border-slate-100">
+            <div>
+                <h2 id="cmsModalTitle" class="text-lg font-bold text-slate-800">Nuevo Curso</h2>
+                <p class="text-xs text-slate-400 mt-0.5" id="cmsModalSubtitle">Completa los datos del curso</p>
+            </div>
+            <button id="closeCmsModal" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition flex items-center justify-center text-xl">&times;</button>
+        </div>
+
+        <!-- Step tabs -->
+        <div class="flex border-b border-slate-100 px-7">
+            <button data-step="1" class="cms-tab-btn py-3 px-4 text-xs font-bold border-b-2 border-indigo-500 text-indigo-600 mr-2">1. Datos</button>
+            <button data-step="2" class="cms-tab-btn py-3 px-4 text-xs font-bold border-b-2 border-transparent text-slate-400 mr-2">2. Módulos</button>
+            <button data-step="3" class="cms-tab-btn py-3 px-4 text-xs font-bold border-b-2 border-transparent text-slate-400">3. Tarjetas</button>
+        </div>
+
+        <!-- Body -->
+        <div class="cms-modal-body px-7 py-6 max-h-[60vh] overflow-y-auto">
+            <!-- Step 1: Metadata -->
+            <div id="cmsStep1" class="cms-step active">
+                <div class="space-y-4">
+                    <div class="cms-step-grid-2 grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Título *</label>
+                            <input id="csTitle" class="input-field" placeholder="Metodología STEAM" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">ID / Slug *</label>
+                            <input id="csId" class="input-field" placeholder="steam-2" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Subtítulo</label>
+                        <input id="csSubtitle" class="input-field" placeholder="Descripción breve del curso">
+                    </div>
+                    <div class="cms-step-grid-3 grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Color (hex)</label>
+                            <div class="flex gap-2">
+                                <input id="csColorPicker" type="color" value="#07B0E4" class="h-10 w-14 rounded-lg border border-slate-200 cursor-pointer">
+                                <input id="csColor" class="input-field" placeholder="#07B0E4" value="#07B0E4">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Duración (h)</label>
+                            <input id="csDuration" type="number" min="1" class="input-field" placeholder="4">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Estado</label>
+                            <select id="csStatus" class="input-field">
+                                <option value="available">Disponible</option>
+                                <option value="coming_soon">Próximamente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="csStaticWarning" class="hidden bg-amber-50 border border-amber-100 rounded-xl p-3 text-xs text-amber-700">
+                        <i class="fas fa-info-circle mr-1"></i> Este es un curso estático (contenido en data.js). Solo puedes editar sus metadatos. Para editar tarjetas, modifica data.js directamente.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Módulos -->
+            <div id="cmsStep2" class="cms-step">
+                <div class="flex items-center justify-between mb-4">
+                    <p class="text-sm font-semibold text-slate-700">Módulos del curso</p>
+                    <button onclick="addModule()" class="btn-secondary text-xs"><i class="fas fa-plus"></i> Agregar módulo</button>
+                </div>
+                <div id="modulesEditor" class="space-y-2"></div>
+                <p id="noModulesMsg" class="text-xs text-slate-400 text-center py-6">No hay módulos. Agrega el primero.</p>
+            </div>
+
+            <!-- Step 3: Tarjetas -->
+            <div id="cmsStep3" class="cms-step">
+                <div class="flex items-center gap-3 mb-4">
+                    <select id="moduleSelector" class="input-field text-xs" onchange="loadModuleCards(this.value)">
+                        <option value="">Selecciona un módulo</option>
+                    </select>
+                    <button onclick="addCard()" class="btn-secondary text-xs shrink-0"><i class="fas fa-plus"></i> Tarjeta</button>
+                </div>
+                <div id="cardsEditor" class="space-y-2"></div>
+                <p id="noCardsMsg" class="text-xs text-slate-400 text-center py-6">Selecciona un módulo para ver sus tarjetas.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cms-modal-footer px-7 py-5 border-t border-slate-100 flex items-center justify-between">
+            <div class="flex gap-2">
+                <button id="cmsPrevBtn" onclick="cmsStepNav(-1)" class="btn-secondary text-xs hidden"><i class="fas fa-arrow-left"></i> Anterior</button>
+                <button id="cmsNextBtn" onclick="cmsStepNav(1)" class="btn-primary text-xs">Siguiente <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="flex gap-2">
+                <button id="cmsSaveBtn" onclick="saveCourse()" class="hidden btn-primary text-xs"><i class="fas fa-save"></i> Guardar curso</button>
+                <p id="cmsError" class="text-xs text-red-500 hidden"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ MODAL EDITOR DE TARJETA ═══ -->
+<div id="cardEditorModal" class="hidden fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl max-h-[85vh] overflow-y-auto">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+            <h3 class="font-bold text-slate-800" id="cardEditorTitle">Editar tarjeta</h3>
+            <button onclick="closeCardEditor()" class="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center text-xl">&times;</button>
+        </div>
+        <div class="px-6 py-5 space-y-4">
+            <input type="hidden" id="ceCardIdx">
+            <input type="hidden" id="ceModuleIdx">
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Tipo de tarjeta</label>
+                <select id="ceType" class="input-field" onchange="updateCardEditorFields()">
+                    <option value="content">Contenido</option>
+                    <option value="quiz">Quiz</option>
+                    <option value="project">Proyecto</option>
+                    <option value="simulation">Simulación</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">Título *</label>
+                <input id="ceTitle" class="input-field" placeholder="Título de la tarjeta">
+            </div>
+            <div id="ceContentFields"></div>
+        </div>
+        <div class="px-6 py-4 border-t border-slate-100 flex gap-3">
+            <button onclick="closeCardEditor()" class="flex-1 btn-secondary text-xs">Cancelar</button>
+            <button onclick="saveCardEdit()" class="flex-1 btn-primary text-xs"><i class="fas fa-save"></i> Guardar tarjeta</button>
+        </div>
+    </div>
+</div>
+
+<!-- Print area -->
+<div id="printArea"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin.js"></script>
+</body>
+</html>

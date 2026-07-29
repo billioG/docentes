@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Storytelling Docente – Formación Docente en Pedagogía Innovadora</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color: #F59E0B;
+    --color-dark: #D97706;
+    --color-light: #FEF3C7;
+    --color-accent: #92400E;
+    --gray: #64748b;
+    --gray-light: #f1f5f9;
+    --text: #1e293b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fafc; font-size: 15px; line-height: 1.7; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(245,158,11,0.4); z-index: 999; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+  .print-btn:hover { background: var(--color-dark); transform: translateY(-2px); }
+  header { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 44px 48px; }
+  .header-tag { background: rgba(255,255,255,0.22); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .header-icon { margin-bottom: 14px; display: block; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.92; max-width: 640px; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 21px; font-weight: 700; color: var(--color-dark); margin: 44px 0 16px; padding-bottom: 10px; border-bottom: 3px solid var(--color-light); display: flex; align-items: center; gap: 10px; }
+  h3 { font-size: 16px; font-weight: 700; color: var(--text); margin: 22px 0 8px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 28px; }
+  .intro-box strong { color: var(--color-dark); }
+  .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .vs-card { border-radius: 12px; padding: 20px; }
+  .vs-card.bad { background: #fef2f2; border: 2px solid #fecaca; }
+  .vs-card.good { background: #f0fdf4; border: 2px solid #86efac; }
+  .vs-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .vs-card.bad h4 { color: #dc2626; }
+  .vs-card.good h4 { color: #16a34a; }
+  .neuro-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin: 24px 0; }
+  .neuro-card { background: white; border-radius: 14px; padding: 22px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-top: 4px solid var(--color); }
+  .neuro-card .icon { display: flex; justify-content: center; margin-bottom: 12px; }
+  .neuro-card h4 { font-size: 14px; font-weight: 700; color: var(--color-dark); margin-bottom: 8px; }
+  .neuro-card p { font-size: 13px; color: var(--gray); margin: 0; }
+  .elements-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin: 24px 0; }
+  .element-card { border-radius: 14px; padding: 24px; }
+  .element-card:nth-child(1) { background: #FFF7ED; border: 2px solid #FED7AA; }
+  .element-card:nth-child(2) { background: #FEF2F2; border: 2px solid #FECACA; }
+  .element-card:nth-child(3) { background: #F0FDF4; border: 2px solid #86EFAC; }
+  .element-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .element-card:nth-child(1) h4 { color: #EA580C; }
+  .element-card:nth-child(2) h4 { color: #DC2626; }
+  .element-card:nth-child(3) h4 { color: #16A34A; }
+  .arc-steps { display: flex; flex-direction: column; gap: 4px; margin: 24px 0; }
+  .arc-step { display: flex; align-items: stretch; gap: 0; }
+  .arc-step-connector { display: flex; flex-direction: column; align-items: center; width: 44px; flex-shrink: 0; }
+  .arc-step-num { background: var(--color); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+  .arc-line { width: 2px; background: var(--color-light); flex: 1; min-height: 16px; }
+  .arc-last .arc-line { display: none; }
+  .arc-content { background: white; border-radius: 10px; padding: 14px 18px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 3px solid var(--color); flex: 1; }
+  .arc-content h4 { font-size: 14px; font-weight: 700; color: var(--color-dark); margin-bottom: 4px; }
+  .arc-content p { font-size: 13px; color: var(--gray); margin: 0; }
+  .technique-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .technique-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--color); }
+  .technique-card .tnum { font-size: 11px; font-weight: 700; color: var(--color); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .technique-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .technique-card p { font-size: 13px; color: var(--gray); margin: 0; }
+  .story-types { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin: 20px 0; }
+  .story-type { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .story-type .label { display: inline-block; background: var(--color-light); color: var(--color-dark); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .story-type h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .story-type p { font-size: 13px; color: var(--gray); margin: 0; }
+  .mistake-list { background: #FFF7ED; border: 2px solid #FED7AA; border-radius: 12px; padding: 20px 24px; margin: 20px 0; }
+  .mistake-item { display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #FDE68A; }
+  .mistake-item:last-child { border-bottom: none; }
+  .mistake-icon { flex-shrink: 0; margin-top: 2px; }
+  .voice-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 20px 0; }
+  .voice-card { background: white; border-radius: 12px; padding: 18px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .voice-card .icon { display: flex; justify-content: center; margin-bottom: 10px; }
+  .voice-card h4 { font-size: 14px; font-weight: 700; color: var(--color-dark); margin-bottom: 6px; }
+  .voice-card p { font-size: 13px; color: var(--gray); margin: 0; }
+  .gt-card { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); padding: 24px; margin-bottom: 18px; border-left: 5px solid var(--color); }
+  .gt-card h4 { font-size: 15px; font-weight: 700; color: var(--color-dark); margin-bottom: 8px; }
+  .gt-card p { font-size: 14px; margin-bottom: 6px; }
+  .gt-card .connection { background: var(--color-light); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-top: 10px; }
+  .hero-journey { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin: 24px 0; }
+  .hj-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 20px; }
+  .hj-step { background: var(--color-light); border-radius: 10px; padding: 16px; text-align: center; }
+  .hj-step .hj-role { font-size: 11px; font-weight: 700; color: var(--color-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .hj-step h4 { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+  .hj-step p { font-size: 12px; color: var(--gray); margin: 0; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media (max-width: 680px) {
+    .neuro-grid, .elements-grid, .hj-grid, .voice-grid { grid-template-columns: 1fr; }
+    .vs-grid, .technique-grid, .story-types { grid-template-columns: 1fr; }
+    header { padding: 28px 20px; }
+    header h1 { font-size: 24px; }
+  }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 13px; }
+    header { padding: 28px 36px; }
+    header h1 { font-size: 26px; }
+    .container { padding: 24px 16px; }
+    .neuro-card, .arc-content, .technique-card, .story-type, .gt-card { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-tag">Storytelling para Docentes</span>
+  <span class="header-icon">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/>
+      <path d="M14 18h24v3H14zm0 6h24v3H14zm0 6h16v3H14z" fill="white"/>
+      <circle cx="38" cy="32" r="6" fill="rgba(255,255,255,0.3)" stroke="white" stroke-width="1.5"/>
+      <path d="M36 32l1.5 1.5 3-3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </span>
+  <h1>Guía de Storytelling Docente</h1>
+  <p>El arte de enseñar a través de historias: ciencia, técnica y práctica para el aula guatemalteca.</p>
+</header>
+
+<div class="container">
+
+  <div class="intro-box">
+    <strong>El poder de las historias en el aula:</strong> Las investigaciones del psicólogo Jerome Bruner demuestran que las personas recuerdan los hechos presentados en forma de historia <strong>22 veces más</strong> que los mismos hechos presentados como datos. El storytelling pedagógico no es entretenimiento: es la forma más eficiente de codificar aprendizaje en la memoria de largo plazo.
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" stroke="#D97706" stroke-width="2"/><path d="M11 7v4l3 3" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+    Qué es el Storytelling Pedagógico
+  </h2>
+  <div class="vs-grid">
+    <div class="vs-card bad">
+      <h4>Storytelling de entretenimiento</h4>
+      <ul>
+        <li>El fin es emocionar o divertir</li>
+        <li>El significado es abierto y personal</li>
+        <li>El conflicto puede quedar sin resolver</li>
+        <li>El público es pasivo</li>
+        <li>El aprendizaje es incidental</li>
+      </ul>
+    </div>
+    <div class="vs-card good">
+      <h4>Storytelling pedagógico</h4>
+      <ul>
+        <li>El fin es que ocurra un aprendizaje específico</li>
+        <li>El significado guía hacia la competencia curricular</li>
+        <li>El conflicto ES el problema de aprendizaje</li>
+        <li>El estudiante es el protagonista implícito</li>
+        <li>El aprendizaje está diseñado y medible</li>
+      </ul>
+    </div>
+  </div>
+  <p>La diferencia clave: en el storytelling pedagógico, el <strong>objetivo de aprendizaje vive dentro de la historia</strong>, no antes de ella. El docente no dice "hoy aprenderemos sobre fracciones"; en su lugar, abre con una panadería en apuros que necesita dividir una receta a la mitad exacta para un pedido urgente.</p>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2a9 9 0 100 18A9 9 0 0011 2zm0 4v5l4 2" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+    La Neurociencia: Por Qué las Historias Perduran
+  </h2>
+  <div class="neuro-grid">
+    <div class="neuro-card">
+      <div class="icon">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="16" fill="#FEF3C7"/><path d="M12 18c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6" stroke="#D97706" stroke-width="2" stroke-linecap="round"/><circle cx="18" cy="18" r="2" fill="#D97706"/></svg>
+      </div>
+      <h4>Neuronas Espejo</h4>
+      <p>Cuando escuchamos una historia, el cerebro activa las mismas zonas que si viviéramos la experiencia directamente. El oyente "vive" lo que el personaje vive.</p>
+    </div>
+    <div class="neuro-card">
+      <div class="icon">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="16" fill="#FEF3C7"/><path d="M10 22l4-8 4 6 3-4 3 6" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h4>Transporte Narrativo</h4>
+      <p>El cerebro "viaja" al mundo de la historia y reduce su resistencia crítica. Las ideas que llegan dentro de una historia sortean más filtros cognitivos que las que llegan como instrucción directa.</p>
+    </div>
+    <div class="neuro-card">
+      <div class="icon">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="16" fill="#FEF3C7"/><path d="M14 24c0-4 8-4 8 0M18 12v4" stroke="#D97706" stroke-width="2" stroke-linecap="round"/><path d="M12 16c0-3.3 2.7-6 6-6" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h4>Codificación Emocional</h4>
+      <p>La amígdala etiqueta emocionalmente los recuerdos. Las emociones generadas por una historia (tensión, alivio, sorpresa) actúan como marcadores que facilitan la recuperación del recuerdo semanas después.</p>
+    </div>
+  </div>
+  <p>La combinación de los tres mecanismos explica por qué un estudiante que olvidó el 80% de una clase magistral puede recordar perfectamente el caso del mercader que tuvo que resolver una proporción bajo presión.</p>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M3 11h16M11 3l8 8-8 8" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Los 3 Elementos No Negociables
+  </h2>
+  <div class="elements-grid">
+    <div class="element-card">
+      <h4>1. Personaje</h4>
+      <p><strong>Alguien a quien importarnos.</strong> No necesita ser heroico; necesita ser específico y reconocible. Un niño de Huehuetenango que quiere estudiar. Una mujer que administra un mercado. Un río que ya no tiene peces.</p>
+      <p style="font-size:13px; margin-top:10px;"><em>Sin personaje, no hay historia. Solo hay información.</em></p>
+    </div>
+    <div class="element-card">
+      <h4>2. Conflicto</h4>
+      <p><strong>Un problema real que no se puede ignorar.</strong> El conflicto ES la necesidad de aprender. Sin él, la historia no tiene por qué existir. El conflicto crea la pregunta que el conocimiento responde.</p>
+      <p style="font-size:13px; margin-top:10px;"><em>El conflicto es la puerta por donde entra el aprendizaje.</em></p>
+    </div>
+    <div class="element-card">
+      <h4>3. Resolución</h4>
+      <p><strong>Una transformación o aprendizaje.</strong> No basta con que el problema se resuelva; el personaje debe cambiar. Ese cambio es el espejo en el que el estudiante se verá a sí mismo tras aprender.</p>
+      <p style="font-size:13px; margin-top:10px;"><em>La resolución es el aprendizaje hecho visible.</em></p>
+    </div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 18L11 4l7 14" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 13h8" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+    El Arco de 5 Pasos para una Clase
+  </h2>
+  <div class="arc-steps">
+    <div class="arc-step">
+      <div class="arc-step-connector"><div class="arc-step-num">1</div><div class="arc-line"></div></div>
+      <div class="arc-content">
+        <h4>Gancho (Hook)</h4>
+        <p>Los primeros 60 segundos determinan si el cerebro se abre o se cierra. Abre con una imagen concreta, una pregunta imposible, o el inicio de una situación tensa. Nunca comiences con el objetivo de aprendizaje enunciado.</p>
+      </div>
+    </div>
+    <div class="arc-step">
+      <div class="arc-step-connector"><div class="arc-step-num">2</div><div class="arc-line"></div></div>
+      <div class="arc-content">
+        <h4>Acción Ascendente</h4>
+        <p>El personaje enfrenta obstáculos. La tensión sube. Se revelan los conocimientos previos (incompletos o erróneos) del personaje — y del estudiante. Aquí se crea la necesidad real de aprender.</p>
+      </div>
+    </div>
+    <div class="arc-step">
+      <div class="arc-step-connector"><div class="arc-step-num">3</div><div class="arc-line"></div></div>
+      <div class="arc-content">
+        <h4>Clímax (El Momento de Aprendizaje)</h4>
+        <p>El punto de mayor tensión ES la enseñanza del contenido central. El conocimiento nuevo llega cuando la necesidad es máxima. Este es el único momento donde el docente interrumpe la historia para enseñar directamente.</p>
+      </div>
+    </div>
+    <div class="arc-step">
+      <div class="arc-step-connector"><div class="arc-step-num">4</div><div class="arc-line"></div></div>
+      <div class="arc-content">
+        <h4>Acción Descendente</h4>
+        <p>El personaje aplica el conocimiento nuevo. El estudiante ve el concepto en acción dentro del mundo de la historia. La práctica del aula ocurre aquí, anclada en el contexto narrativo.</p>
+      </div>
+    </div>
+    <div class="arc-step arc-last">
+      <div class="arc-step-connector"><div class="arc-step-num">5</div><div class="arc-line"></div></div>
+      <div class="arc-content">
+        <h4>Resolución</h4>
+        <p>El personaje y el estudiante han cambiado. Cierra el ciclo narrativo y explicita la transferencia: "¿Dónde más podrían usar esto?" La historia se convierte en un ancla de memoria para el concepto.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#D97706" stroke-width="2"/><path d="M11 7c-2 0-4 1.5-4 4s2 4 4 4 4-1.5 4-4" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+    El Viaje del Héroe Adaptado al Aula
+  </h2>
+  <div class="hero-journey">
+    <p>Joseph Campbell identificó la estructura mítica universal presente en todas las culturas, incluyendo las mesoamericanas. Esta estructura puede usarse para enmarcar cualquier unidad curricular:</p>
+    <div class="hj-grid">
+      <div class="hj-step">
+        <div class="hj-role">El héroe = El estudiante</div>
+        <h4>El Mundo Ordinario</h4>
+        <p>Lo que el estudiante sabe y da por sentado antes de la clase</p>
+      </div>
+      <div class="hj-step">
+        <div class="hj-role">La llamada</div>
+        <h4>El Problema Detonador</h4>
+        <p>La situación que no puede resolver con lo que ya sabe</p>
+      </div>
+      <div class="hj-step">
+        <div class="hj-role">El mentor = El docente</div>
+        <h4>El Guía</h4>
+        <p>Quien da herramientas, no respuestas. Confía en el héroe</p>
+      </div>
+      <div class="hj-step">
+        <div class="hj-role">Las pruebas</div>
+        <h4>La Exploración</h4>
+        <p>Ejercicios, errores, descubrimientos: el camino del aprendizaje</p>
+      </div>
+      <div class="hj-step">
+        <div class="hj-role">El conocimiento = La aventura</div>
+        <h4>La Transformación</h4>
+        <p>El momento en que el estudiante comprende y cambia</p>
+      </div>
+      <div class="hj-step">
+        <div class="hj-role">El regreso</div>
+        <h4>La Transferencia</h4>
+        <p>Aplicar lo aprendido fuera del aula, en la vida real</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M6 4h10v14H6z" stroke="#D97706" stroke-width="2" stroke-linejoin="round"/><path d="M9 8h4M9 11h4M9 14h2" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+    10 Técnicas de Storytelling para el Aula
+  </h2>
+  <div class="technique-grid">
+    <div class="technique-card">
+      <div class="tnum">Técnica 01</div>
+      <h4>Final en Suspenso (Cliffhanger)</h4>
+      <p>Termina la clase en el punto de mayor tensión. "Y entonces, cuando Juan estaba a punto de descubrir la respuesta... mañana continuamos." El cerebro seguirá procesando durante la noche.</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 02</div>
+      <h4>Personificación de Conceptos</h4>
+      <p>Dale nombre, carácter y motivación a un concepto abstracto. "La Gravedad es una fuerza muy insegura que necesita atraer todo hacia sí para sentirse completa." Los conceptos con personalidad se recuerdan.</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 03</div>
+      <h4>Muestra, No Cuentes</h4>
+      <p>En lugar de decir "la pobreza es injusta," muestra a una familia de Las Verapaces calculando si pueden pagar el transporte escolar este mes. La emoción lleva el mensaje sin necesidad de moralizarlo.</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 04</div>
+      <h4>La Regla de Tres</h4>
+      <p>Los patrones de tres satisfacen al cerebro. Tres intentos, tres personajes, tres pistas. "Lo intentó una vez y falló. Lo intentó dos veces y casi logró. Al tercer intento, aplicó la fórmula correcta."</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 05</div>
+      <h4>Callback (Retorno)</h4>
+      <p>Menciona algo al inicio que regresa al final con nuevo significado. El objeto, la frase o el personaje secundario que parecía insignificante resulta clave. Crea satisfacción narrativa y refuerza la conexión.</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 06</div>
+      <h4>El Testigo Cercano</h4>
+      <p>Narra desde el punto de vista de alguien al margen del evento principal. "María no era la científica; era la niña que lavaba los tubos de ensayo del laboratorio de Fleming cuando notó algo extraño." Perspectiva genera empatía.</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 07</div>
+      <h4>Historia Dentro de Historia</h4>
+      <p>Un personaje cuenta una historia a otro. "La abuela de Lucía le explicó cómo su comunidad sobrevivió la sequía de 1976, y Lucía se dio cuenta de que los principios eran exactamente los mismos que estudiaban ese día."</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 08</div>
+      <h4>El Error Productivo</h4>
+      <p>Centra la historia en un fracaso famoso o local. El error humaniza el conocimiento, normaliza equivocarse, y muestra que el aprendizaje surge precisamente de la falla, no a pesar de ella.</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 09</div>
+      <h4>La Pregunta Sin Respuesta</h4>
+      <p>Abre una historia sin resolverla. "Sabemos que Don Porfirio tomó esa decisión esa madrugada. Nunca explicó por qué. ¿Qué creen que pasó por su mente?" La ambigüedad activa la cognición activa.</p>
+    </div>
+    <div class="technique-card">
+      <div class="tnum">Técnica 10</div>
+      <h4>El Detalle Específico</h4>
+      <p>Los detalles concretos crean credibilidad. No "un científico en su laboratorio" sino "Wilhelm Röntgen a las 8 de la noche del viernes 8 de noviembre de 1895, cuando estaba a punto de irse a casa." La especificidad ancla la historia a la realidad.</p>
+    </div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6z" stroke="#D97706" stroke-width="2"/><path d="M4 6l7-3 7 3" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Cómo Embeber el Objetivo DENTRO de la Historia
+  </h2>
+  <p>El error más frecuente: anunciar el objetivo antes de comenzar. "Hoy aprenderemos a identificar células eucariotas." Este anuncio le dice al cerebro que prepare sus defensas racionales y desactive la curiosidad.</p>
+  <div class="vs-grid">
+    <div class="vs-card bad">
+      <h4>Estructura Tradicional (Menos efectiva)</h4>
+      <ol>
+        <li>Anunciar el objetivo</li>
+        <li>Explicar el contenido</li>
+        <li>Dar ejemplos</li>
+        <li>Pedir que practiquen</li>
+        <li>Evaluar</li>
+      </ol>
+    </div>
+    <div class="vs-card good">
+      <h4>Estructura Narrativa (Más efectiva)</h4>
+      <ol>
+        <li>Abrir con una situación que necesita el conocimiento</li>
+        <li>Desarrollar la tensión (el personaje no puede resolverlo)</li>
+        <li>Revelar el conocimiento en el momento de mayor necesidad</li>
+        <li>Mostrar cómo el personaje aplica lo aprendido</li>
+        <li>Cerrar el ciclo y hacer la transferencia explícita</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 4v14M4 11c0 3.9 3.1 7 7 7s7-3.1 7-7-3.1-7-7-7" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+    Voz, Ritmo y Silencio
+  </h2>
+  <p>El instrumento primario del storytelling docente no es el texto: es la voz. Tres dimensiones físicas que toda persona que narra debe dominar:</p>
+  <div class="voice-grid">
+    <div class="voice-card">
+      <div class="icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#FEF3C7"/><rect x="13" y="8" width="6" height="10" rx="3" stroke="#D97706" stroke-width="2"/><path d="M10 17a6 6 0 0012 0M16 23v3" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h4>La Voz</h4>
+      <p>Varía el tono, no el volumen. Una voz baja y lenta genera misterio. Un tono agudo y rápido genera urgencia. El monótono mata cualquier historia, sin importar cuán buena sea.</p>
+    </div>
+    <div class="voice-card">
+      <div class="icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#FEF3C7"/><path d="M10 16h3l2-5 3 10 2-5h2" stroke="#D97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h4>El Ritmo</h4>
+      <p>Acelera durante la acción ascendente. Desacelera en los momentos de revelación. El cambio de ritmo señala al cerebro que algo importante está pasando y aumenta la atención.</p>
+    </div>
+    <div class="voice-card">
+      <div class="icon">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="#FEF3C7"/><circle cx="16" cy="16" r="4" fill="#D97706"/><path d="M16 8v2M16 22v2M8 16h2M22 16h2" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <h4>El Silencio</h4>
+      <p>La pausa de 3 segundos después de una revelación importante es la herramienta más subestimada. El cerebro necesita ese espacio para procesar. El silencio no es vacío: es el aprendizaje ocurriendo.</p>
+    </div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 3C7 3 4 6.5 4 11s3 8 7 8 7-3.5 7-8-3-8-7-8z" stroke="#D97706" stroke-width="2"/><path d="M8 11c1-2 5-2 6 0" stroke="#D97706" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="9" r="1" fill="#D97706"/><circle cx="13" cy="9" r="1" fill="#D97706"/></svg>
+    Tradiciones Orales Guatemaltecas como Modelos
+  </h2>
+  <div class="gt-card">
+    <h4>El Popol Vuh: Estructura Narrativa de los Mayas K'iche'</h4>
+    <p>El Popol Vuh no es solo historia sagrada: es el manual de storytelling más antiguo de Mesoamérica. Sus estructuras narrativas de creación, prueba, transformación y retorno son perfectamente aplicables al aula:</p>
+    <ul>
+      <li><strong>Múltiples intentos fallidos antes del éxito:</strong> Los dioses creadores fallaron varias veces antes de lograr al ser humano. Esta estructura normaliza el error como parte del proceso.</li>
+      <li><strong>Los gemelos Hunahpú e Ixbalanqué:</strong> Enfrentan pruebas en el Xibalbá que requieren ingenio, no fuerza. Modelo perfecto para narrativas de resolución de problemas.</li>
+      <li><strong>La dualidad como motor narrativo:</strong> Luz/oscuridad, orden/caos, conocimiento/ignorancia. Los pares opuestos crean tensión natural que sostiene el relato.</li>
+    </ul>
+    <div class="connection"><strong>Aplicación pedagógica:</strong> Usa la estructura de "tres intentos fallidos + el intento exitoso basado en conocimiento nuevo" para diseñar narrativas de cualquier materia.</div>
+  </div>
+  <div class="gt-card">
+    <h4>Cuentos de Abuelos (Tradición Oral Comunitaria)</h4>
+    <p>Las tradiciones orales de los pueblos indígenas de Guatemala comparten características pedagógicas únicas que la investigación educativa contemporánea está redescubriendo:</p>
+    <ul>
+      <li><strong>El contexto comunitario como protagonista:</strong> La historia pertenece al lugar. Los accidentes geográficos, los animales locales y los fenómenos naturales son personajes.</li>
+      <li><strong>La moraleja emergente, no impuesta:</strong> El oyente llega a la conclusión; no se le dice cuál es. Esto desarrolla pensamiento crítico y apropiación del aprendizaje.</li>
+      <li><strong>Repetición estructural intencional:</strong> Las frases y estructuras que se repiten funcionan como ganchos mnemónicos. El estudiante anticipa y participa.</li>
+    </ul>
+    <div class="connection"><strong>Aplicación pedagógica:</strong> Invita a estudiantes a traer historias de sus comunidades y úsalas como punto de entrada para los contenidos curriculares. La historia de un abuelo sobre una inundación puede abrir una clase de hidrología.</div>
+  </div>
+  <div class="gt-card">
+    <h4>Testimonios Comunitarios</h4>
+    <p>Guatemala tiene una rica tradición de testimonio como forma de memoria y resistencia. El género testimonial (como "Me llamo Rigoberta Menchú") tiene características pedagógicas poderosas:</p>
+    <ul>
+      <li>La experiencia personal como fuente de conocimiento válida</li>
+      <li>La voz de quien vivió los hechos como evidencia primaria</li>
+      <li>La conexión entre lo personal y lo histórico/social</li>
+    </ul>
+    <div class="connection"><strong>Aplicación pedagógica:</strong> Invita a personas de la comunidad a dar testimonios en clases de Historia, Ciencias Sociales o Valores. Un testimonio de primera voz sobre el conflicto armado o sobre prácticas agrícolas tradicionales vale más que veinte páginas de texto.</div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="9" stroke="#D97706" stroke-width="2"/><path d="M11 7v4M11 15v.5" stroke="#D97706" stroke-width="2" stroke-linecap="round"/></svg>
+    Errores Comunes del Storytelling Docente
+  </h2>
+  <div class="mistake-list">
+    <div class="mistake-item">
+      <div class="mistake-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div><strong>Moralizar demasiado pronto.</strong> Si el docente dice "la lección de esta historia es..." antes de que el estudiante haya llegado a su propia conclusión, corta el proceso de pensamiento crítico. Deja que la resolución hable sola.</div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div><strong>Historias sin conflicto real.</strong> "Había una vez un niño que estudió mucho y sacó buenas notas" no es una historia: es un enunciado. Sin obstáculo, sin tensión, no hay razón para seguir escuchando.</div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div><strong>Olvidar la perspectiva del estudiante.</strong> Una historia diseñada desde la perspectiva del docente (lo que el docente considera importante) puede no conectar con lo que el estudiante experimenta como relevante. El personaje debe parecerse al oyente.</div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div><strong>Personajes perfectos.</strong> Un personaje que no comete errores no genera empatía. Los errores, las dudas y las contradicciones hacen que el oyente se identifique y baje la guardia cognitiva.</div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div><strong>Historias sin contexto local.</strong> Una historia que ocurre en un país extraño con personajes culturalmente distantes genera menos transporte narrativo. Adaptar las historias al contexto guatemalteco aumenta la identificación y la retención.</div>
+    </div>
+    <div class="mistake-item">
+      <div class="mistake-icon">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><path d="M7 7l6 6M13 7l-6 6" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div><strong>Narrar en un solo tono.</strong> La voz monocorde destruye la curva de tensión narrativa. El cuerpo, la voz y el espacio son herramientas de la historia. Un buen narrador usa el silencio, el cambio de ritmo y la postura física de manera intencional.</div>
+    </div>
+  </div>
+
+  <h2>
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 4h14v14H4z" stroke="#D97706" stroke-width="2" stroke-linejoin="round"/><path d="M4 9h14M9 4v14" stroke="#D97706" stroke-width="2"/></svg>
+    Tipos de Historia por Propósito Pedagógico
+  </h2>
+  <div class="story-types">
+    <div class="story-type">
+      <span class="label">Motivacional</span>
+      <h4>Historia de Apertura de Posibilidades</h4>
+      <p>Muestra a alguien como el estudiante que llegó más lejos de lo que se esperaba. Expande el horizonte de lo posible. Ideal para abrir unidades o cursos nuevos.</p>
+    </div>
+    <div class="story-type">
+      <span class="label">Explicativa</span>
+      <h4>Historia de Descubrimiento</h4>
+      <p>Narra cómo se llegó a conocer algo: el proceso de descubrimiento, los errores, las preguntas. El conocimiento aparece como el resultado de un camino humano y real.</p>
+    </div>
+    <div class="story-type">
+      <span class="label">Cautelar</span>
+      <h4>Historia de Consecuencias</h4>
+      <p>Muestra lo que ocurre cuando no se aplica el conocimiento o se toma una mala decisión. Crea urgencia sin necesidad de amenazar. El personaje aprende de su error.</p>
+    </div>
+    <div class="story-type">
+      <span class="label">De Valores</span>
+      <h4>Historia de Dilema Moral</h4>
+      <p>Plantea una situación donde no hay una respuesta claramente correcta. El debate sobre qué debería hacer el personaje es el objetivo de aprendizaje. Desarrolla ética y ciudadanía.</p>
+    </div>
+    <div class="story-type">
+      <span class="label">Procedimental</span>
+      <h4>Historia de Proceso</h4>
+      <p>Narra los pasos de un procedimiento a través de las acciones de un personaje. El procedimiento se vuelve memorable porque está anclado a una secuencia de eventos cargados de sentido.</p>
+    </div>
+    <div class="story-type">
+      <span class="label">Anclaje</span>
+      <h4>Historia de Conexión Conceptual</h4>
+      <p>Une dos conceptos que el estudiante no ve como relacionados a través de una situación narrativa en la que ambos son necesarios para resolver el problema del personaje.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Guatemala 2026 · Formación Docente en Pedagogía Innovadora
+</footer>
+
+<button class="print-btn" onclick="window.print()">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 6V2h10v4" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M4 12H2V7h14v5h-2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h10v6H4z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  Imprimir
+</button>
+
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Entrevistas de Empatía</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #E83C8D; --color-dark: #c42a75; --color-light: #FDE7F2; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #fff5f9; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(232,60,141,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #E83C8D, #c42a75); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 21px; font-weight: 700; color: var(--color-dark); margin: 40px 0 14px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); }
+  h3 { font-size: 16px; font-weight: 700; margin: 20px 0 10px; }
+  p { margin-bottom: 12px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 28px; }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+  .why-card { border-radius: 12px; padding: 18px; }
+  .why-card.bad { background: #fef2f2; border: 2px solid #fecaca; }
+  .why-card.good { background: #f0fdf4; border: 2px solid #86efac; }
+  .why-card h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .why-card.bad h4 { color: #dc2626; }
+  .why-card.good h4 { color: #16a34a; }
+  .why-card ul { font-size: 13px; padding-left: 16px; }
+  .q-compare { margin: 20px 0; }
+  .qc-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 10px; }
+  .qc-bad { background: #fef2f2; border-radius: 8px; padding: 10px 14px; font-size: 13px; }
+  .qc-good { background: #f0fdf4; border-radius: 8px; padding: 10px 14px; font-size: 13px; }
+  .qc-bad { display: flex; align-items: flex-start; gap: 8px; }
+  .qc-good { display: flex; align-items: flex-start; gap: 8px; }
+  .qc-icon { flex-shrink: 0; margin-top: 1px; }
+  .techniques { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin: 20px 0; }
+  .tech-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-top: 4px solid var(--color); }
+  .tech-card .icon { font-size: 28px; margin-bottom: 8px; display: block; }
+  .tech-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 8px; color: var(--color-dark); }
+  .tech-card p { font-size: 12px; color: var(--gray); margin: 0; }
+  /* Interview script */
+  .script-sheet { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 32px; border-top: 5px solid var(--color); }
+  .script-header { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .sf { }
+  .sf label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-dark); display: block; margin-bottom: 4px; }
+  .input-line { border-bottom: 1.5px solid #e2e8f0; min-height: 28px; width: 100%; }
+  .script-section { margin-bottom: 20px; }
+  .script-section h4 { font-size: 13px; font-weight: 700; color: var(--color-dark); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .q-block { background: var(--color-light); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+  .q-block .q-text { font-size: 13px; font-style: italic; color: var(--color-dark); margin-bottom: 6px; }
+  .q-block .q-note { font-size: 11px; color: var(--gray); }
+  .q-block .answer-space { border-bottom: 1px solid #f9a8d4; min-height: 36px; margin-top: 8px; }
+  /* Mapa de empatía */
+  .empathy-map { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 32px; overflow: hidden; }
+  .em-title { background: var(--color); color: white; padding: 16px 24px; font-size: 16px; font-weight: 700; }
+  .em-center { display: flex; justify-content: center; padding: 16px; border-bottom: 1px solid #fce7f3; }
+  .em-user { background: var(--color-light); border: 3px solid var(--color); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; font-size: 32px; }
+  .em-grid { display: grid; grid-template-columns: 1fr 1fr; }
+  .em-quad { padding: 20px; border: 1px solid #fce7f3; min-height: 160px; }
+  .em-quad h4 { font-size: 14px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .em-quad.dice h4 { color: #1d4ed8; }
+  .em-quad.think h4 { color: #7c3aed; }
+  .em-quad.feel h4 { color: var(--color-dark); }
+  .em-quad.do h4 { color: #15803d; }
+  .em-note-lines .note-line { border-bottom: 1px solid #f0f0f0; height: 26px; margin-bottom: 4px; }
+  .em-bottom { padding: 20px; border-top: 2px solid var(--color-light); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .em-bottom-sec h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .em-bottom-sec.pain h4 { color: #dc2626; }
+  .em-bottom-sec.gain h4 { color: #16a34a; }
+  /* Ejemplos */
+  .example-box { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); margin-bottom: 20px; border-left: 4px solid var(--color); }
+  .example-box h4 { font-size: 14px; font-weight: 700; color: var(--color-dark); margin-bottom: 10px; }
+  .ex-row { display: grid; grid-template-columns: 100px 1fr; gap: 12px; margin-bottom: 8px; align-items: start; }
+  .ex-row label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--gray); }
+  .ex-row p { font-size: 13px; margin: 0; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; }
+    .script-sheet, .empathy-map, .example-box { box-shadow: none; border-width: 1px; break-inside: avoid; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">Design Thinking · Empatía</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div>
+  <h1>Guía de Entrevistas de Empatía</h1>
+  <p>Aprende a escuchar con genuino interés — la habilidad que más falta en el diseño y la enseñanza</p>
+</header>
+
+<div class="container">
+
+  <div class="intro-box">
+    <strong>¿Por qué entrevistamos?</strong> Porque nuestras suposiciones sobre lo que otros necesitan suelen estar equivocadas. La empatía real no es imaginar cómo se siente alguien — es escucharle directamente. En Guatemala, la diversidad cultural significa que las necesidades de una familia k'iche' del altiplano, una familia garífuna de Livingston o una familia ladina de la capital pueden ser radicalmente distintas aunque el "problema" parezca el mismo.
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> Suposiciones vs. <span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Empatía Real</h2>
+  <div class="why-grid">
+    <div class="why-card bad">
+      <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> Diseñar desde Suposiciones</h4>
+      <ul>
+        <li>"Los niños no leen porque no tienen libros" → Compramos libros que nadie lee</li>
+        <li>"Las madres no participan porque no les importa" → Horario de reuniones incompatible con su jornada</li>
+        <li>"El problema es la tecnología" → Pero la electricidad llega solo 4 horas al día</li>
+        <li>Solución diseñada para un usuario imaginario</li>
+        <li>Frustración cuando la solución "no funciona"</li>
+      </ul>
+    </div>
+    <div class="why-card good">
+      <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Diseñar desde Empatía</h4>
+      <ul>
+        <li>Preguntamos antes de asumir → Descubrimos la causa real</li>
+        <li>Observamos en el contexto real del usuario</li>
+        <li>Escuchamos lo que dicen Y lo que no dicen</li>
+        <li>Solución diseñada para una persona real</li>
+        <li>Mayor probabilidad de que la solución realmente funcione</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span> Antes de Entrevistar: Preguntas Abiertas vs. Cerradas</h2>
+  <p>Las preguntas cerradas obtienen respuestas de sí/no. Las abiertas abren conversaciones. Las preguntas de <em>por qué</em> y <em>cómo</em> son las más poderosas.</p>
+  <div class="q-compare">
+    <div class="qc-row">
+      <div class="qc-bad"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>"¿Te gustan las clases de matemáticas?"</div>
+      <div class="qc-good"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>"Cuéntame cómo fue la última vez que estuviste en clase de matemáticas."</div>
+    </div>
+    <div class="qc-row">
+      <div class="qc-bad"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>"¿Compras en el mercado del pueblo?"</div>
+      <div class="qc-good"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>"¿Cómo decides dónde comprar tus alimentos cada semana?"</div>
+    </div>
+    <div class="qc-row">
+      <div class="qc-bad"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>"¿Tienes problemas con el transporte?"</div>
+      <div class="qc-good"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>"Describe cómo llegas a la escuela los días que llueve mucho."</div>
+    </div>
+    <div class="qc-row">
+      <div class="qc-bad"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>"¿Usarías una app para este problema?"</div>
+      <div class="qc-good"><span class="qc-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span>"¿Qué haces actualmente cuando tienes este problema?"</div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span> Durante la Entrevista: Técnicas de Escucha Activa</h2>
+  <div class="techniques">
+    <div class="tech-card">
+      <span class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg></span>
+      <h4>El Silencio Productivo</h4>
+      <p>Cuando el usuario termina de hablar, espera 3 segundos antes de responder. A menudo añaden lo más importante en ese silencio que intentas llenar.</p>
+    </div>
+    <div class="tech-card">
+      <span class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
+      <h4>El Espejo</h4>
+      <p>Repite las últimas 3 palabras del usuario como pregunta: "...y eso me hace enojar." → "¿Te hace enojar?" Profundiza sin dirigir.</p>
+    </div>
+    <div class="tech-card">
+      <span class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+      <h4>El ¿Por Qué? Encadenado</h4>
+      <p>Pregunta "¿por qué?" hasta 5 veces seguidas. Cada respuesta va más profundo hacia la necesidad real, más allá del síntoma.</p>
+    </div>
+    <div class="tech-card">
+      <span class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>
+      <h4>Tomar Notas de Emociones</h4>
+      <p>No solo registres las palabras — anota el tono, las pausas, los gestos y las emociones que ves. A veces el cuerpo dice más que las palabras.</p>
+    </div>
+    <div class="tech-card">
+      <span class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+      <h4>Sensibilidad Cultural</h4>
+      <p>En contextos mayas guatemaltecos, el contacto visual directo prolongado puede ser incómodo. Adapta tu postura y lenguaje corporal al contexto cultural.</p>
+    </div>
+    <div class="tech-card">
+      <span class="icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>
+      <h4>No Vender tu Idea</h4>
+      <p>En fase de empatía NO menciones tu solución. Si la mencionas, sesgará todas las respuestas. Esta fase es solo para escuchar, no para validar.</p>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span> Guión de Entrevista (Plantilla para Estudiantes)</h2>
+  <div class="script-sheet">
+    <div class="script-header">
+      <div class="sf"><label>Tema del proyecto</label><div class="input-line"></div></div>
+      <div class="sf"><label>Perfil del entrevistado</label><div class="input-line"></div></div>
+      <div class="sf"><label>Fecha / Lugar</label><div class="input-line"></div></div>
+    </div>
+
+    <div class="script-section">
+      <h4><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#10b981" stroke="none"/></svg> Apertura (2 minutos)</h4>
+      <div class="q-block">
+        <div class="q-text">"Hola, me llamo ___ y estoy trabajando en un proyecto para entender mejor [tema]. Tus respuestas me ayudarán mucho. No hay respuestas correctas ni incorrectas. ¿Puedo hacerte algunas preguntas?"</div>
+        <div class="q-note">Pide permiso. Si está de acuerdo, continúa. Si no, agradece y busca otro entrevistado.</div>
+      </div>
+    </div>
+
+    <div class="script-section">
+      <h4><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#3b82f6" stroke="none"/></svg> Exploración General (5–8 minutos)</h4>
+      <div class="q-block">
+        <div class="q-text">1. "¿Puedes contarme cómo es tu día a día con [tema]?"</div>
+        <div class="q-note">Pregunta amplia para que el usuario defina qué es importante para él/ella.</div>
+        <div class="answer-space"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-text">2. "Cuéntame de una vez específica cuando [situación relacionada]. ¿Qué pasó?"</div>
+        <div class="q-note">Pide una historia concreta. Las historias revelan más que las generalizaciones.</div>
+        <div class="answer-space"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-text">3. "¿Qué es lo más difícil / frustrante de [situación]?"</div>
+        <div class="q-note">Busca la fricción — donde hay fricción, hay oportunidad de diseño.</div>
+        <div class="answer-space"></div>
+      </div>
+    </div>
+
+    <div class="script-section">
+      <h4><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#eab308" stroke="none"/></svg> Profundización (5–8 minutos)</h4>
+      <div class="q-block">
+        <div class="q-text">4. "¿Por qué eso es importante para ti?"</div>
+        <div class="q-note">Sigue el hilo de lo más relevante. Usa "¿por qué?" hasta 3 veces si es necesario.</div>
+        <div class="answer-space"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-text">5. "¿Cómo lo resuelves actualmente? ¿Qué haces cuando esto pasa?"</div>
+        <div class="q-note">Las soluciones actuales (aunque imperfectas) revelan necesidades reales.</div>
+        <div class="answer-space"></div>
+      </div>
+      <div class="q-block">
+        <div class="q-text">6. "¿Qué sería ideal para ti? Si pudieras cambiar algo, ¿qué sería?"</div>
+        <div class="q-note">Permite soñar. No limites las respuestas con "¿es posible?".</div>
+        <div class="answer-space"></div>
+      </div>
+    </div>
+
+    <div class="script-section">
+      <h4><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#dc2626" stroke="none"/></svg> Cierre (2 minutos)</h4>
+      <div class="q-block">
+        <div class="q-text">"¿Hay algo más que sientes que es importante que yo sepa sobre este tema y que no te pregunté?"</div>
+        <div class="q-note">Esta pregunta de cierre frecuentemente produce los insights más inesperados y valiosos.</div>
+        <div class="answer-space"></div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-light); border-radius:8px; padding:14px; margin-top:4px;">
+      <strong style="font-size:13px;"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Mis 3 observaciones más importantes de esta entrevista:</strong>
+      <div class="answer-space" style="margin-top:10px;"></div>
+      <div class="answer-space"></div>
+      <div class="answer-space"></div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Mapa de Empatía (Para Completar Después de Entrevistar)</h2>
+  <div class="empathy-map">
+    <div class="em-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Mapa de Empatía — Nombre del Usuario: _______________________________</div>
+    <div class="em-center"><div class="em-user"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div></div>
+    <div class="em-grid">
+      <div class="em-quad dice">
+        <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> ¿Qué DICE?</h4>
+        <p style="font-size:11px;color:var(--gray);margin-bottom:8px">Citas textuales de la entrevista</p>
+        <div class="em-note-lines"><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+      <div class="em-quad think">
+        <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg></span> ¿Qué PIENSA?</h4>
+        <p style="font-size:11px;color:var(--gray);margin-bottom:8px">Lo que no dice en voz alta pero probablemente cree</p>
+        <div class="em-note-lines"><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+      <div class="em-quad feel">
+        <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> ¿Qué SIENTE?</h4>
+        <p style="font-size:11px;color:var(--gray);margin-bottom:8px">Emociones detectadas por tono, gestos, pausas</p>
+        <div class="em-note-lines"><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+      <div class="em-quad do">
+        <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 3"/><path d="M12 13l3 3"/><path d="M9 20v-3"/><path d="M15 20v-3"/></svg></span> ¿Qué HACE?</h4>
+        <p style="font-size:11px;color:var(--gray);margin-bottom:8px">Comportamientos observados o descritos</p>
+        <div class="em-note-lines"><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+    </div>
+    <div class="em-bottom">
+      <div class="em-bottom-sec pain">
+        <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Dolores / Frustraciones</h4>
+        <div class="em-note-lines"><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+      <div class="em-bottom-sec gain">
+        <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> Ganancias / Motivaciones</h4>
+        <div class="em-note-lines"><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span> Ejemplos de Entrevistas de Empatía en Contexto Guatemalteco</h2>
+  <div class="example-box">
+    <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8 1.5 4 4 0 0 0 6.187-2.353 3.5 3.5 0 0 0 3.69-5.116A3.5 3.5 0 0 0 20.95 8 3.5 3.5 0 1 0 16 3.05a3.5 3.5 0 0 0-5.831 1.373 3.5 3.5 0 0 0-5.116 3.69 4 4 0 0 0-2.348 6.155C3.499 15.42 3 17.1 3 22"/><path d="M2 22 17 7"/></svg></span> Proyecto: Solución para pequeños agricultores</h4>
+    <div class="ex-row"><label>Pregunta</label><p>"Cuéntame cómo fue la última cosecha de maíz. ¿Qué pasó desde que sembraste hasta que vendiste?"</p></div>
+    <div class="ex-row"><label>Lo que dijo</label><p>"Sembramos como siempre, con la luna llena de febrero. Creció bien pero cuando fui a vender al mercado me pagaron Q80 el quintal y el intermediario lo revendía a Q180. Mis hijos no comieron carne ese mes."</p></div>
+    <div class="ex-row"><label>Insight</label><p>El problema no es la producción sino el acceso directo a compradores justos. La solución puede ser conectar productores con consumidores directamente.</p></div>
+  </div>
+  <div class="example-box">
+    <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Proyecto: Mejorar la asistencia escolar</h4>
+    <div class="ex-row"><label>Pregunta</label><p>"¿Qué pasa en los días que tus hijos no van a la escuela? ¿Qué los retiene en casa?"</p></div>
+    <div class="ex-row"><label>Lo que dijo</label><p>"Los días de plaza tenemos que ir todos al mercado desde las 4am para conseguir buen lugar. Si mi hija se queda sola en casa me preocupa. Y a veces llueve tanto que el camino se pone muy peligroso."</p></div>
+    <div class="ex-row"><label>Insight</label><p>Las barreras son económicas (días de mercado) y físicas (condiciones del camino), no de motivación. La solución debe atender estas barreras reales, no la actitud de los padres.</p></div>
+  </div>
+
+</div>
+<footer>
+  Guatemala 2026<br>
+  Módulo Design Thinking · Guía de Entrevistas de Empatía
+</footer>
+</body>
+</html>

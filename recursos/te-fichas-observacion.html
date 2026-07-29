@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fichas de Observación Docente – Guatemala 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #7C3AED; --color-dark: #5b21b6; --color-light: #EDE9FE; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #faf8ff; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(124,58,237,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #7C3AED, #5b21b6); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 36px; }
+  h2 { font-size: 20px; font-weight: 700; color: var(--color-dark); margin: 40px 0 8px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); }
+  .ficha-desc { font-size: 13px; color: var(--gray); font-style: italic; margin-bottom: 16px; }
+  .ficha { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 40px; overflow: hidden; border-top: 5px solid var(--color); }
+  .ficha-header { background: var(--color-light); padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .ficha-header h3 { font-size: 15px; font-weight: 700; color: var(--color-dark); }
+  .ficha-header .freq { font-size: 11px; background: var(--color); color: white; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+  .ficha-body { padding: 22px 24px; }
+  .top-row { display: grid; gap: 14px; margin-bottom: 18px; }
+  .top-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .top-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .top-2 { grid-template-columns: 1fr 1fr; }
+  .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-dark); display: block; margin-bottom: 4px; }
+  .input-line { border-bottom: 1.5px solid #e2e8f0; min-height: 26px; width: 100%; }
+  .input-line.tall { min-height: 44px; }
+  .input-line.xtall { min-height: 64px; }
+  .section-label { font-size: 12px; font-weight: 700; color: var(--color); text-transform: uppercase; letter-spacing: 0.5px; margin: 16px 0 8px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+  .obs-box { border-radius: 10px; padding: 14px; }
+  .obs-box.blue { background: #EFF6FF; }
+  .obs-box.green { background: #F0FDF4; }
+  .obs-box.orange { background: #FFF7ED; }
+  .obs-box.red { background: #FEF2F2; }
+  .obs-box.purple { background: var(--color-light); }
+  .obs-box h4 { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .obs-box.blue h4 { color: #1d4ed8; }
+  .obs-box.green h4 { color: #15803d; }
+  .obs-box.orange h4 { color: #c2410c; }
+  .obs-box.red h4 { color: #dc2626; }
+  .obs-box.purple h4 { color: var(--color-dark); }
+  .note-line { border-bottom: 1px solid rgba(0,0,0,0.08); height: 26px; margin-bottom: 4px; }
+  .scale-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border-bottom: 1px solid #f0eafb; padding-bottom: 10px; }
+  .scale-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .scale-text { flex: 1; font-size: 13px; }
+  .scale-dots { display: flex; gap: 5px; }
+  .scale-dot { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--color-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--gray); }
+  .anec-block { border: 1.5px solid var(--color-light); border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+  .anec-meta { display: flex; gap: 12px; margin-bottom: 8px; }
+  .anec-meta .field { flex: 1; }
+  .socio-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 8px; margin: 12px 0; }
+  .socio-student { border-radius: 8px; padding: 8px; border: 1.5px dashed var(--color-light); text-align: center; min-height: 60px; }
+  .socio-student label { font-size: 10px; font-weight: 700; color: var(--gray); display: block; margin-bottom: 4px; text-transform: uppercase; }
+  .socio-student .name-line { border-bottom: 1px solid #e2e8f0; height: 18px; }
+  .socio-legend { display: flex; gap: 16px; margin: 10px 0; flex-wrap: wrap; }
+  .sl-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .sl-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .familia-table { width: 100%; border-collapse: collapse; }
+  .familia-table th { background: var(--color); color: white; padding: 9px 12px; font-size: 11px; font-weight: 700; text-align: left; }
+  .familia-table td { border: 1px solid #e2e8f0; padding: 10px 12px; font-size: 12px; vertical-align: top; min-height: 40px; }
+  .familia-table .date-col { background: #faf8ff; font-weight: 700; width: 90px; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .ficha { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; page-break-after: always; }
+    .ficha:last-child { page-break-after: avoid; }
+    footer { margin-top: 20px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">Conoce a Quien Enseñas · Observación</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+  <h1>Fichas de Observación Docente</h1>
+  <p>6 instrumentos para el seguimiento sistemático de tus estudiantes — listos para imprimir y usar</p>
+</header>
+
+<div class="container">
+  <div class="intro-box">
+    <strong>¿Por qué observar sistemáticamente?</strong> La memoria humana es selectiva: recordamos mejor a los estudiantes que más participan o que presentan más dificultades. La observación sistemática asegura que <em>todos los estudiantes</em> reciban atención equitativa de tu parte. Estas fichas no son para fiscalizar — son para conocer mejor y apoyar mejor.
+  </div>
+
+  <!-- FICHA 1 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> Ficha 1: Seguimiento Individual</h2>
+  <p class="ficha-desc">Una ficha por estudiante, actualizable durante el período. Usar al menos una vez al mes por estudiante.</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> Ficha de Seguimiento Individual del Estudiante</h3>
+      <span class="freq"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Mensual</span>
+    </div>
+    <div class="ficha-body">
+      <div class="top-row top-4">
+        <div class="field"><label>Nombre completo</label><div class="input-line"></div></div>
+        <div class="field"><label>Grado / Sección</label><div class="input-line"></div></div>
+        <div class="field"><label>Edad</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha de actualización</label><div class="input-line"></div></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="section-label"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Fortalezas Académicas</div>
+          <div class="obs-box green">
+            <div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div>
+          </div>
+        </div>
+        <div>
+          <div class="section-label"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17.5 10.5c-1 2-4 3-6 2s-3-3-2-5"/><path d="M3 14s1-1 4-1 5.5 2 8 2 4-1 4-1"/></svg></span> Fortalezas Personales / Sociales</div>
+          <div class="obs-box blue">
+            <div class="note-line"></div><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-label" style="margin-top:16px;"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Áreas de Mejora Identificadas</div>
+      <div class="three-col">
+        <div class="obs-box orange"><h4>Académica</h4><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+        <div class="obs-box orange"><h4>Social / Emocional</h4><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+        <div class="obs-box orange"><h4>Hábitos / Organización</h4><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+      <div class="section-label" style="margin-top:16px;"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Estrategias Probadas y Resultados</div>
+      <div class="two-col">
+        <div class="field"><label>Estrategia intentada</label><div class="input-line tall"></div></div>
+        <div class="field"><label>Resultado observado</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="two-col" style="margin-top:12px;">
+        <div class="field"><label>Apoyos adicionales que necesita</label><div class="input-line tall"></div></div>
+        <div class="field"><label>¿Con quién se ha comunicado sobre este estudiante?</label><div class="input-line tall"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHA 2 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Ficha 2: Observación de Conducta en Trabajo en Equipo</h2>
+  <p class="ficha-desc">Para observar a un equipo o a un estudiante específico durante trabajo grupal. Completar durante la actividad, no después.</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Observación de Trabajo en Equipo</h3>
+      <span class="freq"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Por proyecto</span>
+    </div>
+    <div class="ficha-body">
+      <div class="top-row top-3">
+        <div class="field"><label>Equipo / Estudiante observado</label><div class="input-line"></div></div>
+        <div class="field"><label>Actividad / Proyecto</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha y duración</label><div class="input-line"></div></div>
+      </div>
+      <div class="section-label">Escala de observación: 1 = No observado · 2 = Ocasionalmente · 3 = Frecuentemente · 4 = Consistentemente</div>
+      <div class="scale-row"><span class="scale-text">Participa activamente sin que se le solicite</span><div class="scale-dots"><div class="scale-dot">1</div><div class="scale-dot">2</div><div class="scale-dot">3</div><div class="scale-dot">4</div></div></div>
+      <div class="scale-row"><span class="scale-text">Escucha cuando otros hablan sin interrumpir</span><div class="scale-dots"><div class="scale-dot">1</div><div class="scale-dot">2</div><div class="scale-dot">3</div><div class="scale-dot">4</div></div></div>
+      <div class="scale-row"><span class="scale-text">Contribuye ideas propias al proceso del equipo</span><div class="scale-dots"><div class="scale-dot">1</div><div class="scale-dot">2</div><div class="scale-dot">3</div><div class="scale-dot">4</div></div></div>
+      <div class="scale-row"><span class="scale-text">Asume y cumple su rol asignado</span><div class="scale-dots"><div class="scale-dot">1</div><div class="scale-dot">2</div><div class="scale-dot">3</div><div class="scale-dot">4</div></div></div>
+      <div class="scale-row"><span class="scale-text">Resuelve conflictos de forma constructiva</span><div class="scale-dots"><div class="scale-dot">1</div><div class="scale-dot">2</div><div class="scale-dot">3</div><div class="scale-dot">4</div></div></div>
+      <div class="scale-row"><span class="scale-text">Apoya a compañeros cuando necesitan ayuda</span><div class="scale-dots"><div class="scale-dot">1</div><div class="scale-dot">2</div><div class="scale-dot">3</div><div class="scale-dot">4</div></div></div>
+      <div class="two-col" style="margin-top:14px;">
+        <div class="field"><label>Momento específico más positivo observado</label><div class="input-line tall"></div></div>
+        <div class="field"><label>Momento de mayor tensión y cómo se resolvió</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="field" style="margin-top:12px;"><label>¿Qué conversación tendrías con este estudiante o equipo basada en lo observado?</label><div class="input-line tall"></div></div>
+    </div>
+  </div>
+
+  <!-- FICHA 3 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Ficha 3: Registro Anecdótico</h2>
+  <p class="ficha-desc">Descripciones breves y objetivas de momentos significativos. Anotar lo que se observó, no lo que se interpreta. Usar cuando sea relevante, sin fecha fija.</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Registro Anecdótico del Estudiante</h3>
+      <span class="freq"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Cuando ocurre</span>
+    </div>
+    <div class="ficha-body">
+      <div class="top-row top-2">
+        <div class="field"><label>Nombre del estudiante</label><div class="input-line"></div></div>
+        <div class="field"><label>Grado</label><div class="input-line"></div></div>
+      </div>
+      <p style="font-size:12px; color:var(--gray); margin-bottom:14px;"><strong>Instrucción:</strong> Describe brevemente lo que observaste — comportamientos, palabras textuales, situaciones. Evita interpretar o juzgar en la descripción. Usa la sección de "análisis" para tu interpretación.</p>
+
+      <div class="anec-block">
+        <div class="anec-meta">
+          <div class="field"><label>Fecha</label><div class="input-line"></div></div>
+          <div class="field" style="flex:2"><label>Materia / Contexto</label><div class="input-line"></div></div>
+        </div>
+        <div class="field"><label>¿Qué observé exactamente? (describe, no interpretes)</label><div class="input-line xtall"></div></div>
+        <div class="two-col" style="margin-top:10px;">
+          <div class="field"><label>¿Qué podría significar esto? (aquí sí puedes interpretar)</label><div class="input-line tall"></div></div>
+          <div class="field"><label>¿Qué hice o haré al respecto?</label><div class="input-line tall"></div></div>
+        </div>
+      </div>
+      <div class="anec-block">
+        <div class="anec-meta">
+          <div class="field"><label>Fecha</label><div class="input-line"></div></div>
+          <div class="field" style="flex:2"><label>Materia / Contexto</label><div class="input-line"></div></div>
+        </div>
+        <div class="field"><label>¿Qué observé exactamente? (describe, no interpretes)</label><div class="input-line xtall"></div></div>
+        <div class="two-col" style="margin-top:10px;">
+          <div class="field"><label>¿Qué podría significar esto?</label><div class="input-line tall"></div></div>
+          <div class="field"><label>¿Qué hice o haré al respecto?</label><div class="input-line tall"></div></div>
+        </div>
+      </div>
+      <div class="anec-block">
+        <div class="anec-meta">
+          <div class="field"><label>Fecha</label><div class="input-line"></div></div>
+          <div class="field" style="flex:2"><label>Materia / Contexto</label><div class="input-line"></div></div>
+        </div>
+        <div class="field"><label>¿Qué observé exactamente?</label><div class="input-line xtall"></div></div>
+        <div class="two-col" style="margin-top:10px;">
+          <div class="field"><label>¿Qué podría significar esto?</label><div class="input-line tall"></div></div>
+          <div class="field"><label>¿Qué hice o haré al respecto?</label><div class="input-line tall"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHA 4 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Ficha 4: Barreras de Aprendizaje</h2>
+  <p class="ficha-desc">Para documentar sistemáticamente qué le cuesta a un estudiante, posibles causas y las intervenciones probadas. Completar cuando hay una preocupación persistente.</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Ficha de Barreras de Aprendizaje</h3>
+      <span class="freq"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Cuando hay preocupación persistente</span>
+    </div>
+    <div class="ficha-body">
+      <div class="top-row top-3">
+        <div class="field"><label>Nombre del estudiante</label><div class="input-line"></div></div>
+        <div class="field"><label>Grado</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha de inicio del seguimiento</label><div class="input-line"></div></div>
+      </div>
+      <div class="section-label"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Descripción de la Barrera</div>
+      <div class="field"><label>¿Qué específicamente le cuesta? (ser lo más específico posible)</label><div class="input-line xtall"></div></div>
+      <div class="field" style="margin-top:12px;"><label>¿Desde cuándo lo observo? ¿En qué contextos ocurre y en cuáles no?</label><div class="input-line tall"></div></div>
+      <div class="section-label" style="margin-top:16px;"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span> Posibles Causas</div>
+      <div class="three-col">
+        <div class="obs-box blue"><h4>Académicas</h4><p style="font-size:11px;color:var(--gray);margin-bottom:6px;">¿Falta de prerequisitos? ¿Ritmo?</p><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+        <div class="obs-box purple"><h4>Socioemocionales</h4><p style="font-size:11px;color:var(--gray);margin-bottom:6px;">¿Ansiedad? ¿Situación familiar?</p><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+        <div class="obs-box orange"><h4>Contextuales</h4><p style="font-size:11px;color:var(--gray);margin-bottom:6px;">¿Idioma? ¿Asistencia? ¿Casa?</p><div class="note-line"></div><div class="note-line"></div><div class="note-line"></div></div>
+      </div>
+      <div class="section-label" style="margin-top:16px;"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Intervenciones y Resultados</div>
+      <div style="border: 1px solid var(--color-light); border-radius:10px; overflow:hidden;">
+        <table style="width:100%; border-collapse:collapse;">
+          <tr style="background:var(--color-light);"><th style="padding:8px 12px; font-size:11px; font-weight:700; color:var(--color-dark); text-align:left; border-right:1px solid #ddd6fe;">Intervención probada</th><th style="padding:8px 12px; font-size:11px; font-weight:700; color:var(--color-dark); text-align:left; border-right:1px solid #ddd6fe;">Fecha</th><th style="padding:8px 12px; font-size:11px; font-weight:700; color:var(--color-dark); text-align:left;">Resultado observado</th></tr>
+          <tr><td style="padding:10px 12px; border-bottom:1px solid var(--color-light); border-right:1px solid var(--color-light);"></td><td style="padding:10px 12px; border-bottom:1px solid var(--color-light); border-right:1px solid var(--color-light);"></td><td style="padding:10px 12px; border-bottom:1px solid var(--color-light);"></td></tr>
+          <tr><td style="padding:10px 12px; border-bottom:1px solid var(--color-light); border-right:1px solid var(--color-light);"></td><td style="padding:10px 12px; border-bottom:1px solid var(--color-light); border-right:1px solid var(--color-light);"></td><td style="padding:10px 12px; border-bottom:1px solid var(--color-light);"></td></tr>
+          <tr><td style="padding:10px 12px; border-right:1px solid var(--color-light);"></td><td style="padding:10px 12px; border-right:1px solid var(--color-light);"></td><td style="padding:10px 12px;"></td></tr>
+        </table>
+      </div>
+      <div class="two-col" style="margin-top:14px;">
+        <div class="field"><label>¿Se ha hablado con la familia? ¿Qué dijeron?</label><div class="input-line tall"></div></div>
+        <div class="field"><label>¿Se requiere derivación a orientación, psicología o apoyo especializado?</label><div class="input-line tall"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FICHA 5 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Ficha 5: Sociograma Simple del Aula</h2>
+  <p class="ficha-desc">Para mapear las relaciones entre estudiantes e identificar quiénes están aislados o en conflicto. Aplicar 1–2 veces al año.</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span> Sociograma del Aula</h3>
+      <span class="freq"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> 1–2 veces al año</span>
+    </div>
+    <div class="ficha-body">
+      <div class="top-row top-3">
+        <div class="field"><label>Grado / Sección</label><div class="input-line"></div></div>
+        <div class="field"><label>Docente</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha</label><div class="input-line"></div></div>
+      </div>
+      <p style="font-size:12px; color:var(--gray); margin-bottom:14px;"><strong>Instrucción para el docente:</strong> Pide a cada estudiante (en forma anónima o privada): "¿Con quién trabajarías mejor en un proyecto?" y "¿Con quién te resulta más difícil trabajar?" Registra las respuestas con los nombres en el mapa. Usa líneas de colores para las conexiones.</p>
+      <div class="socio-grid">
+        <div class="socio-student"><label>Est. 1</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 2</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 3</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 4</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 5</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 6</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 7</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 8</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 9</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 10</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 11</label><div class="name-line"></div></div>
+        <div class="socio-student"><label>Est. 12</label><div class="name-line"></div></div>
+      </div>
+      <div style="background:#f8fafc; border-radius:10px; padding:14px; margin:12px 0;">
+        <p style="font-size:12px; font-weight:700; color:var(--color-dark); margin-bottom:8px;"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Área de mapa libre — Dibuja las conexiones con flechas y líneas</p>
+        <div style="height:180px; border: 2px dashed var(--color-light); border-radius:8px; background:white;"></div>
+      </div>
+      <div class="socio-legend">
+        <div class="sl-item"><div class="sl-dot" style="background:#16a34a;"></div> Elección positiva mutua</div>
+        <div class="sl-item"><div class="sl-dot" style="background:#3b82f6;"></div> Elección positiva unidireccional</div>
+        <div class="sl-item"><div class="sl-dot" style="background:#dc2626;"></div> Conflicto reportado</div>
+        <div class="sl-item"><div class="sl-dot" style="background:#f97316;"></div> Sin conexiones (aislado/a)</div>
+      </div>
+      <div class="field" style="margin-top:14px;"><label>¿Qué hace este sociograma visible que antes era invisible? ¿Qué acción tomaré?</label><div class="input-line xtall"></div></div>
+    </div>
+  </div>
+
+  <!-- FICHA 6 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> Ficha 6: Comunicación Docente-Familia</h2>
+  <p class="ficha-desc">Para registrar y compartir observaciones con la familia de forma constructiva y orientada a soluciones. Usar en reuniones o comunicaciones escritas.</p>
+  <div class="ficha">
+    <div class="ficha-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span> Ficha de Comunicación con la Familia</h3>
+      <span class="freq"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Bimestral o cuando se necesite</span>
+    </div>
+    <div class="ficha-body">
+      <div class="top-row top-3">
+        <div class="field"><label>Nombre del estudiante</label><div class="input-line"></div></div>
+        <div class="field"><label>Nombre del familiar / tutor</label><div class="input-line"></div></div>
+        <div class="field"><label>Relación con el estudiante</label><div class="input-line"></div></div>
+      </div>
+      <div class="section-label"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span> Registro de Comunicaciones</div>
+      <table class="familia-table">
+        <tr><th>Fecha</th><th>Tipo de contacto</th><th>¿Qué se comunicó?</th><th>Acuerdo / Compromiso</th><th>Seguimiento</th></tr>
+        <tr><td class="date-col"></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="date-col"></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="date-col"></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td class="date-col"></td><td></td><td></td><td></td><td></td></tr>
+      </table>
+      <div style="margin-top:16px; background:var(--color-light); border-radius:10px; padding:16px;">
+        <p style="font-size:12px; font-weight:700; color:var(--color-dark); margin-bottom:8px;"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5b21b6" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Carta modelo para compartir observaciones positivas con la familia:</p>
+        <p style="font-size:12px; color:#475569; line-height:1.8;">Estimada familia de <span style="border-bottom:1px solid #c4b5fd; display:inline-block; width:120px;"></span>:<br><br>Quiero compartirles algo que he observado con alegría en <span style="border-bottom:1px solid #c4b5fd; display:inline-block; width:80px;"></span>. Esta semana noté que <span style="border-bottom:1px solid #c4b5fd; display:inline-block; width:200px;"></span>.<br><br>Esto me dice que <span style="border-bottom:1px solid #c4b5fd; display:inline-block; width:160px;"></span>. Pueden apoyar en casa haciendo <span style="border-bottom:1px solid #c4b5fd; display:inline-block; width:160px;"></span>.<br><br>Estoy disponible para conversar cuando gusten. Con respeto,<br><span style="border-bottom:1px solid #c4b5fd; display:inline-block; width:160px; margin-top:20px;"></span></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  Guatemala 2026<br>
+  Módulo Conoce a Quien Enseñas · Fichas de Observación Docente
+</footer>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Estilos de Aprendizaje – Guatemala 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #7C3AED; --color-dark: #5b21b6; --color-light: #EDE9FE; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #faf8ff; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(124,58,237,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #7C3AED, #5b21b6); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 21px; font-weight: 700; color: var(--color-dark); margin: 40px 0 14px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); }
+  p { margin-bottom: 12px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 28px; }
+  .vark-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin: 20px 0; }
+  .vark-card { border-radius: 14px; overflow: hidden; }
+  .vc-v { border-top: 5px solid #3B82F6; }
+  .vc-a { border-top: 5px solid #22C55E; }
+  .vc-r { border-top: 5px solid #F97316; }
+  .vc-k { border-top: 5px solid #E83C8D; }
+  .vark-head { padding: 16px 14px 10px; background: white; }
+  .vark-head .icon { display: block; margin-bottom: 8px; }
+  .vark-head h3 { font-size: 15px; font-weight: 800; }
+  .vc-v .vark-head h3 { color: #1d4ed8; }
+  .vc-a .vark-head h3 { color: #15803d; }
+  .vc-r .vark-head h3 { color: #c2410c; }
+  .vc-k .vark-head h3 { color: #be185d; }
+  .vark-body { background: white; padding: 0 14px 14px; }
+  .vark-section { margin-top: 10px; }
+  .vark-section label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); display: block; margin-bottom: 4px; }
+  .vark-section ul { padding-left: 14px; }
+  .vark-section li { font-size: 12px; margin-bottom: 3px; }
+  .gardner-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin: 20px 0; }
+  .gard-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border-left: 4px solid var(--color); }
+  .gard-card .gi { margin-bottom: 6px; display: block; }
+  .gard-card h4 { font-size: 13px; font-weight: 700; color: var(--color-dark); margin-bottom: 6px; }
+  .gard-card p { font-size: 11px; color: var(--gray); margin: 0; }
+  .gard-card .act { font-size: 11px; margin-top: 6px; color: var(--text); }
+  .quiz-sheet { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin: 20px 0; border-top: 5px solid var(--color); }
+  .quiz-instructions { background: var(--color-light); border-radius: 8px; padding: 14px; margin-bottom: 20px; font-size: 13px; }
+  .quiz-section { margin-bottom: 20px; }
+  .qs-label { font-size: 13px; font-weight: 700; color: var(--color-dark); margin-bottom: 10px; padding: 6px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
+  .qs-v { background: #dbeafe; color: #1e40af; }
+  .qs-a { background: #d1fae5; color: #065f46; }
+  .qs-r { background: #ffedd5; color: #9a3412; }
+  .qs-k { background: #fce7f3; color: #831843; }
+  .q-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+  .q-num { width: 22px; height: 22px; background: var(--color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .q-text { font-size: 13px; flex: 1; }
+  .q-opts { display: flex; gap: 12px; margin-top: 4px; margin-left: 32px; }
+  .q-opt { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--gray); }
+  .q-circle { width: 16px; height: 16px; border: 1.5px solid #d1d5db; border-radius: 50%; }
+  .strat-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .strat-table th { background: var(--color); color: white; padding: 10px 12px; font-size: 12px; text-align: left; }
+  .strat-table td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; font-size: 12px; vertical-align: top; }
+  .strat-table tr:nth-child(even) td { background: var(--color-light); }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .quiz-sheet { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+    .vark-card, .gard-card { break-inside: avoid; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">Conoce a Quien Enseñas · Módulo 5</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+  <h1>Guía de Estilos de Aprendizaje</h1>
+  <p>VARK, Inteligencias Múltiples y diagnóstico de tus estudiantes para diseñar clases que lleguen a todos</p>
+</header>
+<div class="container">
+  <div class="intro-box">
+    <strong>Nota importante:</strong> Los estilos de aprendizaje son una herramienta de <em>orientación</em>, no de etiquetado. Ningún estudiante es puramente "visual" o "kinestésico" — todos aprenden mejor cuando usamos múltiples modalidades. El valor de conocer estos perfiles es <strong>diversificar tus estrategias de enseñanza</strong>, no clasificar a tus estudiantes en categorías fijas.
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg></span> Los 4 Perfiles VARK</h2>
+  <div class="vark-grid">
+    <div class="vark-card vc-v">
+      <div class="vark-head">
+        <span class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        <h3>Visual</h3>
+      </div>
+      <div class="vark-body">
+        <div class="vark-section">
+          <label>Características</label>
+          <ul>
+            <li>Piensa en imágenes y esquemas</li>
+            <li>Prefiere diagramas, mapas y gráficas</li>
+            <li>Recuerda caras, colores y lugares</li>
+            <li>Necesita "ver" para entender</li>
+          </ul>
+        </div>
+        <div class="vark-section">
+          <label>Estrategias en el aula</label>
+          <ul>
+            <li>Mapas conceptuales y mentales</li>
+            <li>Líneas de tiempo ilustradas</li>
+            <li>Código de colores en notas</li>
+            <li>Videos, infografías, dibujos</li>
+            <li>Organizadores gráficos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="vark-card vc-a">
+      <div class="vark-head">
+        <span class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="1.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></span>
+        <h3>Auditivo</h3>
+      </div>
+      <div class="vark-body">
+        <div class="vark-section">
+          <label>Características</label>
+          <ul>
+            <li>Aprende escuchando y hablando</li>
+            <li>Recuerda lo que oyó en clase</li>
+            <li>Prefiere explicaciones orales</li>
+            <li>Le ayuda leer en voz alta</li>
+          </ul>
+        </div>
+        <div class="vark-section">
+          <label>Estrategias en el aula</label>
+          <ul>
+            <li>Debates y discusiones en grupo</li>
+            <li>Repetir conceptos en voz alta</li>
+            <li>Explicar a un compañero</li>
+            <li>Canciones o ritmos para memorizar</li>
+            <li>Podcasts y grabaciones de voz</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="vark-card vc-r">
+      <div class="vark-head">
+        <span class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+        <h3>Lector/Escritor</h3>
+      </div>
+      <div class="vark-body">
+        <div class="vark-section">
+          <label>Características</label>
+          <ul>
+            <li>Prefiere textos escritos</li>
+            <li>Toma muchas notas</li>
+            <li>Lee instrucciones antes de actuar</li>
+            <li>Aprende haciendo listas</li>
+          </ul>
+        </div>
+        <div class="vark-section">
+          <label>Estrategias en el aula</label>
+          <ul>
+            <li>Lecturas con preguntas guiadas</li>
+            <li>Diarios de aprendizaje</li>
+            <li>Glosarios y definiciones</li>
+            <li>Resúmenes escritos propios</li>
+            <li>Fichas de estudio escritas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="vark-card vc-k">
+      <div class="vark-head">
+        <span class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 3"/><path d="M12 13l3 3"/><path d="M9 20l-2-2"/><path d="M15 20l2-2"/></svg></span>
+        <h3>Kinestésico</h3>
+      </div>
+      <div class="vark-body">
+        <div class="vark-section">
+          <label>Características</label>
+          <ul>
+            <li>Aprende haciendo y tocando</li>
+            <li>Necesita moverse para concentrarse</li>
+            <li>Prefiere ejemplos concretos</li>
+            <li>Aprende de la experiencia</li>
+          </ul>
+        </div>
+        <div class="vark-section">
+          <label>Estrategias en el aula</label>
+          <ul>
+            <li>Experimentos y manualidades</li>
+            <li>Dramatizaciones y roleplay</li>
+            <li>Proyectos con materiales</li>
+            <li>Salidas al patio o comunidad</li>
+            <li>Estaciones de aprendizaje</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14"/></svg> Las 8 Inteligencias de Gardner</h2>
+  <div class="gardner-grid">
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+      <h4>Lingüística</h4>
+      <p>Habilidad con el lenguaje oral y escrito. Aprende leyendo, escribiendo y contando historias.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: crear un cuento o poema sobre el tema de la clase.</p>
+    </div>
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+      <h4>Lógico-Matemática</h4>
+      <p>Pensamiento lógico, patrones y números. Aprende resolviendo problemas y clasificando.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: encontrar patrones matemáticos en la naturaleza guatemalteca.</p>
+    </div>
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></span>
+      <h4>Espacial</h4>
+      <p>Piensa en imágenes y espacio. Aprende con mapas, dibujos, diagramas y construcciones.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: crear un mapa o maqueta del tema estudiado.</p>
+    </div>
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+      <h4>Musical</h4>
+      <p>Sensibilidad al ritmo, melodía y sonido. Aprende mejor con música y ritmo.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: crear una canción o rap con los conceptos clave de la lección.</p>
+    </div>
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 3"/><path d="M12 13l3 3"/><path d="M9 20l-2-2"/><path d="M15 20l2-2"/></svg></span>
+      <h4>Corporal-Kinestésica</h4>
+      <p>Aprende con el cuerpo y el movimiento. Destaca en deportes, danza y trabajos manuales.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: representar con el cuerpo un proceso científico o histórico.</p>
+    </div>
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+      <h4>Naturalista</h4>
+      <p>Conexión con la naturaleza y los seres vivos. Aprende mejor al aire libre y observando.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: salida al jardín o milpa para observar y clasificar seres vivos.</p>
+    </div>
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <h4>Interpersonal</h4>
+      <p>Comprende a otros y se comunica bien. Aprende mejor trabajando en equipo y ayudando.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: enseñar un concepto a un compañero o liderar un equipo.</p>
+    </div>
+    <div class="gard-card">
+      <span class="gi"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+      <h4>Intrapersonal</h4>
+      <p>Autoconocimiento profundo. Aprende mejor con reflexión, diarios y trabajo individual.</p>
+      <p class="act"><span style="display:inline-flex;vertical-align:middle;margin-right:3px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> Actividad: diario de aprendizaje o reflexión escrita sobre el proceso propio.</p>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Cuestionario de Diagnóstico — 20 Preguntas (Para Estudiantes)</h2>
+  <div class="quiz-sheet">
+    <div class="quiz-instructions">
+      <strong>Instrucciones:</strong> Lee cada pregunta y marca la opción que mejor te describe. No hay respuestas correctas o incorrectas — solo queremos conocerte mejor para ayudarte a aprender. Responde con lo que realmente haces, no con lo que crees que deberías hacer. <strong>V = Visual · A = Auditivo · L = Lector/Escritor · K = Kinestésico</strong>
+    </div>
+
+    <div class="quiz-section">
+      <span class="qs-label qs-v"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Tendencia Visual</span>
+      <div class="q-item"><div class="q-num">1</div><div><div class="q-text">Cuando me explican algo nuevo, prefiero que me muestren un dibujo o esquema.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">2</div><div><div class="q-text">Cuando estudio, subrayo con colores y hago cuadros o mapas en mi cuaderno.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">3</div><div><div class="q-text">Recuerdo mejor las caras de las personas que sus nombres.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">4</div><div><div class="q-text">Cuando doy instrucciones a alguien, primero lo dibujo en papel.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">5</div><div><div class="q-text">Me distraigo fácilmente con el desorden en el salón o en mi escritorio.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+    </div>
+
+    <div class="quiz-section">
+      <span class="qs-label qs-a"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#065f46" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg> Tendencia Auditiva</span>
+      <div class="q-item"><div class="q-num">6</div><div><div class="q-text">Aprendo mejor cuando el docente explica en voz alta que cuando leo el libro.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">7</div><div><div class="q-text">Cuando estudio, me ayuda leer en voz alta o explicarme a mí mismo/a el tema.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">8</div><div><div class="q-text">Recuerdo mejor las canciones o lo que me cuentan que lo que leo o veo.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">9</div><div><div class="q-text">Me distraigo fácilmente con el ruido pero aprendo bien en conversación.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">10</div><div><div class="q-text">Cuando tengo un problema, lo pienso mejor hablándolo con alguien.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+    </div>
+
+    <div class="quiz-section">
+      <span class="qs-label qs-r"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9a3412" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Tendencia Lectora/Escritora</span>
+      <div class="q-item"><div class="q-num">11</div><div><div class="q-text">Cuando estudio, me ayuda escribir resúmenes o listas de los puntos importantes.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">12</div><div><div class="q-text">Prefiero leer las instrucciones antes de comenzar cualquier actividad.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">13</div><div><div class="q-text">Cuando anoto algo en mi cuaderno, lo recuerdo mucho mejor que si solo lo escucho.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">14</div><div><div class="q-text">Disfruto leer aunque no sea tarea. Los libros me gustan.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">15</div><div><div class="q-text">Prefiero entregar trabajos escritos que hacer presentaciones orales.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+    </div>
+
+    <div class="quiz-section">
+      <span class="qs-label qs-k"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#831843" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 3"/><path d="M12 13l3 3"/><path d="M9 20l-2-2"/><path d="M15 20l2-2"/></svg> Tendencia Kinestésica</span>
+      <div class="q-item"><div class="q-num">16</div><div><div class="q-text">Aprendo mejor cuando puedo hacer, tocar o experimentar las cosas directamente.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">17</div><div><div class="q-text">Me resulta difícil quedarme quieto por mucho tiempo. Necesito moverme.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">18</div><div><div class="q-text">Recuerdo mejor lo que hice que lo que leí o escuché sobre un tema.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">19</div><div><div class="q-text">Me gustan las clases donde puedo construir, experimentar o salir del salón.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+      <div class="q-item"><div class="q-num">20</div><div><div class="q-text">Cuando aprendo un deporte o habilidad, prefiero practicarlo antes que leer sobre él.</div><div class="q-opts"><span class="q-opt"><div class="q-circle"></div> Muy de acuerdo</span><span class="q-opt"><div class="q-circle"></div> De acuerdo</span><span class="q-opt"><div class="q-circle"></div> Poco</span><span class="q-opt"><div class="q-circle"></div> No me describe</span></div></div></div>
+    </div>
+    <div style="background:var(--color-light); border-radius:8px; padding:14px; margin-top:8px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; text-align:center;">
+      <div><div style="font-size:11px; font-weight:700; color:#1d4ed8; margin-bottom:4px;">TOTAL V (1–5)</div><div style="border-bottom:2px solid #3B82F6; height:28px;"></div></div>
+      <div><div style="font-size:11px; font-weight:700; color:#15803d; margin-bottom:4px;">TOTAL A (6–10)</div><div style="border-bottom:2px solid #22C55E; height:28px;"></div></div>
+      <div><div style="font-size:11px; font-weight:700; color:#c2410c; margin-bottom:4px;">TOTAL L (11–15)</div><div style="border-bottom:2px solid #F97316; height:28px;"></div></div>
+      <div><div style="font-size:11px; font-weight:700; color:#be185d; margin-bottom:4px;">TOTAL K (16–20)</div><div style="border-bottom:2px solid #E83C8D; height:28px;"></div></div>
+    </div>
+    <p style="font-size:12px; color:var(--gray); margin-top:10px;">Suma tus puntos: Muy de acuerdo = 4 pts · De acuerdo = 3 pts · Poco = 2 pts · No me describe = 1 pt. El puntaje más alto indica tu tendencia predominante. ¡Recuerda que nadie es puramente de un tipo!</p>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:6px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span> Estrategias por Estilo para Distintas Materias</h2>
+  <table class="strat-table">
+    <tr>
+      <th>Materia</th>
+      <th><span style="display:inline-flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Visual</span></th>
+      <th><span style="display:inline-flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg> Auditivo</span></th>
+      <th><span style="display:inline-flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Lector/Escritor</span></th>
+      <th><span style="display:inline-flex;align-items:center;gap:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M12 7v6l-3 3"/><path d="M12 13l3 3"/></svg> Kinestésico</span></th>
+    </tr>
+    <tr><td><strong>Matemáticas</strong></td><td>Diagramas, gráficas, líneas numéricas ilustradas</td><td>Cantar tablas, explicar el proceso en voz alta</td><td>Pasos escritos del procedimiento, glosario de términos</td><td>Resolver con objetos físicos, medir el patio</td></tr>
+    <tr><td><strong>Ciencias</strong></td><td>Mapas del ciclo, comparación visual de organismos</td><td>Debates sobre hipótesis, describir experimentos oralmente</td><td>Informe escrito, glosario científico, lectura de artículos</td><td>Experimentos, salidas de campo, disecciones</td></tr>
+    <tr><td><strong>Idioma / Lectura</strong></td><td>Mapa del cuento, storyboard de la historia</td><td>Lectura en voz alta, discusión del libro</td><td>Resumen escrito, diario de lectura, análisis textual</td><td>Dramatizar la historia, crear un objeto del cuento</td></tr>
+    <tr><td><strong>Sociales / Historia</strong></td><td>Línea de tiempo ilustrada, mapa geográfico</td><td>Documental, debate histórico, entrevista a adultos</td><td>Línea del tiempo escrita, ensayo, lectura de fuentes primarias</td><td>Visitar sitio histórico, simular un evento, crear maqueta</td></tr>
+  </table>
+</div>
+<footer>
+  Guatemala 2026<br>
+  Módulo Conoce a Quien Enseñas · Guía de Estilos de Aprendizaje
+</footer>
+</body>
+</html>

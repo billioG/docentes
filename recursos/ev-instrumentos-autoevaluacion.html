@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instrumentos de Autoevaluación – Formación Docente</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #E9A037; --color-dark: #c47d10; --color-light: #FEF3E0; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #fffbf4; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(233,160,55,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #E9A037, #c47d10); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 36px; }
+  h2 { font-size: 20px; font-weight: 700; color: var(--color-dark); margin: 40px 0 8px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); }
+  .inst-desc { font-size: 13px; color: var(--gray); font-style: italic; margin-bottom: 18px; }
+  .instrument { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 40px; overflow: hidden; border-top: 5px solid var(--color); }
+  .inst-header { background: var(--color-light); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .inst-header h3 { font-size: 16px; font-weight: 700; color: var(--color-dark); }
+  .inst-header span { font-size: 12px; color: var(--gray); }
+  .inst-body { padding: 24px; }
+  .top-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .field { }
+  .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-dark); display: block; margin-bottom: 4px; }
+  .input-line { border-bottom: 1.5px solid #e2e8f0; min-height: 26px; width: 100%; }
+  /* Checklist style */
+  .check-table { width: 100%; border-collapse: collapse; }
+  .check-table th { background: var(--color); color: white; font-size: 11px; font-weight: 700; padding: 9px 12px; text-align: center; }
+  .check-table th.item-col { text-align: left; }
+  .check-table td { border-bottom: 1px solid #f0e8d8; padding: 10px 12px; font-size: 13px; }
+  .check-table td.item { }
+  .check-table td.check { text-align: center; }
+  .check-circle { width: 22px; height: 22px; border: 2px solid var(--color); border-radius: 50%; display: inline-block; }
+  /* Scale style */
+  .scale-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0e8d8; }
+  .scale-item:last-child { border-bottom: none; }
+  .scale-text { flex: 1; font-size: 13px; }
+  .scale-nums { display: flex; gap: 6px; }
+  .scale-num { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--color-light); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--gray); }
+  /* Diario */
+  .diary-prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .diary-prompt { border-radius: 10px; padding: 14px; }
+  .dp1 { background: #EFF6FF; }
+  .dp2 { background: #F0FDF4; }
+  .dp3 { background: var(--color-light); }
+  .dp4 { background: #FDF4FF; }
+  .diary-prompt label { font-size: 12px; font-weight: 700; display: block; margin-bottom: 8px; }
+  .dp1 label { color: #1d4ed8; }
+  .dp2 label { color: #15803d; }
+  .dp3 label { color: var(--color-dark); }
+  .dp4 label { color: #7c3aed; }
+  .diary-line { border-bottom: 1px solid rgba(0,0,0,0.1); height: 26px; margin-bottom: 4px; }
+  /* Coeval */
+  .coeval-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .peer-box { border-radius: 10px; padding: 16px; }
+  .pb-a { background: #EFF6FF; }
+  .pb-b { background: var(--color-light); }
+  .peer-box h4 { font-size: 13px; font-weight: 700; margin-bottom: 10px; }
+  .pb-a h4 { color: #1d4ed8; }
+  .pb-b h4 { color: var(--color-dark); }
+  /* Portfolio */
+  .portfolio-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pf-section { border: 1.5px solid var(--color-light); border-radius: 10px; padding: 14px; }
+  .pf-section h4 { font-size: 13px; font-weight: 700; color: var(--color-dark); margin-bottom: 10px; }
+  .pf-line { border-bottom: 1px solid #f0e8d8; height: 24px; margin-bottom: 4px; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .instrument { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; page-break-after: always; }
+    .instrument:last-child { page-break-after: avoid; }
+    footer { margin-top: 20px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">Evaluación Formativa · Autoevaluación</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+  <h1>Instrumentos de Autoevaluación</h1>
+  <p>6 instrumentos listos para imprimir — autoevaluación, coevaluación y portafolio para estudiantes guatemaltecos</p>
+</header>
+<div class="container">
+  <div class="intro-box">
+    <strong>¿Por qué importan la autoevaluación y coevaluación?</strong> Cuando los estudiantes evalúan su propio aprendizaje, desarrollan <em>metacognición</em> — la capacidad de pensar sobre su propio pensamiento. Esto es una de las habilidades más poderosas para el aprendizaje a largo plazo. La coevaluación entre pares, además, desarrolla pensamiento crítico, vocabulario académico y habilidades de comunicación respetuosa.
+  </div>
+
+  <!-- INSTRUMENTO 1 -->
+  <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Instrumento 1: Lista de Cotejo de Autoevaluación</h2>
+  <p class="inst-desc">Para primaria (2.º–6.º). Criterios claros y concretos. Estudiante marca Sí / No / En proceso.</p>
+  <div class="instrument">
+    <div class="inst-header"><h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg> Lista de Cotejo — Autoevaluación</h3><span>Para uso del estudiante</span></div>
+    <div class="inst-body">
+      <div class="top-row">
+        <div class="field"><label>Mi nombre</label><div class="input-line"></div></div>
+        <div class="field"><label>Actividad / Tarea</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha</label><div class="input-line"></div></div>
+      </div>
+      <table class="check-table">
+        <tr><th class="item-col">Lo que evalúo de mi trabajo</th><th><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Sí</th><th><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> En proceso</th><th><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> No aún</th></tr>
+        <tr><td class="item">Entregué el trabajo completo (todas las partes pedidas)</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+        <tr><td class="item">Seguí las instrucciones tal como las explicó el docente</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+        <tr><td class="item">Mi trabajo está ordenado y presentable</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+        <tr><td class="item">Entiendo el tema que trabajé y podría explicárselo a alguien</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+        <tr><td class="item">Trabajé con esfuerzo y no me rendí cuando fue difícil</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+        <tr><td class="item">Colaboré bien con mi equipo (si fue trabajo grupal)</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+        <tr><td class="item">_______________________________________________</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+        <tr><td class="item">_______________________________________________</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td></tr>
+      </table>
+      <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="field"><label>Lo que más me gustó de este trabajo fue...</label><div class="input-line" style="min-height:44px;"></div></div>
+        <div class="field"><label>La próxima vez me gustaría mejorar...</label><div class="input-line" style="min-height:44px;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUMENTO 2 -->
+  <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Instrumento 2: Escala de Valoración Personal</h2>
+  <p class="inst-desc">Para básico. Escala numérica del 1 al 4 con criterios más analíticos y reflexión profunda.</p>
+  <div class="instrument">
+    <div class="inst-header"><h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Escala de Valoración — Autoevaluación</h3><span>1 = Inicial · 2 = En desarrollo · 3 = Bueno · 4 = Excelente</span></div>
+    <div class="inst-body">
+      <div class="top-row">
+        <div class="field"><label>Nombre</label><div class="input-line"></div></div>
+        <div class="field"><label>Proyecto / Unidad</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha</label><div class="input-line"></div></div>
+      </div>
+      <div class="scale-item">
+        <span class="scale-text"><strong>Comprensión del contenido:</strong> Entiendo los conceptos principales de esta unidad y puedo explicarlos con mis propias palabras.</span>
+        <div class="scale-nums"><div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div></div>
+      </div>
+      <div class="scale-item">
+        <span class="scale-text"><strong>Calidad del trabajo:</strong> Mi trabajo refleja mi mejor esfuerzo, está completo y cumple los criterios establecidos.</span>
+        <div class="scale-nums"><div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div></div>
+      </div>
+      <div class="scale-item">
+        <span class="scale-text"><strong>Gestión del tiempo:</strong> Utilicé bien el tiempo de clase, evité distracciones y cumplí con los plazos establecidos.</span>
+        <div class="scale-nums"><div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div></div>
+      </div>
+      <div class="scale-item">
+        <span class="scale-text"><strong>Pensamiento crítico:</strong> Cuestioné ideas, busqué evidencia antes de llegar a conclusiones y consideré más de una perspectiva.</span>
+        <div class="scale-nums"><div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div></div>
+      </div>
+      <div class="scale-item">
+        <span class="scale-text"><strong>Colaboración:</strong> Contribuí de forma equitativa, escuché a mis compañeros y apoyé al equipo cuando lo necesitó.</span>
+        <div class="scale-nums"><div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div></div>
+      </div>
+      <div class="scale-item">
+        <span class="scale-text"><strong>Resiliencia:</strong> Cuando algo no funcionó, intenté otra estrategia en lugar de rendirme o esperar que el docente resolviera.</span>
+        <div class="scale-nums"><div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div></div>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="field"><label>¿En qué criterio diste la puntuación más baja? ¿Qué harías diferente?</label><div class="input-line" style="min-height:44px;"></div></div>
+        <div class="field" style="margin-top:12px;"><label>Una evidencia concreta de tu aprendizaje en esta unidad es...</label><div class="input-line" style="min-height:36px;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUMENTO 3 -->
+  <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Instrumento 3: Diario de Aprendizaje Semanal</h2>
+  <p class="inst-desc">Para primaria alta y básico. Reflexión guiada sobre el aprendizaje de la semana — 5 minutos los viernes.</p>
+  <div class="instrument">
+    <div class="inst-header"><h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Diario de Aprendizaje — Semana de: ________________________</h3><span>Reflexión guiada semanal</span></div>
+    <div class="inst-body">
+      <div class="top-row">
+        <div class="field"><label>Nombre</label><div class="input-line"></div></div>
+        <div class="field"><label>Grado</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha</label><div class="input-line"></div></div>
+      </div>
+      <div class="diary-prompts">
+        <div class="diary-prompt dp1">
+          <label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Esta semana aprendí...</label>
+          <div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div>
+        </div>
+        <div class="diary-prompt dp2">
+          <label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Todavía tengo dudas sobre...</label>
+          <div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div>
+        </div>
+        <div class="diary-prompt dp3">
+          <label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Una conexión que hice fue...</label>
+          <div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div>
+        </div>
+        <div class="diary-prompt dp4">
+          <label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Lo que más me costó esta semana fue...</label>
+          <div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px; background:var(--color-light); border-radius:8px; padding:14px;">
+        <div class="field"><label><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> La próxima semana me propongo...</label><div class="input-line" style="min-height:36px;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUMENTO 4 -->
+  <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Instrumento 4: Formulario de Coevaluación entre Pares</h2>
+  <p class="inst-desc">Para evaluar el trabajo de un compañero de manera honesta y constructiva. Incluye sección para el evaluado.</p>
+  <div class="instrument">
+    <div class="inst-header"><h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Coevaluación entre Compañeros</h3><span>Seré honesto/a y constructivo/a</span></div>
+    <div class="inst-body">
+      <div class="top-row">
+        <div class="field"><label>Quien evalúa</label><div class="input-line"></div></div>
+        <div class="field"><label>Quien es evaluado</label><div class="input-line"></div></div>
+        <div class="field"><label>Tarea / Proyecto</label><div class="input-line"></div></div>
+      </div>
+      <div class="coeval-grid">
+        <div class="peer-box pb-a">
+          <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Fortalezas que observé</h4>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:10px;">Menciona algo específico que tu compañero/a hizo bien</p>
+          <div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div>
+        </div>
+        <div class="peer-box pb-b">
+          <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Sugerencias de mejora</h4>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:10px;">Una cosa específica que podría mejorar para la próxima vez</p>
+          <div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div><div class="diary-line"></div>
+        </div>
+      </div>
+      <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div>
+          <div class="field"><label>En una escala del 1 al 4, yo calificaría este trabajo como:</label>
+            <div class="scale-nums" style="margin-top:8px; display:flex; gap:8px;"><div class="scale-num">1</div><div class="scale-num">2</div><div class="scale-num">3</div><div class="scale-num">4</div></div>
+          </div>
+          <div class="field" style="margin-top:12px;"><label>Razón de esa calificación</label><div class="input-line" style="min-height:36px;"></div></div>
+        </div>
+        <div style="background:#f8fafc; border-radius:10px; padding:14px;">
+          <div style="font-size:12px; font-weight:700; color:var(--color-dark); margin-bottom:8px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Respuesta del evaluado (a completar después de leer)</div>
+          <div class="field"><label>¿Qué tomaré en cuenta de esta evaluación?</label><div class="input-line" style="min-height:52px;"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUMENTO 5 -->
+  <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Instrumento 5: Protocolo de Revisión de Proyecto (Equipo)</h2>
+  <p class="inst-desc">Para que los equipos autoevalúen su proyecto completo antes de la presentación final.</p>
+  <div class="instrument">
+    <div class="inst-header"><h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Autoevaluación de Equipo — Proyecto Final</h3><span>Completar 2 días antes de presentar</span></div>
+    <div class="inst-body">
+      <div class="top-row">
+        <div class="field"><label>Nombre del equipo / proyecto</label><div class="input-line"></div></div>
+        <div class="field"><label>Integrantes</label><div class="input-line"></div></div>
+        <div class="field"><label>Fecha de presentación</label><div class="input-line"></div></div>
+      </div>
+      <table class="check-table">
+        <tr><th class="item-col">Criterio del proyecto</th><th>4</th><th>3</th><th>2</th><th>1</th><th style="width:30%">Evidencia / justificación</th></tr>
+        <tr><td>La pregunta motriz quedó respondida con evidencia</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td></td></tr>
+        <tr><td>El producto final cumple con los criterios establecidos</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td></td></tr>
+        <tr><td>Todos los integrantes participaron de forma equitativa</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td></td></tr>
+        <tr><td>Incorporamos retroalimentación recibida en versiones anteriores</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td></td></tr>
+        <tr><td>La presentación está preparada y cada quien sabe su parte</td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td class="check"><div class="check-circle"></div></td><td></td></tr>
+      </table>
+      <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="field"><label>¿Qué es lo más fuerte de nuestro proyecto?</label><div class="input-line" style="min-height:44px;"></div></div>
+        <div class="field"><label>¿Qué cambiaríamos si tuviéramos una semana más?</label><div class="input-line" style="min-height:44px;"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSTRUMENTO 6 -->
+  <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Instrumento 6: Portafolio de Evidencias — Instrucciones para el Estudiante</h2>
+  <p class="inst-desc">Guía clara para que los estudiantes construyan su portafolio de aprendizaje durante el período.</p>
+  <div class="instrument">
+    <div class="inst-header"><h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Mi Portafolio de Aprendizaje</h3><span>Guía para el estudiante</span></div>
+    <div class="inst-body">
+      <div style="background:var(--color-light); border-radius:10px; padding:16px; margin-bottom:20px;">
+        <p style="font-size:13px; margin:0;"><strong>¿Qué es un portafolio?</strong> Es una colección de trabajos que tú mismo seleccionas porque muestran tu aprendizaje y crecimiento. No es "todos los trabajos" — es los que tú consideras más significativos, con una explicación de por qué los elegiste.</p>
+      </div>
+      <div class="portfolio-sections">
+        <div class="pf-section">
+          <h4><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Portada del Portafolio</h4>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:8px;">Incluye en tu portada:</p>
+          <div class="field"><label>Mi nombre</label><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>Grado y sección</label><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>Período / Año</label><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>Una frase que describe cómo me siento sobre mi aprendizaje</label><div class="pf-line"></div><div class="pf-line"></div></div>
+        </div>
+        <div class="pf-section">
+          <h4><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg> Trabajo del que más me enorgullezco</h4>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:8px;">Pega o adjunta el trabajo y responde:</p>
+          <div class="field"><label>¿Qué trabajo elegiste?</label><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>¿Por qué estás orgulloso/a de él?</label><div class="pf-line"></div><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>¿Qué aprendiste haciéndolo?</label><div class="pf-line"></div><div class="pf-line"></div></div>
+        </div>
+        <div class="pf-section">
+          <h4><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Trabajo que muestra más crecimiento</h4>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:8px;">Compara un trabajo antiguo con uno reciente:</p>
+          <div class="field"><label>¿Qué hacías antes? ¿Qué haces ahora?</label><div class="pf-line"></div><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>¿Qué cambió en tu forma de pensar?</label><div class="pf-line"></div><div class="pf-line"></div></div>
+        </div>
+        <div class="pf-section">
+          <h4><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Trabajo más desafiante</h4>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:8px;">El que más te costó, aunque no sea el "mejor":</p>
+          <div class="field"><label>¿Qué lo hizo difícil?</label><div class="pf-line"></div><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>¿Cómo lo superaste (o qué harías diferente)?</label><div class="pf-line"></div><div class="pf-line"></div></div>
+        </div>
+        <div class="pf-section">
+          <h4><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Mis objetivos para el próximo período</h4>
+          <div class="field"><label>Objetivo 1</label><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>Objetivo 2</label><div class="pf-line"></div></div>
+          <div class="field" style="margin-top:8px;"><label>¿Qué necesito para lograrlo?</label><div class="pf-line"></div><div class="pf-line"></div></div>
+        </div>
+        <div class="pf-section">
+          <h4><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c47d10" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Carta a mi yo del futuro</h4>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:8px;">Escribe al estudiante que serás al final del año:</p>
+          <div class="pf-line"></div><div class="pf-line"></div><div class="pf-line"></div><div class="pf-line"></div><div class="pf-line"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <strong>Guatemala 2026</strong><br>
+  Módulo Evaluación Formativa · Instrumentos de Autoevaluación
+</footer>
+</body>
+</html>

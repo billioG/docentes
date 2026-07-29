@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía ABP Paso a Paso</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #2BA848; --color-dark: #1e7a32; --color-light: #E8F5E9; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fdf8; font-size: 15px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(43,168,72,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #2BA848, #1e7a32); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; max-width: 650px; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 22px; font-weight: 700; color: var(--color-dark); margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); }
+  h3 { font-size: 17px; font-weight: 600; color: var(--text); margin: 20px 0 10px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 22px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 28px; }
+  .data-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin: 24px 0; }
+  .data-card { background: white; border-radius: 14px; padding: 24px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-top: 4px solid var(--color); }
+  .data-num { font-size: 36px; font-weight: 900; color: var(--color); }
+  .data-label { font-size: 13px; color: var(--gray); margin-top: 4px; }
+  .elements-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .elem-card { background: white; border-radius: 12px; padding: 18px 20px; border-left: 4px solid var(--color); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .elem-num { font-size: 12px; font-weight: 700; color: var(--color); text-transform: uppercase; letter-spacing: 0.5px; }
+  .elem-title { font-size: 16px; font-weight: 700; margin: 4px 0 8px; }
+  .elem-desc { font-size: 13px; color: var(--gray); }
+  .phase-timeline { margin: 20px 0; }
+  .phase-item { display: grid; grid-template-columns: 80px 1fr; gap: 20px; margin-bottom: 24px; }
+  .phase-circle { display: flex; flex-direction: column; align-items: center; }
+  .phase-dot { width: 52px; height: 52px; border-radius: 50%; background: var(--color); color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; flex-shrink: 0; }
+  .phase-line { width: 2px; background: #d1fae5; flex: 1; min-height: 30px; margin-top: 4px; }
+  .phase-content { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .phase-content h3 { margin: 0 0 8px; font-size: 16px; }
+  .roles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .role-box { border-radius: 8px; padding: 12px; }
+  .role-box.teacher { background: #E8F5E9; }
+  .role-box.student { background: #EFF6FF; }
+  .role-box label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .role-box.teacher label { color: var(--color-dark); }
+  .role-box.student label { color: #1d4ed8; }
+  .role-box ul { font-size: 12px; margin-top: 6px; padding-left: 16px; }
+  .compare-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  .compare-table th { background: var(--color); color: white; padding: 12px 16px; text-align: left; font-size: 14px; }
+  .compare-table td { padding: 11px 16px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+  .compare-table tr:nth-child(even) td { background: var(--color-light); }
+  .compare-table .col-trad { color: #dc2626; }
+  .compare-table .col-abp { color: var(--color-dark); font-weight: 500; }
+  .errors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  .error-card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .error-card .err { color: #dc2626; font-weight: 700; font-size: 13px; margin-bottom: 8px; }
+  .error-card .fix { color: var(--color-dark); font-size: 13px; }
+  .project-card { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin-bottom: 24px; border-top: 5px solid var(--color); }
+  .proj-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .proj-meta { font-size: 13px; color: var(--gray); margin-bottom: 16px; }
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .field { background: #f8fdf8; border-radius: 8px; padding: 12px; }
+  .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); display: block; margin-bottom: 4px; }
+  .field p { margin: 0; font-size: 13px; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 13px; }
+    .project-card, .phase-content, .elem-card { box-shadow: none; border-width: 1px; break-inside: avoid; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">ABP · Módulo 2</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M12 6V4"/><path d="M8 6V4"/><path d="M16 6V4"/><path d="M2 10h20"/></svg></div>
+  <h1>Guía ABP Paso a Paso</h1>
+  <p>Aprendizaje Basado en Proyectos adaptado al contexto guatemalteco — desde los fundamentos hasta la implementación en el aula</p>
+</header>
+
+<div class="container">
+
+  <div class="intro-box">
+    <strong>¿Qué es el ABP?</strong> El Aprendizaje Basado en Proyectos (ABP) es una metodología donde los estudiantes aprenden los contenidos curriculares <em>mientras</em> trabajan en un proyecto auténtico, extendido y riguroso que responde a un problema o pregunta del mundo real. No es una actividad al final de la unidad — <strong>es la unidad completa.</strong>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span> ¿Por Qué Funciona? Evidencia</h2>
+  <div class="data-strip">
+    <div class="data-card">
+      <div class="data-num">+18%</div>
+      <div class="data-label">Mejora en rendimiento académico en matemáticas con ABP vs. instrucción directa (Lucas Education Research, 2021)</div>
+    </div>
+    <div class="data-card">
+      <div class="data-num">2.5×</div>
+      <div class="data-label">Mayor retención del conocimiento a 6 meses en estudiantes de ABP vs. método tradicional (Krajcik & Shin, 2014)</div>
+    </div>
+    <div class="data-card">
+      <div class="data-num">87%</div>
+      <div class="data-label">De docentes que implementan ABP reportan mayor motivación y participación de sus estudiantes (PBLWorks, 2020)</div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M12 6V4"/><path d="M8 6V4"/><path d="M16 6V4"/><path d="M2 10h20"/></svg></span> Los 7 Elementos del ABP (Adaptados a Guatemala)</h2>
+  <div class="elements-grid">
+    <div class="elem-card">
+      <div class="elem-num">Elemento 01</div>
+      <div class="elem-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span> Pregunta Motriz</div>
+      <div class="elem-desc">Una pregunta abierta, provocadora y relevante que da vida al proyecto. Debe ser desafiante pero alcanzable. Ejemplo: "¿Cómo podemos reducir la basura de plástico en nuestro mercado municipal?" — no "¿Qué tipos de basura existen?"</div>
+    </div>
+    <div class="elem-card">
+      <div class="elem-num">Elemento 02</div>
+      <div class="elem-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span> Necesidad de Saber</div>
+      <div class="elem-desc">El proyecto genera la necesidad de aprender los contenidos. Los estudiantes aprenden sobre estadística <em>porque</em> necesitan medir la basura, no antes de empezar el proyecto. El conocimiento surge de la necesidad real.</div>
+    </div>
+    <div class="elem-card">
+      <div class="elem-num">Elemento 03</div>
+      <div class="elem-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span> Voz y Elección</div>
+      <div class="elem-desc">Los estudiantes tienen poder de decisión genuino sobre cómo desarrollar el proyecto, qué producto crear o cómo presentarlo. En Guatemala: elegir el problema local que les importa más o el formato de presentación para su comunidad.</div>
+    </div>
+    <div class="elem-card">
+      <div class="elem-num">Elemento 04</div>
+      <div class="elem-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Investigación Profunda</div>
+      <div class="elem-desc">Los estudiantes hacen investigación real: entrevistan a expertos (agricultores, maestros, comerciantes), observan su entorno, buscan información y analizan datos. No copian de un libro — descubren.</div>
+    </div>
+    <div class="elem-card">
+      <div class="elem-num">Elemento 05</div>
+      <div class="elem-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span> Crítica y Revisión</div>
+      <div class="elem-desc">Hay momentos formales de retroalimentación (entre pares, con expertos, con la comunidad) y ciclos de revisión. El primer borrador nunca es el final. Este elemento es el más diferenciador del ABP de calidad.</div>
+    </div>
+    <div class="elem-card">
+      <div class="elem-num">Elemento 06</div>
+      <div class="elem-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></span> Presentación Pública</div>
+      <div class="elem-desc">El producto final se presenta a una audiencia real: padres, comunidad, alcaldía, otros maestros, estudiantes de otro grado. Esto genera responsabilidad genuina y orgullo por el trabajo.</div>
+    </div>
+    <div class="elem-card">
+      <div class="elem-num">Elemento 07</div>
+      <div class="elem-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span> Rigor Curricular</div>
+      <div class="elem-desc">El ABP no reemplaza los contenidos — los profundiza. Un buen proyecto ABP aborda múltiples competencias del CNB de forma integrada. Si el proyecto no tiene rigor académico claro, es una actividad, no ABP.</div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span> Las 6 Fases del Ciclo ABP</h2>
+  <div class="phase-timeline">
+    <div class="phase-item">
+      <div class="phase-circle"><div class="phase-dot">1</div><div class="phase-line"></div></div>
+      <div class="phase-content">
+        <h3>Lanzamiento del Proyecto</h3>
+        <p style="font-size:13px;color:var(--gray)">Se presenta el proyecto con una "experiencia de entrada" impactante que genera interés y necesidad de saber. Puede ser un video, una visita, un artículo de periódico o un invitado sorpresa.</p>
+        <div class="roles-grid">
+          <div class="role-box teacher"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Docente</label><ul><li>Presenta la experiencia de entrada</li><li>Facilita la discusión inicial</li><li>Presenta la pregunta motriz</li><li>Lanza la "lista de lo que sabemos / necesitamos saber"</li></ul></div>
+          <div class="role-box student"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Estudiante</label><ul><li>Se conecta emocionalmente con el problema</li><li>Pregunta, cuestiona, se interesa</li><li>Contribuye a la lista de conocimientos previos</li><li>Empieza a imaginar posibles soluciones</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-circle"><div class="phase-dot">2</div><div class="phase-line"></div></div>
+      <div class="phase-content">
+        <h3>Investigación y Construcción de Conocimiento</h3>
+        <p style="font-size:13px;color:var(--gray)">Los estudiantes investigan activamente para adquirir el conocimiento que necesitan. El docente entreteje lecciones directas justo cuando son necesarias ("just-in-time teaching").</p>
+        <div class="roles-grid">
+          <div class="role-box teacher"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Docente</label><ul><li>Enseña mini-lecciones según necesidad</li><li>Facilita entrevistas y visitas</li><li>Provee recursos diferenciados</li><li>Monitorea el avance de cada equipo</li></ul></div>
+          <div class="role-box student"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Estudiante</label><ul><li>Investiga fuentes variadas</li><li>Entrevista a personas de la comunidad</li><li>Registra aprendizajes en bitácora</li><li>Comparte hallazgos con el equipo</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-circle"><div class="phase-dot">3</div><div class="phase-line"></div></div>
+      <div class="phase-content">
+        <h3>Desarrollo del Producto</h3>
+        <p style="font-size:13px;color:var(--gray)">Los equipos crean su producto o solución, aplicando el conocimiento adquirido. Pueden crear prototipos, presentaciones, campañas, maquetas, informes, guías u obras artísticas.</p>
+        <div class="roles-grid">
+          <div class="role-box teacher"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Docente</label><ul><li>Circula y hace coaching individual</li><li>Hace preguntas que no da respuestas</li><li>Gestiona el tiempo del proyecto</li><li>Conecta el trabajo con el currículo</li></ul></div>
+          <div class="role-box student"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Estudiante</label><ul><li>Aplica conocimiento en la creación</li><li>Toma decisiones de diseño</li><li>Asume roles claros en el equipo</li><li>Documenta el proceso</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-circle"><div class="phase-dot">4</div><div class="phase-line"></div></div>
+      <div class="phase-content">
+        <h3>Crítica y Retroalimentación</h3>
+        <p style="font-size:13px;color:var(--gray)">Momento formal donde los equipos reciben retroalimentación estructurada de compañeros, del docente y si es posible de personas externas (expertos, padres, miembros de la comunidad).</p>
+        <div class="roles-grid">
+          <div class="role-box teacher"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Docente</label><ul><li>Guía el protocolo de retroalimentación</li><li>Modela cómo dar feedback constructivo</li><li>Asegura que el feedback sea específico</li><li>Protege el tiempo de revisión</li></ul></div>
+          <div class="role-box student"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Estudiante</label><ul><li>Presenta su borrador con humildad</li><li>Toma notas del feedback recibido</li><li>Da feedback honesto a otros</li><li>Decide qué cambios incorporar</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-circle"><div class="phase-dot">5</div><div class="phase-line"></div></div>
+      <div class="phase-content">
+        <h3>Revisión y Refinamiento</h3>
+        <p style="font-size:13px;color:var(--gray)">Los equipos incorporan el feedback y mejoran su trabajo. Esta fase puede ocurrir varias veces. La calidad del producto final depende directamente de cuántas iteraciones hay.</p>
+        <div class="roles-grid">
+          <div class="role-box teacher"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Docente</label><ul><li>Establece estándares de calidad claros</li><li>Aprueba cuando el trabajo está listo</li><li>Negocia plazos realistas</li><li>Reconoce el esfuerzo de mejora</li></ul></div>
+          <div class="role-box student"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Estudiante</label><ul><li>Revisa con la rúbrica en mano</li><li>Incorpora cambios específicos</li><li>Compara versión 1 con versión 2</li><li>Se prepara para presentar</li></ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="phase-circle"><div class="phase-dot">6</div><div class="phase-line"></div></div>
+      <div class="phase-content">
+        <h3>Presentación Pública y Reflexión</h3>
+        <p style="font-size:13px;color:var(--gray)">El proyecto culmina con una presentación ante audiencia real, seguida de reflexión estructurada sobre el aprendizaje y el proceso. La reflexión es tan importante como la presentación.</p>
+        <div class="roles-grid">
+          <div class="role-box teacher"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Docente</label><ul><li>Organiza el evento de presentación</li><li>Invita a la audiencia externa</li><li>Facilita la reflexión final</li><li>Celebra los logros del proceso</li></ul></div>
+          <div class="role-box student"><label><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Estudiante</label><ul><li>Presenta con orgullo ante audiencia</li><li>Responde preguntas del público</li><li>Reflexiona: ¿qué aprendí? ¿qué haría distinto?</li><li>Celebra el logro del equipo</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><path d="M3 12l9-9 9 9"/><path d="M3 17a4 4 0 0 0 8 0 4 4 0 0 0-8 0"/><path d="M13 17a4 4 0 0 0 8 0 4 4 0 0 0-8 0"/></svg></span> ABP vs. Proyecto Tradicional</h2>
+  <table class="compare-table">
+    <tr><th>Dimensión</th><th>Proyecto Tradicional</th><th>ABP de Calidad</th></tr>
+    <tr><td>Cuándo ocurre</td><td class="col-trad">Al final de la unidad, como actividad de cierre</td><td class="col-abp">Es la unidad completa, el aprendizaje ocurre dentro del proyecto</td></tr>
+    <tr><td>Pregunta</td><td class="col-trad">Cerrada: "Haz una maqueta del sistema solar"</td><td class="col-abp">Abierta: "¿Cómo podemos explicar nuestro universo a estudiantes de primaria?"</td></tr>
+    <tr><td>Voz del estudiante</td><td class="col-trad">Mínima: todos hacen lo mismo de la misma forma</td><td class="col-abp">Alta: deciden proceso, producto y presentación</td></tr>
+    <tr><td>Investigación</td><td class="col-trad">Copiar información de libro o internet</td><td class="col-abp">Investigación real con fuentes variadas incluida la comunidad</td></tr>
+    <tr><td>Retroalimentación</td><td class="col-trad">Solo del docente, al final, como calificación</td><td class="col-abp">Múltiple (pares, docente, comunidad) y durante el proceso</td></tr>
+    <tr><td>Revisión</td><td class="col-trad">No hay; se entrega una sola versión</td><td class="col-abp">Múltiples iteraciones hasta alcanzar la calidad deseada</td></tr>
+    <tr><td>Audiencia</td><td class="col-trad">Solo el docente lo ve</td><td class="col-abp">Audiencia pública real fuera del aula</td></tr>
+    <tr><td>Contenido curricular</td><td class="col-trad">Complementario o decorativo</td><td class="col-abp">Central y riguroso — aprendido dentro del proyecto</td></tr>
+  </table>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Errores Comunes y Cómo Evitarlos</h2>
+  <div class="errors-grid">
+    <div class="error-card">
+      <div class="err"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> "Añadir un proyecto al final"</div>
+      <div class="fix"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> El proyecto ES la unidad desde el día 1. Los contenidos se enseñan cuando el proyecto los necesita.</div>
+    </div>
+    <div class="error-card">
+      <div class="err"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> "Pregunta motriz cerrada o con respuesta obvia"</div>
+      <div class="fix"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Reformula: ¿Cómo podríamos...? ¿Qué podemos hacer para...? Debe haber múltiples respuestas válidas.</div>
+    </div>
+    <div class="error-card">
+      <div class="err"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> "El docente rescata a los equipos cuando tienen problemas"</div>
+      <div class="fix"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Resiste. Haz preguntas en lugar de dar respuestas. El struggle productivo es donde ocurre el aprendizaje.</div>
+    </div>
+    <div class="error-card">
+      <div class="err"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> "No hay tiempo para revisión porque hay que entregar ya"</div>
+      <div class="fix"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Planifica el tiempo de revisión desde el inicio. Sin iteración, el ABP pierde su elemento más poderoso.</div>
+    </div>
+    <div class="error-card">
+      <div class="err"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> "La presentación es solo para el docente"</div>
+      <div class="fix"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Invita padres, directores, otros grados, vecinos, funcionarios municipales. La audiencia real cambia la calidad del trabajo.</div>
+    </div>
+    <div class="error-card">
+      <div class="err"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> "El trabajo lo hace uno o dos, el resto solo firma"</div>
+      <div class="fix"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Asigna roles claros, evalúa contribución individual dentro del equipo y haz que cada uno defienda su parte en la presentación.</div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span> 3 Proyectos ABP del Contexto Guatemalteco</h2>
+  <div class="project-card">
+    <div class="proj-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span> Radio Comunitaria Escolar</div>
+    <div class="proj-meta">Comunicación + Ciencias Sociales + Tecnología · Básico · 4 semanas</div>
+    <div class="field-grid">
+      <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos crear un programa de radio en nuestro idioma local (k'iche', kaqchikel, etc.) que informe a nuestra comunidad sobre un problema de salud que nadie está hablando?</p></div>
+      <div class="field"><label>Contexto / Problema Real</label><p>Muchas comunidades rurales guatemaltecas tienen acceso a radio pero poca información de salud en su idioma materno. Los jóvenes pueden ser comunicadores.</p></div>
+    </div>
+    <div class="field-grid">
+      <div class="field"><label>Producto Final</label><p>Emisión de un programa de radio de 20 minutos (grabado o en vivo) en idioma local sobre un tema de salud investigado rigurosamente. Transmitir en la radio local o en altavoz de la escuela.</p></div>
+      <div class="field"><label>Conexión CNB</label><p>Idioma materno: expresión oral · Ciencias Naturales: tema de salud · Sociales: comunidad e identidad · Comunicación y Lenguaje: guión, entrevista, edición.</p></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="proj-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> Guía Turística de Mi Municipio</div>
+    <div class="proj-meta">Sociales + Idioma + Arte + Matemáticas · Primaria alta · 3 semanas</div>
+    <div class="field-grid">
+      <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos crear una guía turística de nuestro municipio que muestre a los visitantes los lugares, tradiciones y personas más valiosas que no aparecen en ningún libro?</p></div>
+      <div class="field"><label>Contexto / Problema Real</label><p>Muchos municipios guatemaltecos tienen riqueza cultural y natural ignorada. Los estudiantes son los mejores conocedores de su comunidad y pueden darla a conocer.</p></div>
+    </div>
+    <div class="field-grid">
+      <div class="field"><label>Producto Final</label><p>Guía turística impresa o digital (dependiendo de recursos) con mapa, fotografías, textos bilingües (español e idioma maya), recomendaciones y entrevistas a personas de la comunidad.</p></div>
+      <div class="field"><label>Conexión CNB</label><p>Sociales: historia y geografía local · Idioma: escritura descriptiva y bilingüe · Arte: fotografía y diseño · Matemáticas: escala y medición.</p></div>
+    </div>
+  </div>
+
+  <div class="project-card">
+    <div class="proj-title"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8 1.5 4 4 0 0 0 6.187-2.353 3.5 3.5 0 0 0 3.69-5.116A3.5 3.5 0 0 0 20.95 8 3.5 3.5 0 1 0 16 3.05a3.5 3.5 0 0 0-5.831 1.373 3.5 3.5 0 0 0-5.116 3.69 4 4 0 0 0-2.348 6.155C3.499 15.42 3 17.1 3 22"/><path d="M2 22 17 7"/></svg></span> Plan de Rescate del Río</div>
+    <div class="proj-meta">Ciencias Naturales + Matemáticas + Comunicación · Todos los niveles · 4 semanas</div>
+    <div class="field-grid">
+      <div class="field"><label>Pregunta Motriz</label><p>¿Qué le está pasando al río de nuestra comunidad y qué podemos hacer nosotros, como estudiantes, para que la situación mejore?</p></div>
+      <div class="field"><label>Contexto / Problema Real</label><p>La contaminación de ríos es un problema crítico en Guatemala. Los estudiantes pueden hacer ciencia real (muestreo, análisis, mapeo) y proponer soluciones fundamentadas.</p></div>
+    </div>
+    <div class="field-grid">
+      <div class="field"><label>Producto Final</label><p>Informe científico con datos de campo, mapa de contaminación del río, propuestas de solución y presentación ante el concejo municipal o la comunidad con recomendaciones concretas.</p></div>
+      <div class="field"><label>Conexión CNB</label><p>CN: ecología, contaminación, ciclo del agua · Mat: medición, estadística, gráficas · Comunicación: informe y presentación pública · Ed. Cívica: participación ciudadana.</p></div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  Guatemala 2026<br>
+  Módulo ABP · Guía Paso a Paso
+</footer>
+</body>
+</html>

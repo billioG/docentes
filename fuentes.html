@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuentes de Información · Formación Docente</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  :root {
+    --brand:#1A6B68; --brand-light:#E0F2F1;
+    --gray-50:#F8FAFC; --gray-100:#F1F5F9; --gray-200:#E2E8F0;
+    --gray-500:#64748B; --gray-600:#475569; --gray-700:#334155; --gray-900:#0F172A;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Inter',sans-serif; background:var(--gray-50); color:var(--gray-900); line-height:1.6; padding:0 0 4rem; }
+  .topbar { background:white; border-bottom:1px solid var(--gray-200); padding:14px 20px; display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:10; }
+  .btn-back { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:var(--gray-600); text-decoration:none; background:var(--gray-100); padding:8px 14px; border-radius:10px; }
+  .btn-print { margin-left:auto; display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:600; color:white; background:var(--brand); border:none; padding:8px 16px; border-radius:10px; cursor:pointer; font-family:inherit; }
+  .wrap { max-width:860px; margin:0 auto; padding:0 20px; }
+  .hero { text-align:center; padding:48px 20px 36px; }
+  .hero h1 { font-size:30px; font-weight:900; color:var(--gray-900); letter-spacing:-0.02em; }
+  .hero p { font-size:15px; color:var(--gray-500); margin-top:10px; max-width:560px; margin-left:auto; margin-right:auto; }
+  .hero .meta { font-size:12px; color:var(--gray-500); margin-top:16px; }
+  .intro-note { background:var(--brand-light); border:1px solid #B2DFDB; border-radius:14px; padding:16px 20px; font-size:13.5px; color:var(--gray-700); margin-bottom:32px; }
+  .course-block { background:white; border:1px solid var(--gray-200); border-radius:16px; padding:24px 26px; margin-bottom:20px; box-shadow:0 1px 2px rgba(0,0,0,0.03); }
+  .course-head { display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .course-dot { width:38px; height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:19px; flex-shrink:0; }
+  .course-head h2 { font-size:18px; font-weight:800; color:var(--gray-900); }
+  .course-head .route { font-size:11px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.06em; }
+  ol.refs { list-style:none; counter-reset:ref; }
+  ol.refs li { counter-increment:ref; position:relative; padding:10px 0 10px 34px; border-top:1px solid var(--gray-100); font-size:13.5px; color:var(--gray-700); }
+  ol.refs li:first-child { border-top:none; }
+  ol.refs li::before { content:counter(ref); position:absolute; left:0; top:10px; width:22px; height:22px; background:var(--gray-100); color:var(--gray-600); border-radius:6px; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  ol.refs li .author { font-weight:700; color:var(--gray-900); }
+  ol.refs li .src { font-style:italic; }
+  .footer { text-align:center; font-size:12px; color:var(--gray-500); margin-top:36px; line-height:1.7; }
+  @media print {
+    .topbar { display:none; } body { background:white; }
+    .course-block { break-inside:avoid; box-shadow:none; border-color:var(--gray-300); }
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <a class="btn-back" href="index.html">‹ Volver al programa</a>
+    <button class="btn-print" onclick="window.print()">⬇ Guardar PDF / Imprimir</button>
+  </div>
+
+  <div class="wrap">
+    <div class="hero">
+      <h1>Fuentes de Información</h1>
+      <p>Marcos, autores y referencias que fundamentan cada curso del programa de formación docente.</p>
+      <div class="meta">Guatemala 2026 · Programa de Formación Docente en Pedagogía Innovadora</div>
+    </div>
+
+    <div class="intro-note">
+      📚 Los contenidos de cada curso están fundamentados en marcos pedagógicos reconocidos internacionalmente y adaptados al contexto educativo guatemalteco (Currículum Nacional Base — CNB). A continuación se detallan las principales fuentes consultadas por curso.
+    </div>
+
+    <!-- ════════════ RUTA: DOCENTE STEAM 2.0 ════════════ -->
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#07B0E418">🔬</div>
+        <div><div class="route">Ruta · Docente STEAM 2.0</div><h2>Educación STEAM</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Yakman, G. (2008).</span> <span class="src">STEAM Education: an overview of creating a model of integrative education.</span> Pupils' Attitudes Towards Technology (PATT).</li>
+        <li><span class="author">Bybee, R. W. (2013).</span> <span class="src">The Case for STEM Education: Challenges and Opportunities.</span> NSTA Press.</li>
+        <li><span class="author">UNESCO (2019).</span> <span class="src">Descifrar el código: la educación de las niñas y las mujeres en STEM.</span> Organización de las Naciones Unidas para la Educación.</li>
+        <li><span class="author">Ministerio de Educación de Guatemala (MINEDUC).</span> <span class="src">Currículum Nacional Base (CNB).</span> Áreas de Ciencias Naturales, Matemática y Tecnología.</li>
+        <li><span class="author">Resnick, M. (2017).</span> <span class="src">Lifelong Kindergarten: Cultivating Creativity through Projects, Passion, Peers, and Play.</span> MIT Press.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#2563EB18">📋</div>
+        <div><div class="route">Ruta · Docente STEAM 2.0 · Creativo · Metodologías Activas</div><h2>Aprendizaje Basado en Proyectos (ABP)</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Larmer, J., Mergendoller, J., & Boss, S. (2015).</span> <span class="src">Setting the Standard for Project Based Learning.</span> ASCD / Buck Institute for Education (PBLWorks).</li>
+        <li><span class="author">Buck Institute for Education — PBLWorks.</span> <span class="src">Gold Standard PBL: Essential Project Design Elements.</span> pblworks.org</li>
+        <li><span class="author">Thomas, J. W. (2000).</span> <span class="src">A Review of Research on Project-Based Learning.</span> The Autodesk Foundation.</li>
+        <li><span class="author">Vergara Ramírez, J. J. (2015).</span> <span class="src">Aprendo porque quiero: El Aprendizaje Basado en Proyectos (ABP), paso a paso.</span> Ediciones SM.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#E83C8D18">💡</div>
+        <div><div class="route">Ruta · Docente STEAM 2.0</div><h2>Design Thinking</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Brown, T. (2009).</span> <span class="src">Change by Design: How Design Thinking Transforms Organizations and Inspires Innovation.</span> HarperBusiness.</li>
+        <li><span class="author">Hasso Platner Institute of Design at Stanford (d.school).</span> <span class="src">An Introduction to Design Thinking: Process Guide.</span> Stanford University.</li>
+        <li><span class="author">IDEO (2015).</span> <span class="src">The Field Guide to Human-Centered Design.</span> IDEO.org</li>
+        <li><span class="author">Riverdale Country School & IDEO (2012).</span> <span class="src">Design Thinking for Educators Toolkit.</span></li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#E9A03718">📊</div>
+        <div><div class="route">Ruta · Docente STEAM 2.0</div><h2>Evaluación Auténtica y Formativa</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Wiggins, G. & McTighe, J. (2005).</span> <span class="src">Understanding by Design (Diseño para la comprensión).</span> ASCD.</li>
+        <li><span class="author">Black, P. & Wiliam, D. (1998).</span> <span class="src">Inside the Black Box: Raising Standards Through Classroom Assessment.</span> Phi Delta Kappan.</li>
+        <li><span class="author">Sanmartí, N. (2007).</span> <span class="src">10 ideas clave: Evaluar para aprender.</span> Editorial Graó.</li>
+        <li><span class="author">MINEDUC Guatemala.</span> <span class="src">Herramientas de Evaluación en el Aula.</span> Dirección General de Gestión de Calidad Educativa (DIGECADE).</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#7C3AED18">👥</div>
+        <div><div class="route">Ruta · Docente STEAM 2.0</div><h2>Conoce a Quien Enseñas</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Tomlinson, C. A. (2014).</span> <span class="src">The Differentiated Classroom: Responding to the Needs of All Learners.</span> ASCD.</li>
+        <li><span class="author">Vygotsky, L. S. (1978).</span> <span class="src">Mind in Society: The Development of Higher Psychological Processes (Zona de Desarrollo Próximo).</span> Harvard University Press.</li>
+        <li><span class="author">Gardner, H. (1983).</span> <span class="src">Frames of Mind: The Theory of Multiple Intelligences.</span> Basic Books.</li>
+        <li><span class="author">Dweck, C. (2006).</span> <span class="src">Mindset: The New Psychology of Success (Mentalidad de crecimiento).</span> Random House.</li>
+      </ol>
+    </div>
+
+    <!-- ════════════ RUTA: DOCENTE CREATIVO ════════════ -->
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#E83C8D18">🎨</div>
+        <div><div class="route">Ruta · Docente Creativo</div><h2>Despertando la Creatividad</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Robinson, K. (2011).</span> <span class="src">Out of Our Minds: Learning to be Creative.</span> Capstone.</li>
+        <li><span class="author">De Bono, E. (1985).</span> <span class="src">Six Thinking Hats (Seis sombreros para pensar).</span> Little, Brown and Company.</li>
+        <li><span class="author">Eberle, B. (1996).</span> <span class="src">SCAMPER: Creative Games and Activities for Imagination Development.</span> Prufrock Press.</li>
+        <li><span class="author">Csikszentmihalyi, M. (1996).</span> <span class="src">Creativity: Flow and the Psychology of Discovery and Invention.</span> Harper Collins.</li>
+        <li><span class="author">Guilford, J. P. (1967).</span> <span class="src">The Nature of Human Intelligence (Pensamiento divergente y convergente).</span> McGraw-Hill.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#7C3AED18">💻</div>
+        <div><div class="route">Ruta · Docente Creativo</div><h2>Herramientas Tecnológicas para Docentes</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Puentedura, R. (2006).</span> <span class="src">Transformation, Technology, and Education (Modelo SAMR).</span> hippasus.com</li>
+        <li><span class="author">ISTE (2017).</span> <span class="src">ISTE Standards for Educators / Students.</span> International Society for Technology in Education.</li>
+        <li><span class="author">UNESCO (2019).</span> <span class="src">Marco de competencias de los docentes en materia de TIC.</span> UNESCO.</li>
+        <li><span class="author">Mishra, P. & Koehler, M. (2006).</span> <span class="src">Technological Pedagogical Content Knowledge (TPACK).</span> Teachers College Record.</li>
+        <li><span class="author">Common Sense Education.</span> <span class="src">Digital Citizenship Curriculum (Ciudadanía digital).</span> commonsense.org</li>
+      </ol>
+    </div>
+
+    <!-- ════════════ RUTA: METODOLOGÍAS ACTIVAS ════════════ -->
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#F59E0B18">📱</div>
+        <div><div class="route">Ruta · Metodologías Activas</div><h2>Mobile Learning (m-learning)</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">UNESCO (2013).</span> <span class="src">Directrices de la UNESCO para las políticas de aprendizaje móvil.</span> UNESCO.</li>
+        <li><span class="author">Traxler, J. & Kukulska-Hulme, A. (2005).</span> <span class="src">Mobile Learning: A Handbook for Educators and Trainers.</span> Routledge.</li>
+        <li><span class="author">Sharples, M., Taylor, J., & Vavoula, G. (2007).</span> <span class="src">A Theory of Learning for the Mobile Age.</span> Sage.</li>
+        <li><span class="author">GSMA (2020).</span> <span class="src">Connected Society: Mobile Internet Connectivity Report — Latin America.</span></li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#EF444418">🔄</div>
+        <div><div class="route">Ruta · Metodologías Activas</div><h2>Aula Invertida (Flipped Classroom)</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Bergmann, J. & Sams, A. (2012).</span> <span class="src">Flip Your Classroom: Reach Every Student in Every Class Every Day.</span> ISTE / ASCD.</li>
+        <li><span class="author">Bloom, B. S. (1956).</span> <span class="src">Taxonomy of Educational Objectives (Taxonomía de Bloom).</span> Longman.</li>
+        <li><span class="author">Tucker, B. (2012).</span> <span class="src">The Flipped Classroom.</span> Education Next, 12(1).</li>
+        <li><span class="author">Flipped Learning Network (2014).</span> <span class="src">The Four Pillars of F-L-I-P.</span></li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#6366F118">▶️</div>
+        <div><div class="route">Ruta · Metodologías Activas</div><h2>Aprendizaje Basado en Videos (ABV)</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Mayer, R. E. (2009).</span> <span class="src">Multimedia Learning (Teoría cognitiva del aprendizaje multimedia).</span> Cambridge University Press.</li>
+        <li><span class="author">Paivio, A. (1986).</span> <span class="src">Mental Representations: A Dual Coding Approach.</span> Oxford University Press.</li>
+        <li><span class="author">Brame, C. J. (2016).</span> <span class="src">Effective Educational Videos.</span> CBE—Life Sciences Education, Vanderbilt University.</li>
+        <li><span class="author">Guo, P., Kim, J., & Rubin, R. (2014).</span> <span class="src">How Video Production Affects Student Engagement.</span> ACM Learning at Scale.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#F9731618">⚡</div>
+        <div><div class="route">Ruta · Metodologías Activas</div><h2>Micro-learning</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Ebbinghaus, H. (1885).</span> <span class="src">Über das Gedächtnis (Sobre la memoria — Curva del olvido).</span> Duncker & Humblot.</li>
+        <li><span class="author">Miller, G. A. (1956).</span> <span class="src">The Magical Number Seven, Plus or Minus Two (Memoria de trabajo).</span> Psychological Review.</li>
+        <li><span class="author">Hug, T. (2007).</span> <span class="src">Didactics of Microlearning: Concepts, Discourses and Examples.</span> Waxmann.</li>
+        <li><span class="author">Kapp, K. & Defelice, R. (2019).</span> <span class="src">Microlearning: Short and Sweet.</span> ATD Press.</li>
+      </ol>
+    </div>
+
+    <!-- ════════════ RUTA: DOCENTE Y LA IA ════════════ -->
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#10B98118">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#10B981" stroke-linecap="round" stroke-linejoin="round"><rect x="13" y="13" width="14" height="14" rx="2" stroke-width="2.2"/><circle cx="20" cy="20" r="3" stroke-width="1.8"/><line x1="20" y1="5" x2="20" y2="13" stroke-width="1.8"/><line x1="20" y1="27" x2="20" y2="35" stroke-width="1.8"/><line x1="5" y1="20" x2="13" y2="20" stroke-width="1.8"/><line x1="27" y1="20" x2="35" y2="20" stroke-width="1.8"/></svg>
+        </div>
+        <div><div class="route">Ruta · Docente y la IA</div><h2>Docente y la Inteligencia Artificial</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">UNESCO (2023).</span> <span class="src">Guidance for generative AI in education and research.</span> Organización de las Naciones Unidas para la Educación.</li>
+        <li><span class="author">UNESCO (2021).</span> <span class="src">AI and education: Guidance for policy-makers.</span> UNESCO.</li>
+        <li><span class="author">Mollick, E. (2024).</span> <span class="src">Co-Intelligence: Living and Working with AI.</span> Portfolio/Penguin.</li>
+        <li><span class="author">OpenAI, Anthropic — documentación técnica pública.</span> <span class="src">Cómo funcionan los modelos de lenguaje (predicción de tokens, entrenamiento y alucinaciones).</span></li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#F9731618">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#F97316" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="22" r="12" stroke-width="2.2"/><line x1="18" y1="22" x2="18" y2="14" stroke-width="2"/><line x1="18" y1="22" x2="24" y2="25" stroke-width="2"/></svg>
+        </div>
+        <div><div class="route">Ruta · Docente y la IA</div><h2>IA para Ahorrar Tiempo en tu Día a Día Docente</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">OECD (2022).</span> <span class="src">Teachers' professional autonomy and time use — TALIS.</span> Organización para la Cooperación y el Desarrollo Económicos.</li>
+        <li><span class="author">UNESCO (2023).</span> <span class="src">Guidance for generative AI in education and research.</span> UNESCO.</li>
+        <li><span class="author">Ministerio de Educación de Guatemala (MINEDUC).</span> <span class="src">Currículum Nacional Base (CNB) — Planificación docente.</span></li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#8B5CF618">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#8B5CF6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 H34 V32 C34 33.5 33 34.5 31.5 34.5 H8.5 C7 34.5 6 33.5 6 32 Z" stroke-width="2.2"/><path d="M13 18 V13 C13 11 14.5 9.5 16.5 9.5 H23.5 C25.5 9.5 27 11 27 13 V18" stroke-width="2.2"/></svg>
+        </div>
+        <div><div class="route">Ruta · Docente y la IA</div><h2>Herramientas de IA Gratuitas para el Aula</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">ISTE (2023).</span> <span class="src">ISTE Standards — AI in Education Guidance.</span> International Society for Technology in Education.</li>
+        <li><span class="author">Common Sense Education (2023).</span> <span class="src">AI Literacy Curriculum for Educators.</span> commonsense.org</li>
+        <li><span class="author">UNESCO (2019).</span> <span class="src">Marco de competencias de los docentes en materia de TIC.</span> UNESCO.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#06B6D418">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#06B6D4" stroke-linecap="round" stroke-linejoin="round"><line x1="20" y1="6" x2="20" y2="29" stroke-width="2.2"/><line x1="9" y1="12" x2="31" y2="12" stroke-width="2"/><path d="M14 33 Q20 29 26 33" stroke-width="2"/></svg>
+        </div>
+        <div><div class="route">Ruta · Docente y la IA</div><h2>IA e Inclusión Educativa</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Tomlinson, C. A. (2014).</span> <span class="src">The Differentiated Classroom: Responding to the Needs of All Learners.</span> ASCD.</li>
+        <li><span class="author">CAST (2018).</span> <span class="src">Universal Design for Learning Guidelines (UDL).</span> cast.org</li>
+        <li><span class="author">UNESCO (2020).</span> <span class="src">Inclusion and education: All means all — Informe de Seguimiento de la Educación en el Mundo.</span> UNESCO.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#EC489918">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#EC4899" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="20" r="15" stroke-width="2.2"/><path d="M26 13 L16 17 L14 27 L24 23 Z" stroke-width="1.6"/></svg>
+        </div>
+        <div><div class="route">Ruta · Docente y la IA</div><h2>Ciudadanía Digital con IA para tus Estudiantes</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Common Sense Education.</span> <span class="src">Digital Citizenship Curriculum.</span> commonsense.org</li>
+        <li><span class="author">UNESCO (2023).</span> <span class="src">Guidance for generative AI in education and research — Integridad académica.</span> UNESCO.</li>
+        <li><span class="author">ISTE (2016).</span> <span class="src">ISTE Standards for Students — Digital Citizen.</span> International Society for Technology in Education.</li>
+      </ol>
+    </div>
+
+    <!-- ════════════ RUTA: CLIMA Y CONVIVENCIA ESCOLAR ════════════ -->
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#0891B218">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#0891B2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10 L24 10 L27 17 L13 17 Z" stroke-width="1.8"/><path d="M9 17 L31 17 L35 31 L5 31 Z" stroke-width="1.8"/></svg>
+        </div>
+        <div><div class="route">Ruta · Clima y Convivencia Escolar</div><h2>Manejo de Conductas Desafiantes en el Aula</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Greene, R. W. (2014).</span> <span class="src">Lost at School: Why Our Kids with Behavioral Challenges are Falling Through the Cracks and How We Can Help Them.</span> Scribner.</li>
+        <li><span class="author">Siegel, D. J. & Bryson, T. P. (2011).</span> <span class="src">The Whole-Brain Child (Co-regulación y desarrollo emocional infantil).</span> Bantam.</li>
+        <li><span class="author">Nelsen, J. (1981/2006).</span> <span class="src">Positive Discipline (Consecuencias lógicas vs. castigo).</span> Ballantine Books.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#DB277718">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#DB2777" stroke-linecap="round" stroke-linejoin="round"><path d="M20 8 C12 8 8 14 8 20 C8 25 12 28 14 32 L26 32 C28 28 32 25 32 20 C32 14 28 8 20 8Z" stroke-width="2"/></svg>
+        </div>
+        <div><div class="route">Ruta · Clima y Convivencia Escolar</div><h2>Aprendizaje Socioemocional (SEL) para Docentes</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">CASEL (2020).</span> <span class="src">CASEL's SEL Framework — The 5 Core Competencies.</span> Collaborative for Academic, Social, and Emotional Learning.</li>
+        <li><span class="author">Durlak, J. A. et al. (2011).</span> <span class="src">The Impact of Enhancing Students' Social and Emotional Learning: A Meta-Analysis of School-Based Universal Interventions.</span> Child Development.</li>
+        <li><span class="author">Goleman, D. (1995).</span> <span class="src">Emotional Intelligence: Why It Can Matter More Than IQ.</span> Bantam Books.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#7C3AED18">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#7C3AED" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8 H34 V25 H22 L15 32 V25 H6 Z" stroke-width="2"/><path d="M14 16 L18 20 L27 11" stroke-width="2.2"/></svg>
+        </div>
+        <div><div class="route">Ruta · Clima y Convivencia Escolar</div><h2>Comunicación Asertiva y Resolución de Conflictos</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Rosenberg, M. B. (2003).</span> <span class="src">Nonviolent Communication: A Language of Life (Comunicación no violenta y mensajes en primera persona).</span> PuddleDancer Press.</li>
+        <li><span class="author">Johnson, D. W. & Johnson, R. T. (2005).</span> <span class="src">Teaching Students to Be Peacemakers: Conflict Resolution and Peer Mediation.</span> Interaction Book Company.</li>
+        <li><span class="author">Alberti, R. & Emmons, M. (1970/2017).</span> <span class="src">Your Perfect Right: Assertiveness and Equality in Your Life and Relationships.</span> Impact Publishers.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#EA580C18">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#EA580C" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5 L23 15 L34 15 L25 21 L28 32 L20 25 L12 32 L15 21 L6 15 L17 15 Z" stroke-width="2"/></svg>
+        </div>
+        <div><div class="route">Ruta · Clima y Convivencia Escolar</div><h2>Disciplina Positiva y Motivación Intrínseca</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Deci, E. L. & Ryan, R. M. (1985/2000).</span> <span class="src">Self-Determination Theory (Autonomía, competencia y conexión).</span> Springer / University of Rochester.</li>
+        <li><span class="author">Nelsen, J., Lott, L., & Glenn, H. S. (2000).</span> <span class="src">Positive Discipline in the Classroom.</span> Three Rivers Press.</li>
+        <li><span class="author">Dweck, C. (2006).</span> <span class="src">Mindset: The New Psychology of Success (Mentalidad de crecimiento y reconocimiento del proceso).</span> Random House.</li>
+      </ol>
+    </div>
+
+    <div class="course-block">
+      <div class="course-head">
+        <div class="course-dot" style="background:#16A34A18">
+          <svg width="19" height="19" viewBox="0 0 40 40" fill="none" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="15" r="8" stroke-width="2"/><line x1="20" y1="22" x2="20" y2="32" stroke-width="2"/><path d="M20 32 L14 38 M20 32 L26 38" stroke-width="1.6"/></svg>
+        </div>
+        <div><div class="route">Ruta · Clima y Convivencia Escolar</div><h2>Bienestar Docente: Prevención del Desgaste</h2></div>
+      </div>
+      <ol class="refs">
+        <li><span class="author">Maslach, C. & Leiter, M. P. (2016).</span> <span class="src">Understanding the Burnout Experience: Recent Research and Its Implications for Psychiatry.</span> World Psychiatry.</li>
+        <li><span class="author">Maslach, C., Jackson, S. E., & Leiter, M. P. (1996).</span> <span class="src">Maslach Burnout Inventory Manual.</span> Consulting Psychologists Press.</li>
+        <li><span class="author">OECD (2020).</span> <span class="src">TALIS 2018 Results — Teachers' well-being and stress.</span> Organización para la Cooperación y el Desarrollo Económicos.</li>
+      </ol>
+    </div>
+
+    <div class="footer">
+      Las referencias se presentan con fines educativos y de fundamentación pedagógica.<br>
+      Guatemala 2026 · Todos los derechos reservados.
+    </div>
+  </div>
+</body>
+</html>

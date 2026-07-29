@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rúbricas de Evaluación STEAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #07B0E4; --color-dark: #0590BB; --color-light: #E6F7FD; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fafc; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(7,176,228,0.4); z-index: 999; }
+  .print-btn:hover { background: var(--color-dark); }
+  header { background: linear-gradient(135deg, #07B0E4, #0590BB); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 22px; font-weight: 700; color: var(--color-dark); margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); }
+  h3 { font-size: 16px; font-weight: 700; margin: 24px 0 12px; color: var(--text); }
+  p { margin-bottom: 12px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 28px; }
+  .type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0 32px; }
+  .type-card { border-radius: 12px; padding: 20px; }
+  .type-card.anal { background: #EFF6FF; border: 2px solid #93c5fd; }
+  .type-card.hol { background: #F5F3FF; border: 2px solid #c4b5fd; }
+  .type-card h4 { font-weight: 700; margin-bottom: 8px; }
+  .type-card.anal h4 { color: #1d4ed8; }
+  .type-card.hol h4 { color: #6d28d9; }
+  .rubric-wrap { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 36px; overflow: hidden; }
+  .rubric-header { background: var(--color); color: white; padding: 18px 24px; }
+  .rubric-header h3 { color: white; margin: 0; font-size: 17px; }
+  .rubric-header p { margin: 4px 0 0; opacity: 0.9; font-size: 13px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #f1f5f9; font-size: 12px; font-weight: 700; padding: 10px 12px; text-align: center; border: 1px solid #e2e8f0; text-transform: uppercase; letter-spacing: 0.5px; }
+  th.crit { text-align: left; width: 20%; }
+  td { padding: 12px; border: 1px solid #e2e8f0; font-size: 13px; vertical-align: top; }
+  td.crit { font-weight: 600; background: #f8fafc; }
+  .level-4 { background: #f0fdf4; }
+  .level-3 { background: #fefce8; }
+  .level-2 { background: #fff7ed; }
+  .level-1 { background: #fef2f2; }
+  .level-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; margin-bottom: 6px; }
+  .badge-4 { background: #16a34a; color: white; }
+  .badge-3 { background: #ca8a04; color: white; }
+  .badge-2 { background: #ea580c; color: white; }
+  .badge-1 { background: #dc2626; color: white; }
+  .coeval-box { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; }
+  .step { display: flex; gap: 16px; margin-bottom: 18px; align-items: flex-start; }
+  .step-num { background: var(--color); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .rubric-wrap { box-shadow: none; break-inside: avoid; }
+    table { font-size: 11px; }
+    td, th { padding: 8px; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">STEAM · Evaluación</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h.01"/><path d="M9 3h6v10H9z"/><path d="m13 3 2 2-4 4-2-2z"/></svg></div>
+  <h1>Rúbricas de Evaluación STEAM</h1>
+  <p>Cuatro rúbricas completas con cuatro niveles para evaluar proyectos STEAM de manera integral y formativa</p>
+</header>
+
+<div class="container">
+
+  <div class="intro-box">
+    <strong>¿Para qué sirven estas rúbricas?</strong> Las rúbricas hacen explícito lo que esperamos de los estudiantes, reducen la subjetividad en la evaluación y, lo más importante, <strong>guían el aprendizaje antes y durante el proceso</strong>, no solo al final. Comparte la rúbrica con los estudiantes al inicio del proyecto.
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span> Rúbricas Analíticas vs. Holísticas</h2>
+  <div class="type-grid">
+    <div class="type-card anal">
+      <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span> Analítica (las de este banco)</h4>
+      <p><strong>Qué es:</strong> Evalúa cada criterio por separado con descriptores específicos.</p>
+      <p><strong>Ventaja:</strong> Retroalimentación detallada. El estudiante sabe exactamente en qué mejorar.</p>
+      <p><strong>Cuándo usar:</strong> Proyectos largos, cuando quieres que el estudiante se autoevalúe.</p>
+    </div>
+    <div class="type-card hol">
+      <h4><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#3b82f6" stroke="none"/></svg></span> Holística</h4>
+      <p><strong>Qué es:</strong> Evalúa el trabajo completo con una sola puntuación global.</p>
+      <p><strong>Ventaja:</strong> Más rápida de aplicar para evaluaciones sumativas.</p>
+      <p><strong>Cuándo usar:</strong> Evaluaciones rápidas, autoevaluación inicial, primeras versiones de productos.</p>
+    </div>
+  </div>
+
+  <!-- RÚBRICA 1 -->
+  <div class="rubric-wrap">
+    <div class="rubric-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></span> Rúbrica 1: Pensamiento Científico</h3>
+      <p>Para proyectos donde los estudiantes observan, investigan, experimentan y sacan conclusiones</p>
+    </div>
+    <table>
+      <tr>
+        <th class="crit">Criterio</th>
+        <th>4 – Excelente</th>
+        <th>3 – Bueno</th>
+        <th>2 – En Desarrollo</th>
+        <th>1 – Inicial</th>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> Observación y Registro</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Registra observaciones detalladas, usa términos científicos correctamente, distingue entre observación e inferencia.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Registra observaciones claras con algunos detalles. Ocasionalmente mezcla observación con inferencia.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Registra observaciones básicas y generales. Le cuesta distinguir entre lo que ve y lo que supone.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>Las observaciones son vagas, incompletas o no registradas sistemáticamente.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Formulación de Preguntas</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Formula preguntas investigables, específicas y relevantes. Puede distinguir entre preguntas científicas y de opinión.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Formula preguntas investigables con ayuda mínima. La mayoría son relevantes para el problema.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Formula preguntas pero requiere guía para hacerlas investigables. Algunas no tienen relación con el problema.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>Dificultad para formular preguntas propias. Requiere preguntas dadas por el docente.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></span> Diseño de Experimento</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Identifica variable a probar, controla otras variables, planifica pasos claros y predice resultados antes de experimentar.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Diseña un experimento con pasos claros aunque no controla todas las variables. Tiene hipótesis.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>El experimento tiene pasos pero sin hipótesis clara ni control de variables.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>El experimento no tiene estructura clara. Sigue pasos dados sin comprenderlos.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span> Análisis y Conclusiones</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Analiza datos, identifica patrones, conecta conclusiones con la hipótesis inicial y propone nuevas preguntas.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Saca conclusiones basadas en los datos aunque con apoyo para identificar patrones.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Describe los resultados pero tiene dificultad para hacer conclusiones propias.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>No establece relación entre datos y conclusiones. Las conclusiones son de opinión, no de evidencia.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- RÚBRICA 2 -->
+  <div class="rubric-wrap">
+    <div class="rubric-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Rúbrica 2: Trabajo Colaborativo</h3>
+      <p>Para evaluar cómo los estudiantes trabajan en equipo durante proyectos STEAM</p>
+    </div>
+    <table>
+      <tr>
+        <th class="crit">Criterio</th>
+        <th>4 – Excelente</th>
+        <th>3 – Bueno</th>
+        <th>2 – En Desarrollo</th>
+        <th>1 – Inicial</th>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> Roles y Responsabilidades</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Asume su rol con responsabilidad, apoya a compañeros y rota roles voluntariamente. El equipo funciona de forma autónoma.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Cumple su rol con recordatorios esporádicos. Colabora cuando se le solicita.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Necesita recordatorios frecuentes para cumplir su rol. A veces el trabajo recae en pocos miembros.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>No asume responsabilidad en el equipo. Participa mínimamente o distrae al grupo.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Comunicación</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Escucha activamente, expresa ideas con claridad, hace preguntas al equipo y valida las contribuciones de otros.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Se comunica con el equipo. Escucha aunque a veces interrumpe o se impone.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Comunicación limitada. Habla poco o monopoliza las decisiones sin consultar al equipo.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>No se comunica efectivamente con el equipo. Conflictos frecuentes o aislamiento.</td>
+      </tr>
+      <tr>
+        <td class="crit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Aporte de Ideas</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Aporta ideas creativas y específicas. Construye sobre las ideas de los demás. Motiva a todos a contribuir.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Aporta ideas cuando se le da espacio. Las ideas son relevantes aunque no siempre desarrolladas.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Contribuye poco en la ideación. Prefiere adoptar ideas de otros sin generar las propias.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>No aporta ideas propias. Espera que otros decidan todo.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span> Resolución de Conflictos</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Identifica los conflictos, propone soluciones justas y lleva al equipo a acuerdos sin intervención del docente.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Intenta resolver conflictos aunque a veces necesita mediación del docente.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Los conflictos se resuelven pero con fricción frecuente o requieren intervención regular del docente.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>Los conflictos escalan o quedan sin resolver. El equipo se paraliza ante el desacuerdo.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- RÚBRICA 3 -->
+  <div class="rubric-wrap">
+    <div class="rubric-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Rúbrica 3: Producto / Prototipo</h3>
+      <p>Para evaluar el objeto, dispositivo, campaña o creación física resultante del proyecto</p>
+    </div>
+    <table>
+      <tr>
+        <th class="crit">Criterio</th>
+        <th>4 – Excelente</th>
+        <th>3 – Bueno</th>
+        <th>2 – En Desarrollo</th>
+        <th>1 – Inicial</th>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M2 12h2M20 12h2M17.66 17.66l1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2"/></svg></span> Funcionalidad</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>El producto funciona como se propuso y supera expectativas. Resuelve el problema planteado de forma efectiva.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>El producto funciona en su función principal con pequeñas limitaciones no críticas.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>El producto funciona parcialmente. Resuelve parte del problema pero con fallas importantes.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>El producto no funciona o no resuelve el problema planteado.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M17.5 10.5c-1 2-4 3-6 2s-3-3-2-5"/><path d="M3 14s1-1 4-1 5.5 2 8 2 4-1 4-1"/></svg></span> Creatividad</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Solución original e inesperada. Usa materiales de forma innovadora o combina ideas de formas nuevas.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Hay elementos creativos aunque la solución general es similar a otras. Algunos usos ingeniosos de materiales.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>La solución es estándar, sin elementos distintivos. Sigue el camino más obvio.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>El producto es copia directa de un ejemplo dado. No hay toma de decisiones propias.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> Presentación / Acabado</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Presentación impecable, cuidadosa, con atención a los detalles. Se nota el orgullo del equipo en el trabajo.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Presentación limpia y ordenada con algunos detalles por pulir.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Presentación descuidada o incompleta. Se hizo con prisa o sin cuidado por los detalles.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>El producto está incompleto o la presentación es irrelevante para la función.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span> Iteración y Mejora</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>El equipo realizó múltiples rondas de mejora con evidencia clara de cambios basados en pruebas reales.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>El equipo realizó al menos una mejora significativa basada en retroalimentación.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Se realizaron cambios menores pero sin proceso claro de prueba y retroalimentación.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>El primer prototipo es el producto final. No hubo iteración ni mejora.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- RÚBRICA 4 -->
+  <div class="rubric-wrap">
+    <div class="rubric-header">
+      <h3><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span> Rúbrica 4: Presentación Oral del Proyecto</h3>
+      <p>Para evaluar cómo los estudiantes comunican su proceso y aprendizajes al presentar su proyecto</p>
+    </div>
+    <table>
+      <tr>
+        <th class="crit">Criterio</th>
+        <th>4 – Excelente</th>
+        <th>3 – Bueno</th>
+        <th>2 – En Desarrollo</th>
+        <th>1 – Inicial</th>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span> Claridad y Organización</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Presentación con estructura clara (problema → proceso → solución → aprendizaje). Fácil de seguir para la audiencia.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>La presentación es mayormente clara con algunos saltos de organización menores.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>La presentación tiene estructura pero confusa en partes. La audiencia se pierde en algunos momentos.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>Sin estructura visible. La presentación salta de un tema a otro sin hilo conductor.</td>
+      </tr>
+      <tr>
+        <td class="crit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14"/></svg> Dominio del Contenido</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Demuestra comprensión profunda del tema. Puede explicar el "por qué" detrás de cada decisión tomada en el proyecto.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Domina el contenido principal aunque con algunas dudas en detalles.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Conoce el proyecto superficialmente. Dificultad para responder preguntas más allá de lo memorizado.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>No demuestra comprensión del proyecto ni del contenido disciplinar.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg></span> Uso de Evidencias</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Usa datos, fotos, gráficas o prototipos para respaldar cada afirmación. Las evidencias son relevantes y bien explicadas.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Usa algunas evidencias aunque no todas las afirmaciones están respaldadas.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Muestra el producto pero sin conectarlo claramente con evidencias del proceso.</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>No usa evidencias. La presentación es solo descripción verbal sin respaldo.</td>
+      </tr>
+      <tr>
+        <td class="crit"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> Manejo de Preguntas</td>
+        <td class="level-4"><span class="level-badge badge-4">4</span><br>Responde con seguridad y honestidad. Cuando no sabe algo, lo dice y propone cómo averiguarlo.</td>
+        <td class="level-3"><span class="level-badge badge-3">3</span><br>Responde la mayoría de preguntas. Se apoya en compañeros de equipo para algunas.</td>
+        <td class="level-2"><span class="level-badge badge-2">2</span><br>Responde preguntas simples pero se bloquea ante preguntas de análisis o "¿por qué?".</td>
+        <td class="level-1"><span class="level-badge badge-1">1</span><br>No responde preguntas o responde sin relación con lo que se preguntó.</td>
+      </tr>
+    </table>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Instrucciones para Co-evaluación con Estudiantes</h2>
+  <div class="coeval-box">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div><strong>Comparte la rúbrica ANTES del proyecto.</strong> Da la rúbrica el primer día. Léela con los estudiantes y pídeles que expliquen con sus propias palabras qué significa cada nivel. Aclarar dudas ahora evita confusiones al final.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div><strong>Autoevaluación a la mitad del proyecto.</strong> En la semana 2 de un proyecto de 3 semanas, pide que cada equipo se autoevalúe. ¿Dónde están ahora? ¿Qué necesitan mejorar para llegar al nivel 4? Esto activa la metacognición.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div><strong>Co-evaluación entre equipos.</strong> Al finalizar, cada equipo evalúa a otro usando la rúbrica. Deben dar al menos 2 fortalezas y 1 sugerencia específica de mejora. Esto desarrolla pensamiento crítico y vocabulario evaluativo.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div><strong>Triangulación.</strong> La nota final considera: autoevaluación (20%) + co-evaluación de compañeros (20%) + evaluación del docente (60%). Esto enseña responsabilidad y honestidad en la evaluación.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div><strong>Conversación de retroalimentación.</strong> Si la autoevaluación del estudiante y la del docente difieren en más de 1 nivel, conversa con el equipo. ¿Qué ven ellos que tú no ves? ¿Qué ves tú que ellos no valoran? Este diálogo es aprendizaje puro.</div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  Guatemala 2026<br>
+  Módulo STEAM · Rúbricas de Evaluación
+</footer>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificar Certificado — Programa de Formación Docente</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#0F172A;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:1.5rem;
+  }
+  .card {
+    background:white;
+    border-radius:20px;
+    max-width:420px;
+    width:100%;
+    padding:32px 28px;
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+  }
+  .icon { font-size:42px; text-align:center; margin-bottom:8px; }
+  h1 { font-size:18px; text-align:center; color:#0F172A; margin-bottom:4px; }
+  .sub { font-size:12.5px; text-align:center; color:#94A3B8; margin-bottom:24px; }
+  .row { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #F1F5F9; font-size:13.5px; }
+  .row:last-child { border-bottom:none; }
+  .row .label { color:#64748B; }
+  .row .value { color:#0F172A; font-weight:700; text-align:right; }
+  .status { padding:14px; border-radius:12px; text-align:center; font-weight:800; font-size:14px; margin-bottom:20px; }
+  .status.valid { background:#DCFCE7; color:#166534; }
+  .status.invalid { background:#FEE2E2; color:#991B1B; }
+  .loader { text-align:center; color:#94A3B8; font-size:13px; padding:30px 0; }
+  .footer { text-align:center; font-size:11px; color:#CBD5E1; margin-top:20px; }
+  input { width:100%; padding:12px 14px; border:1.5px solid #E2E8F0; border-radius:10px; font-size:13px; margin-bottom:10px; font-family:monospace; }
+  button { width:100%; padding:12px; border:none; border-radius:10px; background:#07B0E4; color:white; font-weight:700; font-size:13px; cursor:pointer; }
+</style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="loader" id="loader">Verificando certificado…</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://grkjhzkgcmackbafqudu.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdya2poemtnY21hY2tiYWZxdWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMjg5MzQsImV4cCI6MjA5NjcwNDkzNH0.2nVTRlhey6HkGs_KZxtCaEp8L2QrvD0NUwY8ZFwZVHY";
+    const supa = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const COURSE_NAMES = {
+      'steam': 'Metodología STEAM 2.0',
+      'abp': 'Aprendizaje Basado en Proyectos',
+      'design-thinking': 'Design Thinking para Docentes',
+      'evaluacion': 'Herramientas de Evaluación',
+      'tipos-estudiantes': 'Conoce a Quien Enseñas'
+    };
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function renderForm() {
+      document.getElementById('card').innerHTML = `
+        <div class="icon">🔍</div>
+        <h1>Verificar certificado</h1>
+        <p class="sub">Ingresa el código que aparece en el diploma</p>
+        <input id="codeInput" placeholder="Ej: DOC-2026-AB12CD" autocapitalize="characters">
+        <button onclick="lookup(document.getElementById('codeInput').value.trim())">Verificar</button>
+        <p class="footer">Programa de Formación Docente · Guatemala</p>`;
+    }
+
+    function renderLoading() {
+      document.getElementById('card').innerHTML = `<div class="loader">Verificando certificado…</div>`;
+    }
+
+    async function lookup(code, attempt = 1) {
+      if (!code) { renderForm(); return; }
+      renderLoading();
+
+      let result;
+      try {
+        result = await supa
+          .from('certificates')
+          .select('code, full_name, course_id, cert_type, score, issued_at')
+          .eq('code', code.toUpperCase())
+          .maybeSingle();
+      } catch (networkErr) {
+        result = { data: null, error: networkErr };
+      }
+      const { data, error } = result;
+
+      // Error de conexión (no de "no encontrado") — reintenta automáticamente antes de mostrar nada
+      const isConnectionError = error && (
+        error.message?.toLowerCase().includes('fetch') ||
+        error.message?.toLowerCase().includes('network') ||
+        error.code === undefined && error.details === undefined
+      );
+      if (isConnectionError && attempt < 3) {
+        setTimeout(() => lookup(code, attempt + 1), 1200);
+        return;
+      }
+      if (isConnectionError) {
+        document.getElementById('card').innerHTML = `
+          <div class="icon">📡</div>
+          <div class="status invalid">No se pudo conectar</div>
+          <p class="sub" style="margin-bottom:20px">No fue posible comunicarse con el servidor de verificación. Revisa tu conexión a internet e intenta de nuevo — esto NO significa que el certificado sea inválido.</p>
+          <button onclick="lookup('${code.replace(/'/g, "\\'")}')">Reintentar</button>`;
+        return;
+      }
+
+      if (!data) {
+        document.getElementById('card').innerHTML = `
+          <div class="icon">⚠️</div>
+          <div class="status invalid">Código no encontrado</div>
+          <p class="sub" style="margin-bottom:20px">Este código no corresponde a ningún certificado emitido por el programa. Verifica que esté escrito correctamente.</p>
+          <button onclick="renderForm()">Verificar otro código</button>`;
+        return;
+      }
+
+      const isMaster = data.cert_type === 'master';
+      const courseTitle = isMaster ? 'Programa Completo de Formación Docente' : (COURSE_NAMES[data.course_id] || data.course_id || '—');
+      const fecha = new Date(data.issued_at).toLocaleDateString('es-GT', { day:'numeric', month:'long', year:'numeric' });
+
+      document.getElementById('card').innerHTML = `
+        <div class="icon">✅</div>
+        <div class="status valid">Certificado válido</div>
+        <div class="row"><span class="label">Docente</span><span class="value">${escapeHtml(data.full_name || '—')}</span></div>
+        <div class="row"><span class="label">${isMaster ? 'Certificación' : 'Curso'}</span><span class="value">${escapeHtml(courseTitle)}</span></div>
+        <div class="row"><span class="label">Puntaje</span><span class="value">${data.score ?? '—'}%</span></div>
+        <div class="row"><span class="label">Emitido</span><span class="value">${fecha}</span></div>
+        <div class="row"><span class="label">Código</span><span class="value">${escapeHtml(data.code)}</span></div>
+        <p class="footer">Programa de Formación Docente · Guatemala</p>`;
+    }
+
+    const params = new URLSearchParams(location.search);
+    const codeParam = params.get('code');
+    if (codeParam) lookup(codeParam); else renderForm();
+  </script>
+</body>
+</html>

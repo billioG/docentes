@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plantillas de Historia – Storytelling para Docentes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color: #F59E0B;
+    --color-dark: #D97706;
+    --color-light: #FEF3C7;
+    --color-mid: #FDE68A;
+    --gray: #64748b;
+    --gray-light: #f1f5f9;
+    --text: #1e293b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fafc; font-size: 15px; line-height: 1.7; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(245,158,11,0.4); z-index: 999; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+  .print-btn:hover { background: var(--color-dark); transform: translateY(-2px); }
+  header { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 44px 48px; }
+  .header-tag { background: rgba(255,255,255,0.22); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .header-icon { margin-bottom: 14px; display: block; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.92; max-width: 640px; }
+  .container { max-width: 980px; margin: 0 auto; padding: 40px 24px; }
+  .template-card { background: white; border-radius: 18px; box-shadow: 0 3px 16px rgba(0,0,0,0.09); margin-bottom: 44px; overflow: hidden; border-top: 5px solid var(--color); break-inside: avoid; }
+  .template-header { padding: 24px 28px 20px; border-bottom: 1px solid #F3F4F6; display: flex; align-items: flex-start; gap: 18px; }
+  .template-num { background: var(--color); color: white; width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; font-weight: 800; flex-shrink: 0; }
+  .template-meta h2 { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+  .template-meta .subtitle { font-size: 13px; color: var(--gray); }
+  .template-body { padding: 24px 28px; }
+  .when-box { background: var(--color-light); border-radius: 10px; padding: 14px 18px; margin-bottom: 22px; display: flex; gap: 12px; align-items: flex-start; }
+  .when-box .when-label { font-size: 11px; font-weight: 700; color: var(--color-dark); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; margin-top: 2px; }
+  .when-box p { font-size: 13px; margin: 0; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .fill-section h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); margin-bottom: 14px; }
+  .fill-field { margin-bottom: 12px; }
+  .fill-field .field-label { font-size: 12px; font-weight: 700; color: var(--color-dark); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .fill-field .field-box { border: 2px dashed var(--color-mid); border-radius: 8px; padding: 12px 14px; min-height: 54px; background: #FFFBEB; font-size: 13px; color: #92400E; position: relative; }
+  .fill-field .field-box.tall { min-height: 80px; }
+  .example-section { background: var(--gray-light); border-radius: 12px; padding: 18px 20px; }
+  .example-section h3 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .example-field { margin-bottom: 10px; }
+  .example-field .efield-label { font-size: 11px; font-weight: 700; color: var(--color-dark); margin-bottom: 4px; }
+  .example-field .efield-value { font-size: 13px; background: white; border-radius: 6px; padding: 10px 14px; border-left: 3px solid var(--color); }
+  .journey-steps { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .journey-step { border: 2px dashed var(--color-mid); border-radius: 10px; padding: 14px; background: #FFFBEB; }
+  .journey-step .js-label { font-size: 11px; font-weight: 700; color: var(--color-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .journey-step .js-title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .journey-step .js-box { font-size: 12px; color: #92400E; min-height: 44px; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 10px; }
+  .option-card { border: 2px dashed var(--color-mid); border-radius: 10px; padding: 14px; background: #FFFBEB; }
+  .option-card .opt-label { font-size: 12px; font-weight: 800; color: var(--color-dark); margin-bottom: 6px; }
+  .option-card .opt-box { font-size: 12px; color: #92400E; min-height: 60px; }
+  .spine-connector { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .spine-step { display: flex; align-items: stretch; gap: 14px; width: 100%; }
+  .spine-line-col { display: flex; flex-direction: column; align-items: center; width: 36px; flex-shrink: 0; }
+  .spine-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--color); flex-shrink: 0; margin-top: 18px; }
+  .spine-vline { width: 2px; background: var(--color-mid); flex: 1; min-height: 12px; }
+  .spine-content { border: 2px dashed var(--color-mid); border-radius: 10px; padding: 14px 16px; background: #FFFBEB; flex: 1; margin-bottom: 10px; }
+  .spine-content .sc-prompt { font-size: 12px; font-weight: 700; color: var(--color-dark); margin-bottom: 4px; }
+  .spine-content .sc-box { font-size: 13px; color: #92400E; min-height: 36px; }
+  .spine-last .spine-vline { display: none; }
+  .personif-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .personif-field { border: 2px dashed var(--color-mid); border-radius: 10px; padding: 14px 16px; background: #FFFBEB; }
+  .personif-field .pf-label { font-size: 11px; font-weight: 700; color: var(--color-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .personif-field .pf-box { font-size: 13px; color: #92400E; min-height: 44px; }
+  .section-divider { height: 1px; background: #E5E7EB; margin: 22px 0; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media (max-width: 700px) {
+    .two-col, .journey-steps, .options-grid, .personif-grid { grid-template-columns: 1fr; }
+    header { padding: 28px 20px; }
+    header h1 { font-size: 24px; }
+    .template-body { padding: 18px; }
+    .template-header { padding: 18px; }
+  }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    header { padding: 24px 32px; }
+    header h1 { font-size: 24px; }
+    .container { padding: 20px 16px; }
+    .template-card { box-shadow: none; border: 1px solid #e2e8f0; page-break-inside: avoid; break-inside: avoid; margin-bottom: 28px; }
+    footer { margin-top: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-tag">Storytelling para Docentes</span>
+  <span class="header-icon">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/>
+      <rect x="12" y="14" width="28" height="6" rx="3" fill="rgba(255,255,255,0.6)"/>
+      <rect x="12" y="24" width="20" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+      <rect x="12" y="32" width="24" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+      <circle cx="38" cy="36" r="7" fill="rgba(255,255,255,0.25)" stroke="white" stroke-width="1.5"/>
+      <path d="M35 36h6M38 33v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <h1>Plantillas de Historia</h1>
+  <p>8 estructuras narrativas listas para usar en el aula. Completa los campos en blanco, aplica el ejemplo y adapta al contenido de tu clase.</p>
+</header>
+
+<div class="container">
+
+  <!-- PLANTILLA 1: STORY SPINE -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">1</div>
+      <div class="template-meta">
+        <h2>Story Spine</h2>
+        <div class="subtitle">Técnica del teatro de improvisación · Ideal para estructurar cualquier narración de aula desde cero</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Cuando necesitas crear una historia completa desde cero y quieres asegurarte de que tenga arco narrativo. También funciona como actividad colaborativa donde los estudiantes completan cada frase en grupo.</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="spine-connector">
+            <div class="spine-step">
+              <div class="spine-line-col"><div class="spine-dot"></div><div class="spine-vline"></div></div>
+              <div class="spine-content">
+                <div class="sc-prompt">"Había una vez..."</div>
+                <div class="sc-box">[Personaje + contexto + mundo ordinario]</div>
+              </div>
+            </div>
+            <div class="spine-step">
+              <div class="spine-line-col"><div class="spine-dot"></div><div class="spine-vline"></div></div>
+              <div class="spine-content">
+                <div class="sc-prompt">"Cada día..."</div>
+                <div class="sc-box">[La rutina o situación normal del personaje]</div>
+              </div>
+            </div>
+            <div class="spine-step">
+              <div class="spine-line-col"><div class="spine-dot"></div><div class="spine-vline"></div></div>
+              <div class="spine-content">
+                <div class="sc-prompt">"Hasta que un día..."</div>
+                <div class="sc-box">[El incidente detonador — la necesidad de aprender algo nuevo]</div>
+              </div>
+            </div>
+            <div class="spine-step">
+              <div class="spine-line-col"><div class="spine-dot"></div><div class="spine-vline"></div></div>
+              <div class="spine-content">
+                <div class="sc-prompt">"Por eso..."</div>
+                <div class="sc-box">[Las consecuencias, la exploración, los intentos de resolver]</div>
+              </div>
+            </div>
+            <div class="spine-step">
+              <div class="spine-line-col"><div class="spine-dot"></div><div class="spine-vline"></div></div>
+              <div class="spine-content">
+                <div class="sc-prompt">"Hasta que finalmente..."</div>
+                <div class="sc-box">[La resolución — el aprendizaje logrado, la transformación]</div>
+              </div>
+            </div>
+            <div class="spine-step spine-last">
+              <div class="spine-line-col"><div class="spine-dot"></div><div class="spine-vline"></div></div>
+              <div class="spine-content">
+                <div class="sc-prompt">"Desde entonces..."</div>
+                <div class="sc-box">[El nuevo estado del personaje — cómo el aprendizaje cambió su vida]</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Matemáticas — Fracciones (Primaria)
+          </h3>
+          <div class="example-field"><div class="efield-label">Había una vez...</div><div class="efield-value">Doña Carmen, la mejor panadera de San Marcos, famosa por su pan dulce que vendía en toda la feria del pueblo.</div></div>
+          <div class="example-field"><div class="efield-label">Cada día...</div><div class="efield-value">Horneaba 40 panes usando exactamente la misma receta que le enseñó su madre.</div></div>
+          <div class="example-field"><div class="efield-label">Hasta que un día...</div><div class="efield-value">Recibió un pedido urgente: necesitaba hacer exactamente la mitad de su receta para una fiesta pequeña, ¡y nunca había aprendido a dividir cantidades!</div></div>
+          <div class="example-field"><div class="efield-label">Por eso...</div><div class="efield-value">Intentó adivinar, echó a perder dos tandas de pan, y perdió dinero e ingredientes.</div></div>
+          <div class="example-field"><div class="efield-label">Hasta que finalmente...</div><div class="efield-value">Su nieta le enseñó que media receta significa dividir cada cantidad entre dos — y que eso se llama fracción.</div></div>
+          <div class="example-field"><div class="efield-label">Desde entonces...</div><div class="efield-value">Doña Carmen pudo aceptar pedidos de cualquier tamaño, y su negocio creció tres veces.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTILLA 2: MINI-RELATO DE 3 ORACIONES -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">2</div>
+      <div class="template-meta">
+        <h2>Mini-Relato de 3 Oraciones</h2>
+        <div class="subtitle">Para abrir una clase en menos de 60 segundos · Gancho rápido y poderoso</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Al inicio de cualquier clase cuando el tiempo es limitado. Crea tensión inmediata sin desarrollar una historia completa. Especialmente útil en clases de 45 minutos o cuando hay mucho contenido por cubrir.</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="fill-field">
+            <div class="field-label">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#D97706" stroke-width="1.5"/><text x="7" y="11" text-anchor="middle" font-size="9" font-weight="bold" fill="#D97706">1</text></svg>
+              Oración 1: Personaje + situación familiar
+            </div>
+            <div class="field-box tall">[Nombre del personaje] es un/a [descripción] que vive en [lugar reconocible para los estudiantes] y todos los días [acción cotidiana relacionada con el tema].</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#D97706" stroke-width="1.5"/><text x="7" y="11" text-anchor="middle" font-size="9" font-weight="bold" fill="#D97706">2</text></svg>
+              Oración 2: Problema inesperado que necesita el conocimiento de hoy
+            </div>
+            <div class="field-box tall">Pero esta mañana [algo cambió / algo salió mal / apareció una situación nueva] y [el personaje] se dio cuenta de que no sabía [exactamente el concepto de hoy].</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#D97706" stroke-width="1.5"/><text x="7" y="11" text-anchor="middle" font-size="9" font-weight="bold" fill="#D97706">3</text></svg>
+              Oración 3: Tensión — ¿qué pasará si no resuelven esto?
+            </div>
+            <div class="field-box tall">Si no encuentra la respuesta antes de [tiempo límite concreto], [consecuencia concreta y significativa para el personaje]. ¿Podemos ayudarle?</div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Ciencias — El ciclo del agua (Básicos)
+          </h3>
+          <div class="example-field"><div class="efield-label">Oración 1</div><div class="efield-value">Miguel es un agricultor de Zacapa que depende de la lluvia para que sus milpas crezcan, y este año, por primera vez, llevaba tres meses prediciendo cuándo iba a llover.</div></div>
+          <div class="example-field"><div class="efield-label">Oración 2</div><div class="efield-value">Pero esta mañana su método falló: predijo lluvia, sembró toda su semilla, y el cielo está completamente despejado — y él no entiende por qué su predicción estuvo tan equivocada.</div></div>
+          <div class="example-field"><div class="efield-label">Oración 3</div><div class="efield-value">Si no entiende cómo funciona realmente el ciclo del agua antes del próximo ciclo de siembra, podría perder otra cosecha entera y su familia pasaría meses muy difíciles. Hoy nosotros lo vamos a entender por él.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTILLA 3: VIAJE DEL HÉROE -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">3</div>
+      <div class="template-meta">
+        <h2>El Viaje del Héroe Simplificado</h2>
+        <div class="subtitle">6 etapas · Para estructurar una unidad completa o un proyecto largo</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Para diseñar el arco narrativo de una unidad didáctica completa (2 a 4 semanas). El estudiante es el héroe; el docente, el mentor. Cada etapa corresponde a una fase del proceso de aprendizaje.</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="journey-steps">
+            <div class="journey-step">
+              <div class="js-label">Etapa 1</div>
+              <div class="js-title">El Mundo Ordinario</div>
+              <div class="js-box">[¿Qué sabe y da por sentado el estudiante antes de esta unidad?]</div>
+            </div>
+            <div class="journey-step">
+              <div class="js-label">Etapa 2</div>
+              <div class="js-title">La Llamada</div>
+              <div class="js-box">[¿Cuál es el problema o situación que no puede resolver con lo que ya sabe?]</div>
+            </div>
+            <div class="journey-step">
+              <div class="js-label">Etapa 3</div>
+              <div class="js-title">Las Pruebas</div>
+              <div class="js-box">[¿Qué actividades, errores y descubrimientos componen el camino de aprendizaje?]</div>
+            </div>
+            <div class="journey-step">
+              <div class="js-label">Etapa 4</div>
+              <div class="js-title">La Transformación</div>
+              <div class="js-box">[¿Cuál es el momento en que el estudiante comprende el concepto central?]</div>
+            </div>
+            <div class="journey-step">
+              <div class="js-label">Etapa 5</div>
+              <div class="js-title">El Regreso</div>
+              <div class="js-box">[¿Cómo aplica el estudiante lo aprendido en un contexto nuevo y real?]</div>
+            </div>
+            <div class="journey-step">
+              <div class="js-label">Etapa 6</div>
+              <div class="js-title">El Don</div>
+              <div class="js-box">[¿Qué puede hacer ahora que antes no podía? ¿Cómo comparte lo aprendido?]</div>
+            </div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Historia — Independencia de Guatemala
+          </h3>
+          <div class="example-field"><div class="efield-label">El Mundo Ordinario</div><div class="efield-value">Los estudiantes creen que la Independencia fue un evento glorioso y unánime, un día festivo sin complejidades.</div></div>
+          <div class="example-field"><div class="efield-label">La Llamada</div><div class="efield-value">¿Por qué no todos en Guatemala celebraron el 15 de septiembre de 1821? ¿Quiénes quedaron fuera de ese "nosotros"?</div></div>
+          <div class="example-field"><div class="efield-label">Las Pruebas</div><div class="efield-value">Análisis de fuentes primarias, debate entre grupos que representan distintos sectores sociales de 1821, cronología crítica.</div></div>
+          <div class="example-field"><div class="efield-label">La Transformación</div><div class="efield-value">Comprenden que la historia tiene múltiples versiones según quién la cuente, y que la independencia significó cosas muy distintas para indígenas, criollos y mestizos.</div></div>
+          <div class="example-field"><div class="efield-label">El Regreso</div><div class="efield-value">Escriben una reflexión sobre qué significaría una "independencia completa" para Guatemala hoy.</div></div>
+          <div class="example-field"><div class="efield-label">El Don</div><div class="efield-value">Presentan su análisis a otro grupo de estudiantes y pueden defender su perspectiva con evidencia histórica.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTILLA 4: HISTORIA DE CASO DE ESTUDIO -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">4</div>
+      <div class="template-meta">
+        <h2>Historia de Caso de Estudio</h2>
+        <div class="subtitle">Para Aprendizaje Basado en Problemas · Decisiones con consecuencias visibles</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Cuando el objetivo es que los estudiantes analicen, argumenten y tomen decisiones. Ideal para ciencias sociales, ética, economía, ciencias naturales y cualquier área donde quieras desarrollar pensamiento crítico aplicado.</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="fill-field">
+            <div class="field-label">Contexto: Quién + Dónde + Cuándo</div>
+            <div class="field-box tall">[Nombre del personaje o institución], ubicado/a en [lugar específico de Guatemala], en [momento o año], quien es responsable de [rol o función].</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">El Dilema: ¿Qué decisión debe tomar?</div>
+            <div class="field-box tall">Debe decidir si [opción A] o [opción B]. Tiene solo [tiempo límite] para decidir y no puede volver atrás. El problema requiere saber [concepto de la clase].</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Las Opciones con Consecuencias Visibles</div>
+          </div>
+          <div class="options-grid">
+            <div class="option-card">
+              <div class="opt-label">Opción A</div>
+              <div class="opt-box">[Descripción de la acción] — Consecuencia probable: [qué pasaría a corto y largo plazo]</div>
+            </div>
+            <div class="option-card">
+              <div class="opt-label">Opción B</div>
+              <div class="opt-box">[Descripción de la acción] — Consecuencia probable: [qué pasaría a corto y largo plazo]</div>
+            </div>
+            <div class="option-card">
+              <div class="opt-label">Opción C</div>
+              <div class="opt-box">[Una tercera vía no obvia] — Consecuencia probable: [qué pasaría, incluyendo riesgos]</div>
+            </div>
+          </div>
+          <div class="fill-field" style="margin-top:12px;">
+            <div class="field-label">La Reflexión Final</div>
+            <div class="field-box">¿Qué habrías decidido tú? ¿Qué necesitarías saber para estar seguro/a de tu decisión?</div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Biología — Ecosistemas y toma de decisiones
+          </h3>
+          <div class="example-field"><div class="efield-label">Contexto</div><div class="efield-value">La alcaldesa de un municipio del Petén, en 2024, recibe la propuesta de talar 200 hectáreas de selva para instalar una empresa que daría 400 empleos.</div></div>
+          <div class="example-field"><div class="efield-label">El Dilema</div><div class="efield-value">Debe responder en 48 horas. La empresa amenaza con irse a otro municipio si no acepta. El desempleo local es del 38%.</div></div>
+          <div class="example-field"><div class="efield-label">Opción A</div><div class="efield-value">Aprobar la tala. 400 empleos inmediatos, pero pérdida permanente de servicios ecosistémicos valuados en Q80M anuales (agua, biodiversidad, carbono).</div></div>
+          <div class="example-field"><div class="efield-label">Opción B</div><div class="efield-value">Rechazar y proponer zona industrial alternativa en tierras ya deforestadas. Riesgo: la empresa puede no aceptar la alternativa.</div></div>
+          <div class="example-field"><div class="efield-label">Opción C</div><div class="efield-value">Negociar una concesión de ecoturismo comunitario que genera empleos sin tala. Riesgo: menor ingreso a corto plazo, requiere organización comunitaria.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTILLA 5: HISTORIA DE ERROR PRODUCTIVO -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">5</div>
+      <div class="template-meta">
+        <h2>Historia de Error Productivo</h2>
+        <div class="subtitle">Normalizar el error como parte del aprendizaje · Desmitificar la perfección</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Cuando los estudiantes tienen miedo de equivocarse, cuando enfrentan un tema difícil donde el error es frecuente, o cuando quieres mostrar que el conocimiento se construye a través del fracaso. Úsala al inicio de temas "intimidantes".</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="fill-field">
+            <div class="field-label">El experto/a que falló</div>
+            <div class="field-box">[Nombre de persona famosa, científico/a, artista, líder comunitario o figura histórica relacionada con el tema de hoy]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Lo que intentó</div>
+            <div class="field-box tall">[Descripción concreta de lo que estaba tratando de hacer o descubrir, con detalles específicos de lugar, tiempo y contexto]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Lo que salió mal</div>
+            <div class="field-box tall">[El fracaso específico — qué ocurrió, cuántas veces falló, cuál era la magnitud del problema. Incluir detalles concretos que humanicen el fracaso]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Lo que aprendió</div>
+            <div class="field-box">[El insight que emergió del error — el concepto o principio que hoy estudiaremos]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Por qué nos importa hoy</div>
+            <div class="field-box">[Conexión directa con el objetivo de aprendizaje de la clase de hoy]</div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Química — Reacciones químicas (Diversificado)
+          </h3>
+          <div class="example-field"><div class="efield-label">El experto que falló</div><div class="efield-value">Marie Curie, Premio Nobel de Física (1903) y de Química (1911).</div></div>
+          <div class="example-field"><div class="efield-label">Lo que intentó</div><div class="efield-value">Purificar el radio a partir de pechblenda. El proceso requería tratar toneladas de mineral para obtener gramos del elemento.</div></div>
+          <div class="example-field"><div class="efield-label">Lo que salió mal</div><div class="efield-value">Durante cuatro años, en un cobertizo sin ventilación, con frío extremo en invierno, Curie agitó enormes cantidades de mineral hirviendo. Docenas de experimentos fallaron. Su cuaderno de notas aún es radioactivo hoy.</div></div>
+          <div class="example-field"><div class="efield-label">Lo que aprendió</div><div class="efield-value">Que la radioactividad era una propiedad del átomo mismo, no de la combinación de elementos — un descubrimiento que cambió la física para siempre.</div></div>
+          <div class="example-field"><div class="efield-label">Por qué nos importa hoy</div><div class="efield-value">Hoy vamos a entender qué sucede dentro de un átomo durante una reacción nuclear. Curie tardó cuatro años en entenderlo; nosotros tenemos 45 minutos.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTILLA 6: PERSONIFICACIÓN DE CONCEPTO -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">6</div>
+      <div class="template-meta">
+        <h2>Personificación de Concepto</h2>
+        <div class="subtitle">Hacer personaje a lo abstracto · Para conceptos difíciles o poco intuitivos</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Cuando el concepto es abstracto y los estudiantes no logran "verlo" mentalmente. Funciona especialmente bien en matemáticas, física, filosofía, gramática y economía. El concepto se vuelve memorable porque tiene carácter y motivación.</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="personif-grid">
+            <div class="personif-field">
+              <div class="pf-label">El concepto se llama</div>
+              <div class="pf-box">[Nombre del concepto exactamente como aparece en el currículum]</div>
+            </div>
+            <div class="personif-field">
+              <div class="pf-label">Su personalidad es</div>
+              <div class="pf-box">[3 adjetivos que reflejen sus propiedades reales: ej. "implacable, invisible, constante"]</div>
+            </div>
+            <div class="personif-field">
+              <div class="pf-label">Su mayor problema / conflicto</div>
+              <div class="pf-box">[La confusión o error más frecuente que los estudiantes tienen sobre este concepto — eso ES el conflicto del personaje]</div>
+            </div>
+            <div class="personif-field">
+              <div class="pf-label">Lo que quiere que sepas</div>
+              <div class="pf-box">[El aprendizaje central — expresado como lo que el concepto "desea" que el estudiante comprenda]</div>
+            </div>
+            <div class="personif-field" style="grid-column: 1/-1;">
+              <div class="pf-label">Su historia de fondo (mini-narración)</div>
+              <div class="pf-box tall">[2-4 oraciones contando quién "es" este concepto, de dónde viene, qué lo define y por qué está en tu vida]</div>
+            </div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Matemáticas — El número negativo
+          </h3>
+          <div class="example-field"><div class="efield-label">Se llama</div><div class="efield-value">Negativo. El número que la gente no quiere en su cuenta bancaria pero que no puede ignorar.</div></div>
+          <div class="example-field"><div class="efield-label">Su personalidad</div><div class="efield-value">Incomprendido, exacto, necesario.</div></div>
+          <div class="example-field"><div class="efield-label">Su mayor problema</div><div class="efield-value">Todo el mundo piensa que no existe, que "menos" significa "nada." Lleva siglos siendo rechazado por matemáticos que no lo entendían.</div></div>
+          <div class="example-field"><div class="efield-label">Lo que quiere que sepas</div><div class="efield-value">Que soy tan real como el número 5. Que sin mí no puedes describir una deuda, una temperatura bajo cero, ni el piso de un edificio.</div></div>
+          <div class="example-field"><div class="efield-label">Historia de fondo</div><div class="efield-value">Los matemáticos griegos me negaron durante siglos. Los matemáticos árabes me toleraron pero con desconfianza. Brahmagupta, en la India del siglo VII, fue el primero en tomarme en serio. Ahora aparezco en tu estado de cuenta, en el termómetro, y en el marcador de fútbol cuando un equipo pierde.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTILLA 7: HISTORIA DE IMPACTO LOCAL -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">7</div>
+      <div class="template-meta">
+        <h2>Historia de Impacto Local</h2>
+        <div class="subtitle">Contexto guatemalteco · Para anclar el contenido en la realidad cercana al estudiante</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Cuando el contenido parece "lejano" o abstracto para los estudiantes. Conectar el aprendizaje con una historia real de Guatemala o de la comunidad cercana multiplica la relevancia percibida y la motivación intrínseca.</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="fill-field">
+            <div class="field-label">La comunidad o lugar</div>
+            <div class="field-box">[Nombre del municipio, aldea, región o lago específico de Guatemala. Mientras más local, mejor]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">El problema real que enfrentaron</div>
+            <div class="field-box tall">[Descripción concreta del desafío: ambiental, económico, social, de salud, de infraestructura — algo real y verificable]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Cómo lo resolvieron con [materia/concepto]</div>
+            <div class="field-box tall">[La solución específica que aplicaron, mostrando cómo el conocimiento que estamos aprendiendo fue la clave. Incluir quiénes participaron]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Qué podemos aprender de ellos</div>
+            <div class="field-box">[La generalización: el principio que aplica más allá de esta comunidad específica, conectado al objetivo curricular]</div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Ciencias Sociales — Economía solidaria
+          </h3>
+          <div class="example-field"><div class="efield-label">La comunidad</div><div class="efield-value">San Juan La Laguna, Sololá, orilla del Lago Atitlán.</div></div>
+          <div class="example-field"><div class="efield-label">El problema que enfrentaron</div><div class="efield-value">En los años 90, los intermediarios compraban el café de los agricultores locales a precios mínimos y lo vendían en el mercado internacional con ganancias enormes. Los productores apenas sobrevivían.</div></div>
+          <div class="example-field"><div class="efield-label">Cómo lo resolvieron</div><div class="efield-value">Veinte familias formaron una cooperativa, eliminaron al intermediario, obtuvieron certificación de comercio justo y comenzaron a exportar directamente a Europa. Sus ingresos se triplicaron en cinco años.</div></div>
+          <div class="example-field"><div class="efield-label">Qué podemos aprender</div><div class="efield-value">Que la cadena de valor determina quién se queda con el beneficio económico. Y que la organización colectiva puede redistribuir ese valor. Eso es exactamente lo que estudiaremos hoy.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANTILLA 8: CLIFFHANGER DE APERTURA -->
+  <div class="template-card">
+    <div class="template-header">
+      <div class="template-num">8</div>
+      <div class="template-meta">
+        <h2>Cliffhanger de Apertura</h2>
+        <div class="subtitle">Comenzar con tensión máxima · Los objetivos de aprendizaje embebidos en la pregunta</div>
+      </div>
+    </div>
+    <div class="template-body">
+      <div class="when-box">
+        <span class="when-label">Cuándo usar</span>
+        <p>Cuando el tema tiene el potencial de generar asombro o debate pero los estudiantes aún no lo saben. El cliffhanger hace que el conocimiento sea la única salida posible a la tensión creada. Especialmente poderoso al inicio de una unidad nueva.</p>
+      </div>
+      <div class="two-col">
+        <div class="fill-section">
+          <h3>Tu plantilla</h3>
+          <div class="fill-field">
+            <div class="field-label">La pregunta imposible (o situación sin resolver)</div>
+            <div class="field-box tall">[Una pregunta que los estudiantes NO pueden responder todavía pero que desearían poder responder. Debe ser concreta, provocadora y conectada al tema. Puede ser una situación real suspendida en el momento de mayor tensión]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Por qué importa (las apuestas)</div>
+            <div class="field-box tall">[¿Qué está en juego? ¿Qué pasará si nadie responde esta pregunta? Las apuestas deben ser reales y significativas — para el personaje de la historia O para el mundo real]</div>
+          </div>
+          <div class="fill-field">
+            <div class="field-label">Lo que necesitamos saber para responderla</div>
+            <div class="field-box">[Los objetivos de aprendizaje del día, redactados como "herramientas necesarias para resolver la tensión". Aquí aparece el contenido curricular — pero como solución a la pregunta, no como tema abstracto]</div>
+          </div>
+        </div>
+        <div class="example-section">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#D97706"/><path d="M5 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Ejemplo: Física — Velocidad y aceleración (Básicos)
+          </h3>
+          <div class="example-field"><div class="efield-label">La pregunta imposible</div><div class="efield-value">Es el 31 de agosto de 1997. El automóvil en el que viaja la princesa Diana está a punto de entrar al túnel del Alma en París. El conductor va a 105 km/h. El límite es 50. ¿Había alguna posibilidad de detenerse a tiempo si algo salía mal? ¿Cómo podemos saberlo?</div></div>
+          <div class="example-field"><div class="efield-label">Por qué importa</div><div class="efield-value">Esa pregunta fue central en la investigación judicial durante años. Los peritos la respondieron con física. La respuesta cambió el veredicto. Hoy nosotros vamos a poder responderla también.</div></div>
+          <div class="example-field"><div class="efield-label">Lo que necesitamos saber</div><div class="efield-value">Para responderla necesitamos entender: qué es la velocidad, qué es la aceleración, y cómo se calcula la distancia de frenado. Eso es exactamente lo que aprenderemos hoy.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Guatemala 2026 · Formación Docente en Pedagogía Innovadora
+</footer>
+
+<button class="print-btn" onclick="window.print()">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 6V2h10v4" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M4 12H2V7h14v5h-2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h10v6H4z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  Imprimir
+</button>
+
+</body>
+</html>

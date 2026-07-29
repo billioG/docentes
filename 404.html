@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Redirigiendo…</title>
+</head>
+<body>
+<script>
+  // Truco spa-github-pages: GitHub Pages sirve este archivo (con status 200)
+  // para cualquier ruta que no exista como archivo real. Lo usamos para
+  // resolver URLs de tenant tipo /vdf/postulacion.html — GitHub no tiene
+  // rewrites de servidor, así que el "enrutamiento" pasa por aquí.
+  //
+  // Solo reconoce páginas del módulo de reclutamiento (Fase 1 multi-tenant).
+  // Cualquier otra ruta rota cae de vuelta a postulacion.html — es un 404
+  // real, no hay nada mejor que mostrar en un sitio estático sin servidor.
+  (function () {
+    var KNOWN_PAGES = ['postulacion.html', 'evaluacion.html', 'reclutamiento.html', 'admin-login.html'];
+    var EXCLUDED_PREFIXES = ['recursos', 'supabase', 'migrations', '.github'];
+
+    var segments = location.pathname.split('/').filter(Boolean);
+    // Los slugs se guardan en minúsculas en la DB (createTenant hace
+    // .toLowerCase()); normalizar aquí para que /VDF/... también resuelva.
+    var slug = (segments[0] || '').toLowerCase();
+    var rest = segments.slice(1).join('/');
+
+    var isExcluded = EXCLUDED_PREFIXES.indexOf(slug) !== -1 || !/^[a-z0-9-]+$/.test(slug);
+    var page = KNOWN_PAGES.indexOf(rest) !== -1 ? rest : 'postulacion.html';
+
+    if (slug && !isExcluded) {
+      sessionStorage.setItem('tenantSlug', slug);
+    }
+
+    var target = '/' + page + location.search + location.hash;
+    location.replace(target);
+  })();
+</script>
+</body>
+</html>

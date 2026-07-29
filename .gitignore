@@ -1,0 +1,18 @@
+
+# Archivos temporales de ensamblaje de cursos
+course_*.js
+*.pdf
+*.py
+PLANTILLA_CURSO.js
+STEAM Animation 8s - Standalone.html
+.htaccess.txt
+
+# Herramientas locales / artefactos de máquina — no pertenecen al repo
+.claude/
+.graphifyignore
+graphify-out/
+supabase/.temp/
+Screenshot_*.png
+Lib/
+Scripts/
+BD Centros Educativos/

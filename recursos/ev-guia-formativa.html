@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía de Evaluación Formativa</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #E9A037; --color-dark: #c47d10; --color-light: #FEF3E0; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #fffbf4; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(233,160,55,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #E9A037, #c47d10); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 21px; font-weight: 700; color: var(--color-dark); margin: 40px 0 14px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); }
+  h3 { font-size: 16px; font-weight: 700; margin: 20px 0 10px; }
+  p { margin-bottom: 12px; }
+  ul, ol { padding-left: 20px; margin-bottom: 12px; }
+  li { margin-bottom: 5px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 28px; }
+  .compare-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  .compare-table th { background: var(--color); color: white; padding: 12px 14px; text-align: left; font-size: 13px; }
+  .compare-table td { padding: 11px 14px; border-bottom: 1px solid #e2e8f0; font-size: 13px; }
+  .compare-table tr:nth-child(even) td { background: var(--color-light); }
+  .strats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 20px 0; }
+  .strat-card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); border-left: 5px solid var(--color); }
+  .strat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .strat-icon { font-size: 28px; }
+  .strat-title { font-size: 15px; font-weight: 700; color: var(--color-dark); }
+  .strat-meta { font-size: 11px; color: var(--gray); margin-bottom: 8px; }
+  .strat-desc { font-size: 13px; color: #475569; }
+  .strat-steps { padding-left: 16px; margin-top: 8px; }
+  .strat-steps li { font-size: 12px; color: #475569; margin-bottom: 3px; }
+  .sbi-box { background: white; border-radius: 14px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin: 20px 0; }
+  .sbi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 16px; }
+  .sbi-item { border-radius: 10px; padding: 16px; text-align: center; }
+  .sbi-s { background: #EFF6FF; }
+  .sbi-b { background: #F0FDF4; }
+  .sbi-i { background: var(--color-light); }
+  .sbi-item .sbi-letter { font-size: 32px; font-weight: 900; display: block; margin-bottom: 6px; }
+  .sbi-s .sbi-letter { color: #1d4ed8; }
+  .sbi-b .sbi-letter { color: #15803d; }
+  .sbi-i .sbi-letter { color: var(--color-dark); }
+  .sbi-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .sbi-item p { font-size: 12px; color: #475569; margin: 0; }
+  .cycle-box { background: linear-gradient(135deg, #E9A037, #c47d10); color: white; border-radius: 14px; padding: 24px; margin: 20px 0; }
+  .cycle-box h3 { font-size: 17px; margin-bottom: 14px; }
+  .cycle-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+  .cycle-step { background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; }
+  .cycle-step .cs-num { font-size: 22px; font-weight: 900; opacity: 0.7; margin-bottom: 4px; }
+  .cycle-step h4 { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+  .cycle-step p { font-size: 12px; opacity: 0.9; }
+  .weekly-plan { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); padding: 28px; margin: 20px 0; border-top: 5px solid var(--color); }
+  .wp-table { width: 100%; border-collapse: collapse; }
+  .wp-table th { background: var(--color-light); font-size: 12px; font-weight: 700; padding: 10px 12px; text-align: left; border: 1px solid #fde68a; color: var(--color-dark); }
+  .wp-table td { border: 1px solid #e2e8f0; padding: 12px; font-size: 12px; vertical-align: top; min-height: 44px; }
+  .wp-table .day-col { background: #fffbf4; font-weight: 700; width: 90px; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .strat-card { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">Evaluación Formativa · Guía</span>
+  <div style="margin-bottom:12px;"><span style="display:flex;align-items:center;justify-content:center"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span></div>
+  <h1>Guía de Evaluación Formativa</h1>
+  <p>10 estrategias prácticas, retroalimentación efectiva y cómo usar los datos para ajustar tu enseñanza</p>
+</header>
+
+<div class="container">
+
+  <div class="intro-box">
+    <strong>La evaluación formativa NO es:</strong> una calificación pequeña, una prueba corta, ni "evaluar con más frecuencia." La evaluación formativa es cualquier práctica que te proporcione información sobre el aprendizaje del estudiante <em>mientras aún puedes hacer algo al respecto</em>. Su propósito es <strong>mejorar el aprendizaje, no medirlo.</strong>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span> Formativa vs. Sumativa: La Distinción que Cambia Todo</h2>
+  <table class="compare-table">
+    <tr><th>Dimensión</th><th>Evaluación Formativa</th><th>Evaluación Sumativa</th></tr>
+    <tr><td><strong>Propósito</strong></td><td>Mejorar el aprendizaje en curso</td><td>Certificar lo que se aprendió</td></tr>
+    <tr><td><strong>Cuándo</strong></td><td>Durante el proceso de aprendizaje</td><td>Al final de la unidad o período</td></tr>
+    <tr><td><strong>Qué hace el docente con ella</strong></td><td>Ajusta la instrucción inmediatamente</td><td>Registra una calificación</td></tr>
+    <tr><td><strong>Qué hace el estudiante con ella</strong></td><td>Identifica qué mejorar y actúa</td><td>Recibe un resultado</td></tr>
+    <tr><td><strong>Error</strong></td><td>Información valiosa para aprender</td><td>Resta puntos</td></tr>
+    <tr><td><strong>Ejemplos</strong></td><td>Exit ticket, semáforo, galería, conferencia</td><td>Examen final, proyecto entregado, bimestral</td></tr>
+    <tr><td><strong>Nota importante</strong></td><td colspan="2" style="color:var(--color-dark); font-weight:500">La misma actividad puede ser formativa o sumativa según cómo la uses. Un ensayo es formativo si usas el feedback para mejorar y sumativo si solo pones calificación.</td></tr>
+  </table>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 10 Estrategias de Evaluación Formativa</h2>
+  <div class="strats-grid">
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span><span class="strat-title">1. Exit Ticket</span></div>
+      <div class="strat-meta">3–5 min al final de clase · Individual · Cualquier nivel</div>
+      <div class="strat-desc">Pregunta de 1 a 3 ítems que los estudiantes responden al salir. Da información inmediata sobre comprensión.</div>
+      <ol class="strat-steps">
+        <li>Diseña 1–3 preguntas que capturen lo más importante de la clase.</li>
+        <li>En los últimos 5 minutos, todos responden en una hoja pequeña o post-it.</li>
+        <li>Revisa rápidamente antes de la siguiente clase. Agrupa: "comprendieron / en proceso / no comprendieron". Ajusta la siguiente clase.</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg></span><span class="strat-title">2. Semáforo de Aprendizaje</span></div>
+      <div class="strat-meta">1 min · Visual · Primaria y Básico</div>
+      <div class="strat-desc">Los estudiantes indican su nivel de comprensión con colores. Rápido y visual para el docente.</div>
+      <ol class="strat-steps">
+        <li>Asigna colores: verde (lo entendí bien), amarillo (más o menos), rojo (necesito ayuda).</li>
+        <li>En cualquier momento de la clase: "Muestren su semáforo." Pueden usar tarjetas, pulgares o levantar dedos.</li>
+        <li>Responde inmediatamente: rojo → ayuda urgente; amarillo → aclaración grupal; verde → continúa o extiende.</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span><span class="strat-title">3. Galería de Aprendizaje</span></div>
+      <div class="strat-meta">15–20 min · Colaborativo · Primaria Alta / Básico</div>
+      <div class="strat-desc">Los estudiantes exhiben su trabajo en proceso en las paredes y reciben retroalimentación visual de compañeros.</div>
+      <ol class="strat-steps">
+        <li>Los equipos pegan su trabajo en proceso (boceto, mapa, resolución) en la pared.</li>
+        <li>Todos caminan y dejan post-its con: algo que les gustó y una pregunta.</li>
+        <li>Los equipos vuelven a su trabajo con el feedback y deciden qué mejorar.</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span class="strat-title">4. Dos Estrellas y Un Deseo</span></div>
+      <div class="strat-meta">5 min · Coevaluación · Cualquier nivel</div>
+      <div class="strat-desc">Estructura simple para que los estudiantes se den retroalimentación entre sí de forma constructiva.</div>
+      <ol class="strat-steps">
+        <li>Un estudiante comparte su trabajo con un compañero.</li>
+        <li>El compañero da: 2 estrellas (qué tiene de bueno específicamente) y 1 deseo (qué mejoraría).</li>
+        <li>El creador escucha sin defenderse, luego puede preguntar para clarificar. Roles se invierten.</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span><span class="strat-title">5. Conferencia Individual</span></div>
+      <div class="strat-meta">5–7 min por estudiante · Alto impacto · Cualquier nivel</div>
+      <div class="strat-desc">Conversación 1 a 1 entre docente y estudiante sobre su trabajo. La retroalimentación más poderosa y personalizada.</div>
+      <ol class="strat-steps">
+        <li>Mientras los demás trabajan, llama a un estudiante por turno. Siéntate a su lado.</li>
+        <li>Pregunta primero: "¿Qué notas tú sobre tu trabajo?" Escucha antes de hablar.</li>
+        <li>Da una retroalimentación específica y accionable: "En esta parte veo que... una cosa que podrías probar es..."</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span><span class="strat-title">6. Pregunta Aclaradora</span></div>
+      <div class="strat-meta">2–3 min · Diagnóstico rápido · Cualquier nivel</div>
+      <div class="strat-desc">Una sola pregunta estratégica que revela si los estudiantes comprendieron el concepto más importante.</div>
+      <ol class="strat-steps">
+        <li>Diseña una pregunta que solo pueda responder correctamente quien entendió el concepto clave (no memorización, sí comprensión).</li>
+        <li>Todos responden en papel o en voz alta. Nota quiénes tienen respuestas incorrectas similares — eso revela una confusión sistémica.</li>
+        <li>Discute la respuesta incorrecta más común: "Muchos respondieron X. ¿Por qué no es X? ¿Qué faltaba entender?"</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.44-4.04zm5 0A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.44-4.04z"/></svg></span><span class="strat-title">7. Think-Pair-Share</span></div>
+      <div class="strat-meta">5–8 min · Colaborativo · Cualquier nivel</div>
+      <div class="strat-desc">Tres pasos que activan el pensamiento individual antes de compartir en grupo, dando voz a más estudiantes.</div>
+      <ol class="strat-steps">
+        <li>THINK: Haz una pregunta. Todos piensan en silencio 1–2 minutos y escriben.</li>
+        <li>PAIR: Comparte con el compañero de al lado. Comparen respuestas y lleguen a un acuerdo.</li>
+        <li>SHARE: Voluntarios (o seleccionados) comparten con el grupo. El docente consolida las ideas.</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span><span class="strat-title">8. Votación con Tarjetas</span></div>
+      <div class="strat-meta">2 min · Formativo instantáneo · Cualquier nivel</div>
+      <div class="strat-desc">Todos responden simultáneamente levantando tarjetas, eliminando el sesgo de seguir al primero que responde.</div>
+      <ol class="strat-steps">
+        <li>Cada estudiante tiene tarjetas A, B, C, D (o Verdadero/Falso). Haz una pregunta de opción múltiple.</li>
+        <li>Todos esconden su respuesta y la muestran simultáneamente a señal del docente.</li>
+        <li>El docente ve de inmediato dónde está la confusión. Pide a estudiantes de distintas respuestas que expliquen su razonamiento.</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span><span class="strat-title">9. Diario de Aprendizaje</span></div>
+      <div class="strat-meta">5 min al final · Metacognición · Primaria Alta / Básico</div>
+      <div class="strat-desc">Los estudiantes escriben reflexiones sobre su propio proceso de aprendizaje semanalmente.</div>
+      <ol class="strat-steps">
+        <li>Prompts sugeridos: "Hoy aprendí...", "Todavía tengo dudas sobre...", "Una conexión que hice fue...", "Lo que más me costó fue..."</li>
+        <li>El docente lee los diarios periódicamente y responde con comentarios escritos personalizados (no calificaciones).</li>
+        <li>Al final del período, los estudiantes leen sus entradas anteriores y reflexionan sobre su crecimiento.</li>
+      </ol>
+    </div>
+    <div class="strat-card">
+      <div class="strat-header"><span class="strat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="strat-title">10. Auto-monitoreo con Objetivo</span></div>
+      <div class="strat-meta">Continuo · Metacognición · Básico</div>
+      <div class="strat-desc">Los estudiantes establecen un objetivo de aprendizaje personal y monitorean semanalmente su progreso.</div>
+      <ol class="strat-steps">
+        <li>Al inicio de la unidad: cada estudiante escribe un objetivo personal basado en sus propias brechas identificadas.</li>
+        <li>Cada viernes: reflexionan y puntúan su avance del 1 al 4. ¿Qué evidencia tienen de su progreso?</li>
+        <li>Al final de la unidad: comparan objetivo inicial con logro real. Celebran el crecimiento y planifican el siguiente objetivo.</li>
+      </ol>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Cómo Dar Retroalimentación Efectiva: El Modelo SBI</h2>
+  <div class="sbi-box">
+    <p>El modelo SBI (Situación–Comportamiento–Impacto) transforma el feedback vago en información accionable que el estudiante puede usar para mejorar.</p>
+    <div class="sbi-grid">
+      <div class="sbi-item sbi-s">
+        <span class="sbi-letter">S</span>
+        <h4>Situación</h4>
+        <p>Describe el contexto específico. ¿Cuándo y dónde ocurrió lo que observaste?</p>
+        <p style="margin-top:8px; font-style:italic; font-size:11px;">"En tu presentación de hoy, en la parte donde explicabas el experimento del filtro de agua..."</p>
+      </div>
+      <div class="sbi-item sbi-b">
+        <span class="sbi-letter">B</span>
+        <h4>Comportamiento</h4>
+        <p>Describe exactamente qué hizo o dijo el estudiante. Sin interpretar ni juzgar — solo lo observable.</p>
+        <p style="margin-top:8px; font-style:italic; font-size:11px;">"...usaste datos específicos de tus mediciones para explicar por qué el carbón filtra mejor que la arena..."</p>
+      </div>
+      <div class="sbi-item sbi-i">
+        <span class="sbi-letter">I</span>
+        <h4>Impacto</h4>
+        <p>Explica el efecto que ese comportamiento tuvo — en ti, en la audiencia, en la comprensión del tema.</p>
+        <p style="margin-top:8px; font-style:italic; font-size:11px;">"...y eso hizo que la audiencia entendiera exactamente por qué su diseño era mejor. Muy convincente."</p>
+      </div>
+    </div>
+    <p style="margin-top:16px; font-size:13px; color:var(--gray);"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span> <strong>Feedback vago:</strong> "Buen trabajo." / "Necesitas mejorar tu presentación." <br><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span> <strong>Feedback SBI:</strong> "Cuando dijiste X (S) en la parte Y (B), el efecto fue Z (I). Una cosa a probar para la próxima vez sería..."</p>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span> Del Dato al Ajuste: Cómo Usar la Evaluación Formativa</h2>
+  <div class="cycle-box">
+    <h3>El Ciclo del Docente Reflexivo</h3>
+    <div class="cycle-steps">
+      <div class="cycle-step"><div class="cs-num">1</div><h4>Recopilar</h4><p>Usar una estrategia formativa para obtener datos sobre la comprensión actual de los estudiantes.</p></div>
+      <div class="cycle-step"><div class="cs-num">2</div><h4>Analizar</h4><p>Identificar patrones: ¿qué no entendieron la mayoría? ¿Quiénes necesitan más apoyo? ¿Quiénes están listos para avanzar?</p></div>
+      <div class="cycle-step"><div class="cs-num">3</div><h4>Decidir</h4><p>¿Reviso el concepto con todos? ¿Intervengo solo con quienes lo necesitan? ¿Cambio la estrategia de enseñanza?</p></div>
+      <div class="cycle-step"><div class="cs-num">4</div><h4>Actuar</h4><p>Implementar el ajuste en la siguiente clase o en el mismo momento. Medir de nuevo. El ciclo continúa.</p></div>
+    </div>
+  </div>
+
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span> Plan de Evaluación Formativa Semanal</h2>
+  <div class="weekly-plan">
+    <p style="margin-bottom:16px; font-size:13px; color:var(--gray);">Plantilla para planificar qué estrategia formativa usarás cada día de la semana. Una por día es suficiente.</p>
+    <table class="wp-table">
+      <tr><th>Día</th><th>Estrategia formativa</th><th>¿Qué quiero saber?</th><th>¿Cómo lo usaré para ajustar?</th></tr>
+      <tr><td class="day-col">Lunes</td><td></td><td></td><td></td></tr>
+      <tr><td class="day-col">Martes</td><td></td><td></td><td></td></tr>
+      <tr><td class="day-col">Miércoles</td><td></td><td></td><td></td></tr>
+      <tr><td class="day-col">Jueves</td><td></td><td></td><td></td></tr>
+      <tr><td class="day-col">Viernes</td><td></td><td></td><td></td></tr>
+    </table>
+    <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div>
+        <p style="font-size:12px; font-weight:700; color:var(--color-dark); margin-bottom:6px;">Al final de la semana, reflexiona:</p>
+        <p style="font-size:12px; color:var(--gray);">¿Qué aprendiste sobre el aprendizaje de tus estudiantes esta semana que no sabías el lunes?</p>
+      </div>
+      <div>
+        <p style="font-size:12px; font-weight:700; color:var(--color-dark); margin-bottom:6px;">Ajuste para la siguiente semana:</p>
+        <p style="font-size:12px; color:var(--gray);">¿Qué cambiarás en tu instrucción la próxima semana basado en lo que observaste?</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <strong>Guatemala 2026</strong><br>
+  Módulo Evaluación Formativa · Guía de Estrategias
+</footer>
+</body>
+</html>

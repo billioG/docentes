@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infografía Think-Make-Improve – Formación Docente</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #07B0E4; --think: #3B82F6; --make: #22C55E; --improve: #F97316; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f0f9ff; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(7,176,228,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #07B0E4, #0590BB); color: white; padding: 40px 48px; text-align: center; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 34px; font-weight: 900; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .page { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+  .cycle-title { text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #64748b; margin-bottom: 8px; }
+  .cycle-subtitle { text-align: center; font-size: 26px; font-weight: 900; color: var(--text); margin-bottom: 40px; }
+  /* Arrow flow */
+  .tmi-flow { display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr; gap: 0; align-items: center; margin-bottom: 48px; }
+  .arrow { text-align: center; font-size: 28px; color: #94a3b8; }
+  .phase-block { border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+  .phase-header { padding: 28px 24px 20px; text-align: center; }
+  .phase-header .emoji { font-size: 52px; display: block; margin-bottom: 12px; }
+  .phase-header h2 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: white; }
+  .phase-header p { font-size: 14px; color: rgba(255,255,255,0.9); margin-top: 6px; }
+  .think .phase-header { background: linear-gradient(135deg, #3B82F6, #1d4ed8); }
+  .make .phase-header { background: linear-gradient(135deg, #22C55E, #15803d); }
+  .improve .phase-header { background: linear-gradient(135deg, #F97316, #c2410c); }
+  .phase-body { background: white; padding: 20px; }
+  .phase-body h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .think .phase-body h4 { color: #3B82F6; }
+  .make .phase-body h4 { color: #22C55E; }
+  .improve .phase-body h4 { color: #F97316; }
+  .q-list { list-style: none; padding: 0; margin-bottom: 14px; }
+  .q-list li { font-size: 13px; padding: 6px 0; border-bottom: 1px solid #f1f5f9; display: flex; gap: 8px; }
+  .q-list li:last-child { border-bottom: none; }
+  .q-list li::before { content: "→"; font-weight: 700; flex-shrink: 0; }
+  .think .q-list li::before { color: #3B82F6; }
+  .make .q-list li::before { color: #22C55E; }
+  .improve .q-list li::before { color: #F97316; }
+  .student-box { border-radius: 10px; padding: 12px 14px; }
+  .think .student-box { background: #EFF6FF; }
+  .make .student-box { background: #F0FDF4; }
+  .improve .student-box { background: #FFF7ED; }
+  .student-box p { font-size: 12px; margin: 0; }
+  /* 6Cs Section */
+  .sixc-section { background: white; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 36px; margin-bottom: 40px; }
+  .sixc-title { text-align: center; font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+  .sixc-sub { text-align: center; font-size: 14px; color: #64748b; margin-bottom: 28px; }
+  .sixc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .sixc-card { border-radius: 14px; padding: 20px; text-align: center; }
+  .sixc-card .icon { font-size: 32px; margin-bottom: 10px; }
+  .sixc-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .sixc-card p { font-size: 12px; color: #475569; }
+  .c1 { background: #FFF1F2; } .c1 h3 { color: #be123c; }
+  .c2 { background: #F0FDF4; } .c2 h3 { color: #15803d; }
+  .c3 { background: #EFF6FF; } .c3 h3 { color: #1d4ed8; }
+  .c4 { background: #FFF7ED; } .c4 h3 { color: #c2410c; }
+  .c5 { background: #FDF4FF; } .c5 h3 { color: #7e22ce; }
+  .c6 { background: #F0F9FF; } .c6 h3 { color: #0369a1; }
+  /* Examples */
+  .example-section { margin-bottom: 40px; }
+  .example-title { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 24px; }
+  .example-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+  .example-card { background: white; border-radius: 14px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); }
+  .example-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+  .example-row { margin-bottom: 10px; }
+  .ex-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .ex-think { color: #3B82F6; }
+  .ex-make { color: #22C55E; }
+  .ex-improve { color: #F97316; }
+  .example-row p { font-size: 12px; color: #475569; margin: 3px 0 0; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; }
+    .phase-block { box-shadow: none; border: 2px solid #e2e8f0; break-inside: avoid; }
+    .sixc-section { box-shadow: none; border: 1px solid #e2e8f0; }
+    .tmi-flow { font-size: 12px; }
+    footer { margin-top: 20px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">STEAM · Metodología</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div>
+  <h1>Infografía: Think · Make · Improve</h1>
+  <p>El ciclo de ingeniería y diseño que transforma tu aula en un laboratorio de innovación</p>
+</header>
+
+<div class="page">
+  <p class="cycle-title">El ciclo central del aprendizaje STEAM</p>
+  <p class="cycle-subtitle">Think → Make → Improve → Think → Make → Improve → ∞</p>
+
+  <div class="tmi-flow">
+    <!-- THINK -->
+    <div class="phase-block think">
+      <div class="phase-header">
+        <span class="emoji"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14"/></svg></span>
+        <h2>THINK</h2>
+        <p>Pensar · Planificar · Investigar</p>
+      </div>
+      <div class="phase-body">
+        <h4>Preguntas del docente</h4>
+        <ul class="q-list">
+          <li>¿Qué sabemos ya sobre este problema?</li>
+          <li>¿Qué necesitamos descubrir primero?</li>
+          <li>¿Cómo podría lucir una solución?</li>
+          <li>¿Qué materiales tenemos disponibles?</li>
+          <li>¿Quién se verá afectado por nuestra solución?</li>
+        </ul>
+        <h4>El estudiante hace:</h4>
+        <div class="student-box">
+          <p><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Investiga, dibuja diseños, hace predicciones, crea un plan de acción, define criterios de éxito, discute con el equipo, se pregunta "¿y si...?"</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- MAKE -->
+    <div class="phase-block make">
+      <div class="phase-header">
+        <span class="emoji"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+        <h2>MAKE</h2>
+        <p>Construir · Crear · Prototipar</p>
+      </div>
+      <div class="phase-body">
+        <h4>Preguntas del docente</h4>
+        <ul class="q-list">
+          <li>¿Cómo va el plan comparado con la realidad?</li>
+          <li>¿Qué está funcionando bien hasta ahora?</li>
+          <li>¿Qué obstáculos están enfrentando?</li>
+          <li>¿Cómo están documentando el proceso?</li>
+          <li>¿Qué harían diferente si empezaran de nuevo?</li>
+        </ul>
+        <h4>El estudiante hace:</h4>
+        <div class="student-box">
+          <p><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Construye, prueba, mide, toma fotos, registra en bitácora, colabora con el equipo, resuelve problemas que surgen, presenta versión 1 a compañeros.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">→</div>
+
+    <!-- IMPROVE -->
+    <div class="phase-block improve">
+      <div class="phase-header">
+        <span class="emoji"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
+        <h2>IMPROVE</h2>
+        <p>Mejorar · Iterar · Reflexionar</p>
+      </div>
+      <div class="phase-body">
+        <h4>Preguntas del docente</h4>
+        <ul class="q-list">
+          <li>¿Qué datos tienen del primer prototipo?</li>
+          <li>¿Qué les dijeron los que lo probaron?</li>
+          <li>¿Qué cambiarían primero? ¿Por qué ese?</li>
+          <li>¿Cómo sabrán si la mejora funcionó?</li>
+          <li>¿Qué aprendieron sobre su proceso de pensar?</li>
+        </ul>
+        <h4>El estudiante hace:</h4>
+        <div class="student-box">
+          <p><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Analiza retroalimentación, identifica fallas, propone cambios específicos, modifica el prototipo, vuelve a probar, compara versiones, reflexiona sobre el aprendizaje.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6Cs -->
+  <div class="sixc-section">
+    <p class="sixc-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Conexión con las 6 Cs de Fullan</p>
+    <p class="sixc-sub">El ciclo TMI desarrolla naturalmente estas competencias del siglo XXI en cada vuelta del ciclo</p>
+    <div class="sixc-grid">
+      <div class="sixc-card c1">
+        <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#be123c" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Carácter</h3>
+        <p>La perseverancia ante el fracaso del primer prototipo construye resiliencia y responsabilidad.</p>
+      </div>
+      <div class="sixc-card c2">
+        <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <h3>Ciudadanía</h3>
+        <p>Los proyectos parten de problemas reales de la comunidad guatemalteca, formando ciudadanos activos.</p>
+      </div>
+      <div class="sixc-card c3">
+        <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Colaboración</h3>
+        <p>MAKE requiere trabajo genuino en equipo donde cada rol importa para que el prototipo funcione.</p>
+      </div>
+      <div class="sixc-card c4">
+        <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h3>Comunicación</h3>
+        <p>La presentación del prototipo y la solicitud de retroalimentación desarrollan comunicación efectiva.</p>
+      </div>
+      <div class="sixc-card c5">
+        <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7e22ce" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></div>
+        <h3>Creatividad</h3>
+        <p>IMPROVE exige generar nuevas ideas y combinaciones que no existían en la versión original.</p>
+      </div>
+      <div class="sixc-card c6">
+        <div class="icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0369a1" stroke-width="2"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.46 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-1.14"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.46 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-1.14"/></svg></div>
+        <h3>Pensamiento Crítico</h3>
+        <p>THINK activa el análisis de evidencia, la formulación de hipótesis y la toma de decisiones basada en datos.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ejemplos guatemaltecos -->
+  <div class="example-section">
+    <p class="example-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> El Ciclo TMI en 3 Contextos Guatemaltecos</p>
+    <div class="example-grid">
+      <div class="example-card">
+        <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> Agua Limpia en Aldea</h4>
+        <div class="example-row">
+          <span class="ex-label ex-think">THINK</span>
+          <p>¿Qué contaminantes tiene el agua del río? ¿Qué materiales de la comunidad pueden filtrarla?</p>
+        </div>
+        <div class="example-row">
+          <span class="ex-label ex-make">MAKE</span>
+          <p>Construyen filtros con arena, piedras y carbón vegetal. Prueban con agua del riachuelo.</p>
+        </div>
+        <div class="example-row">
+          <span class="ex-label ex-improve">IMPROVE</span>
+          <p>El agua salió turbia aún. Añaden algodón y duplican la capa de carbón. Vuelven a probar.</p>
+        </div>
+      </div>
+      <div class="example-card">
+        <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M12 22V12M12 12C12 7 7 4 2 4s0 8 10 8M12 12c0-5 5-8 10-8s0 8-10 8"/></svg> Plagas en el Cultivo</h4>
+        <div class="example-row">
+          <span class="ex-label ex-think">THINK</span>
+          <p>¿Qué insects dañan la milpa? ¿Qué plantas repelen plagas naturalmente en Guatemala?</p>
+        </div>
+        <div class="example-row">
+          <span class="ex-label ex-make">MAKE</span>
+          <p>Siembran albahaca y marigold junto a la milpa. Documentan qué pasa con las plagas.</p>
+        </div>
+        <div class="example-row">
+          <span class="ex-label ex-improve">IMPROVE</span>
+          <p>Las plagas bajaron en un sector. Amplían el área con plantas repelentes y comparten con abuelos agricultores.</p>
+        </div>
+      </div>
+      <div class="example-card">
+        <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F97316" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg> Basura en el Mercado</h4>
+        <div class="example-row">
+          <span class="ex-label ex-think">THINK</span>
+          <p>¿Cuánta basura produce el mercado local? ¿Qué porcentaje es reciclable o compostable?</p>
+        </div>
+        <div class="example-row">
+          <span class="ex-label ex-make">MAKE</span>
+          <p>Crean recipientes de clasificación con cajas de madera y afiches informativos para los locales.</p>
+        </div>
+        <div class="example-row">
+          <span class="ex-label ex-improve">IMPROVE</span>
+          <p>Los vendedores mezclaban las bolsas. Añaden códigos de color y piden a un estudiante por turno que oriente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nota pedagógica -->
+  <div style="background: linear-gradient(135deg, #07B0E4, #0590BB); border-radius: 16px; padding: 28px 32px; color: white; margin-bottom: 40px;">
+    <h3 style="font-size:18px; margin-bottom:12px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Nota Pedagógica Clave</h3>
+    <p style="opacity:0.95; font-size:14px; margin-bottom:10px;">El <strong>fracaso en MAKE no es un error pedagógico — es el objetivo.</strong> Cuando el prototipo no funciona, los estudiantes tienen datos reales para el ciclo IMPROVE. Un proyecto donde todo sale bien a la primera raramente produce aprendizaje profundo.</p>
+    <p style="opacity:0.95; font-size:14px;">Tu rol como docente cambia en cada fase: en <strong>THINK</strong> eres guía de investigación; en <strong>MAKE</strong> eres facilitador que resiste dar las respuestas; en <strong>IMPROVE</strong> eres coach que hace preguntas que activan el análisis.</p>
+  </div>
+
+</div>
+<footer>
+  <strong>Guatemala 2026</strong><br>
+  Módulo STEAM · Infografía Think-Make-Improve
+</footer>
+</body>
+</html>

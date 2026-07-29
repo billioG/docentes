@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de 30 Actividades STEAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #07B0E4; --color-dark: #0590BB; --color-light: #E6F7FD; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fafc; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(7,176,228,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #07B0E4, #0590BB); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 20px; font-weight: 700; color: var(--color-dark); margin: 36px 0 16px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); display: flex; align-items: center; gap: 10px; }
+  .level-tabs { display: flex; gap: 12px; margin-bottom: 28px; flex-wrap: wrap; }
+  .level-tag { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .tag-primlow { background: #dbeafe; color: #1e40af; }
+  .tag-primhigh { background: #d1fae5; color: #065f46; }
+  .tag-bas { background: #ede9fe; color: #4c1d95; }
+  .acts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+  .act-card { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); overflow: hidden; border-top: 4px solid var(--color); }
+  .act-card.primlow { border-top-color: #3b82f6; }
+  .act-card.primhigh { border-top-color: #10b981; }
+  .act-card.bas { border-top-color: #8b5cf6; }
+  .act-head { padding: 14px 16px 10px; }
+  .act-num { font-size: 11px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+  .act-title { font-size: 15px; font-weight: 700; color: var(--text); margin: 4px 0; }
+  .act-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .act-tag { font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .tl { background: #fef9c3; color: #713f12; }
+  .mat { background: #f0fdf4; color: #14532d; }
+  .cur { background: #eff6ff; color: #1e3a8a; }
+  .act-body { padding: 0 16px 14px; }
+  .act-body p { font-size: 13px; color: var(--gray); margin: 6px 0 8px; }
+  .act-steps { padding-left: 16px; }
+  .act-steps li { font-size: 12px; margin-bottom: 4px; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; }
+    .act-card { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+    .acts-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">STEAM · Banco de Actividades</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h.01"/><path d="M9 3h6v10H9z"/><path d="m13 3 2 2-4 4-2-2z"/></svg></div>
+  <h1>Banco de 30 Actividades STEAM</h1>
+  <p>Actividades organizadas por nivel con materiales del contexto guatemalteco — sin tecnología costosa</p>
+</header>
+
+<div class="container">
+  <div class="level-tabs">
+    <span class="level-tag tag-primlow"><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#3b82f6" stroke="none"/></svg> Primaria Baja (1.º–3.º)</span>
+    <span class="level-tag tag-primhigh"><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#10b981" stroke="none"/></svg> Primaria Alta (4.º–6.º)</span>
+    <span class="level-tag tag-bas"><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#8b5cf6" stroke="none"/></svg> Básico (7.º–9.º)</span>
+  </div>
+
+  <h2><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#3b82f6" stroke="none"/></svg> Primaria Baja — Actividades 1 a 10</h2>
+  <div class="acts-grid">
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 01</div>
+        <div class="act-title">🌈 Arco Iris de Tela</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 45 min</span>
+          <span class="act-tag mat">Telas, agua, luz solar</span>
+          <span class="act-tag cur">CN · Arte</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Explorar cómo la luz se separa en colores usando tejidos coloridos mayas y agua.</p>
+        <ol class="act-steps">
+          <li>Colgar telas húmedas de colores al sol y observar los reflejos en el suelo.</li>
+          <li>Dibujar los colores que ven y ponerles nombre.</li>
+          <li>Intentar reproducir el arco iris con un vaso de agua y papel blanco.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 02</div>
+        <div class="act-title">🌽 Semáforo de Semillas</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Semillas variadas, cartulina</span>
+          <span class="act-tag cur">CN · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Clasificar semillas locales (maíz, frijol, ayote, ajonjolí) por color, tamaño y textura y representar datos.</p>
+        <ol class="act-steps">
+          <li>Explorar libremente las semillas: ¿cómo se parecen y diferencian?</li>
+          <li>Crear reglas de clasificación propias y agruparlas.</li>
+          <li>Hacer una gráfica con los grupos en cartulina grande.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 03</div>
+        <div class="act-title">🏗️ Torre de Papel Más Alta</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 30 min</span>
+          <span class="act-tag mat">20 hojas papel, cinta, tijeras</span>
+          <span class="act-tag cur">Ingeniería · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Construir la torre más alta posible usando solo papel y cinta adhesiva.</p>
+        <ol class="act-steps">
+          <li>Planificar en papel cómo será la torre (dibujo de diseño).</li>
+          <li>Construir en 15 minutos usando solo los materiales dados.</li>
+          <li>Medir todas las torres, comparar y analizar: ¿qué forma es más estable?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 04</div>
+        <div class="act-title">🌊 ¿Flota o Se Hunde?</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 45 min</span>
+          <span class="act-tag mat">Palangana, objetos del aula</span>
+          <span class="act-tag cur">CN · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Predecir, experimentar y registrar qué objetos flotan y cuáles se hunden.</p>
+        <ol class="act-steps">
+          <li>Recoger 10 objetos del salón. Predecir y registrar en tabla.</li>
+          <li>Probar cada objeto en la palangana y marcar el resultado real.</li>
+          <li>Comparar predicciones con resultados: ¿qué nos sorprendió? ¿por qué flota?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 05</div>
+        <div class="act-title">🌿 Estampado Natural</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 50 min</span>
+          <span class="act-tag mat">Hojas, flores, tempera, papel</span>
+          <span class="act-tag cur">Arte · CN · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Explorar simetría y patrones usando hojas y flores del jardín escolar para hacer estampados.</p>
+        <ol class="act-steps">
+          <li>Recolectar hojas de distintas formas del jardín. Observar sus venas y bordes.</li>
+          <li>Entintar hojas y estampar en papel. Buscar patrones y simetría.</li>
+          <li>Clasificar estampados por tipo de hoja y comparar similitudes con plantas de la milpa.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 06</div>
+        <div class="act-title">🧱 Puente de Cartón</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Cajas de cartón, cinta, monedas</span>
+          <span class="act-tag cur">Ingeniería · Mat · Arte</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Construir un puente de cartón que sostenga el mayor peso posible con una brecha de 20 cm.</p>
+        <ol class="act-steps">
+          <li>Investigar: ¿qué formas hacen al cartón más resistente? Probar doblando.</li>
+          <li>Construir el puente y probar añadiendo monedas una a una hasta que colapse.</li>
+          <li>Registrar el peso máximo, comparar diseños y proponer mejoras.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 07</div>
+        <div class="act-title">🌋 Volcán de Barro Mejorado</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 90 min</span>
+          <span class="act-tag mat">Barro, bicarbonato, vinagre, colorante</span>
+          <span class="act-tag cur">CN · Arte · Química básica</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Construir un volcán de barro y comparar qué mezclas hacen la reacción más espectacular.</p>
+        <ol class="act-steps">
+          <li>Modelar el volcán con barro local. Decorar con detalles geográficos del altiplano.</li>
+          <li>Probar 3 mezclas distintas (vinagre solo, con jabón, con colorante) y observar diferencias.</li>
+          <li>Registrar cuál produjo más "lava" y durante más tiempo. ¿Por qué? Investigar la reacción.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 08</div>
+        <div class="act-title">🌱 ¿Qué necesita crecer?</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 3 semanas</span>
+          <span class="act-tag mat">Semillas frijol, vasos, tierra, algodón</span>
+          <span class="act-tag cur">CN · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Experimento longitudinal: germinar frijoles en distintas condiciones y medir el efecto.</p>
+        <ol class="act-steps">
+          <li>Germinar 4 frijoles: con luz, sin luz, con agua, sin agua. Predecir qué pasará.</li>
+          <li>Observar y medir cada 3 días. Registrar en tabla y dibujar el cambio.</li>
+          <li>Comparar resultados: ¿cuál creció más? ¿Cuál murió? ¿Por qué creen que pasó eso?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 09</div>
+        <div class="act-title">📏 Mido con mi Cuerpo</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 45 min</span>
+          <span class="act-tag mat">Solo el cuerpo, papel, lápiz</span>
+          <span class="act-tag cur">Matemáticas · Historia</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Explorar las medidas no convencionales y su relación con las medidas mayas tradicionales.</p>
+        <ol class="act-steps">
+          <li>Medir objetos del salón usando la palma, el codo ("codo" maya = cuarta) y el pie.</li>
+          <li>Comparar medidas entre compañeros: ¿por qué son distintas? ¿Qué problema causa esto?</li>
+          <li>Inventar una "unidad estándar" del salón y volver a medir. Conectar con origen del metro.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primlow">
+      <div class="act-head">
+        <div class="act-num">Actividad 10</div>
+        <div class="act-title">🎨 Colores de la Tierra</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Barro de colores, agua, papel grueso</span>
+          <span class="act-tag cur">Arte · CN · Cultura Maya</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Crear pinturas con pigmentos naturales de barro y explorar qué colores produce la tierra local.</p>
+        <ol class="act-steps">
+          <li>Recolectar distintos tipos de barro (rojo, amarillo, gris). Moler y mezclar con agua.</li>
+          <li>Pintar con los pigmentos naturales. Comparar tonos de distintos lugares.</li>
+          <li>Investigar: ¿los mayas usaban pigmentos naturales? ¿Cuáles? Comparar con los encontrados.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <h2><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#10b981" stroke="none"/></svg> Primaria Alta — Actividades 11 a 20</h2>
+  <div class="acts-grid">
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 11</div>
+        <div class="act-title">♻️ Clasificador de Plásticos</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Envases PET, agua, baldes</span>
+          <span class="act-tag cur">CN · Matemáticas · Ed. Ambiental</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Clasificar plásticos por tipo usando el código de reciclaje y diseñar un sistema de separación para la escuela.</p>
+        <ol class="act-steps">
+          <li>Examinar envases y encontrar el triángulo de reciclaje. Registrar los números encontrados.</li>
+          <li>Investigar qué significa cada número (¿cuál es más reciclable en Guatemala?).</li>
+          <li>Proponer y dibujar un sistema de clasificación para el patio escolar con criterios claros.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 12</div>
+        <div class="act-title">⚡ Circuito de Limón</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 45 min</span>
+          <span class="act-tag mat">Limones, clavos de zinc, cable, LED</span>
+          <span class="act-tag cur">Física · CN · Ingeniería</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Generar electricidad con frutos ácidos y encender un LED, explorando la química de las baterías.</p>
+        <ol class="act-steps">
+          <li>Conectar 1 limón con clavo de zinc y cable de cobre. Intentar encender el LED.</li>
+          <li>Conectar 3 limones en serie. ¿Ahora sí enciende? ¿Por qué?</li>
+          <li>Probar con otros frutos ácidos locales (naranja, tamarindo). Comparar cuál produce más corriente.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 13</div>
+        <div class="act-title">🗺️ Escala y Distancias Reales</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 90 min</span>
+          <span class="act-tag mat">Cinta métrica, cartulina, regla</span>
+          <span class="act-tag cur">Matemáticas · Sociales · Arte</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Medir el patio de la escuela y dibujarlo a escala, aprendiendo proporciones.</p>
+        <ol class="act-steps">
+          <li>Medir el patio con cinta métrica. Registrar dimensiones de todos los elementos.</li>
+          <li>Decidir la escala (ej. 1 m real = 1 cm en papel). Calcular las medidas en papel.</li>
+          <li>Dibujar el plano a escala, añadir leyenda y comparar con compañeros.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 14</div>
+        <div class="act-title">💧 pH del Agua de Casa</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Col morada, agua distintas fuentes</span>
+          <span class="act-tag cur">Química · CN · Salud</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Crear un indicador de pH casero con col morada y probar el agua de distintas fuentes.</p>
+        <ol class="act-steps">
+          <li>Hervir col morada y filtrar el líquido. Este es el indicador: cambia de color según el pH.</li>
+          <li>Probar con agua de grifo, lluvia, río y limón. Registrar colores obtenidos.</li>
+          <li>Ordenar de más ácido a más básico. ¿El agua que toman en casa es segura?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-head">
+        <div class="act-num">Actividad 15</div>
+        <div class="act-title">🌬️ Anemómetro Casero</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 90 min</span>
+          <span class="act-tag mat">Vasos PET, pajillas, palillo, cartón</span>
+          <span class="act-tag cur">CN · Ingeniería · Matemáticas</span>
+        </div>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Construir un anemómetro para medir la velocidad del viento y registrar datos meteorológicos.</p>
+        <ol class="act-steps">
+          <li>Construir el anemómetro: 4 vasos PET en cruz sobre palillo vertical.</li>
+          <li>Medir cuántas vueltas da en 1 minuto en distintos lugares de la escuela.</li>
+          <li>Comparar datos de distintos días y ubicaciones. ¿En qué lugar hay más viento? ¿Por qué?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 16</div>
+        <div class="act-title">🧮 Matemáticas del Mercado</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Precios reales del mercado local</span>
+          <span class="act-tag cur">Matemáticas · Sociales · Economía</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Usar datos reales de precios del mercado local para aprender porcentajes, descuentos y comparaciones.</p>
+        <ol class="act-steps">
+          <li>Pedir a estudiantes que traigan precios reales de 5 productos del mercado de su colonia.</li>
+          <li>Comparar precios entre mercados, calcular diferencias porcentuales y promedios.</li>
+          <li>Planificar la compra más económica para una "semana de almuerzo escolar" con Q50.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 17</div>
+        <div class="act-title">🎭 Teatro de Sombras Científico</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 90 min</span>
+          <span class="act-tag mat">Linterna, cartulina, tela blanca</span>
+          <span class="act-tag cur">CN · Física · Arte · Comunicación</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Crear una obra de teatro de sombras para explicar el sistema solar o el ciclo del agua.</p>
+        <ol class="act-steps">
+          <li>Elegir el tema científico. Diseñar y recortar los personajes en cartulina.</li>
+          <li>Ensayar y presentar la obra usando la linterna y una tela como pantalla.</li>
+          <li>La audiencia evalúa: ¿quedó claro el concepto científico? ¿Qué agregarían?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 18</div>
+        <div class="act-title">🌍 Erosión del Suelo</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Tierra, plantas, botellas PET, agua</span>
+          <span class="act-tag cur">CN · Geografía · Ingeniería</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Simular erosión del suelo en Guatemala y probar soluciones naturales para prevenirla.</p>
+        <ol class="act-steps">
+          <li>Crear dos "laderas" con tierra en botellas cortadas: una con plantas, una sin plantas.</li>
+          <li>Verter agua simulando lluvia fuerte. Medir cuánta tierra se "erosionó" en cada caso.</li>
+          <li>Conectar con el contexto local: ¿qué pasa en las laderas deforestadas del altiplano?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 19</div>
+        <div class="act-title">🔢 Código Maya en Papel</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Papel, marcadores, guía de numeración maya</span>
+          <span class="act-tag cur">Matemáticas · Historia Maya · Arte</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Aprender el sistema de numeración maya (vigesimal) y usarlo para resolver operaciones.</p>
+        <ol class="act-steps">
+          <li>Estudiar los tres símbolos maya: punto (1), barra (5), concha (0). Comparar con sistema decimal.</li>
+          <li>Escribir los números del 1 al 20 en numeración maya. Resolver 5 sumas usando el sistema.</li>
+          <li>Crear una "calculadora maya" en cartulina para compartir con estudiantes más pequeños.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card primhigh">
+      <div class="act-head">
+        <div class="act-num">Actividad 20</div>
+        <div class="act-title">📊 Encuesta de Hábitos</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 2 días</span>
+          <span class="act-tag mat">Papel, lápiz, regla</span>
+          <span class="act-tag cur">Matemáticas · Salud · Comunicación</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Diseñar y aplicar una encuesta sobre hábitos de la escuela y presentar resultados con gráficas.</p>
+        <ol class="act-steps">
+          <li>Diseñar encuesta de 5 preguntas sobre un tema relevante (hábitos alimenticios, uso del tiempo libre).</li>
+          <li>Aplicar la encuesta a 20 personas. Tabular resultados y crear gráficas de barras y circular.</li>
+          <li>Escribir un párrafo de conclusiones y proponer 3 acciones basadas en los datos.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <h2><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="#8b5cf6" stroke="none"/></svg> Básico — Actividades 21 a 30</h2>
+  <div class="acts-grid">
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 21</div>
+        <div class="act-title">🌿 Extracción de ADN de Fresa</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 45 min</span>
+          <span class="act-tag mat">Fresas, jabón, sal, alcohol, bolsa zip</span>
+          <span class="act-tag cur">Biología · Química</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Extraer ADN visible a simple vista de fresas usando materiales de cocina.</p>
+        <ol class="act-steps">
+          <li>Triturar fresa en bolsa zip. Agregar mezcla de agua, jabón y sal. Filtrar con tela.</li>
+          <li>Añadir alcohol frío con cuidado. Observar el ADN precipitar como hilos blancos.</li>
+          <li>Discutir: ¿toda vida tiene ADN? ¿Qué dice eso sobre la diversidad biológica de Guatemala?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 22</div>
+        <div class="act-title">⚖️ Máquina de Palancas</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Regla, lápiz, objetos con pesos</span>
+          <span class="act-tag cur">Física · Ingeniería · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Investigar los tres tipos de palancas usando una regla y objetos cotidianos.</p>
+        <ol class="act-steps">
+          <li>Construir una palanca de primer tipo (fulcro al centro). Equilibrar distintos pesos.</li>
+          <li>Mover el fulcro a distintas posiciones. Registrar cómo cambia el esfuerzo necesario.</li>
+          <li>Identificar palancas en herramientas del contexto rural guatemalteco (piocha, molcajete, tijeras).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 23</div>
+        <div class="act-title">🖥️ Algoritmo Sin Computadora</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Tarjetas, marcadores</span>
+          <span class="act-tag cur">Informática · Lógica · Comunicación</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Aprender pensamiento algorítmico creando instrucciones precisas para que un compañero las ejecute.</p>
+        <ol class="act-steps">
+          <li>Un estudiante escribe instrucciones paso a paso para hacer una tarea simple (dibujar una casa, preparar atol).</li>
+          <li>Otro estudiante sigue las instrucciones AL PIE DE LA LETRA. Identificar instrucciones ambiguas.</li>
+          <li>Revisar y mejorar el algoritmo hasta que funcione. Conectar con cómo funciona la programación.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 24</div>
+        <div class="act-title">🏙️ Ciudad del Futuro</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 2 clases</span>
+          <span class="act-tag mat">Cajas, cartón, materiales reciclados</span>
+          <span class="act-tag cur">Sociales · Ingeniería · Arte · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Diseñar y construir una ciudad guatemalteca del futuro que sea sustentable e inclusiva.</p>
+        <ol class="act-steps">
+          <li>Investigar: ¿qué problemas tiene una ciudad guatemalteca hoy? (transporte, agua, basura, acceso).</li>
+          <li>Diseñar en papel la planta de la ciudad: calles, zonas verdes, vivienda, servicios.</li>
+          <li>Construir la maqueta a escala con materiales reciclados y presentar al municipio (o simularlo).</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 25</div>
+        <div class="act-title">🔋 Energía en mi Casa</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 1 semana</span>
+          <span class="act-tag mat">Tarea en casa, recibo de luz, calculadora</span>
+          <span class="act-tag cur">Física · Matemáticas · Ed. Ambiental</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Calcular el consumo energético del hogar y proponer un plan de ahorro de energía.</p>
+        <ol class="act-steps">
+          <li>Listar todos los aparatos eléctricos de casa y su wattage aproximado.</li>
+          <li>Calcular el consumo mensual: watts × horas de uso × 30 días. Comparar con recibo.</li>
+          <li>Proponer 5 cambios concretos para reducir el consumo. Calcular el ahorro económico proyectado.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 26</div>
+        <div class="act-title">🧬 Genética con Monedas</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 45 min</span>
+          <span class="act-tag mat">Monedas, marcadores, papel</span>
+          <span class="act-tag cur">Biología · Matemáticas</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Simular la herencia genética usando monedas para entender probabilidades y cruces de Mendel.</p>
+        <ol class="act-steps">
+          <li>Asignar a cada moneda un alelo (cara=dominante, cruz=recesivo). Crear cuadros de Punnett.</li>
+          <li>Lanzar monedas 40 veces simulando cruzamientos. Registrar resultados reales.</li>
+          <li>Comparar los ratios obtenidos con los que predice la teoría. ¿Por qué difieren?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 27</div>
+        <div class="act-title">📰 Fake News: Detectar Desinformación</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 60 min</span>
+          <span class="act-tag mat">Noticias impresas o leídas en clase</span>
+          <span class="act-tag cur">Comunicación · Pensamiento Crítico · TIC</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Desarrollar habilidades de verificación de información aplicadas al contexto guatemalteco.</p>
+        <ol class="act-steps">
+          <li>Leer 3 noticias: 1 verdadera, 1 falsa, 1 sesgada. ¿Pueden identificar cuál es cuál?</li>
+          <li>Aprender 5 estrategias de verificación: buscar fuente original, contrastar, verificar imagen, revisar fecha, buscar quién se beneficia.</li>
+          <li>Aplicar las estrategias a las noticias leídas. ¿Cambió su opinión inicial? ¿Por qué?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 28</div>
+        <div class="act-title">🌡️ Isla de Calor Urbano</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 2 clases</span>
+          <span class="act-tag mat">Termómetros simples, papel, sol</span>
+          <span class="act-tag cur">CN · Física · Sociales · Ed. Ambiental</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Medir la temperatura en distintos puntos de la escuela y comunidad para mapear islas de calor locales.</p>
+        <ol class="act-steps">
+          <li>Medir temperatura en 8 puntos distintos (bajo árbol, en asfalto, en tierra, en techo).</li>
+          <li>Crear un mapa de calor de la escuela. Identificar el punto más caliente y el más frío.</li>
+          <li>Proponer y presentar soluciones: más árboles, techos blancos, áreas verdes. Calcular cuánto árbol se necesita.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 29</div>
+        <div class="act-title">💰 Presupuesto de Negocio</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 2 clases</span>
+          <span class="act-tag mat">Papel cuadriculado, calculadora, datos reales</span>
+          <span class="act-tag cur">Matemáticas · Economía · Comunicación</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Planificar el presupuesto de un micro-negocio escolar real usando matemáticas financieras básicas.</p>
+        <ol class="act-steps">
+          <li>Elegir un negocio simple (venta de atol, artesanía, servicio). Calcular costos de materiales.</li>
+          <li>Determinar precio de venta, calcular punto de equilibrio y ganancia proyectada.</li>
+          <li>Presentar el plan de negocio a un "banco" de compañeros que decide si "invertirían". Defender las decisiones financieras.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="act-card bas">
+      <div class="act-head">
+        <div class="act-num">Actividad 30</div>
+        <div class="act-title">🏗️ Estructura Antisísmica</div>
+        <div class="act-meta">
+          <span class="act-tag tl"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> 90 min</span>
+          <span class="act-tag mat">Palillos, malvavisco o barro, regla</span>
+          <span class="act-tag cur">Física · Ingeniería · Sociales</span>
+        </div>
+      </div>
+      <div class="act-body">
+        <p>Diseñar y construir una estructura resistente a los sismos, conectando con la sismicidad de Guatemala.</p>
+        <ol class="act-steps">
+          <li>Investigar: ¿por qué Guatemala es tan sísmica? Identificar las fallas geológicas principales.</li>
+          <li>Construir estructuras de palillos y barro. Simular sismo agitando la base. ¿Cuál sobrevive?</li>
+          <li>Analizar qué formas geométricas y materiales dan más resistencia. Conectar con construcción en comunidades indígenas.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  Guatemala 2026<br>
+  Módulo STEAM · Banco de 30 Actividades
+</footer>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formatos de Planificación ABP – Formación Docente</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #2BA848; --color-dark: #1e7a32; --color-light: #E8F5E9; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fdf8; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(43,168,72,0.4); z-index: 999; display:inline-flex;align-items:center;gap:8px; }
+  header { background: linear-gradient(135deg, #2BA848, #1e7a32); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 22px; font-weight: 700; color: var(--color-dark); margin: 40px 0 8px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); display:flex; align-items:center; gap:8px; }
+  .format-desc { font-size: 14px; color: var(--gray); margin-bottom: 20px; font-style: italic; }
+  .form-sheet { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 48px; overflow: hidden; border-top: 6px solid var(--color); }
+  .sheet-header { background: var(--color-light); padding: 18px 28px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d1fae5; }
+  .sheet-header h3 { font-size: 17px; font-weight: 700; color: var(--color-dark); display:flex; align-items:center; gap:8px; }
+  .sheet-header span { font-size: 12px; color: var(--gray); font-style: italic; }
+  .sheet-body { padding: 28px; }
+  .field-row { margin-bottom: 18px; }
+  .field-row label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-dark); margin-bottom: 6px; }
+  .input-line { border-bottom: 1.5px solid #cbd5e1; min-height: 32px; width: 100%; padding-bottom: 4px; }
+  .input-line.tall { min-height: 56px; }
+  .input-line.xtall { min-height: 80px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .divider { height: 1px; background: #e2e8f0; margin: 24px 0; }
+  .section-label { font-size: 13px; font-weight: 700; color: var(--color); margin: 20px 0 12px; text-transform: uppercase; letter-spacing: 0.5px; display:flex; align-items:center; gap:6px; }
+  /* Cronograma table */
+  .crono-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .crono-table th { background: var(--color); color: white; padding: 10px 12px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .crono-table td { border: 1px solid #e2e8f0; padding: 10px 12px; min-height: 48px; vertical-align: top; }
+  .crono-table .week-col { background: #f0fdf4; font-weight: 700; color: var(--color-dark); width: 80px; }
+  .crono-table tr:hover td:not(.week-col) { background: #fafffe; }
+  /* Bitacora */
+  .bitacora-block { border: 1.5px solid #d1fae5; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  .bit-date { display: flex; gap: 16px; margin-bottom: 12px; }
+  .bit-date .field-row { flex: 1; margin: 0; }
+  .team-box { background: #f0fdf4; border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  .team-box h4 { font-size: 13px; font-weight: 700; color: var(--color-dark); margin-bottom: 10px; display:flex; align-items:center; gap:6px; }
+  .roles-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .role-item label { font-size: 11px; color: var(--gray); display: block; }
+  /* Reflexion */
+  .scale-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .scale-label { font-size: 13px; flex: 1; }
+  .scale-circles { display: flex; gap: 8px; }
+  .circle-opt { width: 28px; height: 28px; border-radius: 50%; border: 2px solid #d1fae5; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--gray); }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; }
+    .form-sheet { box-shadow: none; break-inside: avoid; page-break-after: always; }
+    .form-sheet:last-child { page-break-after: avoid; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">ABP · Planificación</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+  <h1>Formatos de Planificación ABP</h1>
+  <p>Cuatro plantillas listas para imprimir y usar en el diseño e implementación de tus proyectos ABP</p>
+</header>
+
+<div class="container">
+
+  <!-- FORMATO 1 -->
+  <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Formato 1: Diseño del Proyecto</h2>
+  <p class="format-desc">Completa este formato antes de implementar el proyecto. Úsalo también para comunicar el proyecto a padres y directores.</p>
+  <div class="form-sheet">
+    <div class="sheet-header">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Ficha de Diseño del Proyecto ABP</h3>
+      <span>Formación Docente · Guatemala 2026</span>
+    </div>
+    <div class="sheet-body">
+      <div class="two-col">
+        <div class="field-row"><label>Nombre del Proyecto</label><div class="input-line tall"></div></div>
+        <div class="field-row"><label>Pregunta Motriz</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="three-col">
+        <div class="field-row"><label>Grado / Nivel</label><div class="input-line"></div></div>
+        <div class="field-row"><label>Área(s) Curricular(es)</label><div class="input-line"></div></div>
+        <div class="field-row"><label>Duración Total</label><div class="input-line"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Contexto y Problema Real</div>
+      <div class="field-row"><label>¿Qué problema o necesidad real de la comunidad aborda este proyecto?</label><div class="input-line xtall"></div></div>
+      <div class="two-col">
+        <div class="field-row"><label>¿Quién se beneficiará de la solución?</label><div class="input-line tall"></div></div>
+        <div class="field-row"><label>¿Quiénes son los expertos / actores de la comunidad que pueden apoyar?</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Competencias y Contenidos del CNB</div>
+      <div class="three-col">
+        <div class="field-row"><label>Área 1 + competencias clave</label><div class="input-line xtall"></div></div>
+        <div class="field-row"><label>Área 2 + competencias clave</label><div class="input-line xtall"></div></div>
+        <div class="field-row"><label>Área 3 + competencias clave</label><div class="input-line xtall"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Producto Final y Presentación Pública</div>
+      <div class="two-col">
+        <div class="field-row"><label>¿Cuál es el producto final que crearán los estudiantes?</label><div class="input-line tall"></div></div>
+        <div class="field-row"><label>¿Ante quién lo presentarán? ¿Dónde y cuándo?</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Criterios de Éxito del Proyecto</div>
+      <div class="field-row"><label>¿Cómo sabrás que el proyecto fue exitoso? (desde el punto de vista del aprendizaje Y del producto)</label><div class="input-line xtall"></div></div>
+      <div class="two-col">
+        <div class="field-row"><label>Materiales y recursos necesarios</label><div class="input-line tall"></div></div>
+        <div class="field-row"><label>Posibles obstáculos y cómo los manejarás</label><div class="input-line tall"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMATO 2 -->
+  <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Formato 2: Cronograma de Fases</h2>
+  <p class="format-desc">Planifica semana a semana las actividades del docente y del estudiante. Esto facilita la gestión del tiempo y la evaluación del progreso.</p>
+  <div class="form-sheet">
+    <div class="sheet-header">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Cronograma Semanal del Proyecto ABP</h3>
+      <span>Proyecto: ___________________________________ · Grado: ____________</span>
+    </div>
+    <div class="sheet-body">
+      <table class="crono-table">
+        <tr>
+          <th>Semana / Fase</th>
+          <th>Actividades del Docente</th>
+          <th>Actividades del Estudiante</th>
+          <th>Recursos / Materiales</th>
+          <th>¿Cómo evaluaré el avance?</th>
+        </tr>
+        <tr>
+          <td class="week-col">Semana 1<br><small>Lanzamiento</small></td>
+          <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="week-col">Semana 2<br><small>Investigación</small></td>
+          <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="week-col">Semana 3<br><small>Desarrollo</small></td>
+          <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="week-col">Semana 4<br><small>Crítica y Revisión</small></td>
+          <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="week-col">Semana 5<br><small>Refinamiento</small></td>
+          <td></td><td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="week-col">Semana 6<br><small>Presentación</small></td>
+          <td></td><td></td><td></td><td></td>
+        </tr>
+      </table>
+      <div style="margin-top:20px;">
+        <div class="field-row"><label>Momentos de mini-lecciones planificadas (Just-in-Time Teaching)</label><div class="input-line tall"></div></div>
+        <div class="two-col">
+          <div class="field-row"><label>Hitos de seguimiento (fechas clave de entrega parcial)</label><div class="input-line tall"></div></div>
+          <div class="field-row"><label>Visitas, invitados o salidas de campo planificadas</label><div class="input-line tall"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMATO 3 -->
+  <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> Formato 3: Registro de Avance del Equipo (Bitácora)</h2>
+  <p class="format-desc">Para que los estudiantes lleven su propio registro del proceso. Imprimir uno por semana por equipo o crear un cuaderno de bitácora con varias copias.</p>
+  <div class="form-sheet">
+    <div class="sheet-header">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Bitácora de Equipo – Registro Semanal</h3>
+      <span>Para uso del estudiante</span>
+    </div>
+    <div class="sheet-body">
+      <div class="team-box">
+        <h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Información del Equipo</h4>
+        <div class="field-row"><label>Nombre del equipo / proyecto</label><div class="input-line"></div></div>
+        <div class="roles-list">
+          <div class="role-item"><label>Líder de proyecto</label><div class="input-line"></div></div>
+          <div class="role-item"><label>Investigador/a</label><div class="input-line"></div></div>
+          <div class="role-item"><label>Constructor/a / Creador/a</label><div class="input-line"></div></div>
+          <div class="role-item"><label>Comunicador/a</label><div class="input-line"></div></div>
+        </div>
+      </div>
+
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Sesión de esta semana</div>
+      <div class="bit-date">
+        <div class="field-row" style="flex:1"><label>Semana #</label><div class="input-line"></div></div>
+        <div class="field-row" style="flex:2"><label>Fecha</label><div class="input-line"></div></div>
+        <div class="field-row" style="flex:2"><label>Fase actual del proyecto</label><div class="input-line"></div></div>
+      </div>
+
+      <div class="field-row"><label>¿Qué teníamos planeado hacer esta semana?</label><div class="input-line xtall"></div></div>
+      <div class="field-row"><label>¿Qué hicimos realmente? (sé honesto/a)</label><div class="input-line xtall"></div></div>
+      <div class="two-col">
+        <div class="field-row"><label><span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg> ¿Qué funcionó bien esta semana?</span></label><div class="input-line xtall"></div></div>
+        <div class="field-row"><label><span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M2 12h2M20 12h2"/></svg> ¿Qué obstáculos encontramos?</span></label><div class="input-line xtall"></div></div>
+      </div>
+      <div class="field-row"><label>¿Cómo resolvimos (o planeamos resolver) los obstáculos?</label><div class="input-line tall"></div></div>
+      <div class="two-col">
+        <div class="field-row"><label><span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Tareas para la próxima semana</span></label><div class="input-line xtall"></div></div>
+        <div class="field-row"><label><span style="display:inline-flex;align-items:center;gap:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ¿Qué ayuda necesitamos del docente?</span></label><div class="input-line xtall"></div></div>
+      </div>
+
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Evaluación del Trabajo en Equipo Esta Semana</div>
+      <div class="scale-row"><span class="scale-label">Todos participamos de manera equitativa</span><div class="scale-circles"><div class="circle-opt">1</div><div class="circle-opt">2</div><div class="circle-opt">3</div><div class="circle-opt">4</div><div class="circle-opt">5</div></div></div>
+      <div class="scale-row"><span class="scale-label">Nos comunicamos bien y resolvimos conflictos</span><div class="scale-circles"><div class="circle-opt">1</div><div class="circle-opt">2</div><div class="circle-opt">3</div><div class="circle-opt">4</div><div class="circle-opt">5</div></div></div>
+      <div class="scale-row"><span class="scale-label">Avanzamos según el plan del proyecto</span><div class="scale-circles"><div class="circle-opt">1</div><div class="circle-opt">2</div><div class="circle-opt">3</div><div class="circle-opt">4</div><div class="circle-opt">5</div></div></div>
+      <div class="field-row" style="margin-top:12px"><label>Firma del líder de proyecto</label><div class="input-line"></div></div>
+    </div>
+  </div>
+
+  <!-- FORMATO 4 -->
+  <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Formato 4: Protocolo de Reflexión Final del Docente</h2>
+  <p class="format-desc">Completa este protocolo al terminar cada proyecto ABP. Con el tiempo, será tu archivo de aprendizaje docente más valioso.</p>
+  <div class="form-sheet">
+    <div class="sheet-header">
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Reflexión Final del Docente – Post-Proyecto</h3>
+      <span>Para archivo personal del docente</span>
+    </div>
+    <div class="sheet-body">
+      <div class="three-col">
+        <div class="field-row"><label>Nombre del Proyecto</label><div class="input-line"></div></div>
+        <div class="field-row"><label>Grado</label><div class="input-line"></div></div>
+        <div class="field-row"><label>Fecha de finalización</label><div class="input-line"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Fortalezas del Proyecto</div>
+      <div class="field-row"><label>¿Qué funcionó excepcionalmente bien en este proyecto?</label><div class="input-line xtall"></div></div>
+      <div class="field-row"><label>¿Qué evidencias de aprendizaje profundo observaste en tus estudiantes?</label><div class="input-line xtall"></div></div>
+      <div class="two-col">
+        <div class="field-row"><label>¿Qué momento del proyecto te sorprendió positivamente?</label><div class="input-line tall"></div></div>
+        <div class="field-row"><label>¿Qué habilidades viste desarrollarse en estudiantes que normalmente no participan?</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M4.93 19.07l1.41-1.41M19.07 19.07l-1.41-1.41M2 12h2M20 12h2"/></svg> Áreas de Mejora</div>
+      <div class="field-row"><label>¿Qué cambiarías si hicieras este proyecto de nuevo?</label><div class="input-line xtall"></div></div>
+      <div class="two-col">
+        <div class="field-row"><label>¿Qué fase del ciclo necesitó más tiempo del que le diste?</label><div class="input-line tall"></div></div>
+        <div class="field-row"><label>¿Qué apoyos adicionales necesitabas y no tenías?</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Evidencias y Resultados</div>
+      <div class="field-row"><label>¿Qué evidencias de aprendizaje recopilaste? (menciona los tipos: rúbricas, productos, presentaciones, fotos)</label><div class="input-line tall"></div></div>
+      <div class="two-col">
+        <div class="field-row"><label>¿Cómo respondió la comunidad/audiencia a la presentación final?</label><div class="input-line tall"></div></div>
+        <div class="field-row"><label>¿Qué dijeron los estudiantes sobre su experiencia?</label><div class="input-line tall"></div></div>
+      </div>
+      <div class="divider"></div>
+      <div class="section-label"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Próximos Pasos</div>
+      <div class="field-row"><label>¿Qué proyecto ABP diseñarás a continuación? ¿Qué aprenderás de este para ese?</label><div class="input-line xtall"></div></div>
+      <div class="field-row"><label>¿Qué quieres compartir con otros docentes de tu escuela sobre esta experiencia?</label><div class="input-line tall"></div></div>
+      <div style="margin-top:20px; padding-top:16px; border-top: 1px solid #e2e8f0; display:flex; gap:24px;">
+        <div class="field-row" style="flex:1"><label>Firma del docente</label><div class="input-line"></div></div>
+        <div class="field-row" style="flex:1"><label>Fecha</label><div class="input-line"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <strong>Guatemala 2026</strong><br>
+  Módulo ABP · Formatos de Planificación
+</footer>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evaluación de Casos — Postulación Docente</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#0F172A;
+    min-height:100vh;
+    padding:2rem 1.5rem;
+  }
+  .tenant-logo { display:block; width:56px; height:56px; border-radius:14px; object-fit:contain; box-shadow:0 8px 20px rgba(0,0,0,.35); margin:0 auto 14px; }
+  .card {
+    background:white;
+    border-radius:20px;
+    max-width:620px;
+    width:100%;
+    margin:0 auto;
+    padding:32px 28px;
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+  }
+  .icon { text-align:center; margin-bottom:8px; color:var(--brand-primary,#07B0E4); }
+  h1 { font-size:19px; text-align:center; color:#0F172A; margin-bottom:4px; }
+  .sub { font-size:12.5px; text-align:center; color:#94A3B8; margin-bottom:24px; }
+  .case { margin-bottom:22px; padding:16px; background:#F8FAFC; border-radius:12px; border-left:4px solid var(--brand-primary,#07B0E4); }
+  .case h3 { font-size:13.5px; color:#0F172A; margin-bottom:8px; }
+  .case p { font-size:13px; color:#475569; line-height:1.5; margin-bottom:10px; }
+  textarea {
+    width:100%; min-height:90px; padding:11px 13px; border:1.5px solid #E2E8F0; border-radius:10px;
+    font-size:13.5px; font-family:inherit; resize:vertical;
+  }
+  button { width:100%; padding:13px; border:none; border-radius:10px; background:var(--brand-primary,#07B0E4); color:white; font-weight:700; font-size:14px; cursor:pointer; margin-top:10px; }
+  button:disabled { opacity:.6; cursor:not-allowed; }
+  button.secondary { background:#E2E8F0; color:#334155; }
+  .err { color:#DC2626; font-size:12px; margin-top:10px; text-align:center; min-height:16px; }
+  .status { padding:14px; border-radius:12px; text-align:center; font-weight:800; font-size:14px; margin-bottom:16px; }
+  .status.valid { background:#DCFCE7; color:#166534; }
+  .status.invalid { background:#FEE2E2; color:#991B1B; }
+  .score-row { display:flex; gap:12px; margin-bottom:16px; }
+  .score-box { flex:1; text-align:center; padding:16px 10px; background:#F8FAFC; border-radius:12px; }
+  .score-box .num { font-size:26px; font-weight:800; color:var(--brand-primary,#07B0E4); }
+  .score-box .lbl { font-size:11px; color:#64748B; margin-top:2px; }
+  .feedback { font-size:13px; color:#334155; line-height:1.6; margin-bottom:14px; padding:14px; background:#F8FAFC; border-radius:10px; }
+  .feedback strong { color:#0F172A; }
+  .roadmap { margin:14px 0; }
+  .roadmap-item { display:flex; align-items:center; gap:8px; padding:10px 14px; background:color-mix(in srgb, var(--brand-tertiary,#07B0E4) 10%, #F8FAFC); border-radius:10px; margin-bottom:8px; font-size:12.5px; color:#1E3A8A; }
+  .footer { text-align:center; font-size:11px; color:#CBD5E1; margin-top:20px; }
+  .loader { text-align:center; color:#94A3B8; font-size:13px; padding:30px 0; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="tenant-logo" data-tenant="logo" src="default-logo.svg" alt="Logo">
+    <div id="card">
+      <div class="loader" id="loader">Cargando...</div>
+    </div>
+  </div>
+
+  <script src="tenant.js"></script>
+  <script>
+    const EVALUATE_CANDIDATE_URL = 'https://grkjhzkgcmackbafqudu.supabase.co/functions/v1/evaluate-candidate';
+    const GENERATE_CASES_URL = 'https://grkjhzkgcmackbafqudu.supabase.co/functions/v1/generate-cases';
+    // El gateway de Supabase exige un JWT válido en Authorization antes de
+    // que corra el código de la función, aunque la función misma no lo
+    // valide (el candidato se identifica con access_token, no con JWT).
+    // El anon key es un JWT válido y satisface ese chequeo de plataforma.
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdya2poemtnY21hY2tiYWZxdWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMjg5MzQsImV4cCI6MjA5NjcwNDkzNH0.2nVTRlhey6HkGs_KZxtCaEp8L2QrvD0NUwY8ZFwZVHY";
+
+    // Casos de estudio: se piden a generate-cases (Groq los genera según
+    // las áreas configuradas por el colegio — didáctica/pedagogía/manejo
+    // de grupo/tecnología, no ligados a robótica ni a una materia). Ese
+    // mismo set de casos se cachea server-side por candidato. Este banco
+    // es SOLO el fallback si la llamada de red a generate-cases falla por
+    // completo (no la respuesta de Groq — eso ya lo maneja la función).
+    const FALLBACK_CASES = [
+      { id: 'fallback-1', title: 'Planificación con recursos limitados', prompt: 'Tienes 40 minutos de clase y materiales limitados para todo el grupo. ¿Cómo organizas la actividad para que todos los estudiantes participen activamente, no solo unos pocos?' },
+      { id: 'fallback-2', title: 'Manejo de un conflicto en el aula', prompt: 'Dos estudiantes discuten fuerte durante una actividad grupal y la tensión sube frente al resto de la clase. ¿Qué haces, en qué orden, y qué le dices a cada uno?' },
+      { id: 'fallback-3', title: 'Estudiante que se frustra y se rinde', prompt: 'Un estudiante intenta resolver un ejercicio, falla varias veces y decide dejar de intentarlo. ¿Cómo lo acompañas para que retome el trabajo sin darle la respuesta directa?' },
+      { id: 'fallback-4', title: 'Adaptar la clase a un imprevisto', prompt: 'El material que planeaste usar no está disponible el día de la clase. ¿Cómo adaptas la actividad con lo que sí tienes, sin que el grupo pierda el objetivo de aprendizaje?' },
+      { id: 'fallback-5', title: 'Comunicación con la familia', prompt: 'Un padre de familia te dice, molesto, que no entiende para qué sirve lo que enseñas en clase. Tienes pocos minutos para responder. ¿Qué le dices?' },
+    ];
+
+    let CASES = [];
+
+    async function fetchCases(token) {
+      try {
+        const res = await fetch(GENERATE_CASES_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+          body: JSON.stringify({ access_token: token }),
+        });
+        const data = await res.json();
+        if (res.ok && Array.isArray(data.cases) && data.cases.length > 0) return data.cases;
+      } catch (e) { /* sigue al fallback */ }
+      return FALLBACK_CASES;
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function renderNoToken() {
+      document.getElementById('card').innerHTML = `
+        <div class="icon">${window.svgIcon('lock', 40)}</div>
+        <div class="status invalid">Enlace inválido</div>
+        <p class="sub" style="margin-bottom:20px">Este enlace de evaluación no es válido o ya fue utilizado. Si crees que esto es un error, contacta al equipo de reclutamiento.</p>`;
+    }
+
+    async function renderForm(token) {
+      document.getElementById('card').innerHTML = `<div class="loader">Preparando tu evaluación...</div>`;
+      CASES = await fetchCases(token);
+
+      const casesHtml = CASES.map(c => `
+        <div class="case">
+          <h3>${escapeHtml(c.title)}</h3>
+          <p>${escapeHtml(c.prompt)}</p>
+          <textarea id="answer_${c.id}" maxlength="2000" placeholder="Escribe tu respuesta aquí..."></textarea>
+        </div>
+      `).join('');
+
+      document.getElementById('card').innerHTML = `
+        <div class="icon">${window.svgIcon('document', 40)}</div>
+        <h1>Evaluación de casos de estudio</h1>
+        <p class="sub">Responde con tus propias palabras — no hay una única respuesta correcta, queremos conocer tu forma de pensar.</p>
+        ${casesHtml}
+        <button id="submitBtn">Enviar evaluación</button>
+        <p class="err" id="errMsg"></p>
+        <p class="footer">${window.TENANT?.name || '1bot'} · Guatemala</p>
+      `;
+
+      document.getElementById('submitBtn').addEventListener('click', () => submitEvaluation(token));
+    }
+
+    async function submitEvaluation(token) {
+      const errMsg = document.getElementById('errMsg');
+      const submitBtn = document.getElementById('submitBtn');
+      errMsg.textContent = '';
+
+      const responses = CASES.map(c => ({
+        case_id: c.id,
+        answer_text: document.getElementById('answer_' + c.id).value.trim(),
+      }));
+
+      const empty = responses.filter(r => r.answer_text.length < 5);
+      if (empty.length > 0) {
+        errMsg.textContent = 'Responde todos los casos antes de enviar.';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Evaluando... esto puede tardar unos segundos';
+
+      try {
+        const res = await fetch(EVALUATE_CANDIDATE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+          body: JSON.stringify({ access_token: token, responses }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errMsg.textContent = data.error || 'Ocurrió un error al evaluar. Intenta de nuevo.';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar evaluación';
+          return;
+        }
+
+        renderResult(token, data);
+      } catch (networkErr) {
+        errMsg.textContent = 'No se pudo conectar. Verifica tu conexión e intenta de nuevo.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar evaluación';
+      }
+    }
+
+    function renderResult(token, data) {
+      const roadmapHtml = (data.recommended_paths || []).map(p => `
+        <div class="roadmap-item">${window.svgIcon('book', 16)} <strong>${escapeHtml(p.label)}</strong></div>
+      `).join('') || '<div class="roadmap-item">No se identificaron áreas débiles específicas — buen desempeño general.</div>';
+
+      document.getElementById('card').innerHTML = `
+        <div class="icon">${window.svgIcon(data.passed ? 'star' : 'chart', 40)}</div>
+        <div class="status ${data.passed ? 'valid' : 'invalid'}">${data.passed ? '¡Buen resultado!' : 'Resultado obtenido'}</div>
+        <div class="score-row">
+          <div class="score-box"><div class="num">${data.technical_score}</div><div class="lbl">Técnica</div></div>
+          <div class="score-box"><div class="num">${data.soft_score}</div><div class="lbl">Habilidades blandas</div></div>
+          <div class="score-box"><div class="num">${data.overall_score}</div><div class="lbl">General</div></div>
+        </div>
+        <div class="feedback">
+          <strong>Técnica:</strong> ${escapeHtml(data.feedback?.technical || '')}<br><br>
+          <strong>Blandas:</strong> ${escapeHtml(data.feedback?.soft || '')}<br><br>
+          <strong>Resumen:</strong> ${escapeHtml(data.feedback?.summary || '')}
+        </div>
+        <h3 style="font-size:13px;color:#0F172A;margin-bottom:8px;">Ruta de formación sugerida si continúas</h3>
+        <div class="roadmap">${roadmapHtml}</div>
+        <p class="sub" style="margin:8px 0 16px;">Conoce más en <a href="https://yoaprendo.online" target="_blank" rel="noopener" style="color:var(--brand-primary,#07B0E4);font-weight:700;text-decoration:none;">yoaprendo.online</a></p>
+        <p class="sub" style="margin:16px 0 8px;">Con base en tu puntaje, tú decides si deseas continuar en el proceso de selección.</p>
+        <button id="continuarBtn">Deseo continuar el proceso</button>
+        <button id="retirarBtn" class="secondary">Ya no deseo continuar</button>
+        <p class="err" id="errMsg2"></p>
+        <p class="footer">${window.TENANT?.name || '1bot'} · Guatemala</p>
+      `;
+
+      document.getElementById('continuarBtn').addEventListener('click', () => submitDecision(token, 'continuar'));
+      document.getElementById('retirarBtn').addEventListener('click', () => submitDecision(token, 'retirar'));
+    }
+
+    async function submitDecision(token, decision) {
+      const errMsg2 = document.getElementById('errMsg2');
+      errMsg2.textContent = '';
+      try {
+        const res = await fetch(EVALUATE_CANDIDATE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+          body: JSON.stringify({ access_token: token, decision }),
+        });
+        const data = await res.json();
+        if (!res.ok) { errMsg2.textContent = data.error || 'Error al registrar tu decisión.'; return; }
+
+        document.getElementById('card').innerHTML = `
+          <div class="icon">${window.svgIcon(decision === 'continuar' ? 'check' : 'exit', 40)}</div>
+          <div class="status valid">Decisión registrada</div>
+          <p class="sub" style="margin-bottom:20px">${decision === 'continuar'
+            ? 'Gracias por continuar en el proceso. El equipo de reclutamiento revisará tu evaluación y se pondrá en contacto contigo.'
+            : 'Gracias por tu tiempo. Te deseamos éxito en tu búsqueda.'}</p>
+          <p class="footer">${window.TENANT?.name || '1bot'} · Guatemala</p>`;
+      } catch (networkErr) {
+        errMsg2.textContent = 'No se pudo conectar. Intenta de nuevo.';
+      }
+    }
+
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+    (async () => {
+      await window.TENANT_READY;
+      if (!token) renderNoToken(); else renderForm(token);
+    })();
+  </script>
+</body>
+</html>

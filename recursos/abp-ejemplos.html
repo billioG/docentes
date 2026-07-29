@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejemplos de Proyectos ABP – Formación Docente</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #2BA848; --color-dark: #1e7a32; --color-light: #E8F5E9; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fdf8; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(43,168,72,0.4); z-index: 999; display:inline-flex;align-items:center;gap:8px; }
+  header { background: linear-gradient(135deg, #2BA848, #1e7a32); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px; }
+  .intro-box { background: var(--color-light); border-left: 5px solid var(--color); padding: 20px 24px; border-radius: 8px; margin-bottom: 36px; }
+  .project-card { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); margin-bottom: 32px; overflow: hidden; border-left: 6px solid var(--color); }
+  .proj-head { padding: 20px 24px 14px; border-bottom: 1px solid #f0fdf4; display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+  .proj-num { width: 48px; height: 48px; background: var(--color); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; flex-shrink: 0; }
+  .proj-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; display:flex; align-items:center; gap:8px; }
+  .proj-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  .meta-tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px; }
+  .tag-level { background: #dbeafe; color: #1e40af; }
+  .tag-area { background: var(--color-light); color: var(--color-dark); }
+  .tag-time { background: #fef9c3; color: #713f12; }
+  .proj-body { padding: 20px 24px; }
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .field { background: #f8fdf8; border-radius: 8px; padding: 12px 14px; }
+  .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-dark); display: block; margin-bottom: 5px; }
+  .field p { margin: 0; font-size: 13px; }
+  .phases-mini { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0; }
+  .phase-mini { border-radius: 8px; padding: 10px 12px; }
+  .pm-launch { background: #fef9c3; }
+  .pm-inv { background: #EFF6FF; }
+  .pm-prod { background: #fdf4ff; }
+  .pm-crit { background: #fff7ed; }
+  .pm-pres { background: #f0fdf4; }
+  .phase-mini label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; color: var(--gray); }
+  .phase-mini p { font-size: 12px; margin: 0; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    .project-card { box-shadow: none; border: 1px solid #e2e8f0; border-left: 6px solid var(--color); break-inside: avoid; }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">ABP · Ejemplos</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+  <h1>Ejemplos de Proyectos ABP</h1>
+  <p>10 proyectos ABP completos y reales del contexto guatemalteco — para inspirar, adaptar y replicar</p>
+</header>
+
+<div class="container">
+  <div class="intro-box">
+    <strong>Cómo usar este banco:</strong> Estos proyectos son puntos de partida, no recetas. Cada uno debe adaptarse al contexto específico de tu escuela, municipio y estudiantes. Lo más importante no es copiarlos exactamente sino que <strong>la pregunta motriz emerja de un problema real que tus estudiantes reconocen como suyo.</strong>
+  </div>
+
+  <!-- Proyecto 1 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">1</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2BA848" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Mercado Escolar Justo</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Primaria Alta / Básico</span>
+          <span class="meta-tag tag-area">Matemáticas · Economía · Comunicación</span>
+          <span class="meta-tag tag-time">4 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos organizar un mercado escolar donde los productores de nuestra comunidad vendan de forma justa y los compradores paguen precios honestos?</p></div>
+        <div class="field"><label>Problema Real</label><p>Los intermediarios en muchos mercados guatemaltecos pagan precios injustos a productores locales (agricultores, artesanos). Los estudiantes diseñan una alternativa justa.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Visita a un mercado local, entrevistas a vendedores sobre precios.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Estudiar cadena de valor, costos de producción, precio justo, matemáticas de ganancia/pérdida.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Planificar y ejecutar un "mercado justo" real en la escuela con productores de la comunidad.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Calcular si los precios resultaron justos. Entrevistar a vendedores satisfechos o no.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Informe a padres sobre el modelo de comercio justo y resultados económicos del evento.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Mercado escolar real ejecutado + informe económico con datos de ventas, precios y márgenes.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>El mercado en sí fue la presentación. Los estudiantes fueron los organizadores, cajeros y evaluadores del evento.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 2 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">2</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Campaña de Salud Bucal para Niños Pequeños</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Básico</span>
+          <span class="meta-tag tag-area">Salud · Comunicación · Arte · Ciencias</span>
+          <span class="meta-tag tag-time">3 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos enseñar a los niños de preprimaria a cuidar sus dientes usando recursos que los hagan reír y querer aprender?</p></div>
+        <div class="field"><label>Problema Real</label><p>La caries dental es una de las principales causas de ausencia escolar en Guatemala. Los estudiantes de básico investigan y crean materiales para prevención desde edades tempranas.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Estadísticas de caries en Guatemala. Visita de dentista de la comunidad.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Anatomía dental, causas de caries, técnica correcta de cepillado, materiales de prevención accesibles.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Cuentos ilustrados, canciones, marionetas o juegos didácticos sobre salud bucal para niños de 4–6 años.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Probar los materiales con un grupo piloto de preprimaria. ¿Los niños entendieron? ¿Les gustó?</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Visitar las aulas de preprimaria y ejecutar la campaña. Documentar reacciones y aprendizajes.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Kit de salud bucal: cuento, canción y demostración en vivo ante niños de preprimaria de la misma escuela.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Los estudiantes de básico visitaron cada aula de preprimaria durante una semana, implementando la campaña.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 3 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">3</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M12 22V12M12 12C12 7 7 4 2 4s0 8 10 8M12 12c0-5 5-8 10-8s0 8-10 8"/></svg> Banco de Semillas de la Comunidad</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Primaria Alta</span>
+          <span class="meta-tag tag-area">CN · Cultura Maya · Matemáticas · Arte</span>
+          <span class="meta-tag tag-time">5 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos rescatar y preservar las semillas nativas de nuestra comunidad para que no se pierdan las variedades que nuestros abuelos cultivaban?</p></div>
+        <div class="field"><label>Problema Real</label><p>La biodiversidad agrícola en Guatemala está en riesgo por el uso de semillas híbridas importadas. Las comunidades están perdiendo variedades nativas de maíz, frijol y otras plantas.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Entrevistar a abuelos de la comunidad sobre variedades de semillas que ya no se ven.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Biodiversidad, ciclos de cultivo, importancia cultural de las semillas nativas en cosmovisión maya.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Banco físico de semillas nativas con fichas descriptivas, condiciones de almacenamiento y origen cultural.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Agricultores de la comunidad revisan si la información de las fichas es correcta y completa.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Inauguración del banco de semillas en la escuela, abierto a la comunidad. Artículo en periódico municipal.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Banco físico de semillas nativas con catálogo ilustrado + donación a otras escuelas de la región.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Ceremonia de inauguración con ancianos de la comunidad, padres y autoridades municipales.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 4 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">4</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Biblioteca Bilingüe de Cuentos Propios</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Primaria Baja / Alta</span>
+          <span class="meta-tag tag-area">Idioma · Arte · Cultura · Lectura</span>
+          <span class="meta-tag tag-time">4 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos crear libros de cuentos en español y en nuestro idioma maya que cuenten las historias de nuestra comunidad para que los niños que vienen después puedan leerlas?</p></div>
+        <div class="field"><label>Problema Real</label><p>Las escuelas guatemaltecas tienen escasez de libros en idiomas mayas. Las historias orales de las comunidades se están perdiendo por no estar escritas.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Visita de un contador de historias de la comunidad. Exploración de libros ilustrados.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Elementos del cuento, ilustración, diseño editorial básico, recopilación de historia oral con ancianos.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Libro ilustrado bilingüe (español + idioma maya local), hecho a mano con páginas cosidas o engrapadas.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Hablantes del idioma maya revisan la ortografía y precisión cultural. Niños de otro grado evalúan si lo entienden.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Feria del libro en la escuela. Donación de los libros a la biblioteca escolar y a otras comunidades.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Colección de libros ilustrados bilingües escritos, ilustrados y encuadernados por los estudiantes.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Feria del libro con lectura en voz alta por los autores. Cada familia recibe un libro como regalo.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 5 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">5</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Plan de Mejora del Parque del Municipio</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Básico</span>
+          <span class="meta-tag tag-area">Sociales · Matemáticas · Arte · Comunicación</span>
+          <span class="meta-tag tag-time">4 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos proponer un plan de mejora del parque central de nuestro municipio basado en lo que realmente necesitan los vecinos?</p></div>
+        <div class="field"><label>Problema Real</label><p>Muchos parques municipales guatemaltecos están deteriorados o no responden a las necesidades reales de los vecinos. Los jóvenes pueden hacer diagnóstico participativo real.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Visita de diagnóstico al parque. Fotografía y mapeo de problemas.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Urbanismo básico, participación ciudadana, encuesta a vecinos, presupuesto municipal.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Maqueta y plano del parque mejorado con justificación de cada decisión basada en datos de vecinos.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Vecinos y líderes comunitarios evalúan la propuesta y sugieren cambios.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Presentación formal ante el Concejo Municipal con propuesta ilustrada y datos de respaldo.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Maqueta arquitectónica + plano técnico + informe con datos de vecinos + presentación ante autoridades.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Sesión formal ante el Concejo Municipal. En uno de los casos reales, la alcaldía implementó parte de las propuestas.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 6 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">6</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg> Sistema de Captación de Agua de Lluvia</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Primaria Alta / Básico</span>
+          <span class="meta-tag tag-area">CN · Ingeniería · Matemáticas · Geografía</span>
+          <span class="meta-tag tag-time">4 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos diseñar e instalar un sistema simple de captación de agua de lluvia para el jardín de nuestra escuela que funcione durante la temporada de lluvias en Guatemala?</p></div>
+        <div class="field"><label>Problema Real</label><p>El agua potable es escasa en muchas comunidades guatemaltecas. La captación de agua de lluvia es una tecnología ancestral y moderna que puede instalarse con materiales económicos.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Datos de precipitación en Guatemala. Video de sistemas de captación en comunidades similares.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Ciclo del agua, tecnologías de captación, cálculo de volumen, materiales accesibles.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Diseño y construcción del sistema con canaletas, depósito reciclado y sistema de filtrado básico.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Probar el sistema con la primera lluvia. Medir volumen captado vs. volumen calculado. Identificar fugas.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Manual de instalación ilustrado para que otras escuelas repliquen el sistema.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Sistema funcional instalado en la escuela + manual de replicación + datos de rendimiento.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Demostración en vivo durante la primera lluvia, con padres y directivos presentes. El sistema sigue funcionando.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 7 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">7</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg> Mural de la Historia de Nuestro Pueblo</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Todos los niveles</span>
+          <span class="meta-tag tag-area">Arte · Historia · Cultura Maya · Idioma</span>
+          <span class="meta-tag tag-time">5 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos crear un mural en la pared de nuestra escuela que cuente la historia de nuestra comunidad desde los tiempos mayas hasta hoy, con exactitud y orgullo?</p></div>
+        <div class="field"><label>Problema Real</label><p>Muchas escuelas tienen paredes grises que no reflejan la identidad cultural de la comunidad. La historia local raramente aparece en los libros de texto nacionales.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Estudio de murales famosos (Diego Rivera, murales mayas). Entrevistas históricas a ancianos.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Historia local, arte maya, técnica del mural, cronología histórica del municipio.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Diseño colaborativo del mural (boceto a escala) y ejecución en la pared designada.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Líderes comunitarios e historiadores locales validan la precisión histórica y cultural.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Inauguración del mural con la comunidad. Tour guiado por los estudiantes explicando cada sección.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Mural permanente en la escuela + guía escrita de la historia que ilustra el mural.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Inauguración comunitaria con autoridades, ancianos y familias. El mural se convirtió en punto de orgullo identitario.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 8 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">8</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg> Recetario Nutritivo con Ingredientes Locales</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Primaria Alta</span>
+          <span class="meta-tag tag-area">CN · Salud · Matemáticas · Idioma · Cultura</span>
+          <span class="meta-tag tag-time">3 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos crear un recetario de comida nutritiva usando ingredientes que se encuentran en nuestra comunidad y que familias con poco presupuesto puedan preparar?</p></div>
+        <div class="field"><label>Problema Real</label><p>La desnutrición infantil en Guatemala coexiste paradójicamente con comunidades productoras de alimentos altamente nutritivos. El problema no es siempre de acceso sino de conocimiento sobre preparación.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Datos de desnutrición en Guatemala. Encuesta sobre qué comen las familias de la clase.</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Nutrición básica, ingredientes locales nutritivos (chipilín, loroco, güisquil), valor nutricional comparado.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Recetario ilustrado con recetas probadas, valores nutricionales calculados y costo por porción.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Madres de la comunidad prueban las recetas y dan retroalimentación sobre sabor y practicidad.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Feria gastronómica donde los estudiantes cocinan y sirven las recetas. Donación del recetario a familias.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Recetario impreso + feria gastronómica + donación de ejemplares a clínicas y puestos de salud locales.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Feria con degustación. El Centro de Salud local adoptó el recetario para distribuirlo en consultas.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 9 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">9</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Plan de Emergencia Escolar ante Desastres</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Básico</span>
+          <span class="meta-tag tag-area">CN · Sociales · Geografía · Comunicación</span>
+          <span class="meta-tag tag-time">3 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos crear un plan de emergencia real para nuestra escuela que proteja a todos los estudiantes en caso de sismo, inundación o erupción volcánica?</p></div>
+        <div class="field"><label>Problema Real</label><p>Guatemala está en zona de alta actividad sísmica y volcánica. Muchas escuelas no tienen plan de emergencia actualizado ni simulacros regulares. Los estudiantes pueden ser agentes de cambio en esto.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Mapa de riesgos de Guatemala. Testimonios de sobrevivientes de desastres (Mitch, erupciones, sismos).</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Tipos de desastres naturales en Guatemala, protocolos de CONRED, primeros auxilios básicos, evacuación.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Plan de emergencia ilustrado + señalización de rutas de evacuación + kit de emergencia básico para la escuela.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Coordinador de CONRED local revisa el plan y sugiere mejoras. Simulacro de prueba con toda la escuela.</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>Presentación del plan a directivos y padres. Entrega oficial del plan a la dirección escolar.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Plan de emergencia oficial + señalización física + simulacro ejecutado + capacitación a estudiantes más pequeños.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Ejercicio de simulacro de sismo ante toda la comunidad escolar. El plan fue adoptado oficialmente.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proyecto 10 -->
+  <div class="project-card">
+    <div class="proj-head">
+      <div class="proj-num">10</div>
+      <div class="proj-info">
+        <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#e879a0" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> Festival de las Culturas del Municipio</h3>
+        <div class="proj-meta">
+          <span class="meta-tag tag-level">Todos los niveles</span>
+          <span class="meta-tag tag-area">Cultura · Arte · Idioma · Sociales · Comunicación</span>
+          <span class="meta-tag tag-time">6 semanas</span>
+        </div>
+      </div>
+    </div>
+    <div class="proj-body">
+      <div class="field-grid">
+        <div class="field"><label>Pregunta Motriz</label><p>¿Cómo podemos organizar un festival que celebre la diversidad cultural de todos los grupos que viven en nuestro municipio y que fortalezca el orgullo de cada identidad presente?</p></div>
+        <div class="field"><label>Problema Real</label><p>La diversidad cultural guatemalteca es una riqueza que muchas veces se vive como división. Un festival intercultural diseñado por estudiantes puede construir puentes comunitarios reales.</p></div>
+      </div>
+      <div class="phases-mini">
+        <div class="phase-mini pm-launch"><label>Lanzamiento</label><p>Mapeo de diversidad cultural: ¿cuántas culturas/idiomas hay en nuestra escuela y municipio?</p></div>
+        <div class="phase-mini pm-inv"><label>Investigación</label><p>Historia de cada cultura presente, expresiones artísticas, gastronomía, música, indumentaria tradicional.</p></div>
+        <div class="phase-mini pm-prod"><label>Producto</label><p>Festival intercultural organizado por los estudiantes: stands, presentaciones, comida, música y artesanía.</p></div>
+        <div class="phase-mini pm-crit"><label>Revisión</label><p>Ensayo general con retroalimentación de representantes comunitarios. ¿Se siente cada cultura bien representada?</p></div>
+        <div class="phase-mini pm-pres"><label>Presentación</label><p>El festival en sí, abierto a la comunidad. Cobertura en medios locales.</p></div>
+      </div>
+      <div class="field-grid">
+        <div class="field"><label>Producto Final</label><p>Festival ejecutado + libro-memoria fotográfico de la diversidad cultural del municipio.</p></div>
+        <div class="field"><label>Cómo se presentó</label><p>Festival de un día completo, abierto a toda la comunidad. Asistieron más de 300 personas en un caso real.</p></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <strong>Guatemala 2026</strong><br>
+  Módulo ABP · Ejemplos de Proyectos
+</footer>
+</body>
+</html>

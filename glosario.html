@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario — Formación Docente en Pedagogía Innovadora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brand: #1A6B68;
+    --brand-dark: #12504D;
+    --brand-light: #E8F4F3;
+    --brand-mid: #2A8A87;
+    --steam: #07B0E4;
+    --steam-bg: #E6F7FD;
+    --steam-text: #055E78;
+    --abp: #2BA848;
+    --abp-bg: #E8F7EB;
+    --abp-text: #155A24;
+    --dt: #E83C8D;
+    --dt-bg: #FDEAF3;
+    --dt-text: #7A1447;
+    --eval: #E9A037;
+    --eval-bg: #FDF3E3;
+    --eval-text: #7A4E0A;
+    --cts: #7C3AED;
+    --cts-bg: #F0EBFD;
+    --cts-text: #3D1A7A;
+    --story: #F59E0B;
+    --story-bg: #FEF3DC;
+    --story-text: #7A4E00;
+    --gray-50: #F8F9FA;
+    --gray-100: #F1F3F5;
+    --gray-200: #E9ECEF;
+    --gray-300: #DEE2E6;
+    --gray-400: #CED4DA;
+    --gray-500: #ADB5BD;
+    --gray-600: #6C757D;
+    --gray-700: #495057;
+    --gray-800: #343A40;
+    --gray-900: #212529;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--gray-800);
+    background: var(--gray-50);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--brand);
+    color: white;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    gap: 1rem;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .header-logo {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .header-subtitle {
+    font-size: 0.75rem;
+    opacity: 0.75;
+    font-weight: 400;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .btn-back {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255,255,255,0.25);
+    transition: all 0.15s;
+  }
+  .btn-back:hover { background: rgba(255,255,255,0.1); color: white; }
+
+  .btn-print {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-print:hover { background: rgba(255,255,255,0.25); }
+
+  /* MAIN */
+  .main-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* PAGE INTRO */
+  .page-intro {
+    margin-bottom: 2rem;
+  }
+  .page-intro h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+  .page-intro p {
+    color: var(--gray-600);
+    font-size: 0.95rem;
+  }
+
+  /* SEARCH */
+  .search-wrapper {
+    position: relative;
+    margin-bottom: 1.25rem;
+  }
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-500);
+    pointer-events: none;
+  }
+  #searchInput {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    background: white;
+    color: var(--gray-800);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: var(--shadow-sm);
+  }
+  #searchInput:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px rgba(26,107,104,0.12);
+  }
+  #searchInput::placeholder { color: var(--gray-500); }
+
+  .clear-btn {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--gray-400);
+    padding: 0.25rem;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s;
+  }
+  .clear-btn:hover { color: var(--gray-700); }
+  .clear-btn.visible { display: flex; }
+
+  /* FILTER CHIPS */
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.15s;
+    user-select: none;
+    background: white;
+    color: var(--gray-600);
+    border-color: var(--gray-300);
+  }
+  .chip:hover { border-color: var(--gray-400); color: var(--gray-800); }
+
+  .chip.active[data-filter="all"] { background: var(--brand); color: white; border-color: var(--brand); }
+  .chip.active[data-filter="steam"] { background: var(--steam); color: white; border-color: var(--steam); }
+  .chip.active[data-filter="abp"] { background: var(--abp); color: white; border-color: var(--abp); }
+  .chip.active[data-filter="dt"] { background: var(--dt); color: white; border-color: var(--dt); }
+  .chip.active[data-filter="eval"] { background: var(--eval); color: white; border-color: var(--eval); }
+  .chip.active[data-filter="cts"] { background: var(--cts); color: white; border-color: var(--cts); }
+  .chip.active[data-filter="story"] { background: var(--story); color: white; border-color: var(--story); }
+  .chip.active[data-filter="crea"] { background: #E83C8D; color: white; border-color: #E83C8D; }
+  .chip.active[data-filter="tec"] { background: #7C3AED; color: white; border-color: #7C3AED; }
+  .chip.active[data-filter="ml"] { background: #F59E0B; color: white; border-color: #F59E0B; }
+  .chip.active[data-filter="flip"] { background: #EF4444; color: white; border-color: #EF4444; }
+  .chip.active[data-filter="abv"] { background: #6366F1; color: white; border-color: #6366F1; }
+  .chip.active[data-filter="micro"] { background: #F97316; color: white; border-color: #F97316; }
+
+  .chip-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ALPHA INDEX */
+  .alpha-index {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+    padding: 0.875rem 1rem;
+    background: white;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+  }
+  .alpha-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--gray-500);
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+  }
+  .alpha-btn:hover { background: var(--brand-light); color: var(--brand); }
+  .alpha-btn.has-terms { color: var(--gray-700); }
+  .alpha-btn.has-terms:hover { background: var(--brand-light); color: var(--brand); }
+  .alpha-btn.disabled { opacity: 0.3; cursor: default; pointer-events: none; }
+
+  /* COUNT BADGE */
+  .count-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .count-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--brand-light);
+    color: var(--brand-dark);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  /* TERMS LIST */
+  #termsContainer { }
+
+  .letter-section { margin-bottom: 2.5rem; }
+
+  .letter-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .letter-badge {
+    width: 40px;
+    height: 40px;
+    background: var(--brand);
+    color: white;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .letter-line {
+    flex: 1;
+    height: 1px;
+    background: var(--gray-200);
+  }
+
+  .term-card {
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 0.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+  .term-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--gray-300);
+  }
+
+  .term-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .term-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .term-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+  .tag-steam { background: var(--steam-bg); color: var(--steam-text); }
+  .tag-abp { background: var(--abp-bg); color: var(--abp-text); }
+  .tag-dt { background: var(--dt-bg); color: var(--dt-text); }
+  .tag-eval { background: var(--eval-bg); color: var(--eval-text); }
+  .tag-cts { background: var(--cts-bg); color: var(--cts-text); }
+  .tag-story { background: var(--story-bg); color: var(--story-text); }
+  .tag-crea { background: #FCE7F3; color: #BE185D; }
+  .tag-tec { background: #EDE9FE; color: #6D28D9; }
+  .tag-ml { background: #FEF3C7; color: #B45309; }
+  .tag-flip { background: #FEE2E2; color: #B91C1C; }
+  .tag-abv { background: #E0E7FF; color: #4338CA; }
+  .tag-micro { background: #FFEDD5; color: #C2410C; }
+  .tag-iaf { background: #D1FAE5; color: #065F46; }
+  .tag-iat { background: #FFEDD5; color: #9A3412; }
+  .tag-iah { background: #EDE9FE; color: #5B21B6; }
+  .tag-iai { background: #CFFAFE; color: #0E7490; }
+  .tag-iac { background: #FCE7F3; color: #9D174D; }
+  .tag-mjc { background: #CFFAFE; color: #155E75; }
+  .tag-sel { background: #FCE7F3; color: #BE185D; }
+  .tag-com { background: #EDE9FE; color: #5B21B6; }
+  .tag-dis { background: #FFEDD5; color: #9A3412; }
+  .tag-bie { background: #DCFCE7; color: #166534; }
+.tag-ei { background: #EDE9FE; color: #4C1D95; }
+.tag-tea { background: #E0E7FF; color: #3730A3; }
+.tag-ddt { background: #FEF3C7; color: #92400E; }
+.tag-lsg { background: #E0F2FE; color: #075985; }
+
+  .term-definition {
+    color: var(--gray-700);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 0.75rem;
+  }
+
+  .term-classroom {
+    display: flex;
+    gap: 0.6rem;
+    background: var(--gray-50);
+    border-left: 3px solid var(--brand);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 0.6rem 0.875rem;
+    font-size: 0.88rem;
+    color: var(--gray-700);
+    line-height: 1.55;
+  }
+  .term-classroom-label {
+    font-weight: 700;
+    color: var(--brand-dark);
+    flex-shrink: 0;
+  }
+
+  /* NO RESULTS */
+  .no-results {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--gray-500);
+  }
+  .no-results svg { margin-bottom: 1rem; opacity: 0.4; }
+  .no-results p { font-size: 1rem; }
+  .no-results span { font-size: 0.875rem; color: var(--gray-400); }
+
+  /* FOOTER */
+  .site-footer {
+    background: var(--gray-900);
+    color: var(--gray-400);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.83rem;
+  }
+  .site-footer strong { color: white; }
+
+  /* HIGHLIGHT */
+  mark {
+    background: rgba(26,107,104,0.15);
+    color: var(--brand-dark);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* PRINT */
+  @media print {
+    .site-header { position: static; box-shadow: none; }
+    .btn-print, .btn-back, .search-wrapper, .filter-row, .alpha-index, .count-bar { display: none !important; }
+    .term-card { break-inside: avoid; box-shadow: none; border: 1px solid #ccc; }
+    .letter-section { break-inside: avoid; }
+    body { background: white; }
+    .site-footer { background: none; color: #666; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .header-inner { padding: 0 1rem; }
+    .header-subtitle { display: none; }
+    .main-container { padding: 1.25rem 1rem 3rem; }
+    .page-intro h1 { font-size: 1.4rem; }
+    .term-header { flex-direction: column; gap: 0.5rem; }
+    .term-tags { order: -1; }
+    .alpha-btn { width: 28px; height: 28px; font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="header-brand">
+      <div class="header-logo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 10L10 3L17 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5 8V16H15V8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 16V12H12V16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="header-title">Pedagogía Innovadora</div>
+        <div class="header-subtitle">Guatemala</div>
+      </div>
+    </a>
+    <div class="header-actions">
+      <a href="index.html" class="btn-back">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Volver a la plataforma
+      </a>
+      <button class="btn-print" onclick="window.print()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="5" width="10" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M4 5V2H10V5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 9H10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M4 11H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Imprimir
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-container">
+  <div class="page-intro">
+    <h1>Glosario de Pedagogía Innovadora</h1>
+    <p>Referencia de términos clave para los cursos de Formación Docente — 95 conceptos organizados alfabéticamente.</p>
+  </div>
+
+  <div class="search-wrapper">
+    <span class="search-icon">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.75"/><path d="M12.5 12.5L16 16" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>
+    </span>
+    <input type="text" id="searchInput" placeholder="Buscar términos o definiciones..." autocomplete="off" spellcheck="false">
+    <button class="clear-btn" id="clearBtn" aria-label="Limpiar búsqueda">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <div class="filter-row" id="filterRow">
+    <button class="chip active" data-filter="all">
+      <svg width="10" height="10" viewBox="0 0 10 10"><circle cx="5" cy="5" r="4" fill="currentColor" opacity="0.5"/></svg>
+      Todos
+    </button>
+    <button class="chip" data-filter="steam">
+      <span class="chip-dot" style="background:#07B0E4"></span>STEAM
+    </button>
+    <button class="chip" data-filter="abp">
+      <span class="chip-dot" style="background:#2BA848"></span>ABP
+    </button>
+    <button class="chip" data-filter="dt">
+      <span class="chip-dot" style="background:#E83C8D"></span>Design Thinking
+    </button>
+    <button class="chip" data-filter="eval">
+      <span class="chip-dot" style="background:#E9A037"></span>Evaluación
+    </button>
+    <button class="chip" data-filter="cts">
+      <span class="chip-dot" style="background:#7C3AED"></span>Conoce a tus Estudiantes
+    </button>
+    <button class="chip" data-filter="story">
+      <span class="chip-dot" style="background:#F59E0B"></span>Storytelling
+    </button>
+    <button class="chip" data-filter="crea">
+      <span class="chip-dot" style="background:#E83C8D"></span>Creatividad
+    </button>
+    <button class="chip" data-filter="tec">
+      <span class="chip-dot" style="background:#7C3AED"></span>Herramientas Tec.
+    </button>
+    <button class="chip" data-filter="ml">
+      <span class="chip-dot" style="background:#F59E0B"></span>Mobile Learning
+    </button>
+    <button class="chip" data-filter="flip">
+      <span class="chip-dot" style="background:#EF4444"></span>Aula Invertida
+    </button>
+    <button class="chip" data-filter="abv">
+      <span class="chip-dot" style="background:#6366F1"></span>Videos (ABV)
+    </button>
+    <button class="chip" data-filter="micro">
+      <span class="chip-dot" style="background:#F97316"></span>Micro-learning
+    </button>
+    <button class="chip" data-filter="iaf">
+      <span class="chip-dot" style="background:#10B981"></span>Docente y la IA
+    </button>
+    <button class="chip" data-filter="iat">
+      <span class="chip-dot" style="background:#F97316"></span>IA: Ahorro de Tiempo
+    </button>
+    <button class="chip" data-filter="iah">
+      <span class="chip-dot" style="background:#8B5CF6"></span>Herramientas de IA
+    </button>
+    <button class="chip" data-filter="iai">
+      <span class="chip-dot" style="background:#06B6D4"></span>IA e Inclusión
+    </button>
+    <button class="chip" data-filter="iac">
+      <span class="chip-dot" style="background:#EC4899"></span>Ciudadanía Digital IA
+    </button>
+    <button class="chip" data-filter="mjc">
+      <span class="chip-dot" style="background:#0891B2"></span>Conductas Desafiantes
+    </button>
+    <button class="chip" data-filter="sel">
+      <span class="chip-dot" style="background:#DB2777"></span>SEL Docentes
+    </button>
+    <button class="chip" data-filter="com">
+      <span class="chip-dot" style="background:#7C3AED"></span>Comunicación Asertiva
+    </button>
+    <button class="chip" data-filter="dis">
+      <span class="chip-dot" style="background:#EA580C"></span>Disciplina Positiva
+    </button>
+    <button class="chip" data-filter="bie">
+      <span class="chip-dot" style="background:#16A34A"></span>Bienestar Docente
+    </button>
+    <button class="chip" data-filter="ei">
+      <span class="chip-dot" style="background:#8B5CF6"></span>Educación Inclusiva
+    </button>
+    <button class="chip" data-filter="tea">
+      <span class="chip-dot" style="background:#6366F1"></span>TEA
+    </button>
+    <button class="chip" data-filter="ddt">
+      <span class="chip-dot" style="background:#F59E0B"></span>Down y TDAH
+    </button>
+    <button class="chip" data-filter="lsg">
+      <span class="chip-dot" style="background:#0EA5E9"></span>Lengua de Señas
+    </button>
+  </div>
+
+  <div class="alpha-index" id="alphaIndex"></div>
+
+  <div class="count-bar">
+    <span class="count-badge" id="countBadge">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 6.5H9M6.5 4V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      70 términos encontrados
+    </span>
+  </div>
+
+  <div id="termsContainer"></div>
+</main>
+
+<footer class="site-footer">
+  Guatemala 2026
+</footer>
+
+<script>
+const COURSES = {
+  steam:  { label: 'STEAM',                    cls: 'tag-steam' },
+  abp:    { label: 'ABP',                      cls: 'tag-abp'  },
+  dt:     { label: 'Design Thinking',          cls: 'tag-dt'   },
+  eval:   { label: 'Evaluación',               cls: 'tag-eval' },
+  cts:    { label: 'Conoce a tus Estudiantes', cls: 'tag-cts'  },
+  story:  { label: 'Storytelling',             cls: 'tag-story'},
+  crea:   { label: 'Creatividad',              cls: 'tag-crea' },
+  tec:    { label: 'Herramientas Tec.',        cls: 'tag-tec'  },
+  ml:     { label: 'Mobile Learning',          cls: 'tag-ml'   },
+  flip:   { label: 'Aula Invertida',           cls: 'tag-flip' },
+  abv:    { label: 'Videos (ABV)',             cls: 'tag-abv'  },
+  micro:  { label: 'Micro-learning',           cls: 'tag-micro'},
+  iaf:    { label: 'Docente y la IA',          cls: 'tag-iaf'  },
+  iat:    { label: 'IA: Ahorro de Tiempo',     cls: 'tag-iat'  },
+  iah:    { label: 'Herramientas de IA',       cls: 'tag-iah'  },
+  iai:    { label: 'IA e Inclusión',           cls: 'tag-iai'  },
+  iac:    { label: 'Ciudadanía Digital IA',    cls: 'tag-iac'  },
+  mjc:    { label: 'Conductas Desafiantes',    cls: 'tag-mjc'  },
+  sel:    { label: 'SEL Docentes',             cls: 'tag-sel'  },
+  com:    { label: 'Comunicación Asertiva',    cls: 'tag-com'  },
+  dis:    { label: 'Disciplina Positiva',      cls: 'tag-dis'  },
+  bie:    { label: 'Bienestar Docente',        cls: 'tag-bie'  },
+  ei:     { label: 'Educación Inclusiva',      cls: 'tag-ei'   },
+  tea:    { label: 'TEA',                      cls: 'tag-tea'  },
+  ddt:    { label: 'Down y TDAH',              cls: 'tag-ddt'  },
+  lsg:    { label: 'Lengua de Señas',          cls: 'tag-lsg'  }
+};
+
+const terms = [
+  // A
+  { term: 'Andamiaje (Scaffolding)', courses: ['cts','abp'], letter: 'A',
+    definition: 'Apoyo temporal que el docente brinda para que el estudiante alcance habilidades que aún no puede lograr de forma independiente. El andamiaje se retira progresivamente conforme el estudiante gana autonomía.',
+    classroom: 'Proporciona ejemplos resueltos al inicio, luego semirresueltos, y finalmente el estudiante trabaja solo.' },
+  { term: 'Aprendizaje Basado en Proyectos (ABP)', courses: ['abp'], letter: 'A',
+    definition: 'Metodología en la que los estudiantes adquieren conocimientos y habilidades trabajando durante un período extenso en investigar y dar respuesta a un problema, pregunta, desafío o necesidad del mundo real.',
+    classroom: 'El proyecto debe tener un producto final auténtico que beneficie a alguien fuera del aula.' },
+  { term: 'Aprendizaje Diferenciado', courses: ['cts'], letter: 'A',
+    definition: 'Enfoque pedagógico en el que el docente adapta el contenido, proceso, producto y ambiente de aprendizaje según las necesidades, intereses y niveles de preparación de cada estudiante.',
+    classroom: 'Ofrece tres versiones de una misma tarea: básica, estándar y de extensión.' },
+  { term: 'Aprendizaje Significativo', courses: ['abp','steam'], letter: 'A',
+    definition: 'Proceso por el cual el nuevo conocimiento se vincula de manera sustantiva con la estructura cognitiva previa del estudiante. Propuesto por David Ausubel.',
+    classroom: 'Inicia cada tema conectándolo con algo que los estudiantes ya conocen o experimentan en su vida cotidiana.' },
+  { term: 'Arco Narrativo', courses: ['story'], letter: 'A',
+    definition: 'Estructura que sigue una historia desde la introducción del personaje y conflicto, pasando por la tensión creciente, hasta el clímax y la resolución.',
+    classroom: 'Diseña tus lecciones con apertura intrigante, desarrollo con tensión cognitiva, y cierre satisfactorio.' },
+  { term: 'Arte en STEAM', courses: ['steam'], letter: 'A',
+    definition: 'La "A" de STEAM incorpora las artes visuales, escénicas, diseño y pensamiento creativo como catalizador de la innovación en ciencia y tecnología.',
+    classroom: 'Pide a los estudiantes que representen un concepto científico a través de un mural, prototipo o performance.' },
+  { term: 'Autoevaluación', courses: ['eval'], letter: 'A',
+    definition: 'Proceso mediante el cual el propio estudiante valora su aprendizaje, desempeño y proceso de trabajo, desarrollando metacognición y autorregulación.',
+    classroom: 'Usa listas de cotejo simples que el estudiante completa al finalizar cada proyecto o actividad.' },
+  // B
+  { term: 'Brecha de Conocimiento', courses: ['eval','story'], letter: 'B',
+    definition: 'La distancia entre lo que el estudiante ya sabe y lo que necesita aprender. En storytelling, es la tensión que hace al oyente querer escuchar más.',
+    classroom: 'Crea una pregunta imposible al inicio de la clase que solo puede responderse al aprender el nuevo contenido.' },
+  { term: 'Bricolaje Cognitivo', courses: ['dt','steam'], letter: 'B',
+    definition: 'Capacidad de construir soluciones usando los materiales y conocimientos disponibles, reorganizándolos de formas nuevas e inesperadas.',
+    classroom: 'Limita los materiales disponibles para un proyecto y observa cómo los estudiantes innovan con lo que tienen.' },
+  // C
+  { term: 'Coevaluación', courses: ['eval'], letter: 'C',
+    definition: 'Evaluación entre pares donde los estudiantes valoran el trabajo de sus compañeros usando criterios previamente establecidos. Desarrolla el pensamiento crítico y la comunicación constructiva.',
+    classroom: 'Usa una rúbrica sencilla de 3 criterios para que los estudiantes evalúen las presentaciones de sus compañeros.' },
+  { term: 'Competencias', courses: ['abp','steam','eval'], letter: 'C',
+    definition: 'Combinación de conocimientos, habilidades y actitudes que permiten a una persona actuar de manera efectiva en un contexto determinado.',
+    classroom: 'Diseña tareas que requieran aplicar, no solo recordar: construir, argumentar, crear, resolver.' },
+  { term: 'Conflicto Narrativo', courses: ['story'], letter: 'C',
+    definition: 'El problema o tensión central de una historia que impulsa la acción y mantiene la atención del oyente. Sin conflicto no hay historia, solo una lista de hechos.',
+    classroom: 'Toda historia que uses en clase debe tener un problema genuino que los personajes deben resolver.' },
+  { term: 'Conocimiento Previo', courses: ['cts','abp'], letter: 'C',
+    definition: 'Lo que el estudiante ya sabe antes de iniciar una nueva unidad de aprendizaje. Activarlo es fundamental para construir aprendizaje significativo.',
+    classroom: 'Inicia con una pregunta activadora o una lluvia de ideas para explorar qué saben ya tus estudiantes.' },
+  { term: 'Criterios de Evaluación', courses: ['eval'], letter: 'C',
+    definition: 'Indicadores específicos que describen los niveles de desempeño esperados en una tarea o producto. Son la base de las rúbricas y deben compartirse con los estudiantes antes de comenzar.',
+    classroom: 'Muestra ejemplos de trabajos anteriores (con permiso) y pide a los estudiantes que identifiquen qué hace bueno a un trabajo.' },
+  // D
+  { term: 'Design Thinking', courses: ['dt'], letter: 'D',
+    definition: 'Proceso de resolución creativa de problemas centrado en la persona, que sigue las fases de Empatizar, Definir, Idear, Prototipar y Evaluar.',
+    classroom: 'Empieza siempre por salir al campo a observar y entrevistar a quienes viven el problema que intentas resolver.' },
+  { term: 'Diferenciación Curricular', courses: ['cts'], letter: 'D',
+    definition: 'Ajuste sistemático de los objetivos, contenidos, metodologías y evaluaciones para responder a la diversidad de aprendices en el aula.',
+    classroom: 'Diseña "menús de aprendizaje" donde los estudiantes eligen cómo demostrar que aprendieron.' },
+  { term: 'Divergencia y Convergencia', courses: ['dt'], letter: 'D',
+    definition: 'En pensamiento de diseño, la divergencia abre posibilidades (generar muchas ideas) y la convergencia las cierra (seleccionar la mejor). Los equipos creativos alternan entre ambas fases.',
+    classroom: 'Durante lluvia de ideas, prohíbe la crítica (fase divergente); luego vota para priorizar (fase convergente).' },
+  // E
+  { term: 'Empatía', courses: ['dt','story'], letter: 'E',
+    definition: 'Capacidad de comprender y compartir los sentimientos y perspectivas de otra persona. En Design Thinking es el primer paso; en Storytelling es lo que conecta al oyente con el personaje.',
+    classroom: 'Observa a tus estudiantes sin interrumpir durante 10 minutos y anota lo que ves, no lo que interpretas.' },
+  { term: 'Evaluación Auténtica', courses: ['eval'], letter: 'E',
+    definition: 'Evaluación que pide al estudiante demostrar sus competencias en contextos del mundo real, no solo reproducir información en una prueba escrita.',
+    classroom: 'Reemplaza una prueba tradicional por un producto real: un video explicativo, una campaña, un prototipo.' },
+  { term: 'Evaluación Formativa', courses: ['eval'], letter: 'E',
+    definition: 'Proceso continuo de recolección de información sobre el aprendizaje para ajustar la enseñanza en tiempo real. Su propósito es mejorar, no calificar.',
+    classroom: 'Al final de clase, pide a cada estudiante que escriba en un papel: "Aprendí... / Me pregunto... / Todavía no entiendo..."' },
+  { term: 'Evaluación Sumativa', courses: ['eval'], letter: 'E',
+    definition: 'Valoración del aprendizaje al final de una unidad o período, orientada a certificar o calificar el nivel de logro alcanzado.',
+    classroom: 'Complementa toda evaluación sumativa con una conversación reflexiva: ¿Qué harías diferente si lo hicieras de nuevo?' },
+  { term: 'Exit Ticket', courses: ['eval'], letter: 'E',
+    definition: 'Técnica formativa rápida (2-3 minutos) al finalizar la clase donde el estudiante responde una pregunta clave para verificar la comprensión del día.',
+    classroom: 'Tres preguntas posibles: "¿Qué aprendiste hoy?", "¿Qué pregunta te quedó pendiente?", "Explica el concepto con tus palabras".' },
+  // F
+  { term: 'Feedback', courses: ['eval','abp'], letter: 'F',
+    definition: 'Información específica, oportuna y orientada hacia el futuro que se da al estudiante sobre su desempeño para que pueda mejorar.',
+    classroom: 'Usa el protocolo "Dos estrellas y un deseo": dos cosas que hiciste bien + una cosa que mejorar.' },
+  { term: 'Flipped Classroom', courses: ['steam','eval'], letter: 'F',
+    definition: 'Modelo pedagógico donde el estudiante estudia el contenido en casa (videos, lecturas) y el tiempo de clase se usa para practicar, crear y resolver dudas.',
+    classroom: 'Graba videos cortos (5-7 min) explicando el contenido nuevo y dedica la clase a aplicaciones prácticas.' },
+  { term: 'Fuente Primaria', courses: ['abp'], letter: 'F',
+    definition: 'Documento, testimonio u objeto original de una época o evento, sin interpretación intermedia. Usar fuentes primarias desarrolla el pensamiento histórico y crítico.',
+    classroom: 'Lleva al aula cartas, fotografías antiguas o testimonios orales de personas de la comunidad.' },
+  // G
+  { term: 'Gamificación', courses: ['eval','steam'], letter: 'G',
+    definition: 'Aplicación de mecánicas y dinámicas de juego (puntos, insignias, niveles, retos) en contextos educativos para aumentar la motivación y participación.',
+    classroom: 'Convierte una unidad en un "juego de rol": los estudiantes son personajes que deben resolver un misterio usando los contenidos del curso.' },
+  { term: 'Gestión del Proyecto', courses: ['abp'], letter: 'G',
+    definition: 'Conjunto de habilidades y herramientas para planificar, organizar, ejecutar y controlar las fases de un proyecto dentro del tiempo y recursos disponibles.',
+    classroom: 'Enseña a usar un tablero Kanban simple (Por hacer / En proceso / Terminado) para que los equipos visualicen su avance.' },
+  // H
+  { term: 'Hero\'s Journey (Viaje del Héroe)', courses: ['story'], letter: 'H',
+    definition: 'Estructura narrativa universal identificada por Joseph Campbell donde el protagonista sale de su mundo ordinario, enfrenta pruebas, alcanza una transformación y regresa cambiado.',
+    classroom: 'Presenta cada unidad como el viaje del héroe: el estudiante es el héroe, el conocimiento es la aventura.' },
+  { term: 'Heurística', courses: ['dt'], letter: 'H',
+    definition: 'Estrategia de resolución de problemas basada en la experiencia y la intuición, útil cuando no existe un algoritmo claro. El pensamiento de diseño es fundamentalmente heurístico.',
+    classroom: 'Enseña a los estudiantes reglas prácticas de resolución: "Si el primer intento falla, simplifica el problema a la mitad".' },
+  // I
+  { term: 'Ideación', courses: ['dt'], letter: 'I',
+    definition: 'Fase del Design Thinking donde se generan la mayor cantidad posible de ideas, suspendiendo el juicio crítico para abrir el espacio creativo.',
+    classroom: 'Establece la regla de "100 ideas en 10 minutos" y prohíbe decir "eso no sirve" durante la sesión.' },
+  { term: 'Ingeniería en STEAM', courses: ['steam'], letter: 'I',
+    definition: 'La "E" de STEAM incluye el pensamiento de diseño de sistemas, la resolución de problemas con restricciones reales y el ciclo construir-probar-mejorar.',
+    classroom: 'El ciclo de ingeniería: Define el problema → Investiga → Diseña → Construye → Prueba → Mejora.' },
+  { term: 'Inteligencia Emocional', courses: ['cts'], letter: 'I',
+    definition: 'Capacidad de reconocer, comprender y gestionar las propias emociones y las de los demás. Es fundamental tanto para el aprendizaje como para el trabajo colaborativo.',
+    classroom: 'Inicia el día con un "check-in emocional" de 2 minutos donde cada estudiante dice cómo llega.' },
+  { term: 'Inteligencias Múltiples', courses: ['cts'], letter: 'I',
+    definition: 'Teoría de Howard Gardner que propone que la inteligencia no es una sola capacidad sino un conjunto de habilidades relativamente independientes: lingüística, lógico-matemática, espacial, musical, corporal-cinestésica, naturalista, interpersonal e intrapersonal.',
+    classroom: 'Diseña actividades que involucren al menos 3 tipos de inteligencia diferentes.' },
+  // L
+  { term: 'Lanzamiento del Proyecto', courses: ['abp'], letter: 'L',
+    definition: 'Evento o experiencia inicial diseñado para despertar el interés y la curiosidad de los estudiantes sobre el proyecto que están a punto de comenzar.',
+    classroom: 'Un lanzamiento efectivo: un video perturbador, una visita de campo, una persona invitada con un problema real.' },
+  { term: 'Literacidad Científica', courses: ['steam'], letter: 'L',
+    definition: 'Capacidad de leer, escribir, hablar y razonar usando el lenguaje y los métodos de la ciencia para participar activamente en decisiones científicas y tecnológicas.',
+    classroom: 'Pide a los estudiantes que expliquen sus experimentos en un "diario de científico" con datos, gráficos y conclusiones propias.' },
+  // M
+  { term: 'Matemáticas en STEAM', courses: ['steam'], letter: 'M',
+    definition: 'La "M" de STEAM es la ciencia del patrón y la estructura, fundamental para modelar, medir, predecir y optimizar en todos los demás campos STEAM.',
+    classroom: 'Conecta cada concepto matemático con una aplicación real: estadística → encuestas de su comunidad; geometría → diseño arquitectónico.' },
+  { term: 'Metacognición', courses: ['eval','cts'], letter: 'M',
+    definition: 'Conciencia y control que una persona tiene sobre sus propios procesos de pensamiento y aprendizaje. Los estudiantes metacognitivos aprenden más rápido y con mayor autonomía.',
+    classroom: 'Pregunta con frecuencia: "¿Cómo sabes que entendiste?", "¿Qué estrategia usaste para resolverlo?"' },
+  { term: 'Modelo Mental', courses: ['dt','story'], letter: 'M',
+    definition: 'Representación interna que una persona construye de cómo funciona el mundo. Los buenos maestros y narradores comprenden los modelos mentales de su audiencia para conectar con ellos.',
+    classroom: 'Antes de enseñar un concepto nuevo, pide a los estudiantes que dibujen cómo creen que funciona.' },
+  // N
+  { term: 'Narrativa Pedagógica', courses: ['story'], letter: 'N',
+    definition: 'Uso intencional de la estructura y las técnicas narrativas para enseñar contenidos curriculares, crear conexión emocional y hacer el aprendizaje memorable.',
+    classroom: 'Convierte cualquier concepto abstracto en una historia: personajes, conflicto y resolución = concepto, problema y solución.' },
+  { term: 'Neuronas Espejo', courses: ['story','cts'], letter: 'N',
+    definition: 'Neuronas que se activan tanto cuando realizamos una acción como cuando observamos a alguien más realizarla. Son la base neurológica de la empatía y del poder de las historias.',
+    classroom: 'Las historias activan las neuronas espejo del oyente y hacen que el aprendizaje sea más profundo y duradero.' },
+  // O
+  { term: 'Oral Tradicional Maya', courses: ['story'], letter: 'O',
+    definition: 'Tradición ancestral de transmisión del conocimiento, la historia y los valores a través de la narración oral en las comunidades indígenas de Guatemala. El Popol Vuh es su expresión más conocida.',
+    classroom: 'Invita a ancianos o líderes comunitarios a compartir historias de conocimiento local relacionadas con tus contenidos.' },
+  // P
+  { term: 'Pensamiento Computacional', courses: ['steam'], letter: 'P',
+    definition: 'Conjunto de habilidades para resolver problemas usando conceptos de la informática: descomposición, reconocimiento de patrones, abstracción y algoritmos. No requiere computadoras.',
+    classroom: 'Enseña algoritmos con actividades desenchufadas: instrucciones para hacer un sándwich, movimientos en un tablero, etc.' },
+  { term: 'Pensamiento Crítico', courses: ['abp','dt'], letter: 'P',
+    definition: 'Capacidad de analizar, evaluar y sintetizar información de manera reflexiva para tomar decisiones fundamentadas.',
+    classroom: 'El protocolo Socrático: presenta una afirmación controversial y pide a los estudiantes que argumenten a favor y en contra con evidencia.' },
+  { term: 'Pensamiento de Diseño', courses: ['dt'], letter: 'P',
+    definition: 'Ver Design Thinking. Proceso centrado en la persona que integra empatía, creatividad y racionalidad para resolver problemas complejos de manera innovadora y colaborativa.',
+    classroom: 'Aplica las cinco fases (Empatizar, Definir, Idear, Prototipar, Evaluar) de forma iterativa, no lineal.' },
+  { term: 'Perfil de Aprendizaje', courses: ['cts'], letter: 'P',
+    definition: 'Descripción de las características individuales de un estudiante que afectan su aprendizaje: estilo preferido, fortalezas, intereses, contexto cultural y familiar.',
+    classroom: 'Construye un perfil de cada estudiante observándolos, conversando con ellos y con sus familias.' },
+  { term: 'Portafolio', courses: ['eval'], letter: 'P',
+    definition: 'Colección organizada de trabajos del estudiante que evidencia su proceso de aprendizaje y crecimiento a lo largo del tiempo.',
+    classroom: 'Pide a los estudiantes que seleccionen sus mejores trabajos y escriban por qué los eligieron.' },
+  { term: 'Pregunta Motriz', courses: ['abp'], letter: 'P',
+    definition: 'Pregunta abierta, desafiante y significativa que guía toda la investigación de un proyecto de ABP. Debe ser auténtica, conectada con la vida real y no tener una respuesta única.',
+    classroom: 'Una buena pregunta motriz: "¿Cómo podríamos mejorar la calidad del agua en nuestra comunidad usando lo que sabemos de ciencias?"' },
+  { term: 'Prototipo', courses: ['dt','steam'], letter: 'P',
+    definition: 'Versión rápida y de bajo costo de una solución diseñada para ser probada y mejorada. Un prototipo no es el producto final; es una herramienta de aprendizaje.',
+    classroom: 'Materiales de prototipado de bajo costo: cartón, papel, cinta adhesiva, arcilla, palitos de helado.' },
+  { term: 'Producto Final', courses: ['abp'], letter: 'P',
+    definition: 'Resultado tangible o intangible que los estudiantes crean al concluir un proyecto de ABP para presentarlo a una audiencia auténtica.',
+    classroom: 'El producto debe tener impacto real: una propuesta al municipio, una guía para la comunidad, una app funcional, un evento.' },
+  // R
+  { term: 'Reflexión', courses: ['abp','eval','dt'], letter: 'R',
+    definition: 'Proceso de pensar críticamente sobre la propia experiencia de aprendizaje para extraer lecciones y transferirlas a nuevos contextos.',
+    classroom: '"¿Qué salió bien? ¿Qué cambiarías? ¿Qué aprendiste de los errores?" — tres preguntas para después de cada proyecto.' },
+  { term: 'Retroalimentación Formativa', courses: ['eval'], letter: 'R',
+    definition: 'Proceso de proveer información específica y oportuna durante el aprendizaje para orientar al estudiante hacia la mejora continua. Es sinónimo operativo de Feedback en el aula.',
+    classroom: 'No esperes a que termine el proyecto: da retroalimentación en cada etapa del proceso para que pueda corregirse a tiempo.' },
+  { term: 'Rúbrica', courses: ['eval'], letter: 'R',
+    definition: 'Herramienta de evaluación que describe en detalle los criterios de desempeño en una tarea y los niveles de logro esperados para cada criterio.',
+    classroom: 'Co-crea rúbricas con tus estudiantes para aumentar su comprensión de lo que se espera de ellos.' },
+  // S
+  { term: 'STEAM', courses: ['steam'], letter: 'S',
+    definition: 'Integración de Ciencia, Tecnología, Ingeniería (Engineering), Arte y Matemáticas en un enfoque interdisciplinar de enseñanza centrado en la resolución de problemas del mundo real.',
+    classroom: 'Un proyecto STEAM debe integrar genuinamente al menos 3 de las 5 disciplinas, no solo mencionarlas.' },
+  { term: 'Storytelling Docente', courses: ['story'], letter: 'S',
+    definition: 'Uso intencional de historias por parte del maestro para contextualizar contenidos, crear conexión emocional y hacer el aprendizaje más memorable y transferible.',
+    classroom: 'Comienza cada tema con una historia real, ficticia o metafórica que plante la semilla del conflicto cognitivo.' },
+  // T
+  { term: 'Tecnología en STEAM', courses: ['steam'], letter: 'T',
+    definition: 'La "T" de STEAM incluye el uso de herramientas tecnológicas, pero también el proceso de diseñar, crear y evaluar tecnología.',
+    classroom: 'La tecnología incluye tijeras, palancas y sistemas de riego — no solo pantallas.' },
+  { term: 'Trabajo Colaborativo', courses: ['abp','dt'], letter: 'T',
+    definition: 'Proceso en el que un grupo de personas comparte objetivos, recursos y trabajo para lograr un resultado que ninguno podría alcanzar individualmente.',
+    classroom: 'Asigna roles rotativos en cada equipo: facilitador, cronometrador, registrador, presentador.' },
+  // V
+  { term: 'Voz del Narrador', courses: ['story'], letter: 'V',
+    definition: 'El tono, ritmo, pausas y modulación que el docente usa al contar una historia. La voz es la mitad del poder de una narración oral.',
+    classroom: 'Practica el silencio dramático: pausa 3-5 segundos antes de revelar información clave para generar anticipación.' },
+  { term: 'Voz del Estudiante', courses: ['abp','cts'], letter: 'V',
+    definition: 'El grado en que los estudiantes tienen elección, decisión y poder en su propio aprendizaje: qué aprenden, cómo lo aprenden y cómo demuestran que aprendieron.',
+    classroom: 'Ofrece opciones en al menos uno de estos tres niveles: contenido, proceso o producto.' },
+  // Z
+  { term: 'Zona de Desarrollo Próximo (ZDP)', courses: ['cts'], letter: 'Z',
+    definition: 'Concepto de Vygotsky: la distancia entre lo que un estudiante puede hacer solo y lo que puede lograr con apoyo. El aprendizaje más efectivo ocurre en esta zona.',
+    classroom: 'Diseña actividades ligeramente más difíciles que lo que el estudiante ya domina, y ofrece apoyo exactamente donde lo necesita.' },
+
+  // ── Términos de las rutas Docente Creativo y Metodologías Activas ──────────
+  { term: 'Aprendizaje Basado en Videos (ABV)', courses: ['abv'], letter: 'A',
+    definition: 'Metodología que usa el video como recurso central para presentar contenido, motivar la indagación y promover el análisis. Se apoya en la teoría de codificación dual (imagen + audio refuerzan la memoria).',
+    classroom: 'Acompaña cada video con una guía de tres momentos: predicción antes, pausas reflexivas durante, y preguntas de discusión después.' },
+  { term: 'Aula Invertida (Flipped Classroom)', courses: ['flip'], letter: 'A',
+    definition: 'Modelo en el que el primer contacto con el contenido ocurre fuera del aula (videos, lecturas) y el tiempo de clase se dedica a la práctica, la discusión y la resolución de dudas con acompañamiento del docente.',
+    classroom: 'Para estudiantes sin internet en casa, entrega el video en USB o prepara una versión impresa del material previo.' },
+  { term: 'Cápsula de Aprendizaje', courses: ['micro'], letter: 'C',
+    definition: 'Unidad breve y autocontenida de contenido (1-5 minutos) centrada en un solo objetivo. Es la pieza fundamental del micro-learning, con estructura gancho → núcleo → cierre con acción.',
+    classroom: 'Envía una cápsula por WhatsApp cada mañana: una idea clave, un ejemplo y una micro-tarea de un minuto.' },
+  { term: 'Ciudadanía Digital', courses: ['tec'], letter: 'C',
+    definition: 'Conjunto de competencias para usar la tecnología de forma segura, ética, crítica y responsable, incluyendo la protección de datos, la huella digital y el respeto en entornos en línea.',
+    classroom: 'Antes de cualquier proyecto digital, acuerden normas de respeto, privacidad y citación de fuentes con el grupo.' },
+  { term: 'Curva del Olvido', courses: ['micro'], letter: 'C',
+    definition: 'Fenómeno descrito por Hermann Ebbinghaus: la retención de información decae rápidamente con el tiempo si no se repasa. Justifica el uso de cápsulas breves y la repetición espaciada.',
+    classroom: 'Repasa lo clave a las 24 horas, a la semana y al mes con micro-cuestionarios rápidos para fijar el aprendizaje.' },
+  { term: 'Mobile Learning (m-learning)', courses: ['ml'], letter: 'M',
+    definition: 'Aprendizaje que aprovecha dispositivos móviles (principalmente el celular) para acceder a contenidos y actividades en cualquier momento y lugar. En contextos de baja conectividad, el celular suele ser el dispositivo más accesible.',
+    classroom: 'Diseña actividades "offline-first": que puedan descargarse o realizarse con datos mínimos y sin conexión constante.' },
+  { term: 'Modelo SAMR', courses: ['tec'], letter: 'M',
+    definition: 'Marco de Ruben Puentedura para evaluar la integración tecnológica en cuatro niveles: Sustitución, Aumento, Modificación y Redefinición. Los dos últimos transforman la tarea pedagógica.',
+    classroom: 'Pregúntate: ¿la tecnología solo reemplaza el cuaderno (Sustitución) o permite algo antes imposible (Redefinición)?' },
+  { term: 'Pensamiento Convergente', courses: ['crea'], letter: 'P',
+    definition: 'Capacidad de analizar, filtrar y seleccionar entre muchas ideas para llegar a la solución más adecuada. Es el complemento del pensamiento divergente en el proceso creativo.',
+    classroom: 'Tras una lluvia de ideas, usa criterios claros (impacto, viabilidad) para que el grupo elija las mejores propuestas.' },
+  { term: 'Pensamiento Divergente', courses: ['crea'], letter: 'P',
+    definition: 'Capacidad de generar muchas ideas distintas, variadas y originales a partir de un mismo punto de partida. Es el motor de la fase de generación creativa.',
+    classroom: 'Plantea retos abiertos sin una única respuesta correcta y premia la cantidad y variedad de ideas antes de juzgarlas.' },
+  { term: 'Repetición Espaciada', courses: ['micro'], letter: 'R',
+    definition: 'Técnica que distribuye los repasos en intervalos crecientes para combatir la curva del olvido y consolidar la memoria a largo plazo.',
+    classroom: 'Programa repasos breves del mismo contenido a intervalos cada vez más largos en lugar de una sola sesión intensiva.' },
+  { term: 'SCAMPER', courses: ['crea'], letter: 'S',
+    definition: 'Técnica de creatividad estructurada que estimula ideas mediante siete operaciones sobre algo existente: Sustituir, Combinar, Adaptar, Modificar, Poner otros usos, Eliminar y Reordenar.',
+    classroom: 'Toma un objeto o problema común del aula y aplícale cada letra de SCAMPER para generar soluciones nuevas.' },
+  // ─── Ruta: Docente y la IA ───
+  { term: 'Alucinación de IA', courses: ['iaf','iac'], letter: 'A',
+    definition: 'Fenómeno por el cual un modelo de IA genera información falsa o inventada —una fecha, un dato, una cita— pero la presenta con la misma confianza que un dato verificado.',
+    classroom: 'Verifica siempre en una fuente confiable cualquier dato específico generado por IA antes de usarlo en material oficial.' },
+  { term: 'Prompt', courses: ['iaf'], letter: 'P',
+    definition: 'Instrucción que se le da a un modelo de IA generativa para obtener una respuesta. Su claridad y especificidad determinan directamente la calidad del resultado.',
+    classroom: 'Estructura tus prompts con contexto, tarea, formato y restricciones para obtener respuestas más útiles y aplicables.' },
+  { term: 'Modelo de Lenguaje', courses: ['iaf'], letter: 'M',
+    definition: 'Sistema de IA entrenado con grandes cantidades de texto que predice, palabra por palabra, el contenido más probable dado un contexto. No consulta hechos: calcula probabilidad.',
+    classroom: 'Recuerda esta distinción al usar cualquier chat de IA: fluidez en la respuesta no es lo mismo que exactitud.' },
+  { term: 'IA Generativa', courses: ['iah','iaf'], letter: 'I',
+    definition: 'Tipo de inteligencia artificial que crea contenido nuevo —texto, imagen, audio— a partir de una instrucción, en contraste con la IA clásica que solo clasifica o predice un valor.',
+    classroom: 'Es el tipo de IA que usarás para generar planificaciones, bancos de preguntas o material visual de apoyo.' },
+  { term: 'Diseño Universal para el Aprendizaje (DUA)', courses: ['iai'], letter: 'D',
+    definition: 'Marco pedagógico que propone ofrecer múltiples formas de representación, expresión y motivación desde el diseño inicial de una actividad, para que llegue a la mayor diversidad de estudiantes posible.',
+    classroom: 'Usa IA para generar rápido una misma actividad en texto, imagen y audio, cubriendo distintos estilos de acceso al contenido.' },
+  { term: 'Brecha Digital', courses: ['iai','iat'], letter: 'B',
+    definition: 'Desigualdad de acceso a internet, dispositivos y competencias digitales entre distintos grupos de estudiantes o comunidades.',
+    classroom: 'Diseña el uso de IA con estudiantes para que ocurra en el aula bajo supervisión, sin asumir acceso individual garantizado en casa.' },
+  { term: 'Ciudadanía Digital', courses: ['iac'], letter: 'C',
+    definition: 'Conjunto de conocimientos, habilidades y actitudes para usar la tecnología, incluida la IA, de forma segura, crítica y responsable.',
+    classroom: 'Enseña explícitamente qué información personal nunca debe compartirse en un chat de IA, igual que en cualquier red social.' },
+  { term: 'Integridad Académica', courses: ['iac'], letter: 'I',
+    definition: 'Compromiso con la honestidad en el trabajo académico, incluyendo el uso transparente y declarado de herramientas de IA como apoyo, no como sustituto del pensamiento propio.',
+    classroom: 'Rediseña evaluaciones para requerir aplicación personal del estudiante, más difícil de resolver solo con una IA genérica.' },
+  { term: 'Sesgo Algorítmico', courses: ['iac','iah'], letter: 'S',
+    definition: 'Tendencia de un sistema de IA a reflejar prejuicios o representaciones limitadas presentes en los datos con los que fue entrenado.',
+    classroom: 'Pide siempre ejemplos y contextos guatemaltecos explícitamente: la IA no los incluye por defecto.' },
+  // ─── Ruta: Clima y Convivencia Escolar ───
+  { term: 'Co-regulación', courses: ['mjc','sel'], letter: 'C',
+    definition: 'Proceso por el cual la calma de un adulto —tono de voz, postura, respiración— ayuda al sistema nervioso de un estudiante desregulado a bajar de intensidad.',
+    classroom: 'Antes de responder a una conducta desafiante, respira y baja el tono: presta tu calma antes de pedir una respuesta racional.' },
+  { term: 'Iceberg de la Conducta', courses: ['mjc'], letter: 'I',
+    definition: 'Metáfora que describe la conducta visible (la punta) como solo una fracción de la causa real —frustración, cansancio, contexto familiar— que permanece oculta.',
+    classroom: 'Ante una conducta desafiante, pregúntate qué pasó antes de que la vieras, no solo qué estás viendo ahora.' },
+  { term: 'Consecuencia Lógica', courses: ['mjc','dis'], letter: 'C',
+    definition: 'Respuesta a una conducta que está directamente conectada con ella (ayudar a recoger lo que se tiró), a diferencia de un castigo arbitrario sin relación con el hecho.',
+    classroom: 'Antes de aplicar una consecuencia, pregúntate si enseña algo relacionado con lo ocurrido o es solo un castigo improvisado.' },
+  { term: 'Reparación (Práctica Restaurativa)', courses: ['mjc'], letter: 'R',
+    definition: 'Conversación posterior a un incidente, una vez el estudiante está calmado, enfocada en qué pasó, a quién afectó y qué se puede hacer distinto — no en repetir un sermón.',
+    classroom: 'Pregunta "¿qué necesitabas en ese momento que no tuviste?" para convertir el incidente en aprendizaje real.' },
+  { term: 'Aprendizaje Socioemocional (SEL)', courses: ['sel'], letter: 'A',
+    definition: 'Proceso de desarrollar cinco competencias —autoconciencia, autorregulación, conciencia social, habilidades relacionales y toma de decisiones responsable— según el marco de CASEL.',
+    classroom: 'No requiere una hora aparte: se enseña integrado en cómo manejas un conflicto grupal o cierras la clase.' },
+  { term: 'Autorregulación Emocional', courses: ['sel','bie'], letter: 'A',
+    definition: 'Capacidad de reconocer y manejar las propias emociones de forma adaptativa, sin que estas determinen automáticamente la conducta.',
+    classroom: 'Modela tu propia regulación en voz alta ("estoy frustrado, voy a respirar") — los estudiantes aprenden observándote.' },
+  { term: 'Comunicación Asertiva', courses: ['com'], letter: 'C',
+    definition: 'Estilo de comunicación que expresa la propia necesidad con claridad y firmeza, respetando también al otro — a diferencia del estilo pasivo (evita expresarse) o agresivo (impone sin considerar al otro).',
+    classroom: 'Usa mensajes en primera persona: "necesito que esperes tu turno" en vez de "tú siempre interrumpes".' },
+  { term: 'Escucha Activa', courses: ['com'], letter: 'E',
+    definition: 'Prestar atención genuina al contenido y la emoción detrás de las palabras de otra persona, con la intención real de entender antes de responder.',
+    classroom: 'Parafrasea lo que escuchaste antes de responder: confirma comprensión y baja la tensión del momento.' },
+  { term: 'Mensaje en Primera Persona', courses: ['com'], letter: 'M',
+    definition: 'Estructura de comunicación asertiva que describe la conducta específica, la necesidad propia y una petición concreta, sin atacar la identidad del otro.',
+    classroom: '"Cuando pasa [conducta], yo necesito [experiencia], y me gustaría [petición]" — fórmula simple y practicable.' },
+  { term: 'Mediación de Conflictos', courses: ['com'], letter: 'M',
+    definition: 'Proceso en el que un facilitador —no un juez— ayuda a que dos partes en conflicto se escuchen y construyan juntas una solución.',
+    classroom: 'Haz las mismas preguntas a ambas partes, en el mismo orden: comunica equidad en el proceso.' },
+  { term: 'Disciplina Positiva', courses: ['dis'], letter: 'D',
+    definition: 'Enfoque que sostiene límites claros y consistentes (firmeza) junto con respeto y calidez genuina (amabilidad) al mismo tiempo, sin sacrificar ninguna de las dos.',
+    classroom: 'Involucra al estudiante en proponer la solución: "¿qué podrías hacer para reparar esto?" en vez de solo imponer un castigo.' },
+  { term: 'Motivación Intrínseca', courses: ['dis'], letter: 'M',
+    definition: 'Motivación que nace del interés genuino, la satisfacción de progresar o el sentido de propósito en la actividad misma, sostenida incluso sin un premio externo.',
+    classroom: 'Diseña actividades con autonomía real, evidencia visible de progreso, y conexión con el grupo — los tres pilares que la sostienen.' },
+  { term: 'Efecto de Sobrejustificación', courses: ['dis'], letter: 'E',
+    definition: 'Fenómeno por el cual premiar con algo externo una actividad que ya se disfrutaba genuinamente puede reducir el interés intrínseco por esa actividad.',
+    classroom: 'Cuidado con premiar constantemente conductas que un estudiante ya hace por gusto propio — puede debilitar esa motivación.' },
+  { term: 'Teoría de la Autodeterminación', courses: ['dis'], letter: 'T',
+    definition: 'Marco de Deci y Ryan que identifica autonomía, competencia y conexión como los tres pilares que sostienen la motivación humana genuina y duradera.',
+    classroom: 'Revisa tus actividades preguntando: ¿hay elección real, progreso visible y sentido de pertenencia?' },
+  { term: 'Burnout Docente (Desgaste Profesional)', courses: ['bie'], letter: 'B',
+    definition: 'Síndrome de agotamiento emocional, despersonalización y baja realización personal ante el trabajo, reconocido en la literatura de salud ocupacional.',
+    classroom: 'Detecta señales tempranas —dormir mal, irritabilidad nueva, perder disfrute en lo cotidiano— antes de que se agrave.' },
+  { term: 'Autocuidado Docente', courses: ['bie'], letter: 'A',
+    definition: 'Prácticas conscientes que un docente sostiene para proteger su propio bienestar emocional, condición necesaria para sostener la calidad de su enseñanza a largo plazo.',
+    classroom: 'Un docente agotado tiene menos capacidad de co-regulación con sus estudiantes: cuidarte a ti mismo es también una herramienta de aula.' },
+  { term: 'Adaptación Curricular', courses: ['ei'], letter: 'A',
+    definition: 'Ajuste que cambia CÓMO un estudiante accede a un mismo contenido y objetivo de aprendizaje (más tiempo, otro formato de respuesta), sin bajar la meta esperada.',
+    classroom: 'Antes de simplificar el contenido, pregúntate si el problema real es de acceso — en ese caso, una adaptación puede bastar sin modificar la meta.' },
+  { term: 'Alfabeto Dactilológico', courses: ['lsg'], letter: 'A',
+    definition: 'Sistema de formas de mano que representa cada letra del alfabeto, usado para deletrear nombres propios o palabras sin seña establecida — no para conversar letra por letra.',
+    classroom: 'Practica deletreando tu nombre y el de tus estudiantes como primer paso accesible para familiarizarte con la lengua de señas.' },
+  { term: 'Comunicación Aumentativa y Alternativa (CAA)', courses: ['ei','tea'], letter: 'C',
+    definition: 'Conjunto de sistemas (tableros de pictogramas, aplicaciones de voz, señas, gestos estructurados) que permiten comunicarse a una persona sin lenguaje oral funcional.',
+    classroom: 'Nunca hables "sobre" el estudiante como si no entendiera solo porque no habla con la voz — dirígete a él directamente y dale tiempo para responder con su sistema.' },
+  { term: 'Comunidad Sorda', courses: ['lsg'], letter: 'C',
+    definition: 'Comunidad con idioma, historia e identidad cultural propios, formada por personas sordas que se identifican más allá de la condición médica de no oír.',
+    classroom: 'Pregunta a la familia y al estudiante cómo se identifican — evita asumir que "corregir la sordera" es el único objetivo válido para todos.' },
+  { term: 'Discapacidad Sensorial', courses: ['ei'], letter: 'D',
+    definition: 'Diferencia funcional en uno o más sentidos (audición, visión) que requiere ajustes específicos de acceso a la información, no necesariamente de contenido.',
+    classroom: 'Evalúa cada evaluación con la pregunta: "¿esta forma de preguntar mide el conocimiento, o mide además una habilidad sensorial que no es el objetivo real?"' },
+  { term: 'Diseño Universal para el Aprendizaje (DUA)', courses: ['ei'], letter: 'D',
+    definition: 'Marco de planificación que ofrece desde el inicio múltiples formas de presentar información, de que el estudiante muestre lo aprendido, y de motivar su interés.',
+    classroom: 'Agregar un apoyo visual a una explicación oral y una opción de respuesta oral a un examen escrito no cuesta mucho más tiempo, y abre la clase a más estudiantes.' },
+  { term: 'Enseñanza Estructurada', courses: ['tea'], letter: 'E',
+    definition: 'Enfoque (inspirado en TEACCH) que organiza el espacio, el tiempo y las tareas de forma predecible y visualmente clara, reduciendo la ambigüedad del entorno.',
+    classroom: 'Un horario visual del día y una zona de trabajo bien delimitada ya aplican el principio central de este enfoque, sin rediseñar toda el aula.' },
+  { term: 'Funciones Ejecutivas', courses: ['ddt'], letter: 'F',
+    definition: 'Conjunto de habilidades cognitivas —memoria de trabajo, control inhibitorio, flexibilidad cognitiva, planificación— que el TDAH afecta de forma central.',
+    classroom: 'Apoyos externos como checklists visibles compensan una memoria de trabajo más débil, igual que cualquiera usaría una lista de compras.' },
+  { term: 'Hiperfoco', courses: ['ddt'], letter: 'H',
+    definition: 'Capacidad de concentración profunda y sostenida en una actividad de interés genuino, presente en muchas personas con TDAH, en contraste con la dificultad de atención en tareas poco estimulantes.',
+    classroom: 'No es "falta de atención" general — es una regulación distinta de dónde se dirige la atención; conecta el contenido con intereses reales cuando puedas.' },
+  { term: 'Historia Social', courses: ['tea'], letter: 'H',
+    definition: 'Relato breve, escrito en primera persona y tono neutro, que describe una situación nueva o difícil y qué se espera que ocurra, usado para reducir la ansiedad ante lo desconocido.',
+    classroom: 'Léela junto con el estudiante ANTES de la situación real (una excursión, un cambio de rutina) — no como advertencia disciplinaria, sino para informar y calmar.' },
+  { term: 'Intérprete de Lengua de Señas', courses: ['lsg'], letter: 'I',
+    definition: 'Profesional que traduce entre la lengua de señas y el idioma oral, actuando como canal neutral de comunicación, no como participante de la conversación.',
+    classroom: 'Dirígete siempre directamente al estudiante sordo, nunca al intérprete ("dile que...") — el intérprete traduce, no opina ni explica en tu lugar.' },
+  { term: 'Lengua de Señas de Guatemala (LSG)', courses: ['lsg'], letter: 'L',
+    definition: 'Idioma natural completo, con gramática y sintaxis propias distintas del español, usado por la Comunidad Sorda de Guatemala — varía de la lengua de señas de otros países.',
+    classroom: 'No es "español deletreado con las manos": es un idioma distinto, con su propia estructura, que merece aprenderse como tal.' },
+  { term: 'Meltdown (Crisis Sensorial)', courses: ['tea'], letter: 'M',
+    definition: 'Respuesta neurológica involuntaria de sobrecarga sensorial o emocional en TEA, distinta de un berrinche intencional — el estudiante pierde temporalmente la capacidad de autorregularse.',
+    classroom: 'Durante la crisis, reduce estímulos y da espacio; no exijas que "se calme" ni razones con él en ese momento — eso se conversa después, ya regulado.' },
+  { term: 'Modelo Social de la Discapacidad', courses: ['ei','lsg'], letter: 'M',
+    definition: 'Marco que entiende la discapacidad como una diferencia humana válida con identidad propia, en contraste con el modelo médico, que la ve como un déficit a corregir.',
+    classroom: 'Ningún modelo es "el correcto" de forma universal — conversa con la familia y el estudiante cómo se identifican, en vez de asumirlo.' },
+  { term: 'Modificación Curricular', courses: ['ei'], letter: 'M',
+    definition: 'Ajuste que cambia QUÉ se espera que el estudiante aprenda (menos contenido, objetivos más simples), a diferencia de una adaptación, que solo cambia el acceso.',
+    classroom: 'Confundir modificación con adaptación puede bajar expectativas de aprendizaje cuando el problema real era solo de acceso.' },
+  { term: 'Presunción de Competencia', courses: ['ei','tea'], letter: 'P',
+    definition: 'Principio de asumir que un estudiante entiende y tiene algo que comunicar, aunque su forma de expresarlo (CAA, señas, gestos) sea distinta a la esperada.',
+    classroom: 'Trata al estudiante como interlocutor válido: dirígete a él directamente y dale tiempo para responder con su sistema de comunicación.' },
+  { term: 'Síndrome de Asperger', courses: ['tea'], letter: 'S',
+    definition: 'Diagnóstico histórico hoy integrado dentro del Trastorno del Espectro Autista (TEA) desde el DSM-5 (2013) — no es una condición separada, sino un punto más del mismo espectro.',
+    classroom: 'Evita tratarlo como un diagnóstico distinto al TEA; la evidencia mostró que no lo es.' },
+  { term: 'Síndrome de Down', courses: ['ddt'], letter: 'S',
+    definition: 'Condición genética (copia extra del cromosoma 21) con perfil típico de fortaleza en memoria visual y desafío relativo en memoria auditiva y razonamiento abstracto — el rango de habilidades varía mucho por persona.',
+    classroom: 'Apoya la instrucción con horarios visuales y checklists escritos, aprovechando la memoria visual como fortaleza típica.' },
+  { term: 'TDAH (Trastorno por Déficit de Atención e Hiperactividad)', courses: ['ddt'], letter: 'T',
+    definition: 'Condición neurológica real que afecta principalmente las funciones ejecutivas — no es falta de disciplina ni un problema de crianza.',
+    classroom: 'Divide instrucciones largas en pasos cortos verificables uno a la vez, en vez de dar varios pasos encadenados de una sola vez.' },
+  { term: 'Trastorno del Espectro Autista (TEA)', courses: ['ei','tea'], letter: 'T',
+    definition: 'Condición del desarrollo neurológico que afecta la comunicación social y genera patrones de comportamiento e intereses restringidos y repetitivos, con manifestaciones muy variables entre personas.',
+    classroom: '"Si conoces a una persona con autismo, conoces a UNA persona con autismo" — evita generalizar de un estudiante a otro.' }
+];
+
+const ALL_LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+let activeFilter = 'all';
+let activeSearch = '';
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function highlight(text, query) {
+  if (!query) return escapeHtml(text);
+  const escaped = escapeHtml(text);
+  if (!query.trim()) return escaped;
+  const re = new RegExp('(' + query.trim().replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return escaped.replace(re, '<mark>$1</mark>');
+}
+
+function buildTagHtml(courses) {
+  return courses.map(c => {
+    const info = COURSES[c];
+    return info ? `<span class="tag ${info.cls}">${escapeHtml(info.label)}</span>` : '';
+  }).join('');
+}
+
+function renderTerms() {
+  const query = activeSearch.toLowerCase().trim();
+  const filtered = terms.filter(t => {
+    const matchCourse = activeFilter === 'all' || t.courses.includes(activeFilter);
+    const matchSearch = !query ||
+      t.term.toLowerCase().includes(query) ||
+      t.definition.toLowerCase().includes(query) ||
+      t.classroom.toLowerCase().includes(query) ||
+      t.courses.some(c => COURSES[c] && COURSES[c].label.toLowerCase().includes(query));
+    return matchCourse && matchSearch;
+  });
+
+  const countBadge = document.getElementById('countBadge');
+  countBadge.innerHTML = `<svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 6.5H9M6.5 4V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> ${filtered.length} término${filtered.length !== 1 ? 's' : ''} encontrado${filtered.length !== 1 ? 's' : ''}`;
+
+  const container = document.getElementById('termsContainer');
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="no-results">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="22" cy="22" r="14" stroke="currentColor" stroke-width="2.5"/>
+        <path d="M32 32L42 42" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M17 22H27M22 17V27" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+      </svg>
+      <p>No se encontraron términos</p>
+      <span>Intenta con otra palabra o cambia el filtro</span>
+    </div>`;
+    updateAlphaIndex([]);
+    return;
+  }
+
+  const byLetter = {};
+  filtered.forEach(t => {
+    if (!byLetter[t.letter]) byLetter[t.letter] = [];
+    byLetter[t.letter].push(t);
+  });
+  // Orden alfabético dentro de cada letra
+  Object.keys(byLetter).forEach(l => byLetter[l].sort((a, b) => a.term.localeCompare(b.term, 'es')));
+
+  const letters = Object.keys(byLetter).sort();
+  updateAlphaIndex(letters);
+
+  const html = letters.map(letter => {
+    const cards = byLetter[letter].map(t => `
+      <div class="term-card">
+        <div class="term-header">
+          <div class="term-name">${highlight(t.term, activeSearch)}</div>
+          <div class="term-tags">${buildTagHtml(t.courses)}</div>
+        </div>
+        <div class="term-definition">${highlight(t.definition, activeSearch)}</div>
+        <div class="term-classroom">
+          <span class="term-classroom-label">En el aula:</span>
+          <span>${highlight(t.classroom, activeSearch)}</span>
+        </div>
+      </div>`).join('');
+
+    return `<div class="letter-section" id="section-${letter}">
+      <div class="letter-header">
+        <div class="letter-badge">${letter}</div>
+        <div class="letter-line"></div>
+      </div>
+      ${cards}
+    </div>`;
+  }).join('');
+
+  container.innerHTML = html;
+}
+
+function updateAlphaIndex(activeLetters) {
+  const index = document.getElementById('alphaIndex');
+  index.innerHTML = ALL_LETTERS.map(l => {
+    const has = activeLetters.includes(l);
+    return `<button class="alpha-btn${has ? ' has-terms' : ' disabled'}" ${has ? `onclick="scrollToLetter('${l}')"` : 'disabled'} title="${l}">${l}</button>`;
+  }).join('');
+}
+
+function scrollToLetter(letter) {
+  const el = document.getElementById('section-' + letter);
+  if (el) {
+    const offset = 80;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+
+// Search
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById('clearBtn');
+
+searchInput.addEventListener('input', e => {
+  activeSearch = e.target.value;
+  clearBtn.classList.toggle('visible', activeSearch.length > 0);
+  renderTerms();
+});
+
+clearBtn.addEventListener('click', () => {
+  searchInput.value = '';
+  activeSearch = '';
+  clearBtn.classList.remove('visible');
+  searchInput.focus();
+  renderTerms();
+});
+
+// Prellenar búsqueda desde ?q= (link directo desde la búsqueda global de la app)
+(function () {
+  const q = new URLSearchParams(location.search).get('q');
+  if (q) {
+    searchInput.value = q;
+    activeSearch = q;
+    clearBtn.classList.add('visible');
+    renderTerms();
+  }
+})();
+
+// Filter chips
+document.getElementById('filterRow').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  activeFilter = chip.dataset.filter;
+  renderTerms();
+});
+
+// Initial render
+renderTerms();
+</script>
+</body>
+</html>

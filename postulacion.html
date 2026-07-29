@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Postulación Docente</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:#0F172A;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    padding:1.5rem;
+  }
+  .tenant-logo { display:block; width:56px; height:56px; border-radius:14px; object-fit:contain; margin:0 auto 12px; }
+  .card {
+    background:white;
+    border-radius:20px;
+    max-width:480px;
+    width:100%;
+    padding:32px 28px;
+    box-shadow:0 25px 60px rgba(0,0,0,.35);
+  }
+  .icon { text-align:center; margin-bottom:8px; color:var(--brand-primary,#07B0E4); }
+  h1 { font-size:19px; text-align:center; color:#0F172A; margin-bottom:4px; }
+  .sub { font-size:12.5px; text-align:center; color:#94A3B8; margin-bottom:24px; }
+  label { display:block; font-size:12.5px; font-weight:700; color:#334155; margin:14px 0 5px; }
+  input[type=text], input[type=email], input[type=tel], input[type=number], select {
+    width:100%; padding:11px 13px; border:1.5px solid #E2E8F0; border-radius:10px; font-size:13.5px; font-family:inherit;
+  }
+  .hint { font-size:11px; color:#94A3B8; margin-top:4px; }
+  .check-row { display:flex; align-items:flex-start; gap:10px; margin:14px 0; padding:12px; background:#F8FAFC; border-radius:10px; }
+  .check-row input { margin-top:2px; width:16px; height:16px; flex-shrink:0; }
+  .check-row span { font-size:12.5px; color:#334155; line-height:1.4; }
+  button { width:100%; padding:13px; border:none; border-radius:10px; background:var(--brand-primary,#07B0E4); color:white; font-weight:700; font-size:14px; cursor:pointer; margin-top:18px; }
+  button:disabled { opacity:.6; cursor:not-allowed; }
+  .status { padding:14px; border-radius:12px; text-align:center; font-weight:800; font-size:14px; margin-bottom:16px; }
+  .status.valid { background:#DCFCE7; color:#166534; }
+  .status.invalid { background:#FEE2E2; color:#991B1B; }
+  .err { color:#DC2626; font-size:12px; margin-top:10px; text-align:center; min-height:16px; }
+  .footer { text-align:center; font-size:11px; color:#CBD5E1; margin-top:20px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <img class="tenant-logo" data-tenant="logo" src="default-logo.svg" alt="Logo">
+    <div id="card">
+    <h1>Postulación Docente · <span data-tenant="name">1bot</span></h1>
+    <p class="sub" data-tenant="program">Programa de Reclutamiento Docente 4.0</p>
+
+    <form id="form">
+      <label for="full_name">Nombre completo</label>
+      <input type="text" id="full_name" required maxlength="200">
+
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" required maxlength="200">
+
+      <label for="phone">Teléfono</label>
+      <input type="tel" id="phone" required maxlength="40">
+
+      <label for="pretension_salarial">¿Cuál es tu pretensión salarial mensual? (Q)</label>
+      <input type="number" id="pretension_salarial" required min="1" max="100000" step="1" placeholder="Ej: 3100">
+
+      <label for="jornada">Jornada disponible</label>
+      <select id="jornada" required>
+        <option value="">Selecciona...</option>
+        <option value="matutina">Matutina</option>
+        <option value="vespertina">Vespertina</option>
+        <option value="ambas">Ambas</option>
+      </select>
+
+      <div class="check-row">
+        <input type="checkbox" id="acepta_jornada">
+        <span>Acepto trabajar dentro del horario/jornada del establecimiento educativo asignado.</span>
+      </div>
+
+      <label for="interes_mineduc">¿Actualmente estás en proceso de optar a una plaza del Ministerio de Educación (MINEDUC), o te interesa una a futuro?</label>
+      <select id="interes_mineduc" required>
+        <option value="">Selecciona...</option>
+        <option value="no">No</option>
+        <option value="si">Sí</option>
+      </select>
+      <p class="hint">Esta respuesta no te descarta del proceso — solo nos ayuda a conocer tu situación.</p>
+
+      <div class="check-row">
+        <input type="checkbox" id="compromiso_finalizar_programa">
+        <span>Si soy seleccionado/a, me comprometo a finalizar la duración completa del programa aunque durante ese periodo me surja otra oportunidad laboral (incluyendo una plaza en MINEDUC).</span>
+      </div>
+
+      <button type="submit" id="submitBtn">Enviar postulación</button>
+      <p class="err" id="errMsg"></p>
+    </form>
+
+    <p class="footer"><span data-tenant="name">1bot</span> · Guatemala</p>
+    </div>
+  </div>
+
+  <script src="tenant.js"></script>
+  <script>
+    const SUBMIT_APPLICATION_URL = 'https://grkjhzkgcmackbafqudu.supabase.co/functions/v1/submit-application';
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdya2poemtnY21hY2tiYWZxdWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMjg5MzQsImV4cCI6MjA5NjcwNDkzNH0.2nVTRlhey6HkGs_KZxtCaEp8L2QrvD0NUwY8ZFwZVHY";
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errMsg = document.getElementById('errMsg');
+      const submitBtn = document.getElementById('submitBtn');
+      errMsg.textContent = '';
+
+      await window.TENANT_READY;
+      const tenantName = window.TENANT?.name || '1bot';
+
+      const payload = {
+        full_name: document.getElementById('full_name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        jornada_disponible: document.getElementById('jornada').value,
+        pretension_salarial: Number(document.getElementById('pretension_salarial').value),
+        acepta_jornada: document.getElementById('acepta_jornada').checked,
+        interes_mineduc: document.getElementById('interes_mineduc').value === 'si',
+        compromiso_finalizar_programa: document.getElementById('compromiso_finalizar_programa').checked,
+        tenant_id: window.TENANT?.id || null,
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      try {
+        const res = await fetch(SUBMIT_APPLICATION_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          errMsg.textContent = data.error || 'Ocurrió un error. Intenta de nuevo.';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Enviar postulación';
+          return;
+        }
+
+        if (data.already_applied) {
+          document.getElementById('card').innerHTML = `
+            <div class="icon">${window.svgIcon('clipboard', 40)}</div>
+            <div class="status valid">Ya recibimos tu postulación</div>
+            <p class="sub" style="margin-bottom:20px">Con este correo ya tienes una postulación registrada en este proceso. No es necesario postular de nuevo — el equipo de reclutamiento revisará tu evaluación y se pondrá en contacto contigo.</p>
+            <p class="footer">${tenantName} · Guatemala</p>`;
+        } else if (data.passed_filter && data.access_token) {
+          document.getElementById('card').innerHTML = `
+            <div class="icon">${window.svgIcon('check', 40)}</div>
+            <div class="status valid">¡Postulación recibida!</div>
+            <p class="sub" style="margin-bottom:20px">Cumples los requisitos iniciales. El siguiente paso es una breve evaluación de casos de estudio — te redirigiremos automáticamente.</p>
+            <p class="footer">${tenantName} · Guatemala</p>`;
+          setTimeout(() => {
+            location.href = 'evaluacion.html?token=' + encodeURIComponent(data.access_token);
+          }, 2200);
+        } else if (data.rejection_reason === 'salario') {
+          document.getElementById('card').innerHTML = `
+            <div class="icon">${window.svgIcon('heart', 40)}</div>
+            <div class="status invalid">Gracias por tu interés</div>
+            <p class="sub" style="margin-bottom:20px">Agradecemos mucho tu interés en el programa de reclutamiento docente. En este momento tu pretensión salarial supera el presupuesto disponible para esta posición, así que no logramos llenar tus expectativas. Si tu situación cambia, con gusto puedes postular de nuevo.</p>
+            <p class="footer">${tenantName} · Guatemala</p>`;
+        } else {
+          document.getElementById('card').innerHTML = `
+            <div class="icon">${window.svgIcon('clipboard', 40)}</div>
+            <div class="status invalid">No cumples los requisitos actuales</div>
+            <p class="sub" style="margin-bottom:20px">Gracias por tu interés en el programa de reclutamiento docente. En este momento tu postulación no cumple con los requisitos de elegibilidad (jornada o compromiso de permanencia). Puedes escribirnos si tu situación cambia.</p>
+            <p class="footer">${tenantName} · Guatemala</p>`;
+        }
+      } catch (networkErr) {
+        errMsg.textContent = 'No se pudo conectar. Verifica tu conexión e intenta de nuevo.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar postulación';
+      }
+    });
+  </script>
+</body>
+</html>

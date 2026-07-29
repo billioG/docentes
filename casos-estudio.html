@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Casos de Estudio — Formación Docente en Pedagogía Innovadora</title>
+  <script src="casos-estudio.js"></script>
+  <style>
+    /* ── Reset & tokens ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0f1117;
+      --surface:     #1a1d27;
+      --surface2:    #22263a;
+      --border:      #2e3350;
+      --text:        #e8eaf0;
+      --text-muted:  #8b91b0;
+      --text-dim:    #555c7a;
+      --steam:       #07B0E4;
+      --abp:         #F59E0B;
+      --conoce:      #10B981;
+      --eval:        #8B5CF6;
+      --correct:     #10B981;
+      --wrong:       #F59E0B;
+      --success-bg:  #0d2b1e;
+      --success-bd:  #10B981;
+      --partial-bg:  #2b2100;
+      --partial-bd:  #F59E0B;
+      --struggle-bg: #1a1020;
+      --struggle-bd: #8B5CF6;
+      --radius:      12px;
+      --radius-lg:   18px;
+      --shadow:      0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Layout shells ─────────────────────────────────────── */
+    #app { min-height: 100vh; display: flex; flex-direction: column; }
+
+    .header {
+      padding: 20px 24px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--surface);
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-logo svg { width: 28px; height: 28px; color: var(--steam); }
+    .header-title { font-size: 15px; font-weight: 700; color: var(--text); }
+    .header-sub   { font-size: 12px; color: var(--text-muted); }
+    .header-xp {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 6px 16px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .header-xp svg { width: 16px; height: 16px; color: #F59E0B; }
+
+    .main { flex: 1; padding: 32px 24px; max-width: 900px; margin: 0 auto; width: 100%; }
+
+    /* ── Screen visibility ─────────────────────────────────── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── Selection screen ──────────────────────────────────── */
+    .selection-heading {
+      margin-bottom: 8px;
+      font-size: 26px;
+      font-weight: 700;
+    }
+    .selection-sub {
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      font-size: 15px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+
+    .case-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .case-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--card-color, var(--steam));
+    }
+    .case-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: var(--card-color, var(--steam));
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: color-mix(in srgb, var(--card-color, var(--steam)) 15%, transparent);
+    }
+    .card-icon svg { width: 22px; height: 22px; color: var(--card-color, var(--steam)); }
+
+    .card-meta { flex: 1; }
+    .card-course-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--card-color, var(--steam));
+      background: color-mix(in srgb, var(--card-color, var(--steam)) 12%, transparent);
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin-bottom: 6px;
+    }
+    .card-title { font-size: 18px; font-weight: 700; line-height: 1.3; }
+
+    .card-desc { color: var(--text-muted); font-size: 14px; margin-bottom: 18px; line-height: 1.5; }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-duration {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .card-duration svg { width: 14px; height: 14px; }
+
+    .btn-start {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: var(--card-color, var(--steam));
+      color: #fff;
+      transition: opacity 0.15s;
+    }
+    .btn-start:hover { opacity: 0.85; }
+    .btn-start svg { width: 14px; height: 14px; }
+
+    /* ── Story screen ──────────────────────────────────────── */
+    .story-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .btn-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-back:hover { border-color: var(--text-muted); color: var(--text); }
+    .btn-back svg { width: 14px; height: 14px; }
+
+    .progress-bar-wrap {
+      flex: 1;
+      background: var(--surface2);
+      border-radius: 99px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--active-color, var(--steam));
+      transition: width 0.4s ease;
+    }
+    .progress-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* ── Node rendering ────────────────────────────────────── */
+    .node-wrap { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .scenario-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .scenario-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--active-color, var(--steam));
+      margin-bottom: 14px;
+    }
+    .scenario-label svg { width: 14px; height: 14px; }
+    .scenario-text {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    .context-box {
+      background: color-mix(in srgb, var(--active-color, var(--steam)) 8%, transparent);
+      border-left: 3px solid var(--active-color, var(--steam));
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .choices-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    .choices-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .choice-btn {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.15s, background 0.15s;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.5;
+      width: 100%;
+    }
+    .choice-btn:hover:not(:disabled) {
+      border-color: var(--active-color, var(--steam));
+      background: color-mix(in srgb, var(--active-color, var(--steam)) 6%, var(--surface));
+    }
+    .choice-btn:disabled { cursor: default; }
+
+    .choice-letter {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 1px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .choice-btn:hover:not(:disabled) .choice-letter {
+      border-color: var(--active-color, var(--steam));
+      color: var(--active-color, var(--steam));
+    }
+
+    /* States after reveal */
+    .choice-btn.chosen-correct {
+      border-color: var(--correct);
+      background: color-mix(in srgb, var(--correct) 8%, var(--surface));
+    }
+    .choice-btn.chosen-correct .choice-letter {
+      border-color: var(--correct);
+      background: var(--correct);
+      color: #fff;
+    }
+    .choice-btn.chosen-wrong {
+      border-color: var(--wrong);
+      background: color-mix(in srgb, var(--wrong) 6%, var(--surface));
+    }
+    .choice-btn.chosen-wrong .choice-letter {
+      border-color: var(--wrong);
+      background: var(--wrong);
+      color: #fff;
+    }
+    .choice-btn.unchosen { opacity: 0.4; }
+
+    /* ── Feedback box ──────────────────────────────────────── */
+    .feedback-box {
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-top: 16px;
+      animation: fadeIn 0.3s ease;
+    }
+    .feedback-box.correct {
+      background: var(--success-bg);
+      border: 1px solid var(--success-bd);
+    }
+    .feedback-box.wrong {
+      background: var(--partial-bg);
+      border: 1px solid var(--partial-bd);
+    }
+    .feedback-box.partial {
+      background: color-mix(in srgb, #F59E0B 10%, var(--surface));
+      border: 1px solid #F59E0B;
+    }
+    .feedback-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .feedback-header svg { width: 18px; height: 18px; }
+    .feedback-header.correct  { color: var(--correct); }
+    .feedback-header.wrong    { color: var(--wrong); }
+    .feedback-header.partial  { color: #F59E0B; }
+
+    .feedback-text { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 14px; }
+
+    .tip-box {
+      display: flex;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .tip-box svg { flex-shrink: 0; width: 16px; height: 16px; margin-top: 2px; color: var(--text-dim); }
+
+    .xp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: color-mix(in srgb, #F59E0B 15%, transparent);
+      border: 1px solid color-mix(in srgb, #F59E0B 40%, transparent);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #F59E0B;
+      margin-bottom: 16px;
+    }
+    .xp-pill svg { width: 13px; height: 13px; }
+
+    .btn-continue {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: var(--active-color, var(--steam));
+      color: #fff;
+      transition: opacity 0.15s;
+    }
+    .btn-continue:hover { opacity: 0.85; }
+    .btn-continue svg { width: 15px; height: 15px; }
+
+    /* ── Outcome card ──────────────────────────────────────── */
+    .outcome-card {
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      text-align: center;
+      animation: fadeIn 0.4s ease;
+    }
+    .outcome-card.success  { background: var(--success-bg);  border: 1px solid var(--success-bd); }
+    .outcome-card.partial  { background: var(--partial-bg);  border: 1px solid var(--partial-bd); }
+    .outcome-card.struggle { background: var(--struggle-bg); border: 1px solid var(--struggle-bd); }
+
+    .outcome-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .outcome-card.success  .outcome-icon { background: color-mix(in srgb, var(--success-bd) 20%, transparent); }
+    .outcome-card.partial  .outcome-icon { background: color-mix(in srgb, var(--partial-bd) 20%, transparent); }
+    .outcome-card.struggle .outcome-icon { background: color-mix(in srgb, var(--struggle-bd) 20%, transparent); }
+    .outcome-icon svg { width: 30px; height: 30px; }
+    .outcome-card.success  .outcome-icon svg { color: var(--success-bd); }
+    .outcome-card.partial  .outcome-icon svg { color: var(--partial-bd); }
+    .outcome-card.struggle .outcome-icon svg { color: var(--struggle-bd); }
+
+    .outcome-title { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+    .outcome-text  { font-size: 15px; color: var(--text-muted); line-height: 1.75; margin-bottom: 24px; max-width: 580px; margin-left: auto; margin-right: auto; }
+
+    .outcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 99px;
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .outcome-card.success  .outcome-badge { background: color-mix(in srgb, var(--success-bd) 15%, transparent); color: var(--success-bd); border: 1px solid var(--success-bd); }
+    .outcome-card.partial  .outcome-badge { background: color-mix(in srgb, var(--partial-bd) 15%, transparent); color: var(--partial-bd); border: 1px solid var(--partial-bd); }
+    .outcome-card.struggle .outcome-badge { background: color-mix(in srgb, var(--struggle-bd) 15%, transparent); color: var(--struggle-bd); border: 1px solid var(--struggle-bd); }
+    .outcome-badge svg { width: 16px; height: 16px; }
+
+    .outcome-xp {
+      font-size: 28px;
+      font-weight: 800;
+      color: #F59E0B;
+      margin-bottom: 6px;
+    }
+    .outcome-xp-label { font-size: 13px; color: var(--text-dim); margin-bottom: 28px; }
+
+    .btn-return {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: var(--active-color, var(--steam));
+      color: #fff;
+      transition: opacity 0.15s;
+    }
+    .btn-return:hover { opacity: 0.85; }
+    .btn-return svg { width: 16px; height: 16px; }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    .footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* ── Responsive ────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .main { padding: 20px 16px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .scenario-box { padding: 20px; }
+      .outcome-card { padding: 24px 20px; }
+      .header-title { font-size: 13px; }
+      .selection-heading { font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Header ─────────────────────────────────────── -->
+  <header class="header">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+        <path d="M2 17l10 5 10-5"/>
+        <path d="M2 12l10 5 10-5"/>
+      </svg>
+      <div>
+        <div class="header-title">Formación Docente en Pedagogía Innovadora</div>
+        <div class="header-sub">Casos de Estudio · Aprendizaje por Decisiones</div>
+      </div>
+    </div>
+    <div class="header-xp" id="xp-display">
+      <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span id="xp-total">0</span> XP
+    </div>
+  </header>
+
+  <!-- ── Main ───────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Selection screen -->
+    <section class="screen active" id="screen-selection">
+      <h1 class="selection-heading">Casos de Estudio</h1>
+      <p class="selection-sub">Explora situaciones reales del aula guatemalteca. Cada decisión tiene consecuencias pedagógicas — y todas enseñan algo.</p>
+      <div class="cards-grid" id="cards-container"></div>
+    </section>
+
+    <!-- Story screen -->
+    <section class="screen" id="screen-story">
+      <nav class="story-nav">
+        <button class="btn-back" id="btn-back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver a casos
+        </button>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="progress-label" id="progress-label">Nivel 1</div>
+      </nav>
+      <div id="node-container"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">Guatemala 2026</footer>
+</div>
+
+<script>
+// ── SVG Icons ────────────────────────────────────────────────
+const ICONS = {
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+  alert: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+  star:  '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+  book:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>',
+  badge: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+  play:  '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>',
+  home:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+  light: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/><circle cx="12" cy="12" r="5"/></svg>',
+  success_icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+  partial_icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+  struggle_icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+  scenario_icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>',
+};
+
+// ── State ─────────────────────────────────────────────────────
+const state = {
+  totalXP: 0,
+  currentCase: null,
+  currentNodeId: null,
+  depth: 0,
+  maxDepth: 5,
+  choiceMade: false,
+};
+
+// ── Helpers ───────────────────────────────────────────────────
+function getColor(cs) {
+  return cs.color;
+}
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function updateXP() {
+  document.getElementById('xp-total').textContent = state.totalXP;
+}
+
+// ── Render selection cards ────────────────────────────────────
+function renderSelection() {
+  const container = document.getElementById('cards-container');
+  container.innerHTML = CASE_STUDIES.map(cs => `
+    <div class="case-card" style="--card-color:${cs.color}" data-id="${cs.id}" role="button" tabindex="0">
+      <div class="card-top">
+        <div class="card-icon">${cs.icon}</div>
+        <div class="card-meta">
+          <div class="card-course-tag">${escHtml(cs.course)}</div>
+          <div class="card-title">${escHtml(cs.title)}</div>
+        </div>
+      </div>
+      <p class="card-desc">${escHtml(cs.description)}</p>
+      <div class="card-footer">
+        <div class="card-duration">
+          ${ICONS.clock}
+          ${escHtml(cs.duration)}
+        </div>
+        <button class="btn-start" style="background:${cs.color}">
+          ${ICONS.play}
+          Comenzar
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.case-card').forEach(card => {
+    const start = (e) => {
+      if (e.target.closest('.btn-start') || e.type === 'keydown' && e.key === 'Enter') {
+        const cs = CASE_STUDIES.find(c => c.id === card.dataset.id);
+        startCase(cs);
+      }
+    };
+    card.addEventListener('click', start);
+    card.addEventListener('keydown', start);
+  });
+}
+
+// ── Start a case ──────────────────────────────────────────────
+function startCase(cs) {
+  state.currentCase = cs;
+  state.currentNodeId = cs.start;
+  state.depth = 0;
+  state.choiceMade = false;
+
+  // Set CSS var for color
+  document.getElementById('screen-story').style.setProperty('--active-color', cs.color);
+  document.getElementById('progress-fill').style.setProperty('background', cs.color);
+
+  showScreen('screen-story');
+  renderNode(cs.start);
+}
+
+// ── Progress tracker ──────────────────────────────────────────
+function updateProgress() {
+  const pct = Math.min((state.depth / state.maxDepth) * 100, 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `Nivel ${Math.min(state.depth + 1, state.maxDepth)} / ${state.maxDepth}`;
+}
+
+// ── Render a node ─────────────────────────────────────────────
+function renderNode(nodeId) {
+  const cs = state.currentCase;
+  const node = cs.nodes[nodeId];
+  if (!node) return;
+
+  state.currentNodeId = nodeId;
+  updateProgress();
+
+  const container = document.getElementById('node-container');
+
+  if (node.type === 'scenario') {
+    renderScenario(node, container);
+  } else if (node.type === 'feedback_correct' || node.type === 'feedback_wrong' ||
+             node.type === 'feedback_incorrect' || node.type === 'feedback_partial') {
+    renderFeedback(node, container);
+  } else if (node.type === 'outcome') {
+    renderOutcome(node, container);
+  }
+}
+
+function renderScenario(node, container) {
+  const letters = ['A', 'B', 'C', 'D'];
+  const choicesHtml = node.choices.map((c, i) => `
+    <button class="choice-btn" data-idx="${i}" data-next="${escHtml(c.next)}" data-correct="${c.isCorrect}">
+      <span class="choice-letter">${letters[i]}</span>
+      <span>${escHtml(c.text)}</span>
+    </button>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="node-wrap">
+      <div class="scenario-box">
+        <div class="scenario-label">${ICONS.scenario_icon} Situación</div>
+        <p class="scenario-text">${escHtml(node.text)}</p>
+        ${node.context ? `<div class="context-box">${escHtml(node.context)}</div>` : ''}
+      </div>
+      <p class="choices-label">¿Qué harías?</p>
+      <div class="choices-list" id="choices-list">
+        ${choicesHtml}
+      </div>
+      <div id="feedback-area"></div>
+    </div>
+  `;
+
+  container.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleChoice(btn, node));
+  });
+}
+
+function handleChoice(btn, node) {
+  const nextId    = btn.dataset.next;
+  const idx       = parseInt(btn.dataset.idx);
+  const choice    = node?.choices?.[idx];
+
+  // Algunos casos usan isCorrect (booleano), otros usan points (0-10) por opción
+  const maxPoints = choice && node.choices.some(c => c.points !== undefined)
+    ? Math.max(...node.choices.map(c => c.points || 0))
+    : null;
+  const isCorrect = choice
+    ? (choice.isCorrect === true || (maxPoints !== null && choice.points === maxPoints))
+    : btn.dataset.correct === 'true';
+
+  // Disable all buttons and style them
+  const allBtns = document.querySelectorAll('.choice-btn');
+  allBtns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === idx) {
+      b.classList.add(isCorrect ? 'chosen-correct' : 'chosen-wrong');
+    } else {
+      b.classList.add('unchosen');
+    }
+  });
+
+  // Award XP immediately
+  const xpGain = choice?.points !== undefined ? choice.points : (isCorrect ? 10 : 0);
+  if (xpGain > 0) {
+    state.totalXP += xpGain;
+    updateXP();
+  }
+
+  // Find the next node (could be feedback or direct scenario/outcome)
+  const cs = state.currentCase;
+  const nextNode = cs.nodes[nextId];
+
+  const feedbackArea = document.getElementById('feedback-area');
+
+  const _isFeedbackNode = nextNode && (
+    nextNode.type === 'feedback_correct' ||
+    nextNode.type === 'feedback_wrong'   ||
+    nextNode.type === 'feedback_incorrect' ||
+    nextNode.type === 'feedback_partial'
+  );
+  if (_isFeedbackNode) {
+    // Show inline feedback
+    const typeCls = nextNode.type === 'feedback_correct' ? 'correct'
+                  : nextNode.type === 'feedback_partial'  ? 'partial'
+                  : 'wrong';
+    const headerText = nextNode.type === 'feedback_correct' ? 'Buena decisión'
+                     : nextNode.type === 'feedback_partial'  ? 'Respuesta parcial'
+                     : 'Momento de reflexión';
+    const icon = nextNode.type === 'feedback_correct' ? ICONS.check : ICONS.alert;
+    const xpHtml = xpGain > 0
+      ? `<div class="xp-pill">${ICONS.star} +${xpGain} XP</div>`
+      : '';
+    const tipText = nextNode.tip || nextNode.feedback;
+
+    feedbackArea.innerHTML = `
+      <div class="feedback-box ${typeCls}">
+        <div class="feedback-header ${typeCls}">${icon} ${headerText}</div>
+        <p class="feedback-text">${escHtml(nextNode.text)}</p>
+        ${tipText ? `<div class="tip-box">${ICONS.light}<span>${escHtml(tipText)}</span></div>` : ''}
+        ${xpHtml}
+        <button class="btn-continue" id="btn-continue" data-next="${escHtml(nextNode.next || '')}">
+          Continuar ${ICONS.arrow}
+        </button>
+      </div>
+    `;
+
+    document.getElementById('btn-continue').addEventListener('click', (e) => {
+      const nxt = e.currentTarget.dataset.next;
+      // Nodos híbridos (feedback + opciones embebidas): no tienen "next" propio,
+      // el siguiente paso son sus propias choices en vez de otro nodo.
+      if (!nxt && nextNode.choices && nextNode.choices.length) {
+        state.currentNodeId = nextId;
+        const letters = ['A', 'B', 'C', 'D'];
+        feedbackArea.innerHTML = `
+          <p class="choices-label">¿Qué harías ahora?</p>
+          <div class="choices-list">
+            ${nextNode.choices.map((c, i) => `
+              <button class="choice-btn" data-idx="${i}" data-next="${escHtml(c.next)}" data-correct="${c.isCorrect}">
+                <span class="choice-letter">${letters[i]}</span>
+                <span>${escHtml(c.text)}</span>
+              </button>
+            `).join('')}
+          </div>
+        `;
+        feedbackArea.querySelectorAll('.choice-btn').forEach(b => {
+          b.addEventListener('click', () => handleChoice(b, nextNode));
+        });
+        feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+      state.depth++;
+      renderNode(nxt);
+    });
+
+    feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  } else {
+    // No feedback node — go directly
+    state.depth++;
+    renderNode(nextId);
+  }
+}
+
+function renderFeedback(node, container) {
+  // Standalone feedback render (used for direct navigation)
+  const typeCls = node.type === 'feedback_correct' ? 'correct'
+                : node.type === 'feedback_partial'  ? 'partial'
+                : 'wrong';
+  const headerText = node.type === 'feedback_correct' ? 'Buena decisión'
+                   : node.type === 'feedback_partial'  ? 'Respuesta parcial'
+                   : 'Momento de reflexión';
+  const icon = node.type === 'feedback_correct' ? ICONS.check : ICONS.alert;
+  const tipText = node.tip || node.feedback;
+
+  container.innerHTML = `
+    <div class="node-wrap">
+      <div class="feedback-box ${typeCls}" style="margin-top:0">
+        <div class="feedback-header ${typeCls}">${icon} ${headerText}</div>
+        <p class="feedback-text">${escHtml(node.text)}</p>
+        ${tipText ? `<div class="tip-box">${ICONS.light}<span>${escHtml(tipText)}</span></div>` : ''}
+        <button class="btn-continue" data-next="${escHtml(node.next || '')}">
+          Continuar ${ICONS.arrow}
+        </button>
+      </div>
+    </div>
+  `;
+
+  container.querySelector('.btn-continue').addEventListener('click', (e) => {
+    const nxt = e.currentTarget.dataset.next;
+    // Nodos híbridos (feedback + opciones embebidas): mostrar sus propias choices
+    if (!nxt && node.choices && node.choices.length) {
+      const feedbackWrap = container.querySelector('.feedback-box');
+      const letters = ['A', 'B', 'C', 'D'];
+      feedbackWrap.insertAdjacentHTML('beforeend', `
+        <p class="choices-label">¿Qué harías ahora?</p>
+        <div class="choices-list">
+          ${node.choices.map((c, i) => `
+            <button class="choice-btn" data-idx="${i}" data-next="${escHtml(c.next)}" data-correct="${c.isCorrect}">
+              <span class="choice-letter">${letters[i]}</span>
+              <span>${escHtml(c.text)}</span>
+            </button>
+          `).join('')}
+        </div>
+      `);
+      e.currentTarget.remove();
+      feedbackWrap.querySelectorAll('.choice-btn').forEach(b => {
+        b.addEventListener('click', () => handleChoice(b, node));
+      });
+      return;
+    }
+    state.depth++;
+    renderNode(nxt);
+  });
+}
+
+function renderOutcome(node, container) {
+  const cs = state.currentCase;
+
+  // Award XP
+  state.totalXP += node.xpReward;
+  updateXP();
+
+  const iconMap = {
+    success: ICONS.success_icon,
+    partial: ICONS.partial_icon,
+    struggle: ICONS.struggle_icon,
+  };
+
+  container.innerHTML = `
+    <div class="node-wrap">
+      <div class="outcome-card ${node.outcome}">
+        <div class="outcome-icon">${iconMap[node.outcome] || ICONS.success_icon}</div>
+        <h2 class="outcome-title">${escHtml(node.title)}</h2>
+        <p class="outcome-text">${escHtml(node.text)}</p>
+        <div class="outcome-badge">
+          ${ICONS.badge}
+          ${escHtml(node.badge)}
+        </div>
+        <div class="outcome-xp">+${node.xpReward} XP</div>
+        <div class="outcome-xp-label">Total acumulado: ${state.totalXP} XP</div>
+        <button class="btn-return" style="background:${cs.color}" id="btn-return">
+          ${ICONS.home} Volver a casos
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btn-return').addEventListener('click', returnToSelection);
+}
+
+// ── Navigation ────────────────────────────────────────────────
+function returnToSelection() {
+  state.currentCase = null;
+  state.currentNodeId = null;
+  state.depth = 0;
+  document.getElementById('node-container').innerHTML = '';
+  showScreen('screen-selection');
+}
+
+document.getElementById('btn-back').addEventListener('click', returnToSelection);
+
+// ── Init ──────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof CASE_STUDIES === 'undefined') {
+    document.getElementById('cards-container').innerHTML =
+      '<p style="color:#F59E0B;padding:20px">Error: no se pudo cargar casos-estudio.js. Asegúrate de que ambos archivos estén en la misma carpeta.</p>';
+    return;
+  }
+  renderSelection();
+  updateXP();
+});
+</script>
+</body>
+</html>

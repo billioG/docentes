@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kit de Design Thinking – Formación Docente</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #E83C8D; --color-dark: #c42a75; --color-light: #FDE7F2; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #fff5f9; font-size: 14px; line-height: 1.6; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(232,60,141,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #E83C8D, #c42a75); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+  .process-bar { display: grid; grid-template-columns: repeat(5,1fr); gap: 0; margin-bottom: 40px; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  .pb-step { padding: 18px 12px; text-align: center; }
+  .pb-step .emoji { font-size: 28px; display: block; margin-bottom: 6px; }
+  .pb-step .num { font-size: 11px; font-weight: 700; opacity: 0.7; display: block; }
+  .pb-step .name { font-size: 14px; font-weight: 800; }
+  .s1 { background: #3B82F6; color: white; }
+  .s2 { background: #8B5CF6; color: white; }
+  .s3 { background: #E83C8D; color: white; }
+  .s4 { background: #F97316; color: white; }
+  .s5 { background: #22C55E; color: white; }
+  h2 { font-size: 22px; font-weight: 700; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 3px solid var(--color-light); display: flex; align-items: center; gap: 10px; }
+  h2.s1h { color: #1d4ed8; border-color: #dbeafe; }
+  h2.s2h { color: #6d28d9; border-color: #ede9fe; }
+  h2.s3h { color: var(--color-dark); border-color: var(--color-light); }
+  h2.s4h { color: #c2410c; border-color: #ffedd5; }
+  h2.s5h { color: #15803d; border-color: #d1fae5; }
+  .cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-bottom: 10px; }
+  .act-card { border-radius: 14px; padding: 20px; }
+  .ac-s1 { background: #EFF6FF; border: 2px solid #bfdbfe; }
+  .ac-s2 { background: #F5F3FF; border: 2px solid #ddd6fe; }
+  .ac-s3 { background: #FDE7F2; border: 2px solid #f9a8d4; }
+  .ac-s4 { background: #FFF7ED; border: 2px solid #fdba74; }
+  .ac-s5 { background: #F0FDF4; border: 2px solid #86efac; }
+  .act-card .act-icon { font-size: 32px; margin-bottom: 10px; display: block; }
+  .act-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .ac-s1 h3 { color: #1d4ed8; }
+  .ac-s2 h3 { color: #6d28d9; }
+  .ac-s3 h3 { color: var(--color-dark); }
+  .ac-s4 h3 { color: #c2410c; }
+  .ac-s5 h3 { color: #15803d; }
+  .act-meta { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .am-tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: white; }
+  .act-card p { font-size: 13px; color: #475569; margin-bottom: 10px; }
+  .steps-list { padding-left: 16px; }
+  .steps-list li { font-size: 12px; color: #475569; margin-bottom: 4px; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; }
+    .act-card { break-inside: avoid; }
+    .cards-grid { grid-template-columns: repeat(3, 1fr); }
+    footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">Design Thinking · Kit Completo</span>
+  <div style="margin-bottom:12px;"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></div>
+  <h1>Kit de Design Thinking</h1>
+  <p>15 actividades en tarjetas visuales — 3 por cada fase del proceso DT — listas para implementar en el aula guatemalteca</p>
+</header>
+
+<div class="container">
+
+  <div class="process-bar">
+    <div class="pb-step s1"><span class="emoji"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span class="num">Fase 1</span><span class="name">Empatizar</span></div>
+    <div class="pb-step s2"><span class="emoji"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span><span class="num">Fase 2</span><span class="name">Definir</span></div>
+    <div class="pb-step s3"><span class="emoji"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></span><span class="num">Fase 3</span><span class="name">Idear</span></div>
+    <div class="pb-step s4"><span class="emoji"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span><span class="num">Fase 4</span><span class="name">Prototipar</span></div>
+    <div class="pb-step s5"><span class="emoji"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></span><span class="num">Fase 5</span><span class="name">Evaluar</span></div>
+  </div>
+
+  <!-- FASE 1: EMPATIZAR -->
+  <h2 class="s1h"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Fase 1: Empatizar — Entender a la Persona Real</h2>
+  <p style="margin-bottom:20px; color:var(--gray);">El objetivo de empatizar no es suponer qué necesita el usuario — es <strong>descubrirlo</strong> hablando con él, observándolo y viviendo su experiencia. Sin empatía real, diseñamos soluciones para un usuario imaginario.</p>
+  <div class="cards-grid">
+    <div class="act-card ac-s1">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span>
+      <h3>Entrevista de Empatía</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 30–45 min</span><span class="am-tag">2–3 personas</span></div>
+      <p>Entrevistar a personas reales del contexto guatemalteco sobre sus experiencias, no solo sus opiniones. El objetivo es descubrir sentimientos y necesidades detrás de las palabras.</p>
+      <ol class="steps-list">
+        <li>Preparar 5 preguntas abiertas sobre el tema a explorar (ejemplo: "¿Cómo es tu día cuando vas al mercado?").</li>
+        <li>Entrevistar a al menos 2 personas. Uno pregunta, otro toma notas sobre palabras clave y emociones.</li>
+        <li>Compartir con el equipo: ¿qué nos sorprendió? ¿Qué escuchamos varias veces?</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s1">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></span>
+      <h3>Mapa de Empatía</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 20 min</span><span class="am-tag">Papel grande</span></div>
+      <p>Organizar todo lo que aprendiste sobre tu usuario en un mapa visual de 4 cuadrantes para encontrar patrones y contradicciones.</p>
+      <ol class="steps-list">
+        <li>Dividir una hoja grande en 4: ¿Qué DICE? / ¿Qué PIENSA? / ¿Qué SIENTE? / ¿Qué HACE?</li>
+        <li>Con post-its o notas, llenar cada cuadrante con lo observado en entrevistas y observaciones.</li>
+        <li>Identificar tensiones: ¿hay algo que dice pero no hace? ¿Algo que siente pero no dice?</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s1">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2"><circle cx="12" cy="5" r="1"/><path d="M9 20l3-15 3 15"/><path d="M6 13l6-2 6 2"/></svg></span>
+      <h3>Un Día en la Vida De...</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 60 min</span><span class="am-tag">Observación directa</span></div>
+      <p>Acompañar o simular el recorrido diario de la persona para quien diseñamos, identificando momentos de frustración y alegría.</p>
+      <ol class="steps-list">
+        <li>Elegir una persona representativa (una vendedora del mercado, una mamá que lleva a sus hijos a la escuela).</li>
+        <li>Observar o entrevistar sobre su rutina completa de un día. Dibujar la línea de tiempo de su día.</li>
+        <li>Marcar los momentos de mayor frustración con rojo y los de mayor satisfacción con verde. ¿Dónde podríamos intervenir?</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- FASE 2: DEFINIR -->
+  <h2 class="s2h"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Fase 2: Definir — Nombrar el Problema Correcto</h2>
+  <p style="margin-bottom:20px; color:var(--gray);">Definir no es listar problemas — es identificar <strong>el problema correcto</strong> detrás del síntoma que observamos. Un problema bien definido ya contiene la dirección de la solución.</p>
+  <div class="cards-grid">
+    <div class="act-card ac-s2">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+      <h3>Declaración de Punto de Vista (POV)</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 15 min</span><span class="am-tag">Síntesis grupal</span></div>
+      <p>Crear una oración que defina quién es el usuario, qué necesita y por qué — sin mencionar aún la solución.</p>
+      <ol class="steps-list">
+        <li>Completar la frase: "[Nombre del usuario] necesita [una necesidad o deseo real] porque [insight — la razón profunda que descubriste]."</li>
+        <li>Escribir varias versiones y comparar cuál captura mejor lo aprendido en empatía.</li>
+        <li>Compartir la declaración con alguien que no estaba en el proceso. ¿La entienden sin explicación?</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s2">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><path d="M12 22V12M12 12C12 7 7 4 2 4s0 8 10 8M12 12c0-5 5-8 10-8s0 8-10 8"/></svg></span>
+      <h3>¿Cómo Podríamos…? (HMW)</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 20 min</span><span class="am-tag">Tarjetas</span></div>
+      <p>Transformar el problema en preguntas que abren posibilidades de solución sin limitarlas. Esta es la transición entre Definir e Idear.</p>
+      <ol class="steps-list">
+        <li>Tomar el punto de vista definido y convertirlo en preguntas que empiecen con "¿Cómo podríamos...?"</li>
+        <li>Generar al menos 10 preguntas HMW. Algunas demasiado amplias, otras demasiado estrechas — buscar el balance.</li>
+        <li>Votar cuál pregunta HMW es más inspiradora y abordable. Esa será la pregunta de ideación.</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s2">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6d28d9" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+      <h3>Mapa de Problemas</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 25 min</span><span class="am-tag">Papel grande, marcadores</span></div>
+      <p>Mapear las causas y consecuencias del problema para encontrar el punto de intervención más estratégico.</p>
+      <ol class="steps-list">
+        <li>Escribir el problema en el centro de la hoja. Alrededor: sus causas (¿por qué ocurre?). Más afuera: sus consecuencias.</li>
+        <li>Identificar qué causas están en nuestro alcance de intervención y cuáles están fuera.</li>
+        <li>Elegir la causa en que enfocaremos el diseño. Reformular el problema de acuerdo con esto.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- FASE 3: IDEAR -->
+  <h2 class="s3h"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c42a75" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Fase 3: Idear — Generar Muchas Posibilidades</h2>
+  <p style="margin-bottom:20px; color:var(--gray);">La ideación busca cantidad antes que calidad. La regla de oro: <strong>no hay ideas malas en ideación</strong>. Juzgar demasiado pronto mata las mejores ideas antes de que nazcan.</p>
+  <div class="cards-grid">
+    <div class="act-card ac-s3">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c42a75" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+      <h3>Lluvia de Ideas Silenciosa</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 10 min</span><span class="am-tag">Post-its, bolígrafos</span></div>
+      <p>Generar ideas de forma individual y en silencio antes de compartirlas, evitando que las voces más fuertes dominen.</p>
+      <ol class="steps-list">
+        <li>Dar a cada estudiante un stack de post-its. En silencio total, escribir una idea por post-it durante 5 minutos.</li>
+        <li>Pegar todos los post-its en la pared. Sin hablar aún, agrupar los que parecen similares.</li>
+        <li>Ahora sí: presentar los grupos y añadir ideas nuevas que surjan de ver las de los demás.</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s3">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c42a75" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
+      <h3>SCAMPER</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 30 min</span><span class="am-tag">Guía de preguntas</span></div>
+      <p>Técnica estructurada para generar ideas nuevas transformando algo que ya existe usando 7 tipos de modificaciones.</p>
+      <ol class="steps-list">
+        <li><strong>S</strong>ustituir, <strong>C</strong>ombinar, <strong>A</strong>dapt, <strong>M</strong>odificar, <strong>P</strong>oner en otro uso, <strong>E</strong>liminar, <strong>R</strong>eordenar.</li>
+        <li>Tomar una solución existente al problema. Para cada letra de SCAMPER: ¿qué haríamos si aplicáramos esta transformación?</li>
+        <li>Registrar todas las ideas generadas. Luego elegir las 3 más prometedoras para prototipado.</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s3">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c42a75" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <h3>Bodystorming</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 20 min</span><span class="am-tag">Espacio amplio</span></div>
+      <p>Idear moviéndose: simular físicamente el uso de la solución para descubrir ideas que no emergerían sentados.</p>
+      <ol class="steps-list">
+        <li>Simular con el cuerpo la situación del usuario (ejemplo: simular que eres una abuela en el mercado buscando un producto).</li>
+        <li>Mientras actúas, identificar fricciones: ¿qué es incómodo? ¿qué falta? ¿qué sobra?</li>
+        <li>Generar ideas específicas basadas en lo experimentado físicamente. Las mejores ideas de diseño nacen de la experiencia corporal.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- FASE 4: PROTOTIPAR -->
+  <h2 class="s4h"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Fase 4: Prototipar — Hacer para Pensar</h2>
+  <p style="margin-bottom:20px; color:var(--gray);">Un prototipo no tiene que ser perfecto — tiene que ser suficientemente bueno para <strong>aprender algo</strong>. Prototipamos para fallar rápido y barato, antes de invertir mucho tiempo en una solución equivocada.</p>
+  <div class="cards-grid">
+    <div class="act-card ac-s4">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+      <h3>Prototipo en Papel</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 20 min</span><span class="am-tag">Papel, tijeras, cinta</span></div>
+      <p>Crear una versión rápida y tosca de la solución usando solo papel. La limitación fuerza la creatividad y la velocidad.</p>
+      <ol class="steps-list">
+        <li>Con papel, cartón y lo que haya disponible: construir una versión tangible de la idea en 15 minutos.</li>
+        <li>No buscar la perfección — buscar la suficiencia para hacer una pregunta. "¿Entiendes qué hace esto?"</li>
+        <li>Mostrar el prototipo a alguien y observar (no explicar) cómo interactúa con él. Tomar notas.</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s4">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
+      <h3>Roleplay / Actuación</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 15 min</span><span class="am-tag">Solo el cuerpo</span></div>
+      <p>Prototipar un servicio, proceso o experiencia actuándolo. Ideal cuando la solución es una interacción, no un objeto.</p>
+      <ol class="steps-list">
+        <li>Asignar roles: usuario, prestador de servicio, observador. Definir el escenario (ejemplo: estudiante llegando a la biblioteca escolar).</li>
+        <li>Actuar la interacción tal como la idea propone. El observador toma notas de momentos de confusión o éxito.</li>
+        <li>Repetir cambiando un elemento clave. Comparar cuál versión funciona mejor.</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s4">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#c2410c" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
+      <h3>Storyboard Visual</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 25 min</span><span class="am-tag">Hoja dividida en cuadros</span></div>
+      <p>Contar en viñetas cómo el usuario encontraría, usaría y se beneficiaría de la solución — como una historieta.</p>
+      <ol class="steps-list">
+        <li>Dividir una hoja en 6 cuadros. En cada cuadro: un momento de la experiencia del usuario con la solución.</li>
+        <li>Dibujar (no importa la calidad artística) la historia completa de uso desde que el usuario tiene el problema hasta que lo resuelve.</li>
+        <li>Compartir el storyboard con personas que no conocen el proyecto. ¿Lo entienden sin explicación verbal?</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- FASE 5: EVALUAR -->
+  <h2 class="s5h"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg> Fase 5: Evaluar — Aprender de los Usuarios Reales</h2>
+  <p style="margin-bottom:20px; color:var(--gray);">Evaluar no es presentar y que te aplaudan — es poner el prototipo frente a usuarios reales y <strong>observar honestamente qué funciona y qué no</strong>. El feedback incómodo es el más valioso.</p>
+  <div class="cards-grid">
+    <div class="act-card ac-s5">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      <h3>Estrellas y Deseos (Feedback Stars &amp; Wishes)</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 10 min</span><span class="am-tag">Post-its de dos colores</span></div>
+      <p>Estructura simple de retroalimentación: lo que brilla (fortalezas) y lo que desearías (áreas de mejora).</p>
+      <ol class="steps-list">
+        <li>El usuario ve o prueba el prototipo en silencio mientras el equipo observa sin hablar.</li>
+        <li>El usuario escribe en post-it amarillo: "Lo que más me gustó fue..." y en post-it azul: "Desearía que..."</li>
+        <li>El equipo lee todo sin defenderse. Luego decide qué incorporar en la siguiente iteración.</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s5">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+      <h3>Prueba con Usuario Real</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 20–30 min</span><span class="am-tag">Guía de observación</span></div>
+      <p>Sesión estructurada donde el usuario interactúa con el prototipo mientras el equipo observa y toma notas — sin intervenir.</p>
+      <ol class="steps-list">
+        <li>Preparar 3 tareas específicas que el usuario debe intentar hacer con el prototipo. No dar explicaciones antes.</li>
+        <li>Uno del equipo facilita, otro toma notas de comportamiento: ¿dónde se confunde? ¿qué ignora? ¿qué le gusta?</li>
+        <li>Al final, hacer 5 preguntas abiertas. Agradecer el tiempo. El equipo analiza los datos juntos.</li>
+      </ol>
+    </div>
+    <div class="act-card ac-s5">
+      <span class="act-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#15803d" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></span>
+      <h3>Matriz de Iteración</h3>
+      <div class="act-meta"><span class="am-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 15 min</span><span class="am-tag">Hoja o pizarrón</span></div>
+      <p>Registro visual de qué cambió entre versiones del prototipo y por qué — para aprender del proceso de diseño.</p>
+      <ol class="steps-list">
+        <li>Crear tabla: Versión | Qué tenía | Feedback recibido | Qué cambiamos | Resultado del cambio.</li>
+        <li>Después de cada prueba, completar una fila de la tabla antes de hacer cambios.</li>
+        <li>Al final del proceso, revisar la tabla: ¿cuál fue el cambio más impactante? ¿Qué aprendieron sobre diseño?</li>
+      </ol>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <strong>Guatemala 2026</strong><br>
+  Módulo Design Thinking · Kit Completo de Actividades
+</footer>
+</body>
+</html>

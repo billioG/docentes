@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Coordinador — Formación Docente</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  body { font-family:'Inter',sans-serif; background:#F8FAFC; }
+  .card { background:white; border-radius:16px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04); }
+  .badge { display:inline-flex;align-items:center;padding:2px 10px;border-radius:100px;font-size:11px;font-weight:600; }
+  .badge-green { background:#dcfce7;color:#16a34a; }
+  .badge-blue  { background:#dbeafe;color:#2563eb; }
+  .badge-amber { background:#fef3c7;color:#92400e; }
+  .badge-gray  { background:#f1f5f9;color:#64748b; }
+  table { width:100%;border-collapse:collapse;font-size:13px; }
+  th { text-align:left;padding:10px 12px;font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;border-bottom:1.5px solid #f1f5f9; }
+  th.th-group { text-align:center;background:#f8fafc;color:#4f46e5;border-bottom:1.5px solid #e2e8f0;white-space:nowrap;cursor:pointer;user-select:none; }
+  th.th-group:hover { background:#eef2ff; }
+  .th-group-arrow { display:inline-block;font-size:9px;transition:transform .15s ease; }
+  /* Oculta las columnas de curso de cada ruta mientras está colapsada */
+  table.collapsed-steam20 .grp-steam20,
+  table.collapsed-creativo .grp-creativo,
+  table.collapsed-metodologias .grp-metodologias,
+  table.collapsed-ia .grp-ia,
+  table.collapsed-convivencia .grp-convivencia { display:none; }
+  td { padding:10px 12px;border-bottom:1px solid #f8fafc;color:#334155;vertical-align:middle; }
+  tr:last-child td { border-bottom:none; }
+  tr:hover td { background:#f8fafc; }
+  .nav-tab { padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;color:#64748b;cursor:pointer;transition:.15s; }
+  .nav-tab.active { background:#4f46e5;color:white; }
+  .view { display:none; }
+  .view.active { display:block; }
+  .kpi-card { background:white;border-radius:16px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,.06); }
+  @media print {
+    .no-print { display:none !important; }
+    body { background:white; }
+    .card, .kpi-card { box-shadow:none; border:1px solid #e2e8f0; break-inside:avoid; }
+    #lockedBanner { display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="bg-white border-b border-slate-100 px-5 py-3 flex items-center justify-between sticky top-0 z-10 flex-wrap gap-3">
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 bg-indigo-600 rounded-xl flex items-center justify-center shrink-0">
+      <i class="fas fa-school text-white text-sm"></i>
+    </div>
+    <div>
+      <h1 class="font-bold text-slate-800 text-base leading-none" id="schoolTitle">Panel del Coordinador</h1>
+      <p class="text-xs text-slate-400 mt-0.5" id="schoolSubtitle">Centro educativo</p>
+    </div>
+  </div>
+  <div id="schoolTagsWrap" class="hidden flex-wrap gap-1.5"></div>
+  <div class="flex items-center gap-3">
+    <span class="text-xs text-slate-400" id="coordName"></span>
+    <button onclick="signOut()" class="no-print text-xs text-slate-500 hover:text-red-500 transition"><i class="fas fa-sign-out-alt mr-1"></i>Salir</button>
+  </div>
+</div>
+
+<!-- Login -->
+<div id="loginScreen" class="hidden min-h-screen flex items-center justify-center p-6">
+  <div class="card max-w-sm w-full text-center">
+    <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+      <i class="fas fa-user-tie text-indigo-500 text-xl"></i>
+    </div>
+    <h2 class="font-bold text-slate-800 text-lg mb-1">Acceso Coordinadores</h2>
+    <p class="text-xs text-slate-400 mb-6">Ingresa con tu correo y contraseña de la plataforma</p>
+    <div class="space-y-3 text-left">
+      <input id="loginEmail" type="email" placeholder="Correo electrónico" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
+      <input id="loginPass" type="password" placeholder="Contraseña" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button onclick="doLogin()" class="w-full mt-4 bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-sm hover:bg-indigo-700 transition">Ingresar</button>
+    <p id="loginError" class="text-xs text-red-500 mt-3 hidden"></p>
+  </div>
+</div>
+
+<!-- Sin acceso -->
+<div id="noAccessScreen" class="hidden min-h-screen flex items-center justify-center p-6">
+  <div class="card max-w-sm w-full text-center">
+    <i class="fas fa-lock text-4xl text-slate-300 mb-4"></i>
+    <h2 class="font-bold text-slate-700 mb-2">Sin acceso</h2>
+    <p class="text-sm text-slate-400">Tu cuenta no está asignada como coordinador. Contacta al administrador del programa.</p>
+    <button onclick="signOut()" class="mt-4 text-sm text-indigo-500 hover:underline">Cerrar sesión</button>
+  </div>
+</div>
+
+<!-- Plan gratuito: sin reportería -->
+<div id="planLockedScreen" class="hidden min-h-screen flex items-center justify-center p-6">
+  <div class="card max-w-sm w-full text-center">
+    <i class="fas fa-chart-line text-4xl text-amber-300 mb-4"></i>
+    <h2 class="font-bold text-slate-700 mb-2">Reportería no activada</h2>
+    <p class="text-sm text-slate-400" id="lockedSchoolsMsg">Tu(s) centro(s) educativo(s) no tienen activado el plan con reportería de coordinación.</p>
+    <p class="text-xs text-slate-400 mt-3">Contacta al administrador del programa para activar el plan pagado en tu centro.</p>
+    <button onclick="signOut()" class="mt-4 text-sm text-indigo-500 hover:underline">Cerrar sesión</button>
+  </div>
+</div>
+
+<!-- Dashboard principal -->
+<div id="mainDash" class="hidden max-w-6xl mx-auto px-4 py-5">
+
+  <!-- Aviso: algunos centros del coordinador no tienen plan pagado -->
+  <div id="lockedBanner" class="hidden mb-4 bg-amber-50 border border-amber-200 text-amber-700 text-xs rounded-xl px-4 py-2.5 flex items-center gap-2">
+    <i class="fas fa-triangle-exclamation"></i>
+    <span id="lockedBannerText"></span>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex items-center justify-between gap-2 mb-5">
+    <div class="flex gap-2">
+      <button class="nav-tab active" onclick="showTab('tabDash',this)"><i class="fas fa-chart-bar mr-1.5"></i>Dashboard</button>
+      <button class="nav-tab" onclick="showTab('tabTeachers',this)"><i class="fas fa-users mr-1.5"></i>Docentes</button>
+    </div>
+    <button onclick="window.print()" class="no-print border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition flex items-center gap-1.5 whitespace-nowrap">
+      <i class="fas fa-file-pdf"></i> Guardar PDF de esta vista
+    </button>
+  </div>
+
+  <!-- ═══ TAB DASHBOARD ═══ -->
+  <div id="tabDash" class="view active space-y-5">
+
+    <!-- KPIs -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">Docentes inscritos</p>
+        <p class="text-2xl font-black text-indigo-600" id="kpiTotal">—</p>
+      </div>
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">Activos (30 días)</p>
+        <p class="text-2xl font-black text-emerald-600" id="kpiActive">—</p>
+      </div>
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">Tasa de retención</p>
+        <p class="text-2xl font-black text-amber-500" id="kpiRetention">—</p>
+      </div>
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">Certificados emitidos</p>
+        <p class="text-2xl font-black text-violet-600" id="kpiCerts">—</p>
+      </div>
+    </div>
+
+    <!-- Segunda fila KPIs -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">Tarjetas completadas</p>
+        <p class="text-2xl font-black text-blue-600" id="kpiCards">—</p>
+      </div>
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">Horas de formación est.</p>
+        <p class="text-2xl font-black text-teal-600" id="kpiHours">—</p>
+      </div>
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">XP total acumulado</p>
+        <p class="text-2xl font-black text-orange-500" id="kpiXP">—</p>
+      </div>
+      <div class="kpi-card">
+        <p class="text-xs text-slate-400 mb-1">Promedio tarjetas/docente</p>
+        <p class="text-2xl font-black text-slate-700" id="kpiAvgCards">—</p>
+      </div>
+    </div>
+
+    <!-- Comparativa entre centros — solo visible con más de un centro asignado -->
+    <div id="schoolCompareCard" class="card hidden">
+      <p class="font-bold text-slate-800 text-sm mb-0.5">Comparativa entre centros</p>
+      <p class="text-xs text-slate-400 mb-3">Métricas clave lado a lado de cada centro que coordinas</p>
+      <div id="schoolCompareTable" class="overflow-x-auto"></div>
+    </div>
+
+    <!-- Gráficos fila 1 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <!-- Progreso por módulo -->
+      <div class="card">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <p class="font-bold text-slate-800 text-sm">Progreso por módulo</p>
+            <p class="text-xs text-slate-400">% de docentes del centro que completaron</p>
+          </div>
+          <select id="moduleCourseSel" onchange="renderModuleChart()" class="border border-slate-200 rounded-lg px-2 py-1 text-xs text-slate-600 focus:outline-none">
+            <option value="steam">STEAM</option>
+            <option value="abp">ABP</option>
+            <option value="design-thinking">Design Thinking</option>
+            <option value="evaluacion">Evaluación</option>
+            <option value="tipos-estudiantes">Tipos de Estudiantes</option>
+            <option value="storytelling">Storytelling</option>
+            <option value="ia-fundamentos">Docente y la IA</option>
+            <option value="ia-tiempo">IA: Ahorro de Tiempo</option>
+            <option value="ia-herramientas">Herramientas de IA</option>
+            <option value="ia-inclusion">IA e Inclusión</option>
+            <option value="ia-ciudadania">Ciudadanía Digital con IA</option>
+            <option value="manejo-conductas">Manejo de Conductas Desafiantes</option>
+            <option value="sel-docentes">SEL para Docentes</option>
+            <option value="comunicacion-asertiva">Comunicación Asertiva</option>
+            <option value="disciplina-positiva">Disciplina Positiva</option>
+            <option value="bienestar-docente">Bienestar Docente</option>
+          </select>
+        </div>
+        <canvas id="moduleChart" height="200"></canvas>
+      </div>
+
+      <!-- Distribución por curso -->
+      <div class="card">
+        <p class="font-bold text-slate-800 text-sm mb-1">Estado por curso</p>
+        <p class="text-xs text-slate-400 mb-3">Docentes según su avance en cada curso</p>
+        <canvas id="courseDistChart" height="200"></canvas>
+      </div>
+
+    </div>
+
+    <!-- Gráficos fila 2 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+      <!-- Actividad reciente -->
+      <div class="card">
+        <p class="font-bold text-slate-800 text-sm mb-3">Actividad reciente</p>
+        <div id="recentActivity" class="space-y-2"></div>
+      </div>
+
+      <!-- Engagement -->
+      <div class="card">
+        <p class="font-bold text-slate-800 text-sm mb-1">Engagement por docente</p>
+        <p class="text-xs text-slate-400 mb-3">Tarjetas completadas · tiempo estimado</p>
+        <div id="engagementList" class="space-y-2"></div>
+      </div>
+
+    </div>
+
+  </div><!-- /tabDash -->
+
+  <!-- ═══ TAB DOCENTES ═══ -->
+  <div id="tabTeachers" class="view">
+    <div class="card">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <p class="font-bold text-slate-800">Docentes del centro</p>
+          <p class="text-xs text-slate-400 mt-0.5">Progreso detallado por docente</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <input id="searchTeacher" oninput="filterTeachers()" placeholder="Buscar…"
+            class="no-print border border-slate-200 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-200 w-40">
+          <button onclick="exportTeachersCSV()"
+            class="border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition flex items-center gap-1.5 whitespace-nowrap no-print">
+            <i class="fas fa-file-csv"></i> Exportar CSV
+          </button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table id="teachersTable">
+          <thead>
+            <tr id="teachersGroupRow">
+              <th rowspan="2">Docente</th>
+              <th rowspan="2">Centro educativo</th>
+              <th rowspan="2">XP</th>
+              <th rowspan="2">Tarjetas</th>
+              <th rowspan="2">Racha</th>
+              <th rowspan="2">Certificados</th>
+              <!-- th de grupo por ruta inyectados por JS -->
+              <th rowspan="2">Último acceso</th>
+            </tr>
+            <tr id="teachersHeadRow">
+              <!-- columnas de curso inyectadas por JS, agrupadas por ruta -->
+            </tr>
+          </thead>
+          <tbody id="teachersBody">
+            <tr><td colspan="12" class="text-center text-slate-400 py-8"><i class="fas fa-spinner fa-spin mr-1"></i>Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /tabTeachers -->
+
+</div><!-- /mainDash -->
+
+<script>
+const SUPABASE_URL = "https://grkjhzkgcmackbafqudu.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdya2poemtnY21hY2tiYWZxdWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExMjg5MzQsImV4cCI6MjA5NjcwNDkzNH0.2nVTRlhey6HkGs_KZxtCaEp8L2QrvD0NUwY8ZFwZVHY";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const COURSES = [
+  { id:'steam',            title:'STEAM',              modules:5, totalCards:73,  prefix:null,   ranges:[[1,13],[14,27],[28,41],[42,55],[56,73]] },
+  { id:'abp',              title:'ABP',                modules:5, totalCards:61,  prefix:'abp-'  },
+  { id:'design-thinking',  title:'Design Thinking',    modules:5, totalCards:45,  prefix:'dt-'   },
+  { id:'evaluacion',       title:'Evaluación',         modules:5, totalCards:38,  prefix:'ev-'   },
+  { id:'tipos-estudiantes',title:'Tipos Estudiantes',  modules:5, totalCards:60,  prefix:'te-'   },
+  { id:'storytelling',     title:'Storytelling',       modules:5, totalCards:50,  prefix:'st-'   },
+  // Cursos nuevos: sus tarjetas se guardan como '<courseId>-<n>' (ver normalización en app.js)
+  { id:'creatividad',       title:'Creatividad',        modules:5, totalCards:50, prefix:'creatividad-'       },
+  { id:'herramientas-tec',  title:'Herramientas Tec.',  modules:4, totalCards:45, prefix:'herramientas-tec-'  },
+  { id:'m-learning',        title:'Mobile Learning',    modules:4, totalCards:40, prefix:'m-learning-'        },
+  { id:'flipped-classroom', title:'Flipped Classroom',  modules:4, totalCards:40, prefix:'flipped-classroom-' },
+  { id:'abv',               title:'AB Videos',          modules:4, totalCards:35, prefix:'abv-'               },
+  { id:'micro-learning',    title:'Micro-learning',     modules:4, totalCards:35, prefix:'micro-learning-'    },
+  { id:'ia-fundamentos',    title:'Docente y la IA',    modules:4, totalCards:35, prefix:'ia-fundamentos-'    },
+  { id:'ia-tiempo',         title:'IA: Ahorro Tiempo',  modules:4, totalCards:22, prefix:'ia-tiempo-'         },
+  { id:'ia-herramientas',   title:'Herramientas IA',    modules:4, totalCards:19, prefix:'ia-herramientas-'   },
+  { id:'ia-inclusion',      title:'IA e Inclusión',     modules:4, totalCards:18, prefix:'ia-inclusion-'      },
+  { id:'ia-ciudadania',     title:'Ciudadanía Digital IA', modules:4, totalCards:17, prefix:'ia-ciudadania-'  },
+  { id:'manejo-conductas',  title:'Conductas Desafiantes', modules:4, totalCards:31, prefix:'manejo-conductas-' },
+  { id:'sel-docentes',      title:'SEL Docentes',       modules:4, totalCards:26, prefix:'sel-docentes-'       },
+  { id:'comunicacion-asertiva', title:'Comunicación Asertiva', modules:4, totalCards:25, prefix:'comunicacion-asertiva-' },
+  { id:'disciplina-positiva',   title:'Disciplina Positiva',   modules:4, totalCards:24, prefix:'disciplina-positiva-'   },
+  { id:'bienestar-docente',     title:'Bienestar Docente',     modules:4, totalCards:24, prefix:'bienestar-docente-'     },
+];
+
+// Rutas de aprendizaje — mismo agrupamiento que LEARNING_PATHS en app.js.
+// Un curso puede pertenecer a varias rutas ahí; aquí se asigna a la primera
+// ruta de esta lista que lo contenga, para que cada columna aparezca una
+// sola vez agrupada bajo un encabezado de ruta.
+const ROUTE_GROUPS = [
+    { id: 'steam20',      label: 'Docente STEAM 2.0',           courses: ['steam', 'abp', 'design-thinking', 'evaluacion', 'tipos-estudiantes'] },
+    { id: 'creativo',     label: 'Docente Creativo',            courses: ['creatividad', 'herramientas-tec', 'storytelling'] },
+    { id: 'metodologias', label: 'Metodologías Activas',        courses: ['m-learning', 'flipped-classroom', 'abv', 'micro-learning'] },
+    { id: 'ia',           label: 'Docente y la IA',             courses: ['ia-fundamentos', 'ia-tiempo', 'ia-herramientas', 'ia-inclusion', 'ia-ciudadania'] },
+    { id: 'convivencia',  label: 'Clima y Convivencia Escolar', courses: ['manejo-conductas', 'sel-docentes', 'comunicacion-asertiva', 'disciplina-positiva', 'bienestar-docente'] },
+];
+
+// Empiezan todas colapsadas — el coordinador expande solo la ruta que le interesa.
+const _collapsedGroups = new Set(ROUTE_GROUPS.map(g => g.id));
+
+// Ordenar COURSES según el agrupamiento por ruta, para que las columnas de
+// datos (renderTeachers) y los encabezados queden en el mismo orden.
+const COURSES_GROUPED = (() => {
+    const assigned = new Set();
+    const ordered = [];
+    ROUTE_GROUPS.forEach(g => {
+        g.courses.forEach(cid => {
+            const c = COURSES.find(x => x.id === cid);
+            if (c && !assigned.has(cid)) { ordered.push(c); assigned.add(cid); }
+        });
+    });
+    // Cualquier curso no listado en ninguna ruta (por si se agrega uno nuevo
+    // y se olvida actualizar ROUTE_GROUPS) va al final, sin grupo.
+    COURSES.forEach(c => { if (!assigned.has(c.id)) ordered.push(c); });
+    return ordered;
+})();
+
+// courseId -> groupId, para etiquetar cada celda de dato con su ruta
+const COURSE_TO_GROUP = (() => {
+    const map = {};
+    ROUTE_GROUPS.forEach(g => g.courses.forEach(cid => { if (!(cid in map)) map[cid] = g.id; }));
+    return map;
+})();
+
+// Inyectar encabezados de ruta (fila 1, con colspan) y de curso (fila 2),
+// agrupados por ruta, antes de la columna "Último acceso". Empiezan
+// colapsadas: la fila de ruta ocupa 1 sola columna hasta que se hace clic.
+(function () {
+    const groupRow = document.getElementById('teachersGroupRow');
+    const courseRow = document.getElementById('teachersHeadRow');
+    if (!groupRow || !courseRow) return;
+    const lastAccessTh = groupRow.querySelector('th:last-child');
+
+    const coursesById = {};
+    COURSES_GROUPED.forEach(c => { coursesById[c.id] = c; });
+
+    ROUTE_GROUPS.forEach(g => {
+        const idsInGroup = g.courses.filter(cid => coursesById[cid]);
+        if (!idsInGroup.length) return;
+        const groupTh = document.createElement('th');
+        groupTh.className = 'th-group';
+        groupTh.dataset.group = g.id;
+        groupTh.dataset.count = idsInGroup.length;
+        groupTh.colSpan = 1; // colapsado por defecto
+        groupTh.onclick = () => toggleRouteGroup(g.id);
+        groupTh.innerHTML = `<span class="th-group-arrow">▶</span> ${esc(g.label)}`;
+        groupRow.insertBefore(groupTh, lastAccessTh);
+    });
+
+    COURSES_GROUPED.forEach(c => {
+        const groupId = COURSE_TO_GROUP[c.id];
+        const th = document.createElement('th');
+        th.textContent = c.title;
+        th.className = groupId ? `course-col grp-${groupId}` : 'course-col';
+        courseRow.appendChild(th);
+    });
+
+    document.getElementById('teachersTable')?.classList.add(...[...ROUTE_GROUPS.map(g => `collapsed-${g.id}`)]);
+})();
+
+function toggleRouteGroup(groupId) {
+    const table = document.getElementById('teachersTable');
+    const groupTh = document.querySelector(`.th-group[data-group="${groupId}"]`);
+    if (!table || !groupTh) return;
+    const isCollapsed = _collapsedGroups.has(groupId);
+    if (isCollapsed) {
+        _collapsedGroups.delete(groupId);
+        table.classList.remove(`collapsed-${groupId}`);
+        groupTh.colSpan = Number(groupTh.dataset.count);
+        groupTh.querySelector('.th-group-arrow').textContent = '▼';
+    } else {
+        _collapsedGroups.add(groupId);
+        table.classList.add(`collapsed-${groupId}`);
+        groupTh.colSpan = 1;
+        groupTh.querySelector('.th-group-arrow').textContent = '▶';
+    }
+}
+
+let _allTeachers = [];   // cada item tiene ._schoolName
+let _coordSchools = [];
+let _lockedSchools = []; // centros del coordinador en plan free — sin reportería
+let _charts = {};
+
+const _params     = new URLSearchParams(location.search);
+const _urlCoordId = _params.get('coord');
+const _urlSchoolId= _params.get('school');
+
+// ── Auth ─────────────────────────────────────────────────────
+async function init() {
+    const { data:{ session } } = await sb.auth.getSession();
+    if (!session) { show('loginScreen'); return; }
+    await loadDashboard(session.user);
+}
+
+function show(id) {
+    ['loginScreen','noAccessScreen','planLockedScreen','mainDash'].forEach(x => {
+        document.getElementById(x).classList.toggle('hidden', x !== id);
+    });
+}
+
+async function doLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass  = document.getElementById('loginPass').value;
+    const errEl = document.getElementById('loginError');
+    errEl.classList.add('hidden');
+    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+    if (error) { errEl.textContent = error.message; errEl.classList.remove('hidden'); return; }
+    const { data:{ session } } = await sb.auth.getSession();
+    await loadDashboard(session.user);
+}
+
+async function signOut() { await sb.auth.signOut(); show('loginScreen'); }
+
+// ── Navigation ────────────────────────────────────────────────
+function showTab(tabId, btn) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+}
+
+// ── Load dashboard ───────────────────────────────────────────
+async function loadDashboard(user) {
+    const isAdmin = user.email === 'billy@1bot.org';
+    const lookupId = _urlCoordId || user.id;
+
+    const { data: coordRows } = await sb.from('coordinators')
+        .select('*, schools(id, name, plan)')
+        .eq('user_id', lookupId);
+
+    let allSchools = (coordRows || []).map(r => ({ id: r.school_id, name: r.schools?.name || r.school_id, plan: r.schools?.plan || 'free' }));
+
+    if (!allSchools.length && isAdmin && _urlSchoolId) {
+        const { data: school } = await sb.from('schools').select('id,name,plan').eq('id', _urlSchoolId).maybeSingle();
+        if (school) allSchools = [{ id: school.id, name: school.name, plan: school.plan || 'free' }];
+    }
+
+    if (!allSchools.length) { show('noAccessScreen'); return; }
+
+    // Reportería es beneficio de plan pagado — admin ve todo sin restricción
+    _coordSchools  = isAdmin ? allSchools : allSchools.filter(s => s.plan === 'paid');
+    _lockedSchools = isAdmin ? [] : allSchools.filter(s => s.plan !== 'paid');
+
+    if (!_coordSchools.length) {
+        document.getElementById('lockedSchoolsMsg').textContent =
+            `${_lockedSchools.map(s => s.name).join(', ')} no ${_lockedSchools.length > 1 ? 'tienen' : 'tiene'} activado el plan con reportería de coordinación.`;
+        show('planLockedScreen');
+        return;
+    }
+
+    document.getElementById('coordName').textContent = coordRows?.[0]?.name || user.email;
+    show('mainDash');
+
+    const bannerEl = document.getElementById('lockedBanner');
+    if (_lockedSchools.length) {
+        document.getElementById('lockedBannerText').textContent =
+            `${_lockedSchools.map(s => s.name).join(', ')} no ${_lockedSchools.length > 1 ? 'tienen' : 'tiene'} plan pagado — se muestra solo la reportería de los centros activos.`;
+        bannerEl.classList.remove('hidden');
+    } else {
+        bannerEl.classList.add('hidden');
+    }
+
+    // Mostrar tags de centros en el header
+    const tagsWrap = document.getElementById('schoolTagsWrap');
+    if (_coordSchools.length > 1) {
+        tagsWrap.classList.remove('hidden');
+        tagsWrap.innerHTML = _coordSchools.map(s =>
+            `<span class="badge badge-blue" style="font-size:10px">${esc(s.name)}</span>`
+        ).join('');
+        document.getElementById('schoolSubtitle').textContent = `${_coordSchools.length} centros educativos`;
+    } else {
+        document.getElementById('schoolSubtitle').textContent = _coordSchools[0]?.name || 'Centro educativo';
+    }
+
+    document.getElementById('schoolTitle').textContent = 'Panel del Coordinador';
+    await loadTeachers();
+}
+
+// ── Load teachers ─────────────────────────────────────────────
+async function loadTeachers() {
+    const schoolIds = _coordSchools.map(s => s.id);
+    if (!schoolIds.length) { _allTeachers = []; renderAll(); return; }
+
+    // Cargar asignaciones de todos los centros en paralelo
+    const assignResults = await Promise.all(
+        schoolIds.map(sid => sb.from('user_schools').select('user_id').eq('school_id', sid).then(r => ({ sid, rows: r.data || [] })))
+    );
+
+    // Mapa userId → nombre del centro
+    const userSchoolMap = {};
+    for (const { sid, rows } of assignResults) {
+        const schoolName = _coordSchools.find(s => s.id === sid)?.name || sid;
+        for (const { user_id } of rows) {
+            if (!userSchoolMap[user_id]) userSchoolMap[user_id] = schoolName;
+        }
+    }
+
+    const userIds = Object.keys(userSchoolMap);
+    if (!userIds.length) { _allTeachers = []; renderAll(); return; }
+
+    const { data: teachers } = await sb.from('progress')
+        .select('user_id, email, xp, level, streak, completed_cards, updated_at, daily_missions, badges')
+        .in('user_id', userIds)
+        .order('xp', { ascending: false });
+
+    const { data:{ session } } = await sb.auth.getSession();
+    const selfId = session?.user?.id;
+    _allTeachers = (teachers || [])
+        .filter(t => t.user_id !== selfId)
+        .map(t => ({ ...t, _schoolName: userSchoolMap[t.user_id] || '—' }));
+    renderAll();
+}
+
+function renderAll() {
+    renderKPIs();
+    renderModuleChart();
+    renderCourseDistChart();
+    renderRecentActivity();
+    renderEngagement();
+    renderTeachers(_allTeachers);
+    renderSchoolComparison();
+}
+
+// ── Comparativa entre centros (solo con >1 centro asignado) ────
+function renderSchoolComparison() {
+    const card = document.getElementById('schoolCompareCard');
+    if (!card) return;
+    if (_coordSchools.length <= 1) { card.classList.add('hidden'); return; }
+    card.classList.remove('hidden');
+
+    const cutoff = Date.now() - 30 * 864e5;
+    const rows = _coordSchools.map(s => {
+        const teachers = _allTeachers.filter(p => p._schoolName === s.name);
+        const total = teachers.length;
+        const active = teachers.filter(p => p.updated_at && new Date(p.updated_at) >= cutoff).length;
+        const certs = teachers.reduce((sum, p) => sum + countCerts(p), 0);
+        const cards = teachers.reduce((a, p) => a + (p.completed_cards?.length || 0), 0);
+        const xp = teachers.reduce((a, p) => a + (p.xp || 0), 0);
+        return {
+            name: s.name, total, active,
+            retention: total ? Math.round(active / total * 100) : 0,
+            certs, avgCards: total ? Math.round(cards / total) : 0, avgXP: total ? Math.round(xp / total) : 0,
+        };
+    }).sort((a, b) => b.total - a.total);
+
+    const maxTotal = Math.max(1, ...rows.map(r => r.total));
+    document.getElementById('schoolCompareTable').innerHTML = `<table>
+        <thead><tr><th>Centro</th><th>Docentes</th><th>Activos (30d)</th><th>Retención</th><th>Certificados</th><th>XP prom.</th><th>Tarjetas prom.</th></tr></thead>
+        <tbody>${rows.map(r => `
+            <tr>
+                <td class="font-semibold text-slate-700">${esc(r.name)}</td>
+                <td>
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1 bg-slate-100 rounded-full h-2 min-w-[60px]"><div class="bg-indigo-500 h-2 rounded-full" style="width:${Math.round(r.total / maxTotal * 100)}%"></div></div>
+                        <span class="text-xs font-bold text-slate-700">${r.total}</span>
+                    </div>
+                </td>
+                <td class="text-xs">${r.active}</td>
+                <td><span class="badge ${r.retention >= 50 ? 'badge-green' : 'badge-gray'}" style="font-size:9px">${r.retention}%</span></td>
+                <td class="text-xs">${r.certs}</td>
+                <td class="text-xs font-bold text-amber-600">${r.avgXP}</td>
+                <td class="text-xs">${r.avgCards}</td>
+            </tr>`).join('')}</tbody>
+    </table>`;
+}
+
+// ── KPIs ──────────────────────────────────────────────────────
+function renderKPIs() {
+    const t = _allTeachers;
+    const cutoff = Date.now() - 30 * 864e5;
+    const active  = t.filter(p => p.updated_at && new Date(p.updated_at) >= cutoff).length;
+    const certs   = t.reduce((sum, p) => sum + countCerts(p), 0);
+    const cards   = t.reduce((a, p) => a + (p.completed_cards?.length || 0), 0);
+    const xpTotal = t.reduce((a, p) => a + (p.xp || 0), 0);
+    const hours   = Math.round(cards * 3 / 60);
+    const retention = t.length ? Math.round(active / t.length * 100) : 0;
+
+    set('kpiTotal',     t.length);
+    set('kpiActive',    active);
+    set('kpiRetention', retention + '%');
+    set('kpiCerts',     certs);
+    set('kpiCards',     cards.toLocaleString());
+    set('kpiHours',     hours + 'h');
+    set('kpiXP',        xpTotal.toLocaleString());
+    set('kpiAvgCards',  t.length ? Math.round(cards / t.length) : 0);
+}
+
+// ── Module chart ──────────────────────────────────────────────
+function renderModuleChart() {
+    const courseId = document.getElementById('moduleCourseSel').value;
+    const course   = COURSES.find(c => c.id === courseId);
+    if (!course || !_allTeachers.length) return;
+
+    let labels = [], data = [], enrolled = 0;
+
+    if (courseId === 'steam') {
+        const enrolledTeachers = _allTeachers.filter(p =>
+            (p.completed_cards||[]).some(id => /^\d+$/.test(String(id)))
+        );
+        enrolled = enrolledTeachers.length || 1;
+        labels = course.ranges.map((_,i) => `Módulo ${i+1}`);
+        data   = course.ranges.map(([s,e]) => {
+            const ids = Array.from({length: e-s+1}, (_,k) => s+k);
+            const c = enrolledTeachers.filter(p => {
+                const done = new Set((p.completed_cards||[]).map(id => parseInt(id)));
+                return ids.every(id => done.has(id));
+            }).length;
+            return Math.round(c / enrolled * 100);
+        });
+    } else {
+        const px = course.prefix;
+        const enrolledTeachers = _allTeachers.filter(p =>
+            (p.completed_cards||[]).some(id => String(id).startsWith(px))
+        );
+        enrolled = enrolledTeachers.length || 1;
+        const perMod = Math.ceil(course.totalCards / course.modules);
+        labels = Array.from({length: course.modules}, (_,i) => `Módulo ${i+1}`);
+        data   = labels.map((_,i) => {
+            const c = enrolledTeachers.filter(p => {
+                const done = (p.completed_cards||[]).filter(id => String(id).startsWith(`${px}m${i+1}-`));
+                return done.length >= perMod;
+            }).length;
+            return Math.round(c / enrolled * 100);
+        });
+    }
+
+    buildChart('moduleChart', {
+        type: 'bar',
+        data: { labels, datasets: [{ label: `% inscritos (n=${enrolled})`, data,
+            backgroundColor: ['#e0f2fe','#bfdbfe','#a5b4fc','#818cf8','#4f46e5'],
+            borderRadius: 8, borderSkipped: false }] },
+        options: { plugins:{ legend:{ display:true, labels:{ font:{size:10}, boxWidth:0 } } },
+            scales:{ y:{ beginAtZero:true, max:100, ticks:{ callback: v=>v+'%', font:{size:10} }, grid:{color:'#f8fafc'} },
+                     x:{ grid:{display:false}, ticks:{font:{size:10}} } } }
+    });
+}
+
+// ── Course distribution chart ─────────────────────────────────
+function renderCourseDistChart() {
+    const labels   = COURSES.map(c => c.title);
+    const started  = COURSES.map(c => _allTeachers.filter(p => hasCourseStarted(p, c)).length);
+    const certified= COURSES.map(c => _allTeachers.filter(p => hasCertPassed(p, c.id)).length);
+
+    buildChart('courseDistChart', {
+        type: 'bar',
+        data: { labels, datasets: [
+            { label:'Con certificado', data: certified, backgroundColor:'#4ade80', borderRadius:6, borderSkipped:false },
+            { label:'En progreso',     data: started.map((s,i) => Math.max(0, s - certified[i])),
+              backgroundColor:'#818cf8', borderRadius:6, borderSkipped:false },
+        ]},
+        options: { plugins:{ legend:{ display:true, labels:{ font:{size:10}, boxWidth:12 } } },
+            scales:{ x:{ stacked:true, grid:{display:false}, ticks:{font:{size:10}} },
+                     y:{ stacked:true, beginAtZero:true, ticks:{font:{size:10}},
+                         grid:{color:'#f8fafc'} } } }
+    });
+}
+
+// ── Recent activity ───────────────────────────────────────────
+function renderRecentActivity() {
+    const el = document.getElementById('recentActivity');
+    if (!_allTeachers.length) { el.innerHTML = '<p class="text-xs text-slate-400">Sin actividad registrada.</p>'; return; }
+
+    const recent = [..._allTeachers]
+        .filter(p => p.updated_at)
+        .sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at))
+        .slice(0, 6);
+
+    el.innerHTML = recent.map(p => {
+        const cards = p.completed_cards?.length || 0;
+        const when  = timeAgo(p.updated_at);
+        return `<div class="flex items-center gap-3">
+            <div class="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs shrink-0">
+                ${esc(getName(p).charAt(0).toUpperCase())}
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-slate-700 truncate">${esc(getName(p))}</p>
+                <p class="text-xs text-slate-400">${cards} tarjetas · ${when}</p>
+            </div>
+            <span class="badge badge-blue text-xs">${p.xp||0} XP</span>
+        </div>`;
+    }).join('');
+}
+
+// ── Engagement ────────────────────────────────────────────────
+function renderEngagement() {
+    const el = document.getElementById('engagementList');
+    if (!_allTeachers.length) { el.innerHTML = '<p class="text-xs text-slate-400">Sin datos aún.</p>'; return; }
+
+    const sorted = [..._allTeachers]
+        .sort((a,b) => (b.completed_cards?.length||0) - (a.completed_cards?.length||0))
+        .slice(0, 8);
+    const max = sorted[0]?.completed_cards?.length || 1;
+
+    el.innerHTML = sorted.map(p => {
+        const cards = p.completed_cards?.length || 0;
+        const mins  = cards * 3;
+        const time  = mins >= 60 ? `${Math.floor(mins/60)}h ${mins%60}m` : `${mins}m`;
+        return `<div>
+            <div class="flex items-center justify-between mb-0.5">
+                <span class="text-xs font-medium text-slate-700 truncate max-w-[160px]">${esc(getName(p))}</span>
+                <span class="text-xs text-indigo-600 font-bold ml-2 whitespace-nowrap">${cards} · ${time}</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5">
+                <div class="bg-indigo-500 h-1.5 rounded-full" style="width:${Math.round(cards/max*100)}%"></div>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+// ── Teachers table ────────────────────────────────────────────
+function renderTeachers(list) {
+    const tbody = document.getElementById('teachersBody');
+    const empty = `<tr><td colspan="${7 + COURSES.length}" class="text-center text-slate-400 py-8">No hay docentes asignados.<br><span class="text-xs">El administrador puede asignarlos desde el panel principal.</span></td></tr>`;
+    if (!list.length) { tbody.innerHTML = empty; return; }
+
+    tbody.innerHTML = list.map(p => {
+        const certs = countCerts(p);
+        const courseCells = COURSES_GROUPED.map(c => {
+            const groupId = COURSE_TO_GROUP[c.id];
+            const cls = groupId ? ` class="grp-${groupId}"` : '';
+            if (hasCertPassed(p, c.id)) return `<td${cls}><span class="badge badge-green" style="font-size:9px">✓</span></td>`;
+            if (hasCourseStarted(p, c))  return `<td${cls}><span class="badge badge-blue" style="font-size:9px">${getCoursePct(p,c)}%</span></td>`;
+            return `<td${cls}><span class="text-slate-300 text-xs">—</span></td>`;
+        }).join('');
+
+        return `<tr>
+            <td>
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs shrink-0">
+                        ${esc(getName(p).charAt(0).toUpperCase())}
+                    </div>
+                    <p class="font-semibold text-slate-700 text-xs">${esc(getName(p))}</p>
+                </div>
+            </td>
+            <td class="text-xs text-slate-500">${esc(p._schoolName||'—')}</td>
+            <td class="font-bold text-amber-600 text-xs">${p.xp||0}</td>
+            <td class="text-xs">${p.completed_cards?.length||0}</td>
+            <td class="text-xs">${p.streak||0}d</td>
+            <td>${certs > 0 ? `<span class="badge badge-green" style="font-size:9px">${certs} cert.</span>` : '<span class="badge badge-gray" style="font-size:9px">—</span>'}</td>
+            ${courseCells}
+            <td class="text-xs text-slate-400 whitespace-nowrap">${fmtDate(p.updated_at)}</td>
+        </tr>`;
+    }).join('');
+}
+
+function filterTeachers() {
+    renderTeachers(_visibleTeachers());
+}
+
+function _visibleTeachers() {
+    const q = (document.getElementById('searchTeacher')?.value || '').toLowerCase();
+    if (!q) return _allTeachers;
+    return _allTeachers.filter(p =>
+        getName(p).toLowerCase().includes(q) ||
+        (p._schoolName||'').toLowerCase().includes(q)
+    );
+}
+
+function _csvCell(v) {
+    const s = String(v ?? '');
+    return `"${s.replace(/"/g, '""')}"`;
+}
+
+function exportTeachersCSV() {
+    const list = _visibleTeachers();
+    if (!list.length) { alert('No hay docentes para exportar.'); return; }
+
+    const headers = ['Docente', 'Centro educativo', 'XP', 'Tarjetas', 'Racha (días)', 'Certificados',
+        ...COURSES_GROUPED.map(c => c.title), 'Último acceso'];
+
+    const rows = list.map(p => {
+        const courseVals = COURSES_GROUPED.map(c => {
+            if (hasCertPassed(p, c.id)) return 'Aprobado';
+            if (hasCourseStarted(p, c)) return `${getCoursePct(p, c)}%`;
+            return '';
+        });
+        return [
+            getName(p), p._schoolName || '', p.xp || 0, p.completed_cards?.length || 0,
+            p.streak || 0, countCerts(p), ...courseVals, fmtDate(p.updated_at),
+        ];
+    });
+
+    const csv = [headers, ...rows].map(row => row.map(_csvCell).join(',')).join('\r\n');
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }); // BOM para que Excel detecte UTF-8
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const stamp = new Date().toISOString().slice(0, 10);
+    a.download = `docentes_${stamp}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+// ── Helpers ───────────────────────────────────────────────────
+function set(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+function esc(s) {
+    return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function getName(p) {
+    const m = p.daily_missions;
+    return m?.displayName || m?.fullName || p.email?.split('@')[0] || '—';
+}
+
+function fmtDate(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString('es-GT', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+function timeAgo(d) {
+    const diff = Date.now() - new Date(d);
+    const h = Math.floor(diff / 36e5);
+    if (h < 1)  return 'hace minutos';
+    if (h < 24) return `hace ${h}h`;
+    const days = Math.floor(h / 24);
+    return days === 1 ? 'ayer' : `hace ${days} días`;
+}
+
+function hasCertPassed(p, courseId) {
+    const sc = p.daily_missions?.examScores || {};
+    return (sc[courseId] || 0) >= 70 ||
+           (courseId === 'steam' && (p.daily_missions?.examScore || 0) >= 70);
+}
+
+function countCerts(p) {
+    return COURSES.filter(c => hasCertPassed(p, c.id)).length;
+}
+
+function hasCourseStarted(p, course) {
+    return (p.completed_cards||[]).some(id => {
+        const s = String(id);
+        if (course.id === 'steam') return /^\d+$/.test(s);
+        return course.prefix && s.startsWith(course.prefix);
+    });
+}
+
+function getCoursePct(p, course) {
+    const done = (p.completed_cards||[]).filter(id => {
+        const s = String(id);
+        if (course.id === 'steam') return /^\d+$/.test(s);
+        return course.prefix && s.startsWith(course.prefix);
+    }).length;
+    return Math.min(100, Math.round(done / course.totalCards * 100));
+}
+
+function buildChart(canvasId, config) {
+    if (_charts[canvasId]) { _charts[canvasId].destroy(); }
+    const ctx = document.getElementById(canvasId)?.getContext('2d');
+    if (!ctx) return;
+    _charts[canvasId] = new Chart(ctx, config);
+}
+
+init();
+</script>
+</body>
+</html>

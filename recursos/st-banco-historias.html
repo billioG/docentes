@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Historias Guatemaltecas – Storytelling para Docentes</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color: #F59E0B;
+    --color-dark: #D97706;
+    --color-light: #FEF3C7;
+    --color-mid: #FDE68A;
+    --gray: #64748b;
+    --gray-light: #f1f5f9;
+    --text: #1e293b;
+    --science: #0EA5E9;
+    --science-bg: #F0F9FF;
+    --science-border: #BAE6FD;
+    --math: #8B5CF6;
+    --math-bg: #F5F3FF;
+    --math-border: #DDD6FE;
+    --history: #EF4444;
+    --history-bg: #FFF1F2;
+    --history-border: #FECDD3;
+    --art: #EC4899;
+    --art-bg: #FDF2F8;
+    --art-border: #FBCFE8;
+    --values: #10B981;
+    --values-bg: #F0FDF4;
+    --values-border: #A7F3D0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #f8fafc; font-size: 15px; line-height: 1.7; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(245,158,11,0.4); z-index: 999; display: flex; align-items: center; gap: 8px; transition: all 0.2s; }
+  .print-btn:hover { background: var(--color-dark); transform: translateY(-2px); }
+  header { background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 44px 48px; }
+  .header-tag { background: rgba(255,255,255,0.22); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .header-icon { margin-bottom: 14px; display: block; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.92; max-width: 680px; }
+  .header-stats { display: flex; gap: 28px; margin-top: 20px; flex-wrap: wrap; }
+  .stat { background: rgba(255,255,255,0.18); border-radius: 10px; padding: 10px 18px; }
+  .stat .snum { font-size: 22px; font-weight: 800; }
+  .stat .slabel { font-size: 12px; opacity: 0.85; }
+  .container { max-width: 980px; margin: 0 auto; padding: 40px 24px; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin: 48px 0 24px; padding-bottom: 14px; border-bottom: 3px solid; }
+  .section-header.science { border-color: var(--science); }
+  .section-header.math { border-color: var(--math); }
+  .section-header.history { border-color: var(--history); }
+  .section-header.art { border-color: var(--art); }
+  .section-header.values { border-color: var(--values); }
+  .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section-icon.science { background: var(--science-bg); }
+  .section-icon.math { background: var(--math-bg); }
+  .section-icon.history { background: var(--history-bg); }
+  .section-icon.art { background: var(--art-bg); }
+  .section-icon.values { background: var(--values-bg); }
+  .section-header h2 { font-size: 22px; font-weight: 800; }
+  .section-header.science h2 { color: var(--science); }
+  .section-header.math h2 { color: var(--math); }
+  .section-header.history h2 { color: var(--history); }
+  .section-header.art h2 { color: var(--art); }
+  .section-header.values h2 { color: var(--values); }
+  .story-card { background: white; border-radius: 18px; box-shadow: 0 3px 14px rgba(0,0,0,0.08); margin-bottom: 28px; overflow: hidden; break-inside: avoid; }
+  .story-card.science { border-left: 5px solid var(--science); }
+  .story-card.math { border-left: 5px solid var(--math); }
+  .story-card.history { border-left: 5px solid var(--history); }
+  .story-card.art { border-left: 5px solid var(--art); }
+  .story-card.values { border-left: 5px solid var(--values); }
+  .story-top { padding: 20px 24px 16px; border-bottom: 1px solid #F3F4F6; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .story-top-left h3 { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
+  .badge.subject.science { background: var(--science-bg); color: var(--science); }
+  .badge.subject.math { background: var(--math-bg); color: var(--math); }
+  .badge.subject.history { background: var(--history-bg); color: var(--history); }
+  .badge.subject.art { background: var(--art-bg); color: var(--art); }
+  .badge.subject.values { background: var(--values-bg); color: var(--values); }
+  .badge.grade { background: var(--color-light); color: var(--color-dark); }
+  .story-num { font-size: 28px; font-weight: 800; opacity: 0.12; flex-shrink: 0; }
+  .story-body { padding: 20px 24px; }
+  .story-text { font-size: 14px; line-height: 1.8; color: #374151; margin-bottom: 20px; background: var(--gray-light); border-radius: 10px; padding: 18px 20px; }
+  .story-text p { margin-bottom: 10px; }
+  .story-text p:last-child { margin-bottom: 0; }
+  .story-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .questions-box h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .question-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+  .q-num { background: var(--color); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .question-item p { font-size: 13px; margin: 0; }
+  .competencies-box h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray); margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+  .competency-item { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 8px; }
+  .comp-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+  .comp-dot.science { background: var(--science); }
+  .comp-dot.math { background: var(--math); }
+  .comp-dot.history { background: var(--history); }
+  .comp-dot.art { background: var(--art); }
+  .comp-dot.values { background: var(--values); }
+  .competency-item p { font-size: 13px; margin: 0; }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media (max-width: 680px) {
+    .story-bottom { grid-template-columns: 1fr; }
+    header { padding: 28px 20px; }
+    header h1 { font-size: 24px; }
+    .header-stats { gap: 12px; }
+    .story-body { padding: 16px; }
+  }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 12px; }
+    header { padding: 24px 32px; }
+    header h1 { font-size: 24px; }
+    .container { padding: 20px 16px; }
+    .story-card { box-shadow: none; border: 1px solid #e2e8f0; page-break-inside: avoid; break-inside: avoid; margin-bottom: 20px; }
+    footer { margin-top: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="header-tag">Storytelling para Docentes</span>
+  <span class="header-icon">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+      <circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/>
+      <path d="M14 16h24v3H14zm0 7h18v3H14zm0 7h14v3H14z" fill="rgba(255,255,255,0.7)"/>
+      <circle cx="38" cy="38" r="8" fill="rgba(255,255,255,0.25)" stroke="white" stroke-width="1.5"/>
+      <path d="M35 38h6M38 35v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </span>
+  <h1>Banco de Historias Guatemaltecas</h1>
+  <p>20 historias y semillas narrativas listas para el aula, organizadas por área curricular. Adaptadas al contexto guatemalteco con preguntas de discusión y conexiones competenciales.</p>
+  <div class="header-stats">
+    <div class="stat"><div class="snum">20</div><div class="slabel">Historias listas</div></div>
+    <div class="stat"><div class="snum">5</div><div class="slabel">Áreas curriculares</div></div>
+    <div class="stat"><div class="snum">60</div><div class="slabel">Preguntas de discusión</div></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ============ CIENCIAS ============ -->
+  <div class="section-header science">
+    <div class="section-icon science">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 3h6v8l4 8H5l4-8V3z" stroke="#0EA5E9" stroke-width="2" stroke-linejoin="round"/><path d="M9 11h6" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <h2>Ciencias Naturales</h2>
+  </div>
+
+  <!-- Historia 1 -->
+  <div class="story-card science">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Ixmucané y el Secreto del Maíz</h3>
+        <div class="badges">
+          <span class="badge subject science">Biología · Agricultura</span>
+          <span class="badge grade">Primaria (4to-6to)</span>
+        </div>
+      </div>
+      <div class="story-num">01</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>Antes de que existiera el ser humano, según el Popol Vuh, Ixmucané — abuela y comadrona de los dioses — fue la primera en entender que el maíz no era solo alimento: era el material del que estaban hechos los seres humanos mismos. Molió los granos nueve veces, amasó la masa amarilla y blanca, y de ese proceso nació la primera gente verdadera.</p>
+        <p>Lo que los mayas k'iche' describieron como acto divino, los científicos lo confirmaron siglos después: el maíz es originario de Mesoamérica, domesticado hace aproximadamente 9,000 años a partir de una planta silvestre llamada teocintle. Las comunidades indígenas del altiplano guatemalteco desarrollaron cientos de variedades distintas — maíz negro, rojo, blanco, amarillo, morado — cada una adaptada a condiciones específicas de altitud, lluvia y suelo.</p>
+        <p>Hoy, cuando un agricultor de Chimaltenango selecciona las mejores mazorcas para guardar la semilla de la siguiente cosecha, está practicando exactamente el mismo proceso de selección artificial que Darwin describió en "El origen de las especies". Ixmucané fue la primera biotecnóloga de Guatemala. Solo que nadie la llamó así.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Preguntas de discusión
+          </h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué creen que el maíz tiene tantas variedades distintas en Guatemala? ¿Qué revela eso sobre las personas que lo cultivaron?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿En qué se parece la selección de semillas que hacen los agricultores de hoy al proceso que estudió Charles Darwin?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué podría perderse si los agricultores dejan de guardar sus propias semillas y compran semillas industriales?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Conexiones curriculares
+          </h4>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Biodiversidad y adaptación de especies al entorno</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Selección artificial vs. selección natural (evolución)</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Biotecnología ancestral y conocimiento indígena</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Soberanía alimentaria y seguridad nutricional</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 2 -->
+  <div class="story-card science">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>El Río Motagua Que Cambió de Curso</h3>
+        <div class="badges">
+          <span class="badge subject science">Geografía · Medio Ambiente</span>
+          <span class="badge grade">Básicos (1ro-3ro)</span>
+        </div>
+      </div>
+      <div class="story-num">02</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En 1976, el terremoto que destruyó gran parte de Guatemala no solo mató a más de 23,000 personas: también movió el río Motagua. La falla del Motagua, que cruza el país de este a oeste, se desplazó hasta un metro horizontalmente en cuestión de segundos. Comunidades enteras amanecieron al otro lado del río del que habían despertado.</p>
+        <p>Lo que parecía una catástrofe fue también una ventana científica extraordinaria. Los geólogos que llegaron de todo el mundo pudieron ver con sus propios ojos cómo funciona una falla tectónica activa. Midieron el desplazamiento, calcularon la energía liberada, mapearon la fractura en el terreno. Para la geología guatemalteca, fue décadas de conocimiento obtenido en un solo evento.</p>
+        <p>El Motagua sigue corriendo, más o menos por donde siempre ha corrido. Pero debajo de él, dos placas tectónicas —la del Caribe y la de Norteamérica— siguen moviéndose, lentamente, acumulando tensión. Los sismólogos saben que habrá otro terremoto. No saben cuándo. Lo que sí saben es que Guatemala entera vive encima de la historia viva de la Tierra.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Cómo es posible que un río cambie de curso en segundos? ¿Qué nos dice eso sobre la fuerza de los procesos geológicos?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Por qué creen que Guatemala tiene tantos terremotos y volcanes? ¿Qué relación tiene eso con las placas tectónicas?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>Si sabemos que habrá otro terremoto grande, ¿qué debería hacer Guatemala para estar mejor preparada?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Tectónica de placas y fallas geológicas activas</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Dinámica de ríos y geomorfología fluvial</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Gestión de riesgo y desastres naturales</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Observación científica en contextos de emergencia</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 3 -->
+  <div class="story-card science">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>La Ceiba en el Centro del Mundo</h3>
+        <div class="badges">
+          <span class="badge subject science">Ecosistemas · Botánica</span>
+          <span class="badge grade">Primaria (3ro-6to)</span>
+        </div>
+      </div>
+      <div class="story-num">03</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>Para los mayas, la ceiba era el árbol del mundo: su raíz llegaba al inframundo, su tronco sostenía la tierra, y sus ramas alcanzaban los trece cielos. La eligieron árbol sagrado porque es, literalmente, el árbol que más vidas sostiene en la selva tropical. Una sola ceiba adulta puede albergar más de 400 especies diferentes de insectos, aves, hongos, bromelias, orquídeas y mamíferos.</p>
+        <p>Los biólogos tienen un nombre para esto: especie clave. Son las especies que, si desaparecen, provocan el colapso de todo el ecosistema a su alrededor. La ceiba es una de ellas. Sus flores gigantes abren de noche y solo pueden ser polinizadas por murciélagos. Sus frutos producen fibra que cientos de aves usan para construir nidos. Su tronco hueco es hogar de serpientes, tecolotes y boas que regulan la población de roedores.</p>
+        <p>Cuando en los años 90 comenzaron a talar ceibas para expandir los potreros del norte de Guatemala, los agricultores notaron algo extraño: las plagas aumentaron, los pájaros desaparecieron, y el suelo se volvió menos fértil. El árbol del mundo no era solo metáfora. Era ingeniería ecológica con 65 millones de años de perfección evolutiva.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué creen que los mayas eligieron a la ceiba como árbol sagrado? ¿Qué observaron en ella?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Qué es una "especie clave"? ¿Pueden pensar en otro ejemplo de especie que, si desapareciera, afectaría a muchas otras?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué nos dice la historia de las plagas y la ceiba sobre la relación entre biodiversidad y agricultura?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Cadenas tróficas y especies clave en ecosistemas</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Interdependencia entre organismos y su hábitat</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Impacto humano en los ecosistemas tropicales</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Conocimiento ecológico indígena (TEK)</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 4 -->
+  <div class="story-card science">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>El Quetzal Que Nadie Ha Visto Nacer en Cautiverio</h3>
+        <div class="badges">
+          <span class="badge subject science">Biodiversidad · Conservación</span>
+          <span class="badge grade">Básicos (1ro-3ro)</span>
+        </div>
+      </div>
+      <div class="story-num">04</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>Nadie ha logrado criar quetzales en cautiverio. Los han intentado en zoológicos de Estados Unidos, México, Costa Rica y Guatemala mismo. En todos los casos, el resultado fue el mismo: el ave muere. Los científicos tardaron décadas en entender por qué. La respuesta resultó ser una lección de biología que nadie esperaba.</p>
+        <p>El quetzal depende de un árbol específico para anidar: el aguacatillo del bosque nuboso, un árbol de madera blanda en el que el quetzal excava su cavidad con el pico. Pero no puede usar cualquier aguacatillo: necesita uno que ya esté en proceso de descomposición natural, lo suficientemente blando para excavarlo pero lo suficientemente firme para sostener el nido. Ese equilibrio exacto solo existe en bosques nubosos maduros, con décadas de sucesión ecológica, a altitudes entre 1,500 y 3,000 metros.</p>
+        <p>El quetzal no está en extinción por falta de voluntad de conservarlo. Está en peligro porque su hogar —el bosque nuboso de las Verapaces, Quetzaltenango y Huehuetenango— está siendo reducido a fragmentos. Un ave que no puede vivir en cautiverio ni reproducirse en bosques fragmentados tiene solo una opción: un bosque nuboso completo y protegido. O nada.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#0EA5E9" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué no basta con proteger a los quetzales en zoológicos? ¿Qué nos dice esto sobre la conservación de especies?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Cómo se relaciona la supervivencia del quetzal con la salud del bosque nuboso completo?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>Guatemala tiene al quetzal en su bandera y en su moneda. ¿Qué responsabilidad implica eso para el país?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Nichos ecológicos y especialización de especies</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Fragmentación del hábitat y pérdida de biodiversidad</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Estrategias de conservación in situ vs. ex situ</p></div>
+          <div class="competency-item"><div class="comp-dot science"></div><p>Sucesión ecológica en bosques tropicales</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MATEMÁTICAS ============ -->
+  <div class="section-header math">
+    <div class="section-icon math">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round"/><circle cx="8" cy="6" r="2" fill="#8B5CF6"/><circle cx="16" cy="12" r="2" fill="#8B5CF6"/><circle cx="12" cy="18" r="2" fill="#8B5CF6"/></svg>
+    </div>
+    <h2>Matemáticas</h2>
+  </div>
+
+  <!-- Historia 5 -->
+  <div class="story-card math">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Los Mercaderes Quichés y el Cacao</h3>
+        <div class="badges">
+          <span class="badge subject math">Economía · Estadística</span>
+          <span class="badge grade">Básicos (2do-3ro)</span>
+        </div>
+      </div>
+      <div class="story-num">05</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>Antes de que existiera el quetzal como moneda, los mayas tenían una moneda perfecta: el cacao. Era portátil, no se podía falsificar fácilmente, tenía valor intrínseco (era comestible), y su precio variaba según la temporada y la región. Los mercaderes profesionales mayas —los pochtecas— recorrían rutas comerciales de cientos de kilómetros llevando cuentas precisas de sus transacciones en sistemas numéricos posicionales de base 20.</p>
+        <p>El sistema numérico maya era, en varios aspectos, más avanzado que el romano que usaban los europeos en el mismo período. Inventaron el cero como concepto matemático operativo siglos antes de que llegara a Europa desde la India. Sus calculaciones astronómicas —que usaban ese mismo sistema matemático— tenían una precisión que los telescopios europeos tardaron siglos en igualar.</p>
+        <p>En el mercado de Chichicastenango, que se celebra cada jueves y domingo desde hace más de 500 años, siguen operando lógicas económicas similares: oferta, demanda, regateo, crédito informal, redes de confianza. Los vendedores que llevan décadas en el mercado pueden calcular ganancias, porcentajes y equivalencias de precios en segundos, sin calculadora. Matematizaron la economía antes de que la economía tuviera ese nombre.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#8B5CF6" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Qué características hace que algo sirva como moneda? ¿Por qué el cacao funcionaba mejor que otros productos?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Por qué creen que los mayas inventaron el cero? ¿Qué problemas matemáticos no se pueden resolver sin él?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué tipo de matemáticas usan los vendedores del mercado de Chichicastenango sin saber que las usan?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Sistemas numéricos y bases posicionales</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Operaciones con porcentajes y proporciones comerciales</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Estadística básica aplicada a economía de mercado</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Historia de las matemáticas mesoamericanas</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 6 -->
+  <div class="story-card math">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Tikal Sin Calculadora</h3>
+        <div class="badges">
+          <span class="badge subject math">Geometría · Ingeniería</span>
+          <span class="badge grade">Básicos (1ro-3ro)</span>
+        </div>
+      </div>
+      <div class="story-num">06</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>El Templo I de Tikal tiene 47 metros de altura y fue construido alrededor del año 700 d.C. Sus nueve plataformas escalonadas están alineadas con la salida del sol durante los equinoccios. La cámara funeraria en su cima está orientada para que la luz de la mañana del solsticio de verano ilumine exactamente el centro del sarcófago del rey Jasaw Chan K'awiil.</p>
+        <p>Todo esto fue calculado sin álgebra escrita, sin papel, sin calculadoras, y sin la trigonometría tal como la conocemos hoy. Los matemáticos y astrónomos mayas usaron instrumentos de observación simples, tablas de datos astronómicos acumuladas durante generaciones, y un profundo conocimiento de proporciones geométricas. El resultado: estructuras que siguen en pie 1,300 años después, en una región con terremotos frecuentes.</p>
+        <p>Los ingenieros modernos que han estudiado las pirámides mayas han encontrado algo sorprendente: los constructores no intentaban hacer estructuras rígidas. Las hicieron flexibles en ciertos puntos clave, capaces de disipar la energía sísmica. Eso no es instinto. Eso es física aplicada de altísimo nivel, sin haber escrito nunca la palabra "física".</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#8B5CF6" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Cómo es posible alinear una estructura con un evento astronómico sin tener los instrumentos de hoy? ¿Qué necesitarían observar y calcular?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Por qué diseñar una pirámide "flexible" en lugar de "rígida" es una solución más inteligente ante los terremotos?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué nos dice Tikal sobre la diferencia entre tener las herramientas y tener el conocimiento?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Geometría espacial y proporciones arquitectónicas</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Ángulos, alineaciones y trigonometría básica</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Aplicación de matemáticas a problemas de ingeniería</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Pensamiento computacional sin tecnología digital</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 7 -->
+  <div class="story-card math">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Las Tejedoras de Nebaj y los Patrones que No Se Repiten</h3>
+        <div class="badges">
+          <span class="badge subject math">Geometría · Patrones</span>
+          <span class="badge grade">Primaria (5to-6to) · Básicos</span>
+        </div>
+      </div>
+      <div class="story-num">07</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En Nebaj, Quiché, las tejedoras Ixil crean huipiles con patrones geométricos que pueden tardar hasta seis meses en completarse. Cada huipil es único: ningún patrón se repite exactamente igual, aunque todos comparten los mismos elementos base. Para diseñarlos, las tejedoras calculan mentalmente la distribución de colores, el número de hilos, los ángulos de los rombos y las proporciones entre los distintos motivos, todo al mismo tiempo.</p>
+        <p>Los matemáticos que han estudiado los textiles mayas han identificado en ellos simetría de reflexión, simetría de rotación, traslación y glide-reflection — las cuatro transformaciones isométricas del plano que se estudian en geometría avanzada. Los patrones de algunas bandas decorativas corresponden a lo que los matemáticos llaman "grupos de frisos" y "grupos de simetría del plano", un campo de la matemática formal que no fue sistematizado en Occidente hasta el siglo XIX.</p>
+        <p>Una tejedora de Nebaj con cuarenta años de experiencia lleva en su memoria algo equivalente a un tratado de geometría. Nunca lo llamó así. Pero lo sabe con una profundidad que ningún libro de texto puede replicar.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#8B5CF6" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Qué tipos de simetría pueden identificar en un huipil? ¿Cómo los reconocerían?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Creen que una tejedora "sabe matemáticas"? ¿Qué significaría "saber matemáticas" para ustedes?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Por qué es importante documentar y reconocer el conocimiento matemático que existe fuera de las aulas?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Transformaciones isométricas: reflexión, rotación, traslación</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Patrones y regularidades geométricas</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Etnomatemáticas y conocimiento matemático situado</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Simetría y grupos de frisos en el plano</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 8 -->
+  <div class="story-card math">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>El Agricultor de Quetzaltenango Que Calculó la Lluvia</h3>
+        <div class="badges">
+          <span class="badge subject math">Estadística · Predicción</span>
+          <span class="badge grade">Básicos (2do-3ro) · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">08</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>Don Mateo tenía 72 años y llevaba cinco décadas observando el comportamiento de su milpa en San Marcos. Nunca fue a la escuela después de los 10 años, pero llevaba en un cuaderno manchado una tabla de datos que habría hecho sonreír a cualquier estadístico: fecha de primera lluvia, temperatura aproximada, comportamiento de los pájaros migratorios, fase de la luna, floración de ciertas plantas silvestres y rendimiento de cosecha de cada año desde 1968.</p>
+        <p>Cuando investigadores de la USAC revisaron su cuaderno, descubrieron algo notable: las predicciones de Don Mateo sobre el inicio de la temporada de lluvias tenían un margen de error de menos de cuatro días en el 80% de los años registrados. Ningún modelo meteorológico regional disponible para pequeños agricultores en los años 90 llegaba a ese nivel de precisión para predicciones locales a nivel de parcela.</p>
+        <p>Lo que Don Mateo había desarrollado sin saberlo era un modelo de regresión multivariable basado en indicadores locales. La estadística formal lo describe con fórmulas. Él lo describía como "escuchar al cerro". Ambos tenían razón.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#8B5CF6" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Qué hizo Don Mateo que los meteorólogos también hacen? ¿En qué se parece su método a la estadística formal?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Por qué es importante tener muchos años de datos para hacer predicciones confiables?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Cómo podríamos combinar el conocimiento de Don Mateo con los modelos meteorológicos modernos?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Recolección y organización de datos estadísticos</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Tablas de datos, frecuencias y tendencias</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Predicción estadística e intervalos de confianza</p></div>
+          <div class="competency-item"><div class="comp-dot math"></div><p>Correlación entre variables y regresión básica</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HISTORIA Y SOCIALES ============ -->
+  <div class="section-header history">
+    <div class="section-icon history">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#EF4444" stroke-width="2"/><path d="M12 7v5l3 3" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+    <h2>Historia y Ciencias Sociales</h2>
+  </div>
+
+  <!-- Historia 9 -->
+  <div class="story-card history">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Tecún Umán en Xetulul: La Última Estrategia</h3>
+        <div class="badges">
+          <span class="badge subject history">Historia · Estrategia</span>
+          <span class="badge grade">Primaria (5to-6to) · Básicos</span>
+        </div>
+      </div>
+      <div class="story-num">09</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>La batalla del Pinal, en febrero de 1524, no fue solo un enfrentamiento entre ejércitos. Fue el choque entre dos concepciones completamente distintas de la guerra. Pedro de Alvarado comandaba una fuerza pequeña pero montada a caballo, con armaduras de metal y arcabuces. Tecún Umán lideraba un ejército de miles de guerreros k'iche' con armamento de obsidiana, plumas y algodón acolchado.</p>
+        <p>Los cronistas españoles cuentan que Tecún Umán luchó con valentía extraordinaria y logró matar al caballo de Alvarado antes de caer. Lo que no suelen mencionar es el análisis estratégico: los k'iche' nunca habían visto caballos y en principio creían que jinete y caballo eran un solo ser. Cuando descubrieron que eran dos, cambiaron su táctica en plena batalla para atacar a los caballos primero. Eso no es derrota: eso es adaptación estratégica en tiempo real.</p>
+        <p>Tecún Umán murió, pero la resistencia k'iche' no terminó ese día. Las guerrillas indígenas continuaron por décadas. La conquista de Guatemala no fue una victoria limpia ni rápida: fue un proceso de casi 50 años de resistencia, negociación, traición y adaptación por ambas partes. La historia más compleja no cabe en un solo héroe.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Qué diferencia hace que un ejército cambie de táctica en medio de una batalla? ¿Qué tipo de pensamiento requiere eso?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Por qué creen que la conquista de Guatemala tardó décadas si los españoles tenían armas más avanzadas?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Cómo sería diferente la historia de Guatemala si los k'iche' hubieran tenido más tiempo para adaptarse a las armas españolas?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Proceso de conquista española en Mesoamérica</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Pensamiento estratégico y análisis de fuentes primarias</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Historia desde múltiples perspectivas</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Resistencia indígena y continuidad cultural</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 10 -->
+  <div class="story-card history">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Sor Juana de Maldonado: La Que Sabía Demasiado</h3>
+        <div class="badges">
+          <span class="badge subject history">Historia · Género · Educación</span>
+          <span class="badge grade">Básicos · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">10</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En el siglo XVII, en Santiago de los Caballeros (la actual Antigua Guatemala), vivió una mujer que los visitantes europeos describían como la persona más culta que habían conocido en toda América. Sor Juana de Maldonado y Paz dominaba el latín, el griego, la teología, la filosofía, la música y las matemáticas. Tenía su propio laboratorio de alquimia y una biblioteca de más de 500 libros, cuando la mayoría de los hombres de la época no poseían ninguno.</p>
+        <p>Era monja del Convento de la Concepción en Antigua. Esa era, literalmente, la única institución de la época donde una mujer podía acceder a educación formal. Fuera del convento, las mujeres de la colonia no tenían acceso a universidades, a gremios profesionales, ni a ningún espacio de producción intelectual reconocido.</p>
+        <p>Sor Juana fue admirada, visitada por dignatarios, y mencionada en crónicas de la época. También fue investigada por la Inquisición dos veces. Ser demasiado inteligente era, en ese contexto, una amenaza. Murió en 1666. Su historia no aparece en la mayoría de los libros de texto guatemaltecos. Eso también es historia.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué el convento era la única opción educativa para las mujeres en la colonia? ¿Qué nos dice eso sobre la estructura social de la época?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Por qué creen que la historia de Sor Juana no aparece en la mayoría de los libros de texto? ¿Quién decide qué historias se cuentan?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué habrían perdido Guatemala y el mundo si Sor Juana no hubiera tenido acceso a la educación?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Período colonial en Guatemala: sociedad y educación</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Género y acceso al conocimiento en la historia</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Historia de la educación en Guatemala</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Análisis crítico de fuentes históricas y silencios</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 11 -->
+  <div class="story-card history">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>La Reforma Liberal de 1871: Progreso para Quién</h3>
+        <div class="badges">
+          <span class="badge subject history">Historia · Cambio Social</span>
+          <span class="badge grade">Básicos (3ro) · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">11</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En junio de 1871, Justo Rufino Barrios entró a la Ciudad de Guatemala y proclamó la Reforma Liberal. Los libros de texto la describen como el inicio de la modernización de Guatemala: se fundó la primera universidad laica, se expulsó a los jesuitas, se construyeron ferrocarriles, se modernizó el ejército, se introdujo el café como cultivo de exportación.</p>
+        <p>Lo que los mismos libros suelen omitir: para introducir el café como cultivo de exportación, el gobierno liberal necesitaba mano de obra masiva y barata. La solución fue el mandamiento: una ley que obligaba a los indígenas de las comunidades del altiplano a trabajar en las fincas cafetaleras de la costa durante meses, sin posibilidad de negarse. El sistema fue descrito por observadores extranjeros de la época como "trabajo forzado". El boom cafetalero guatemalteco que enriqueció a una élite criolla se construyó sobre ese sistema.</p>
+        <p>La misma Reforma que creó universidades y ferrocarriles también creó una estructura de trabajo forzado que duró hasta 1944. La modernidad y la injusticia no siempre van en caminos separados. A veces viajan juntas en el mismo tren.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Puede un proceso histórico ser al mismo tiempo "progresista" e injusto? ¿Cómo lo evaluarían?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Para quiénes fue "reforma" la Reforma Liberal? ¿Para quiénes fue algo diferente?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Cómo debería un libro de texto contar esta historia? ¿Qué información no debería omitir?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Reforma Liberal y modernización del Estado guatemalteco</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Economía de exportación y relaciones de trabajo en el agro</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Análisis multicausal de procesos históricos</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Historia crítica y evaluación de fuentes</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 12 -->
+  <div class="story-card history">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Los 36 Años: Recordar para No Repetir</h3>
+        <div class="badges">
+          <span class="badge subject history">Historia Reciente · Reconciliación</span>
+          <span class="badge grade">Básicos (3ro) · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">12</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>Entre 1960 y 1996, Guatemala vivió el conflicto armado interno más largo de América Latina. La Comisión para el Esclarecimiento Histórico documentó más de 200,000 personas muertas o desaparecidas, de las cuales el 83% eran indígenas mayas. Más de 600 masacres. Más de un millón de desplazados. El informe oficial de la CEH concluyó que el Estado guatemalteco cometió actos de genocidio.</p>
+        <p>El 29 de diciembre de 1996, el gobierno y la guerrilla firmaron los Acuerdos de Paz. Esa noche, en la Plaza de la Constitución, miles de personas se abrazaron llorando. Para muchos, era el primer día de paz en toda su vida. Para otros, era el comienzo de la pregunta más difícil: ¿cómo se vive con lo que pasó?</p>
+        <p>Hoy, casi treinta años después, la mayoría de los crímenes del conflicto armado no han sido juzgados. Las comunidades afectadas siguen esperando verdad, justicia y reparación. Los jóvenes guatemaltecos —los estudiantes en las aulas actuales— nacieron en paz pero heredaron una herida que el tiempo no ha cerrado por sí solo. La memoria no es el pasado. Es la decisión de no olvidar para construir algo diferente.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EF4444" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué es importante que los jóvenes que no vivieron el conflicto aprendan sobre él? ¿Qué tiene que ver ese pasado con su presente?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Qué significa "reconciliación"? ¿Es posible reconciliarse sin justicia?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué responsabilidad tienen las generaciones jóvenes con la memoria histórica de su país?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EF4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Conflicto armado interno en Guatemala (1960-1996)</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Derechos humanos, justicia transicional y memoria histórica</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Los Acuerdos de Paz y sus compromisos pendientes</p></div>
+          <div class="competency-item"><div class="comp-dot history"></div><p>Ciudadanía activa y construcción de cultura de paz</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ARTE Y CREATIVIDAD ============ -->
+  <div class="section-header art">
+    <div class="section-icon art">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#EC4899" stroke-width="2"/><path d="M8 14s1.5-2 4-2 4 2 4 2" stroke="#EC4899" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="10" r="1" fill="#EC4899"/><circle cx="15" cy="10" r="1" fill="#EC4899"/></svg>
+    </div>
+    <h2>Arte y Creatividad</h2>
+  </div>
+
+  <!-- Historia 13 -->
+  <div class="story-card art">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Los Huipiles Como Texto: Leer la Tela</h3>
+        <div class="badges">
+          <span class="badge subject art">Arte · Comunicación · Semiología</span>
+          <span class="badge grade">Básicos · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">13</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>Un huipil no es solo ropa. Es un texto. Para quien sabe leerlo, comunica el municipio de origen de la persona que lo viste, su estado civil, su posición dentro de la comunidad, el momento del año en que fue tejido, y en algunos casos, los sueños o visiones de la tejedora durante el proceso. Es un sistema de comunicación tan complejo como un alfabeto, pero codificado en hilo, color, forma y posición.</p>
+        <p>Los investigadores han documentado más de 100 diseños distintos de huipil en Guatemala, cada uno con sus propias reglas gramaticales visuales. El quetzal en un huipil de Quetzaltenango no es decorativo: es una declaración de identidad. Las flores rojas en un huipil de Santo Tomás Chichicastenango tienen un significado diferente al de las mismas flores en un huipil de San Juan Sacatepéquez.</p>
+        <p>El problema: este sistema de comunicación está desapareciendo. Muchas jóvenes tejedoras ya no conocen el significado de los símbolos que reproducen. El texto se está convirtiendo en patrón. La lengua visual se está perdiendo, símbolo por símbolo, sin que la mayoría de los guatemaltecos no indígenas hayan siquiera sabido que existía.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EC4899" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Conocen otros sistemas de comunicación visual que no usen letras? ¿En qué se parecen y en qué se diferencian del huipil?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Qué se pierde cuando un símbolo se convierte en decoración y pierde su significado original?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Quiénes tienen la responsabilidad de preservar este sistema de comunicación? ¿Solo las comunidades indígenas?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Arte como sistema de comunicación y significado</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Identidad cultural y patrimonio inmaterial</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Semiología visual: símbolo, ícono e índice</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Lenguas y sistemas de comunicación en riesgo</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 14 -->
+  <div class="story-card art">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>La Marimba Que Tuvo Que Conquistar su Propio País</h3>
+        <div class="badges">
+          <span class="badge subject art">Identidad Cultural · Historia del Arte</span>
+          <span class="badge grade">Primaria (5to) · Básicos</span>
+        </div>
+      </div>
+      <div class="story-num">14</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>La marimba es el instrumento nacional de Guatemala. Aparece en la constitución, en los actos cívicos, en los eventos oficiales. Pero durante gran parte del siglo XIX y principios del XX, la élite guatemalteca la consideraba un instrumento de "indios y pobres" y prefería el piano europeo como símbolo de cultura y civilización.</p>
+        <p>El cambio llegó gradualmente, y tuvo mucho que ver con músicos ladinos e indígenas que comenzaron a adaptar la marimba para tocar géneros europeos: valses, polkas, mazurcas. La marimba sinfónica, con su amplio rango de notas, fue un desarrollo guatemalteco del siglo XX que permitió tocar cualquier repertorio clásico europeo con un instrumento de origen africano, modificado en Mesoamérica. La hibridación cultural produjo algo nuevo que ninguno de sus componentes podría haber creado solo.</p>
+        <p>Hoy la marimba es patrimonio intangible reconocido por la UNESCO, compartido entre Guatemala y México. La misma marimba que fue rechazada por las élites es ahora el símbolo que esas mismas élites exhiben con orgullo en eventos internacionales. La historia del arte está llena de ese viaje: de lo marginal a lo canónico, de lo despreciado a lo celebrado.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EC4899" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué creen que la élite guatemalteca rechazaba la marimba y prefería instrumentos europeos? ¿Qué nos dice eso sobre la identidad cultural?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Pueden pensar en otros ejemplos de arte, música o comida que empezó siendo "popular" y luego se convirtió en símbolo nacional o de prestigio?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>La marimba mezcla orígenes africanos, mesoamericanos y europeos. ¿Es eso un problema para su identidad guatemalteca o lo hace más interesante?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Historia de la música guatemalteca y sus raíces</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Identidad cultural, mestizaje y apropiación</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Patrimonio cultural tangible e intangible</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Sociología del arte: canon, poder y exclusión</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 15 -->
+  <div class="story-card art">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Los Retablos de Chichicastenango: Fe en Imagen</h3>
+        <div class="badges">
+          <span class="badge subject art">Arte · Historia · Religiosidad</span>
+          <span class="badge grade">Básicos · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">15</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En la iglesia de Santo Tomás de Chichicastenango, los escalones de la entrada son usados por sacerdotes mayas para realizar ceremonias con incienso y flores mientras, en el interior, se celebra misa católica. La misma iglesia, el mismo espacio, dos sistemas religiosos que se negociaron mutuamente durante 500 años sin que ninguno lograra borrar al otro.</p>
+        <p>Los retablos al interior de la iglesia son un documento visual de esa negociación. En ellos conviven santos católicos con figuras que los devotos reconocen como representaciones de deidades mayas. Los colores, las flores, el copal, la disposición de las ofrendas: todo habla de un proceso de sincretismo que los historiadores del arte llaman "catolicismo maya" — una forma de fe genuina que no es ni puramente española ni puramente indígena, sino algo nuevo que emergió del contacto.</p>
+        <p>El arte religioso guatemalteco es, en ese sentido, un archivo histórico. Cada santo, cada manto, cada veladora nos dice algo sobre cómo las personas encontraron formas de mantener viva su espiritualidad bajo condiciones de imposición y cambio forzado. La resistencia no siempre tiene la forma de la batalla. A veces tiene la forma de una imagen.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EC4899" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Cómo es posible que dos tradiciones religiosas coexistan en el mismo espacio? ¿Qué requiere eso de las personas?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Pueden "leer" una imagen religiosa como documento histórico? ¿Qué información tiene que no tienen las palabras?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué nos dice el sincretismo religioso de Chichicastenango sobre cómo las culturas se transforman cuando entran en contacto?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Arte religioso colonial y sincretismo cultural</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Lectura e interpretación de imágenes como textos</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Historia del arte y de la religión en Guatemala</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Resistencia cultural y adaptación en contextos de dominación</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 16 -->
+  <div class="story-card art">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>Diego Rivera, Guatemala y un Mural Que Incomodó a Todos</h3>
+        <div class="badges">
+          <span class="badge subject art">Arte · Política · Historia</span>
+          <span class="badge grade">Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">16</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En 1954, el mismo año en que la CIA derrocó al gobierno democrático de Jacobo Árbenz, Diego Rivera —el muralista mexicano más famoso del mundo— fue expulsado del Partido Comunista Mexicano. Rivera pidió asilo político en Guatemala, el único país de América Latina que lo aceptó en ese momento convulso. Árbenz lo recibió personalmente. Rivera llegó a Guatemala con su esposa, su caballete y sus pinceles.</p>
+        <p>Nunca pudo pintar su mural guatemalteco. Meses después del golpe, tuvo que salir del país. Pero su paso por Guatemala dejó algo: una carta en la que describía a Guatemala como "el único lugar de América donde los pintores todavía creen que el arte puede cambiar el mundo." Rivera murió tres años después, en 1957, sin haber vuelto.</p>
+        <p>La relación entre arte y política en Guatemala tiene raíces profundas. Los murales que decoran edificios públicos guatemaltecos, las pinturas de Antonio Mérida, la obra de Carlos Mérida —que Rivera admiraba profundamente— son parte de una conversación sobre qué significa el arte en un país con tanta injusticia y tanta belleza al mismo tiempo. Un mural no es decoración. Es una toma de posición.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#EC4899" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Puede el arte cambiar el mundo? ¿Pueden pensar en un ejemplo donde una obra de arte haya cambiado la opinión de mucha gente?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Por qué los gobiernos a veces tienen miedo del arte? ¿Qué tiene el arte que lo hace potencialmente peligroso para el poder?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Qué hubiera pintado Diego Rivera en Guatemala? ¿Qué creen que habría querido mostrar?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#EC4899" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Muralismo mexicano y latinoamericano del siglo XX</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Arte político: función social del arte en contextos de conflicto</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Historia de Guatemala: Revolución de Octubre y golpe de 1954</p></div>
+          <div class="competency-item"><div class="comp-dot art"></div><p>Censura, libertad de expresión y arte</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ VALORES Y CONVIVENCIA ============ -->
+  <div class="section-header values">
+    <div class="section-icon values">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 16 4 10a5 5 0 0110 0 5 5 0 0110 0c0 6-8 11-12 11z" stroke="#10B981" stroke-width="2" stroke-linejoin="round"/></svg>
+    </div>
+    <h2>Valores y Convivencia</h2>
+  </div>
+
+  <!-- Historia 17 -->
+  <div class="story-card values">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>El Ajolote de Atitlán: Una Segunda Oportunidad Perdida</h3>
+        <div class="badges">
+          <span class="badge subject values">Responsabilidad · Medio Ambiente</span>
+          <span class="badge grade">Primaria (5to-6to) · Básicos</span>
+        </div>
+      </div>
+      <div class="story-num">17</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>El ajolote gigante del lago Atitlán era único en el mundo. No existía en ningún otro lugar del planeta. Era una salamandra acuática de casi 60 centímetros que los mayas tzutujiles consideraban sagrada y que había evolucionado durante miles de años en las aguas profundas y frías del lago. En 1986, el último ajolote conocido fue visto vivo. Desde entonces: silencio.</p>
+        <p>La extinción del ajolote de Atitlán no fue accidente. En los años 50, la Dirección General de Caza y Pesca introdujo truchas y black bass en el lago para fomentar el turismo de pesca deportiva. Los peces, que no tenían depredadores naturales en ese ecosistema, se multiplicaron y consumieron los huevos y las crías del ajolote. En pocos años, las poblaciones colapsaron. Las advertencias existían: algunos biólogos habían señalado el riesgo antes de la introducción. Fueron ignoradas.</p>
+        <p>El ajolote de Atitlán desapareció antes de que la mayoría de los guatemaltecos supieran que existía. Eso también es parte de la historia: a veces lo que perdemos no lo conocíamos lo suficiente para protegerlo. La responsabilidad ambiental comienza con el conocimiento de lo que hay. No podemos cuidar lo que no vemos.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#10B981" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Quién o quiénes fueron responsables de la extinción del ajolote de Atitlán? ¿Fue una decisión individual o una falla del sistema?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Qué hubiera hecho falta para que las advertencias de los biólogos fueran escuchadas? ¿Qué nos dice eso sobre cómo tomamos decisiones colectivas?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Pueden pensar en situaciones actuales donde estamos ignorando advertencias científicas sobre el medio ambiente?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Responsabilidad ambiental y ética ecológica</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Consecuencias de la introducción de especies invasoras</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Toma de decisiones con base en evidencia científica</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Valor de la biodiversidad endémica</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 18 -->
+  <div class="story-card values">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>La Cooperativa de Las Verapaces: Juntos Más que Solos</h3>
+        <div class="badges">
+          <span class="badge subject values">Comunidad · Economía Solidaria</span>
+          <span class="badge grade">Básicos · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">18</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En los años 70, en Alta Verapaz, un grupo de familias q'eqchi' productoras de cardamomo enfrentaban el mismo problema año tras año: vendían su cosecha a un único comprador —el intermediario que monopolizaba la zona— a precios que apenas cubrían sus costos. No podían negarse porque no tenían cómo transportar el producto a mercados más lejanos, ni acceso a información sobre los precios reales del mercado internacional.</p>
+        <p>Con el apoyo de una ONG y de un sacerdote de la teología de la liberación, dieciséis familias formaron la primera cooperativa de cardamomo de la región. Pusieron en común sus cosechas, contrataron un transportista, abrieron una cuenta bancaria colectiva y enviaron a uno de sus miembros a la capital a aprender los precios de mercado. El primer año ganaron tres veces más por el mismo producto.</p>
+        <p>Hoy esa cooperativa tiene más de 400 familias asociadas, exporta directamente a Europa y Asia, y ha diversificado su producción. Lo que cambió no fue la tierra, ni el clima, ni el cardamomo. Lo que cambió fue la estructura: de individuos aislados a comunidad organizada. El valor económico ya estaba ahí. La cooperación fue la llave.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#10B981" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Qué le daba poder al intermediario sobre los productores? ¿Cómo cambió ese poder cuando las familias se organizaron?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Qué tuvieron que arriesgar o sacrificar las familias para formar la cooperativa? ¿Valió la pena?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Pueden pensar en situaciones en su escuela o comunidad donde organizarse colectivamente cambiaría algo que un individuo solo no puede cambiar?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Economía solidaria y cooperativismo</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Trabajo colectivo y liderazgo comunitario</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Cadenas de valor y comercio justo</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Ciudadanía económica y organización social</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 19 -->
+  <div class="story-card values">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>El Niño Refugiado de Ixcán: Lo Que Se Lleva en los Pies</h3>
+        <div class="badges">
+          <span class="badge subject values">Empatía · Derechos Humanos</span>
+          <span class="badge grade">Primaria (5to-6to) · Básicos</span>
+        </div>
+      </div>
+      <div class="story-num">19</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En 1982, cuando Marcos tenía siete años, su aldea en Ixcán, Quiché, fue quemada en una madrugada. Su familia corrió hacia la selva con lo que tenían puesto. Caminaron durante semanas hasta cruzar la frontera con México. Marcos llegó al campamento de refugiados de Chiapas sin zapatos, hablando solo q'anjob'al, sin haber ido nunca a la escuela.</p>
+        <p>En el campamento, un maestro refugiado que también había cruzado la frontera comenzó a dar clases bajo un árbol con carbón y tablas de madera. Marcos aprendió a leer en español. Aprendió matemáticas. Aprendió que había un mundo más grande que la selva. Doce años después, cuando los Acuerdos de Paz permitieron el retorno de los refugiados, Marcos volvió a Guatemala como maestro. Regresó a enseñar en la misma zona de la que huyó de niño.</p>
+        <p>Hoy Marcos tiene nietos. Les cuenta que lo más importante que se puede llevar cuando huyes de un lugar es lo que aprendiste, porque eso no pesa, no se moja y nadie puede quitártelo. La educación no salvó a Marcos de tener que huir. Pero lo que aprendió durante el exilio lo salvó de quedarse sin futuro cuando pudo regresar.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#10B981" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué decidió Marcos volver a enseñar en la misma zona de la que huyó? ¿Qué dice eso sobre él como persona?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Qué derechos tuvo que esperar 12 años para recuperar? ¿Cuáles nunca perdió?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>Hoy existen personas desplazadas por violencia en muchas partes de Guatemala. ¿Qué podemos hacer como comunidad para garantizar sus derechos?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Derechos humanos: el derecho a la educación y al refugio</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Empatía y perspectiva en situaciones de vulnerabilidad</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Desplazamiento interno y refugio durante el conflicto armado</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>El papel de la educación en la reconstrucción de comunidades</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Historia 20 -->
+  <div class="story-card values">
+    <div class="story-top">
+      <div class="story-top-left">
+        <h3>La Recuperación del Lago Atitlán: Cuando el Pueblo Decidió</h3>
+        <div class="badges">
+          <span class="badge subject values">Ciudadanía · Acción Colectiva</span>
+          <span class="badge grade">Básicos · Diversificado</span>
+        </div>
+      </div>
+      <div class="story-num">20</div>
+    </div>
+    <div class="story-body">
+      <div class="story-text">
+        <p>En 2009, el lago Atitlán amaneció cubierto de una alfombra verde. Una cianobacteria llamada Cylindrospermopsis raciborskii se había multiplicado de forma explosiva, cubriendo miles de hectáreas de agua con una floración tóxica que mató peces, envenenó animales y cerró las playas. Los científicos tenían un nombre para el fenómeno: eutrofización, causada por el exceso de nutrientes (principalmente nitrógeno y fósforo de aguas residuales y fertilizantes) que durante décadas habían sido vertidos al lago sin tratamiento.</p>
+        <p>Lo notable no fue la crisis: fue la respuesta. Las comunidades k'iche', kaqchikel y tz'utujil de las doce municipalidades del lago —comunidades que históricamente habían tenido conflictos territoriales entre sí— se reunieron por primera vez en años para hablar del lago como responsabilidad compartida. Formaron la Mancomunidad de Municipios del Lago Atitlán, construyeron plantas de tratamiento de aguas residuales, establecieron regulaciones sobre fertilizantes agrícolas y crearon brigadas comunitarias de limpieza.</p>
+        <p>El lago no se ha recuperado completamente. La eutrofización sigue siendo un problema activo. Pero las doce comunidades siguen reuniéndose. El lago que casi muere en 2009 se convirtió, paradójicamente, en el primer territorio donde comunidades con siglos de diferencias decidieron que había algo más importante que sus disputas. La crisis fue la invitación que la convivencia no había podido hacer sola.</p>
+      </div>
+      <div class="story-bottom">
+        <div class="questions-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="#10B981" stroke-width="1.5"/><path d="M7 5v.5M7 8v1" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/></svg>Preguntas de discusión</h4>
+          <div class="question-item"><div class="q-num">1</div><p>¿Por qué creen que la crisis del lago logró unir a comunidades que históricamente habían tenido conflictos? ¿Qué nos dice eso sobre la acción colectiva?</p></div>
+          <div class="question-item"><div class="q-num">2</div><p>¿Qué tuvieron que hacer cada municipalidad individualmente? ¿Y qué tuvieron que hacer juntas? ¿Cuál era más difícil?</p></div>
+          <div class="question-item"><div class="q-num">3</div><p>¿Existe en su comunidad o región un problema ambiental que requiera la cooperación de varias comunidades para resolverse? ¿Cómo podrían comenzar?</p></div>
+        </div>
+        <div class="competencies-box">
+          <h4><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-6" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Conexiones curriculares</h4>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Ciudadanía activa y gobernanza ambiental local</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Eutrofización y contaminación hídrica</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Gestión intercultural de bienes comunes</p></div>
+          <div class="competency-item"><div class="comp-dot values"></div><p>Resolución de conflictos y construcción de acuerdos colectivos</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Guatemala 2026 · Formación Docente en Pedagogía Innovadora
+</footer>
+
+<button class="print-btn" onclick="window.print()">
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 6V2h10v4" stroke="white" stroke-width="1.5" stroke-linecap="round"/><path d="M4 12H2V7h14v5h-2" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 10h10v6H4z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+  Imprimir
+</button>
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Rúbricas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --color: #E9A037; --color-dark: #c47d10; --color-light: #FEF3E0; --gray: #64748b; --text: #1e293b; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: #fffbf4; font-size: 13px; line-height: 1.5; }
+  .print-btn { position: fixed; bottom: 28px; right: 28px; background: var(--color); color: white; border: none; padding: 14px 24px; border-radius: 50px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 20px rgba(233,160,55,0.4); z-index: 999; }
+  header { background: linear-gradient(135deg, #E9A037, #c47d10); color: white; padding: 40px 48px; }
+  .header-tag { background: rgba(255,255,255,0.2); display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  header h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+  header p { font-size: 16px; opacity: 0.9; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+  h2 { font-size: 18px; font-weight: 700; color: var(--color-dark); margin: 36px 0 8px; padding-bottom: 6px; border-bottom: 3px solid var(--color-light); }
+  .rubric-desc { font-size: 13px; color: var(--gray); margin-bottom: 14px; font-style: italic; }
+  .rubric-wrap { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); margin-bottom: 32px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: 11px; font-weight: 700; padding: 9px 10px; text-align: center; border: 1px solid #e2e8f0; text-transform: uppercase; letter-spacing: 0.5px; }
+  th.crit { text-align: left; background: var(--color); color: white; width: 18%; }
+  th.l4 { background: #16a34a; color: white; }
+  th.l3 { background: #ca8a04; color: white; }
+  th.l2 { background: #ea580c; color: white; }
+  th.l1 { background: #dc2626; color: white; }
+  td { padding: 10px 11px; border: 1px solid #e2e8f0; vertical-align: top; font-size: 12px; }
+  td.crit { font-weight: 700; background: #fffbf4; font-size: 12px; }
+  .l4c { background: #f0fdf4; }
+  .l3c { background: #fefce8; }
+  .l2c { background: #fff7ed; }
+  .l1c { background: #fef2f2; }
+  .adapt-box { background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); padding: 24px 28px; margin-top: 16px; border-top: 5px solid var(--color); }
+  .adapt-box h3 { font-size: 16px; font-weight: 700; color: var(--color-dark); margin-bottom: 12px; }
+  .adapt-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+  .adapt-step { background: var(--color-light); border-radius: 10px; padding: 14px; }
+  .adapt-step .num { font-size: 22px; font-weight: 900; color: var(--color); margin-bottom: 6px; }
+  .adapt-step p { font-size: 12px; color: var(--text); }
+  footer { background: var(--text); color: #94a3b8; text-align: center; padding: 24px; font-size: 13px; margin-top: 60px; }
+  footer strong { color: white; }
+  @media print {
+    .print-btn { display: none !important; }
+    body { background: white; font-size: 11px; }
+    .rubric-wrap { box-shadow: none; border: 1px solid #e2e8f0; break-inside: avoid; }
+    td, th { padding: 7px 8px; font-size: 10px; }
+    footer { margin-top: 20px; }
+  }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()"><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg></span> Imprimir / Guardar PDF</button>
+<header>
+  <span class="header-tag">Evaluación Formativa · Rúbricas</span>
+  <div style="font-size:48px;margin-bottom:12px;"><span style="display:flex;align-items:center;justify-content:center"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span></div>
+  <h1>Banco de 8 Rúbricas</h1>
+  <p>Rúbricas analíticas con 4 niveles listas para imprimir, adaptar y usar en cualquier nivel educativo de Guatemala</p>
+</header>
+
+<div class="container">
+
+  <!-- RÚBRICA 1 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></span> Rúbrica 1: Comprensión Lectora</h2>
+  <p class="rubric-desc">Para evaluar la comprensión de textos narrativos, informativos o literarios en cualquier nivel.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Comprensión literal</td><td class="l4c">Identifica con precisión todos los elementos explícitos: personajes, hechos, secuencia y detalles clave del texto.</td><td class="l3c">Identifica la mayoría de elementos explícitos con pocos errores menores de detalle.</td><td class="l2c">Identifica los elementos principales pero omite detalles importantes o comete errores de secuencia.</td><td class="l1c">Identifica solo fragmentos o tiene comprensión superficial del texto.</td></tr>
+    <tr><td class="crit">Comprensión inferencial</td><td class="l4c">Hace inferencias sólidas apoyadas en evidencia del texto. Puede leer entre líneas y anticipar lo no dicho.</td><td class="l3c">Hace inferencias razonables aunque algunas no están bien respaldadas en el texto.</td><td class="l2c">Con apoyo, puede hacer inferencias básicas. Dificultad para ir más allá de lo literal.</td><td class="l1c">Tiene dificultad para inferir. Respuestas basadas en experiencia propia, no en el texto.</td></tr>
+    <tr><td class="crit">Pensamiento crítico</td><td class="l4c">Evalúa el texto, cuestiona la intención del autor, conecta con realidad guatemalteca y otras lecturas con argumentos claros.</td><td class="l3c">Expresa opinión sobre el texto con algunas justificaciones. Hace una conexión con su experiencia.</td><td class="l2c">Expresa opinión pero sin justificación sólida. Poca conexión texto-vida.</td><td class="l1c">No expresa opinión propia o la repite sin elaboración.</td></tr>
+    <tr><td class="crit">Vocabulario en contexto</td><td class="l4c">Deduce el significado de palabras desconocidas usando el contexto con precisión. Enriquece su explicación con sinónimos.</td><td class="l3c">Deduce el significado de la mayoría de palabras nuevas. Ocasionalmente necesita apoyo.</td><td class="l2c">Necesita apoyo frecuente para palabras nuevas. Usa el diccionario con dirección.</td><td class="l1c">Tiene dificultad con vocabulario nuevo. Muchas palabras desconocidas interrumpen la comprensión.</td></tr>
+  </table></div>
+
+  <!-- RÚBRICA 2 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></span> Rúbrica 2: Expresión Oral</h2>
+  <p class="rubric-desc">Para presentaciones orales, debates, exposiciones o participación en discusión.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Claridad y organización</td><td class="l4c">Ideas presentadas con estructura clara (intro-desarrollo-cierre). La audiencia sigue el hilo sin esfuerzo.</td><td class="l3c">Ideas organizadas con estructura visible aunque algunos saltos o repeticiones menores.</td><td class="l2c">Ideas presentes pero con organización confusa. La audiencia debe esforzarse para seguir.</td><td class="l1c">Sin estructura visible. Ideas dispersas o fuera de secuencia.</td></tr>
+    <tr><td class="crit">Vocabulario y precisión</td><td class="l4c">Usa vocabulario preciso y variado, incluyendo términos técnicos del tema cuando es apropiado.</td><td class="l3c">Vocabulario adecuado con algunos términos técnicos. Pocas palabras imprecisas.</td><td class="l2c">Vocabulario básico. Recurre frecuentemente a palabras genéricas o muletillas.</td><td class="l1c">Vocabulario muy limitado. Dificultad para expresar ideas con precisión.</td></tr>
+    <tr><td class="crit">Confianza y postura</td><td class="l4c">Habla con confianza, mantiene contacto visual apropiado culturalmente, voz clara y proyectada.</td><td class="l3c">Habla con confianza razonable aunque con momentos de duda. Voz mayormente audible.</td><td class="l2c">Lee sus notas frecuentemente. Voz baja o tono monótono en partes.</td><td class="l1c">Habla principalmente leyendo o en voz muy baja. Poca interacción con la audiencia.</td></tr>
+    <tr><td class="crit">Contenido y evidencia</td><td class="l4c">Afirmaciones respaldadas con evidencias, ejemplos o datos concretos. Demuestra dominio del tema.</td><td class="l3c">La mayoría de afirmaciones tienen respaldo. Buen nivel de comprensión del tema.</td><td class="l2c">Algunas afirmaciones sin respaldo. Comprensión superficial en partes del tema.</td><td class="l1c">Afirmaciones sin evidencia. Dominio muy limitado del contenido presentado.</td></tr>
+  </table></div>
+
+  <!-- RÚBRICA 3 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span> Rúbrica 3: Escritura Creativa</h2>
+  <p class="rubric-desc">Para cuentos, poemas, narraciones, cartas u otras formas de escritura creativa.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Idea y originalidad</td><td class="l4c">Idea original y personal, sorpresiva o inesperada. Se nota la voz propia del escritor en cada párrafo.</td><td class="l3c">Idea con elementos originales aunque predecible en partes. Voz propia presente.</td><td class="l2c">Idea convencional o similar a modelos dados. Voz propia poco desarrollada.</td><td class="l1c">Idea copiada o muy vaga. Sin voz propia identificable.</td></tr>
+    <tr><td class="crit">Estructura narrativa</td><td class="l4c">Inicio que engancha, desarrollo con tensión creciente y cierre satisfactorio. Transiciones fluidas entre partes.</td><td class="l3c">Estructura clara con inicio, nudo y desenlace aunque algunos elementos poco desarrollados.</td><td class="l2c">Estructura básica presente pero con inicio o cierre débil. Transiciones abruptas.</td><td class="l1c">Sin estructura narrativa visible. El texto es una serie de ideas sin hilo conductor.</td></tr>
+    <tr><td class="crit">Recursos literarios</td><td class="l4c">Usa metáforas, descripciones sensoriales, diálogos o ritmo de forma intencional y efectiva.</td><td class="l3c">Algunos recursos literarios usados con propósito. Descripciones más allá de lo básico.</td><td class="l2c">Pocos recursos literarios o usados de forma mecánica. Descripciones básicas.</td><td class="l1c">Sin recursos literarios identificables. Escritura plana y descriptiva únicamente.</td></tr>
+    <tr><td class="crit">Ortografía y gramática</td><td class="l4c">Sin errores ortográficos ni gramaticales que interrumpan la lectura. Signos de puntuación bien usados.</td><td class="l3c">Pocos errores (1–3) que no interrumpen la comprensión. Puntuación mayormente correcta.</td><td class="l2c">Errores frecuentes que requieren relectura en algunas partes. Puntuación irregular.</td><td class="l1c">Errores numerosos que interrumpen la lectura. Sin puntuación clara.</td></tr>
+  </table></div>
+
+  <!-- RÚBRICA 4 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></span> Rúbrica 4: Resolución de Problemas Matemáticos</h2>
+  <p class="rubric-desc">Para evaluar el proceso de resolución, no solo el resultado final.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Comprensión del problema</td><td class="l4c">Identifica correctamente todos los datos, la incógnita y las condiciones. Puede reformular el problema con sus propias palabras.</td><td class="l3c">Comprende el problema en general aunque puede perder algún dato o condición secundaria.</td><td class="l2c">Comprende parcialmente. Necesita guía para identificar todos los elementos del problema.</td><td class="l1c">Dificultad para comprender qué pide el problema. Comienza sin claridad.</td></tr>
+    <tr><td class="crit">Estrategia utilizada</td><td class="l4c">Elige la estrategia más eficiente y la explica. Puede intentar más de una estrategia si la primera no funciona.</td><td class="l3c">Usa una estrategia adecuada aunque no siempre la más eficiente.</td><td class="l2c">Usa una estrategia con errores o de forma incompleta. Necesita apoyo para elegirla.</td><td class="l1c">Sin estrategia clara. Tantea aleatoriamente sin plan.</td></tr>
+    <tr><td class="crit">Proceso y cálculo</td><td class="l4c">Proceso claro, ordenado y sin errores. Los pasos están documentados y son fáciles de seguir.</td><td class="l3c">Proceso mayormente correcto con 1–2 errores de cálculo menores que no afectan el resultado final.</td><td class="l2c">Proceso parcialmente correcto con errores que afectan el resultado. Pasos no siempre documentados.</td><td class="l1c">Proceso con errores significativos o ausente. Resultado sin proceso visible.</td></tr>
+    <tr><td class="crit">Verificación y conclusión</td><td class="l4c">Verifica el resultado de al menos una forma adicional. Expresa la respuesta con unidades correctas y en contexto del problema original.</td><td class="l3c">Da la respuesta en contexto con unidades. Verifica esporádicamente.</td><td class="l2c">Da el resultado numérico pero sin unidades o sin relacionarlo con el problema original.</td><td class="l1c">No verifica ni contextualiza. El resultado es un número sin significado en el contexto.</td></tr>
+  </table></div>
+
+  <!-- RÚBRICA 5 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5m4 0h6m0 0V3m0 11h4M5 7h4m0 0v7"/></svg></span> Rúbrica 5: Proyecto de Ciencias</h2>
+  <p class="rubric-desc">Para investigaciones científicas, experimentos o proyectos de feria de ciencias.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Pregunta e hipótesis</td><td class="l4c">Pregunta investigable y específica. Hipótesis que predice resultado y explica el mecanismo esperado.</td><td class="l3c">Pregunta investigable. Hipótesis que predice resultado aunque no siempre explica el por qué.</td><td class="l2c">Pregunta presente pero muy amplia. Hipótesis vaga o sin justificación.</td><td class="l1c">Pregunta no investigable o ausente. Sin hipótesis.</td></tr>
+    <tr><td class="crit">Diseño experimental</td><td class="l4c">Variables claramente identificadas (independiente, dependiente, controladas). Procedimiento reproducible paso a paso.</td><td class="l3c">Variables identificadas aunque no siempre las controladas. Procedimiento mayormente claro.</td><td class="l2c">Algunas variables identificadas con apoyo. Procedimiento incompleto.</td><td class="l1c">Sin identificación de variables. Procedimiento confuso o copiado sin comprensión.</td></tr>
+    <tr><td class="crit">Datos y análisis</td><td class="l4c">Datos organizados en tablas, representados en gráficas apropiadas y analizados con identificación de patrones.</td><td class="l3c">Datos organizados y graficados. Análisis básico con algunas observaciones sobre patrones.</td><td class="l2c">Datos recopilados pero desorganizados o incompletos. Análisis superficial.</td><td class="l1c">Datos escasos o incoherentes. Sin análisis.</td></tr>
+    <tr><td class="crit">Conclusiones</td><td class="l4c">Conclusiones basadas en evidencia, conectadas con la hipótesis y con implicaciones para el mundo real.</td><td class="l3c">Conclusiones apoyadas en evidencia aunque con conexión débil a implicaciones.</td><td class="l2c">Conclusiones presentes pero no claramente basadas en los datos recopilados.</td><td class="l1c">Sin conclusiones o conclusiones de opinión no relacionadas con los datos.</td></tr>
+  </table></div>
+
+  <!-- RÚBRICA 6 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span> Rúbrica 6: Competencia Digital</h2>
+  <p class="rubric-desc">Para tareas que involucran uso responsable y creativo de tecnología disponible.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Uso de la herramienta</td><td class="l4c">Usa la herramienta con fluidez, descubre funciones avanzadas y enseña a compañeros cómo usarla.</td><td class="l3c">Usa la herramienta correctamente para las funciones principales sin asistencia constante.</td><td class="l2c">Usa la herramienta con asistencia frecuente para funciones básicas.</td><td class="l1c">Requiere asistencia permanente incluso para funciones muy básicas.</td></tr>
+    <tr><td class="crit">Búsqueda y evaluación de información</td><td class="l4c">Busca en fuentes múltiples, evalúa la credibilidad de cada fuente y cita correctamente.</td><td class="l3c">Busca en más de una fuente. Verifica algunas pero no todas. Cita de forma básica.</td><td class="l2c">Usa la primera fuente que encuentra sin verificar. Poca discriminación de fuentes.</td><td class="l1c">Copia y pega sin filtro de fuentes. No distingue entre fuentes confiables y no confiables.</td></tr>
+    <tr><td class="crit">Ciudadanía digital</td><td class="l4c">Actúa con respeto, privacidad y responsabilidad en entornos digitales. Puede explicar las normas de uso seguro.</td><td class="l3c">Generalmente responsable en espacios digitales con recordatorios ocasionales.</td><td class="l2c">Necesita recordatorios frecuentes sobre normas de uso responsable y privacidad.</td><td class="l1c">Comportamiento inapropiado o irresponsable en espacios digitales con frecuencia.</td></tr>
+    <tr><td class="crit">Producto digital</td><td class="l4c">Producto digital original, bien organizado, visualmente claro y con propósito comunicativo evidente.</td><td class="l3c">Producto digital funcional y organizado con algunos elementos de diseño intencional.</td><td class="l2c">Producto digital básico. Falta organización o claridad visual.</td><td class="l1c">Producto incompleto, confuso o sin propósito comunicativo identificable.</td></tr>
+  </table></div>
+
+  <!-- RÚBRICA 7 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span> Rúbrica 7: Trabajo en Equipo</h2>
+  <p class="rubric-desc">Adaptable a cualquier proyecto grupal, actividad colaborativa o trabajo en clase.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Contribución equitativa</td><td class="l4c">Contribuye de manera sostenida y equitativa. Completa sus tareas sin recordatorios y apoya a quien tiene dificultades.</td><td class="l3c">Contribuye en la mayoría de las sesiones. Necesita recordatorios ocasionales.</td><td class="l2c">Contribución irregular o desproporcionada. El trabajo recae en otros miembros del equipo.</td><td class="l1c">Contribución mínima o nula. No asume responsabilidad por el trabajo del equipo.</td></tr>
+    <tr><td class="crit">Escucha y respeto</td><td class="l4c">Escucha activamente, respeta turnos de habla y valida las ideas de todos los integrantes del equipo.</td><td class="l3c">Generalmente escucha y respeta. Interrumpe o domina en algunos momentos.</td><td class="l2c">Frecuentemente interrumpe o descarta ideas ajenas. Necesita mediación del docente.</td><td class="l1c">No escucha a compañeros o crea conflictos que impiden el trabajo del equipo.</td></tr>
+    <tr><td class="crit">Resolución de problemas</td><td class="l4c">Identifica obstáculos, propone soluciones y moviliza al equipo hacia acuerdos sin intervención externa.</td><td class="l3c">Propone soluciones ante problemas con algo de apoyo del docente.</td><td class="l2c">Reconoce los problemas pero necesita guía del docente para resolverlos.</td><td class="l1c">No intenta resolver conflictos o los escala. El equipo se paraliza.</td></tr>
+    <tr><td class="crit">Compromiso con la calidad</td><td class="l4c">Exige calidad en el trabajo del equipo, propone revisiones y no acepta "lo bueno suficiente" cuando puede ser excelente.</td><td class="l3c">Se preocupa por la calidad del producto aunque no siempre promueve la revisión.</td><td class="l2c">Acepta trabajo de baja calidad del equipo sin cuestionarlo.</td><td class="l1c">No demuestra interés por la calidad del resultado final del equipo.</td></tr>
+  </table></div>
+
+  <!-- RÚBRICA 8 -->
+  <h2><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span> Rúbrica 8: Ciudadanía y Valores</h2>
+  <p class="rubric-desc">Para actividades de formación ciudadana, ética, convivencia y participación comunitaria.</p>
+  <div class="rubric-wrap"><table>
+    <tr><th class="crit">Criterio</th><th class="l4">4 – Excelente</th><th class="l3">3 – Bueno</th><th class="l2">2 – En Desarrollo</th><th class="l1">1 – Inicial</th></tr>
+    <tr><td class="crit">Respeto a la diversidad</td><td class="l4c">Valora activamente la diversidad cultural, lingüística y de opinión de Guatemala. Actúa como puente entre perspectivas distintas.</td><td class="l3c">Respeta la diversidad. Poca iniciativa de valoración activa pero sin comportamientos excluyentes.</td><td class="l2c">Respeto con ayuda y recordatorios. Algunos comportamientos de exclusión o prejuicio no intencional.</td><td class="l1c">Comportamientos o expresiones que menoscaban la dignidad de compañeros.</td></tr>
+    <tr><td class="crit">Participación comunitaria</td><td class="l4c">Toma iniciativa en acciones para mejorar la comunidad. Motiva a otros a participar. Conecta los valores con acción real.</td><td class="l3c">Participa activamente cuando se le convoca. Comprende la importancia de la acción comunitaria.</td><td class="l2c">Participa con motivación externa. Poca iniciativa propia en acciones comunitarias.</td><td class="l1c">No participa en actividades comunitarias o lo hace solo cuando hay consecuencias académicas.</td></tr>
+    <tr><td class="crit">Responsabilidad personal</td><td class="l4c">Asume consecuencias de sus acciones sin culpar a otros. Cumple compromisos consistentemente y reconoce cuando falla.</td><td class="l3c">Generalmente cumple compromisos. Asume responsabilidad aunque con justificaciones ocasionales.</td><td class="l2c">Cumplimiento irregular. Tiende a culpar a externos cuando algo falla.</td><td class="l1c">Incumplimiento frecuente. Raramente asume responsabilidad propia.</td></tr>
+    <tr><td class="crit">Pensamiento ético</td><td class="l4c">Identifica dilemas éticos, considera múltiples perspectivas y toma decisiones razonadas con justificación moral clara.</td><td class="l3c">Identifica dilemas y expresa posición con alguna justificación ética.</td><td class="l2c">Identifica lo correcto e incorrecto pero con dificultad para justificar su razonamiento.</td><td class="l1c">Dificultad para identificar dimensiones éticas. Razonamiento basado solo en reglas o consecuencias personales.</td></tr>
+  </table></div>
+
+  <!-- Adaptación -->
+  <div class="adapt-box">
+    <h3><span style="display:inline-flex;vertical-align:middle;margin-right:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span> Cómo Adaptar Estas Rúbricas a Tu Grado y Contexto</h3>
+    <div class="adapt-steps">
+      <div class="adapt-step"><div class="num">1</div><p><strong>Ajusta el vocabulario</strong> de los descriptores al nivel de tus estudiantes. Los de primaria baja necesitan lenguaje más simple y concreto.</p></div>
+      <div class="adapt-step"><div class="num">2</div><p><strong>Cambia los ejemplos</strong> para que reflejen el contexto de tu comunidad específica (municipio, región, idioma maya local).</p></div>
+      <div class="adapt-step"><div class="num">3</div><p><strong>Involucra a los estudiantes</strong> en crear o mejorar los criterios. Las rúbricas co-construidas generan mayor apropiación y aprendizaje.</p></div>
+      <div class="adapt-step"><div class="num">4</div><p><strong>Usa solo 2–3 criterios</strong> por evaluación en lugar de 4. Menos criterios = retroalimentación más manejable y enfocada.</p></div>
+    </div>
+  </div>
+
+</div>
+<footer>
+  <strong>Guatemala 2026</strong><br>
+  Módulo Evaluación Formativa · Banco de 8 Rúbricas
+</footer>
+</body>
+</html>
