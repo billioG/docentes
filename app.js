@@ -6422,7 +6422,7 @@ function _dismissAnnouncement(id) {
 
 // ==================== NOTIFICACIONES PUSH (Web Push / VAPID) ====================
 // Clave pública VAPID — segura de exponer en el cliente (la privada vive solo en Supabase)
-const VAPID_PUBLIC_KEY = 'BBh5oCbg97EdQKAkW4O7ljYHK0l9oEGs3G7UHksP_xcFdOopyrDl3Gz5fQXUhnz2nvKGgjye-l7Hxq8kjH_kyAo';
+const VAPID_PUBLIC_KEY = 'BCvtdn8FfKKugc__olsNnV5zgEu5bpN6I8Lxqjd1epp-wgAD9Jgs3iIgTNACEi-y9DKLOwI3rnOzozsGM-82TJk';
 
 function _urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
